@@ -20910,9 +20910,85 @@ __webpack_require__.r(__webpack_exports__);
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
     __expose();
-    function openMiniNav() {}
+
+    // 아이콘 호버시 색 변환
+    function openIconLogin() {
+      var g_iconuser = document.querySelector('#g_iconuser');
+      var b_iconuser = document.querySelector('#b_iconuser');
+      g_iconuser.classList.remove('nav_icon_hover');
+      b_iconuser.style.display = 'none';
+    }
+    function closeIconLogin() {
+      var g_iconuser = document.querySelector('#g_iconuser');
+      var b_iconuser = document.querySelector('#b_iconuser');
+      g_iconuser.classList.add('nav_icon_hover');
+      b_iconuser.style.display = 'block';
+    }
+    function openIconRegist() {
+      var g_iconregist = document.querySelector('#g_iconregist');
+      var b_iconregist = document.querySelector('#b_iconregist');
+      g_iconregist.classList.remove('nav_icon_hover');
+      b_iconregist.style.display = 'none';
+    }
+    function closeIconRegist() {
+      var g_iconregist = document.querySelector('#g_iconregist');
+      var b_iconregist = document.querySelector('#b_iconregist');
+      g_iconregist.classList.add('nav_icon_hover');
+      b_iconregist.style.display = 'block';
+    }
+    function openIconBag() {
+      var g_iconbag = document.querySelector('#g_iconbag');
+      var b_iconbag = document.querySelector('#b_iconbag');
+      g_iconbag.classList.remove('nav_icon_hover');
+      b_iconbag.style.display = 'none';
+    }
+    function closeIconBag() {
+      var g_iconbag = document.querySelector('#g_iconbag');
+      var b_iconbag = document.querySelector('#b_iconbag');
+      g_iconbag.classList.add('nav_icon_hover');
+      b_iconbag.style.display = 'block';
+    }
+
+    // 스크린 1201px 이상일때 미니 메뉴바 호버시 이벤트
+    function openMiniNav() {
+      var nav_mini = document.querySelector('#nav_mini');
+      nav_mini.classList.remove('display_none');
+    }
+    function closeMiniNav() {
+      var nav_mini = document.querySelector('#nav_mini');
+      nav_mini.classList.add('display_none');
+    }
+
+    // 햄버거 클릭시 이벤트
+    function clickHamburger() {
+      var nav = document.querySelector('#nav');
+      var hamburger = document.querySelector('#hamburger');
+      var cancel = document.querySelector('#cancel');
+      nav.removeAttribute('id', 'nav');
+      hamburger.style.display = 'none';
+      cancel.classList.toggle('cancel');
+    }
+
+    // X 클릭시 이벤트
+    function clickCancel() {
+      var nav = document.querySelector('.nav');
+      var hamburger = document.querySelector('#hamburger');
+      var cancel = document.querySelector('#cancel');
+      nav.setAttribute('id', 'nav');
+      hamburger.style.display = 'block';
+      cancel.classList.toggle('cancel');
+    }
     var __returned__ = {
-      openMiniNav: openMiniNav
+      openIconLogin: openIconLogin,
+      closeIconLogin: closeIconLogin,
+      openIconRegist: openIconRegist,
+      closeIconRegist: closeIconRegist,
+      openIconBag: openIconBag,
+      closeIconBag: closeIconBag,
+      openMiniNav: openMiniNav,
+      closeMiniNav: closeMiniNav,
+      clickHamburger: clickHamburger,
+      clickCancel: clickCancel
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -20951,38 +21027,106 @@ var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
   src: "/img/logo.png",
   "class": "logo"
 })])], -1 /* HOISTED */);
-var _hoisted_4 = {
-  "class": "nav"
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  src: "/img/hamburger.png",
+  "class": "hamburger_img"
+}, null, -1 /* HOISTED */);
+var _hoisted_5 = [_hoisted_4];
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  src: "/img/cancel.png",
+  "class": "cancel_img"
+}, null, -1 /* HOISTED */);
+var _hoisted_7 = [_hoisted_6];
+var _hoisted_8 = {
+  "class": "nav",
+  id: "nav"
 };
-var _hoisted_5 = {
-  "class": "nav_box"
+var _hoisted_9 = {
+  "class": "nav_box nav_item1"
 };
-var _hoisted_6 = {
-  href: "",
-  "class": "nav_font"
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"nav_mini display_none\" id=\"nav_mini\"><ul class=\"nav_mini_title\"><li class=\"nav_mini_item1\"><a href=\"\" class=\"nav_mini_font\">탁주</a></li><li class=\"nav_mini_item2\"><a href=\"\" class=\"nav_mini_font\">과실주</a></li><li class=\"nav_mini_item3\"><a href=\"\" class=\"nav_mini_font\">증류주</a></li></ul></div>", 1);
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<li class=\"nav_box nav_item2\"><a href=\"\" class=\"nav_font\"> 전통주 이야기 </a></li><li class=\"nav_box nav_item3\"><a href=\"\" class=\"nav_font\"> 1 : 1 문의 </a></li><li class=\"nav_box nav_item4\"><a href=\"\" class=\"nav_font\"> 공지사항 </a></li>", 3);
+var _hoisted_14 = {
+  "class": "nav_item5"
 };
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", {
-  "class": "nav_mini_title"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-  href: "",
-  "class": "nav_mini_font"
-}, "탁주")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-  href: "",
-  "class": "nav_mini_font"
-}, "과실주")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-  href: "",
-  "class": "nav_mini_font"
-}, "증류주")])], -1 /* HOISTED */);
-var _hoisted_8 = [_hoisted_7];
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<li class=\"nav_box\"><a href=\"\" class=\"nav_font\"> 전통주 이야기 </a></li><li class=\"nav_box\"><a href=\"\" class=\"nav_font\"> 1 : 1 문의 </a></li><li class=\"nav_box\"><a href=\"\" class=\"nav_font\"> 공지사항 </a></li><li><a href=\"\" class=\"nav_font nav_user_box\"><img src=\"/img/login.png\" class=\"nav_icon\"><img src=\"/img/goldlogin.png\" class=\"nav_icon_hover\"><div class=\"nav_user\">로그인</div></a></li><li><a href=\"\" class=\"nav_font nav_user_box\"><img src=\"/img/regist.png\" class=\"nav_icon\"><img src=\"/img/goldregist.png\" class=\"nav_icon_hover\"><div class=\"nav_user\">회원가입</div></a></li><li><a href=\"\" class=\"nav_font nav_user_box\"><img src=\"/img/bag.png\" class=\"nav_icon\"><img src=\"/img/goldbag.png\" class=\"nav_icon_hover\"><div class=\"nav_user\">장바구니</div></a></li>", 6);
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  src: "/img/login.png",
+  "class": "nav_icon",
+  id: "b_iconuser"
+}, null, -1 /* HOISTED */);
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  src: "/img/goldlogin.png",
+  "class": "nav_icon_hover",
+  id: "g_iconuser"
+}, null, -1 /* HOISTED */);
+var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "nav_user"
+}, "로그인", -1 /* HOISTED */);
+var _hoisted_18 = [_hoisted_15, _hoisted_16, _hoisted_17];
+var _hoisted_19 = {
+  "class": "nav_item6"
+};
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  src: "/img/regist.png",
+  "class": "nav_icon",
+  id: "b_iconregist"
+}, null, -1 /* HOISTED */);
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  src: "/img/goldregist.png",
+  "class": "nav_icon_hover",
+  id: "g_iconregist"
+}, null, -1 /* HOISTED */);
+var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "nav_user"
+}, "회원가입", -1 /* HOISTED */);
+var _hoisted_23 = [_hoisted_20, _hoisted_21, _hoisted_22];
+var _hoisted_24 = {
+  "class": "nav_item7"
+};
+var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  src: "/img/bag.png",
+  "class": "nav_icon",
+  id: "b_iconbag"
+}, null, -1 /* HOISTED */);
+var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  src: "/img/goldbag.png",
+  "class": "nav_icon_hover",
+  id: "g_iconbag"
+}, null, -1 /* HOISTED */);
+var _hoisted_27 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "nav_user"
+}, "장바구니", -1 /* HOISTED */);
+var _hoisted_28 = [_hoisted_25, _hoisted_26, _hoisted_27];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("전체 메뉴 "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    onMouseover: _cache[0] || (_cache[0] = function ($event) {
-      return $setup.openMiniNav();
-    }),
-    "class": "nav_mini",
-    id: "nav_mini"
-  }, [].concat(_hoisted_8), 32 /* NEED_HYDRATION */)])]), _hoisted_9])])])])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    onClick: $setup.clickHamburger,
+    "class": "hamburger",
+    id: "hamburger"
+  }, [].concat(_hoisted_5)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    onClick: $setup.clickCancel,
+    "class": "cancel",
+    id: "cancel"
+  }, [].concat(_hoisted_7)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    onMouseover: $setup.openMiniNav,
+    onMouseleave: $setup.closeMiniNav,
+    href: "",
+    "class": "nav_font"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("전체 메뉴 "), _hoisted_10], 32 /* NEED_HYDRATION */)]), _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    onMouseover: $setup.openIconLogin,
+    onMouseleave: $setup.closeIconLogin,
+    href: "",
+    "class": "nav_font nav_user_box"
+  }, [].concat(_hoisted_18), 32 /* NEED_HYDRATION */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    onMouseover: $setup.openIconRegist,
+    onMouseleave: $setup.closeIconRegist,
+    href: "",
+    "class": "nav_font nav_user_box nav_user_item"
+  }, [].concat(_hoisted_23), 32 /* NEED_HYDRATION */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    onMouseover: $setup.openIconBag,
+    onMouseleave: $setup.closeIconBag,
+    href: "",
+    "class": "nav_font nav_user_box"
+  }, [].concat(_hoisted_28), 32 /* NEED_HYDRATION */)])])])])])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */);
 }
 
 /***/ }),
@@ -21156,7 +21300,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "* {\r\n    margin: 0;\r\n    padding: 0;\r\n    box-sizing: border-box;\r\n    font-family: \"Noto Sans KR\", sans-serif;\r\n}\r\n\r\na {\r\n    text-decoration: none;\r\n    display: block;\r\n}\r\n\r\nli {\r\n    list-style: none;\r\n}\r\n\r\n.logo {\r\n    width: 110px;\r\n    height: 80px;\r\n}\r\n\r\n@media screen and (min-width: 1201px) {\r\n    .header_content {\r\n        background-color: black;\r\n        display: grid;\r\n        grid-template-columns: 0.3fr 2fr;\r\n        align-items: center;\r\n        padding: 0 150px;\r\n    }\r\n    \r\n    .nav {\r\n        display: grid;\r\n        grid-template-columns: 1fr 1fr 1fr 1fr 0.4fr 0.4fr 0.4fr;\r\n        align-items: center;\r\n        justify-items: center;\r\n        margin-left: 50px;\r\n    }\r\n    \r\n    .nav_box {\r\n        width: 200px;\r\n        text-align: center;\r\n        line-height: 87px;\r\n    }\r\n    \r\n    .nav_font {\r\n        color: white;\r\n        font-size: 1rem;\r\n        font-weight: 600;\r\n    }\r\n    \r\n    .nav_mini_font {\r\n        color: white;\r\n        font-size: 0.8rem;\r\n    }\r\n    \r\n    .nav_mini {\r\n        position: relative;\r\n    }\r\n    \r\n    .nav_mini_title {\r\n        text-align: center;\r\n        line-height: 50px;\r\n        color: white;\r\n        position: absolute;\r\n        width: 200px;\r\n    }\r\n    \r\n    .nav_icon, .nav_icon_hover {\r\n        width: 30px;\r\n        height: 30px;\r\n    }\r\n    \r\n    .nav_user_box {\r\n        display: grid;\r\n        grid-template-rows: 1fr 1fr;\r\n        align-items: center;\r\n        justify-items: center;\r\n        font-size: 0.8rem;\r\n        padding-left: 30px;\r\n    }\r\n    \r\n    .nav > .nav_box:hover\r\n    , .nav_mini_title > li:hover {\r\n        background-color: #ffcd40;\r\n    }\r\n    \r\n    .nav_mini > li:hover \r\n    , .nav_mini_title > li > a:hover\r\n    {\r\n        color: black;\r\n    }\r\n    \r\n    .nav_mini_title > li {\r\n        background-color: rgba(0, 0, 0, 0.6);\r\n    }\r\n    \r\n    #nav_mini {\r\n        display: none;\r\n    }\r\n    .nav_icon_hover {\r\n        display: none;\r\n    }\r\n    \r\n    .nav_user_box > div:hover {\r\n        color: #ffcd40;\r\n    }\r\n}\r\n\r\n/* 태블릿 버전 */\r\n@media screen and (min-width:429px) and (max-width:1200px) {\r\n    .header_content {\r\n        background-color: black;\r\n        display: grid;\r\n        grid-template-columns: 0.3fr 2fr;\r\n        align-items: center;\r\n    }\r\n    \r\n    .nav {\r\n        display: grid;\r\n        grid-template-columns: 1fr 1fr 1fr 1fr 0.4fr 0.4fr 0.4fr;\r\n        align-items: center;\r\n        justify-items: center;\r\n        margin-left: 50px;\r\n    }\r\n    \r\n    .nav_box {\r\n        width: 200px;\r\n        text-align: center;\r\n        line-height: 87px;\r\n    }\r\n    \r\n    .nav_font {\r\n        color: white;\r\n        font-size: 1rem;\r\n        font-weight: 600;\r\n    }\r\n    \r\n    .nav_mini_font {\r\n        color: white;\r\n        font-size: 0.8rem;\r\n    }\r\n    \r\n    .nav_mini {\r\n        position: relative;\r\n    }\r\n    \r\n    .nav_mini_title {\r\n        text-align: center;\r\n        line-height: 50px;\r\n        color: white;\r\n        position: absolute;\r\n        width: 200px;\r\n    }\r\n    \r\n    .nav_icon, .nav_icon_hover {\r\n        width: 30px;\r\n        height: 30px;\r\n    }\r\n    \r\n    .nav_user_box {\r\n        display: grid;\r\n        grid-template-rows: 1fr 1fr;\r\n        align-items: center;\r\n        justify-items: center;\r\n        font-size: 0.8rem;\r\n        padding-left: 30px;\r\n    }\r\n    \r\n    .nav > .nav_box:hover\r\n    , .nav_mini_title > li:hover {\r\n        background-color: #ffcd40;\r\n    }\r\n    \r\n    .nav_mini > li:hover \r\n    , .nav_mini_title > li > a:hover\r\n    {\r\n        color: black;\r\n    }\r\n    \r\n    .nav_mini_title > li {\r\n        background-color: rgba(0, 0, 0, 0.6);\r\n    }\r\n    \r\n    #nav_mini {\r\n        display: none;\r\n    }\r\n    .nav_icon_hover {\r\n        display: none;\r\n    }\r\n    \r\n    .nav_user_box > div:hover {\r\n        color: #ffcd40;\r\n    }\r\n}\r\n\r\n/* 모바일 버전 */\r\n@media screen and (max-width: 428px) {\r\n    .header_content {\r\n        background-color: black;\r\n        display: grid;\r\n        grid-template-columns: 0.3fr auto;\r\n        align-items: center;\r\n    }\r\n    \r\n    .nav {\r\n        display: grid;\r\n        grid-template-rows: 1fr 1fr 1fr 1fr 0.4fr 0.4fr 0.4fr;\r\n        align-items: center;\r\n        justify-items: center;\r\n        margin-left: 50px;\r\n    }\r\n    \r\n    .nav_box {\r\n        width: 200px;\r\n        text-align: center;\r\n        line-height: 87px;\r\n    }\r\n    \r\n    .nav_font {\r\n        color: white;\r\n        font-size: 1rem;\r\n        font-weight: 600;\r\n    }\r\n    \r\n    .nav_mini_font {\r\n        color: white;\r\n        font-size: 0.8rem;\r\n    }\r\n    \r\n    .nav_mini {\r\n        position: relative;\r\n    }\r\n    \r\n    .nav_mini_title {\r\n        text-align: center;\r\n        line-height: 50px;\r\n        color: white;\r\n        position: absolute;\r\n        width: 200px;\r\n    }\r\n    \r\n    .nav_icon, .nav_icon_hover {\r\n        width: 30px;\r\n        height: 30px;\r\n    }\r\n    \r\n    .nav_user_box {\r\n        display: grid;\r\n        grid-template-rows: 1fr 1fr;\r\n        align-items: center;\r\n        justify-items: center;\r\n        font-size: 0.8rem;\r\n        padding-left: 30px;\r\n    }\r\n    \r\n    .nav > .nav_box:hover\r\n    , .nav_mini_title > li:hover {\r\n        background-color: #ffcd40;\r\n    }\r\n    \r\n    .nav_mini > li:hover \r\n    , .nav_mini_title > li > a:hover\r\n    {\r\n        color: black;\r\n    }\r\n    \r\n    .nav_mini_title > li {\r\n        background-color: rgba(0, 0, 0, 0.6);\r\n    }\r\n    \r\n    #nav_mini {\r\n        display: none;\r\n    }\r\n    .nav_icon_hover {\r\n        display: none;\r\n    }\r\n    \r\n    .nav_user_box > div:hover {\r\n        color: #ffcd40;\r\n    }\r\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "* {\r\n    margin: 0;\r\n    padding: 0;\r\n    box-sizing: border-box;\r\n    font-family: \"Noto Sans KR\", sans-serif;\r\n}\r\n\r\na {\r\n    text-decoration: none;\r\n    display: block;\r\n}\r\n\r\nli {\r\n    list-style: none;\r\n}\r\n\r\n.logo {\r\n    width: 110px;\r\n    height: 80px;\r\n}\r\n\r\n@media screen and (min-width: 1201px) {\r\n    .header_content {\r\n        background-color: black;\r\n        display: grid;\r\n        grid-template-columns: 0.3fr 2fr;\r\n        align-items: center;\r\n        padding: 0 150px;\r\n    }\r\n\r\n    .hamburger { \r\n        display: none;\r\n    }\r\n\r\n    .cancel { \r\n        display: none;\r\n    }\r\n    \r\n    .nav {\r\n        display: grid;\r\n        grid-template-columns: 1fr 1fr 1fr 1fr 0.4fr 0.4fr 0.4fr;\r\n        align-items: center;\r\n        justify-items: center;\r\n        margin-left: 50px;\r\n    }\r\n    \r\n    .nav_box {\r\n        width: 200px;\r\n        text-align: center;\r\n        line-height: 87px;\r\n    }\r\n    \r\n    .nav_font {\r\n        color: white;\r\n        font-size: 1rem;\r\n        font-weight: 600;\r\n    }\r\n    \r\n    .nav_mini_font {\r\n        color: white;\r\n        font-size: 0.8rem;\r\n    }\r\n    \r\n    .nav_mini {\r\n        position: relative;\r\n    }\r\n    \r\n    .nav_mini_title {\r\n        text-align: center;\r\n        line-height: 50px;\r\n        color: white;\r\n        position: absolute;\r\n        width: 200px;\r\n    }\r\n    \r\n    .nav_icon, .nav_icon_hover {\r\n        width: 30px;\r\n        height: 30px;\r\n    }\r\n\r\n    .nav_user_box {\r\n        display: grid;\r\n        grid-template-rows: 1fr 1fr;\r\n        align-items: center;\r\n        justify-items: center;\r\n        font-size: 0.8rem;\r\n        padding-left: 30px;\r\n    }\r\n    \r\n    .nav > .nav_box:hover\r\n    , .nav_mini_title > li:hover {\r\n        background-color: #ffcd40;\r\n    }\r\n    \r\n    .nav_mini > li:hover \r\n    , .nav_mini_title > li > a:hover\r\n    {\r\n        color: black;\r\n    }\r\n    \r\n    .nav_mini_title > li {\r\n        background-color: rgba(0, 0, 0, 0.6);\r\n    }\r\n    \r\n    .display_none {\r\n        display: none;\r\n    }\r\n\r\n    .nav_icon_hover {\r\n        display: none;\r\n    }\r\n    \r\n    .nav_user_box:hover {\r\n        color: #ffcd40;\r\n    }\r\n}\r\n\r\n/* 태블릿 버전 */\r\n@media screen and (min-width: 551px) and (max-width: 1200px) {\r\n    .header_content {\r\n        background-color: black;\r\n        display: grid;\r\n        grid-template-columns: 0.3fr 2fr;\r\n        align-items: center;\r\n        padding: 0 150px;\r\n    }\r\n\r\n    .hamburger { \r\n        display: none;\r\n    }\r\n\r\n    .cancel { \r\n        display: none;\r\n    }\r\n    \r\n    .nav {\r\n        display: grid;\r\n        grid-template-columns: 1fr 1fr 1fr 1fr 0.4fr 0.4fr 0.4fr;\r\n        align-items: center;\r\n        justify-items: center;\r\n    }\r\n    \r\n    .nav_box {\r\n        width: 100%;\r\n        text-align: center;\r\n        line-height: 87px;\r\n    }\r\n    \r\n    .nav_font {\r\n        color: white;\r\n        font-size: 1rem;\r\n        font-weight: 600;\r\n    }\r\n    \r\n    .nav_mini_font {\r\n        color: white;\r\n        font-size: 0.8rem;\r\n    }\r\n    \r\n    .nav_mini {\r\n        position: relative;\r\n    }\r\n    \r\n    .nav_mini_title {\r\n        text-align: center;\r\n        line-height: 50px;\r\n        color: white;\r\n        position: absolute;\r\n        width: 200px;\r\n    }\r\n    \r\n    .nav_icon, .nav_icon_hover {\r\n        width: 30px;\r\n        height: 30px;\r\n    }\r\n    \r\n    .nav_user_box {\r\n        display: grid;\r\n        grid-template-rows: 1fr 1fr;\r\n        align-items: center;\r\n        justify-items: center;\r\n        font-size: 0.8rem;\r\n        padding-left: 30px;\r\n    }\r\n    \r\n    .nav > .nav_box:hover\r\n    , .nav_mini_title > li:hover {\r\n        background-color: #ffcd40;\r\n    }\r\n    \r\n    .nav_mini > li:hover \r\n    , .nav_mini_title > li > a:hover\r\n    {\r\n        color: black;\r\n    }\r\n    \r\n    .nav_mini_title > li {\r\n        background-color: rgba(0, 0, 0, 0.6);\r\n    }\r\n    \r\n    #nav_mini {\r\n        display: none;\r\n    }\r\n    .nav_icon_hover {\r\n        display: none;\r\n    }\r\n    \r\n    .nav_user_box:hover {\r\n        color: #ffcd40;\r\n    }\r\n}\r\n\r\n/* 모바일 버전 */\r\n@media screen and (max-width: 550px) {\r\n    .header_content {\r\n        background-color: black;\r\n        display: grid;\r\n        grid-template-columns: 0.3fr auto 0.3fr;\r\n        align-items: center;\r\n        padding: 5px 10px;\r\n        gap: 5px;\r\n    }\r\n\r\n    #nav{\r\n        display: none;\r\n    } \r\n    \r\n    .nav {\r\n        grid-column: 1 / 4;\r\n        grid-row: 2 / 3;\r\n    }\r\n    \r\n    .hamburger_img {\r\n        width: 30px;\r\n        height: 20px;\r\n        position: absolute;\r\n        top: 35px;\r\n        right: 30px;\r\n        cursor: pointer;\r\n    }\r\n\r\n    .cancel_img {\r\n        width: 30px;\r\n        height: 30px;\r\n        position: absolute;\r\n        top: 35px;\r\n        right: 30px;\r\n        cursor: pointer;\r\n    }\r\n\r\n    .cancel {\r\n        display: none;\r\n    }\r\n\r\n    .nav {\r\n        display: grid;\r\n        grid-template-columns: 0.7fr 1fr 0.7fr;\r\n        align-items: center;\r\n        justify-items: center;\r\n    }\r\n\r\n    .nav_item1, .nav_item2, .nav_item3, .nav_item4 {\r\n        grid-column:  1 / 4;\r\n    }\r\n    .nav_item5 {\r\n        grid-column: 1 / 2;\r\n    }\r\n    .nav_item6 {\r\n        grid-column: 2 / 3;\r\n    }\r\n    .nav_item7 {\r\n        grid-column: 3 / 4;\r\n    }\r\n    \r\n    .nav_box {\r\n        text-align: center;\r\n        line-height: 80px;\r\n        width: 100%;\r\n    }\r\n    \r\n    .nav_font {\r\n        color: white;\r\n        font-size: 1rem;\r\n        font-weight: 600;\r\n    }\r\n    \r\n    .nav_mini_font {\r\n        color: white;\r\n        font-size: 0.8rem;\r\n    }\r\n    \r\n    .nav_mini_title {\r\n        text-align: center;\r\n        line-height: 50px;\r\n        color: white;\r\n        display: grid;\r\n        grid-template-rows: 1fr 1fr 1fr;\r\n    }\r\n    \r\n    .nav_icon, .nav_icon_hover {\r\n        width: 30px;\r\n        height: 30px;\r\n    }\r\n    \r\n    .nav_user_box {\r\n        display: grid;\r\n        grid-template-rows: 1fr 1fr;\r\n        align-items: center;\r\n        justify-items: center;\r\n        font-size: 0.8rem;\r\n        margin-top: 10px;\r\n    }\r\n    \r\n    .nav > .nav_box:hover\r\n    , .nav_mini_title > li:hover {\r\n        background-color: #ffcd40;\r\n    }\r\n    \r\n    .nav_mini > li:hover \r\n    , .nav_mini_title > li > a:hover\r\n    {\r\n        color: black;\r\n    }\r\n    \r\n    .nav_mini_title > li {\r\n        background-color: rgba(0, 0, 0, 0.6);\r\n    }\r\n\r\n    .nav_icon_hover {\r\n        display: none;\r\n    }\r\n    \r\n    .nav_user_box:hover {\r\n        color: #ffcd40;\r\n    }\r\n\r\n    .nav_user_item{\r\n        border-right: 1px solid white;\r\n        border-left: 1px solid white;\r\n        padding: 0 50px;\r\n    } \r\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
