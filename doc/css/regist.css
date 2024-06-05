@@ -1,0 +1,126 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+body {
+    background-color: #333333;
+}
+.container {
+    background-color: white;
+    border-radius: 30px;
+    display: grid;
+    width: 70%;
+    padding: 2% 5%;
+    margin: 5% auto;
+}
+.container h2,
+.container label,
+.container p {
+    font-size: 0.3em; /* 원하는 크기로 조정 */
+}
+.regist {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+header {
+    margin: 5px;
+    width: 90%;
+}
+
+
+header nav ul li {
+    display: inline;
+    margin-right: 5px;
+}
+
+.container h2 {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.note {
+    text-align: end;
+    color: red;
+}
+
+form {
+    display: grid;
+    place-self: center;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    width: 70vh;
+}
+
+form label {
+    grid-column: 1 / 3;
+    margin-top: 10px;
+}
+
+form input[type="email"],
+form input[type="password"],
+form input[type="text"],
+form input[type="tel"],
+form input[type="date"] {
+    grid-column: 1 / 3;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form input[type="email"],
+form input[type="password"],
+form input[type="text"],
+form input[type="tel"],
+form input[type="date"] {
+    padding: 4px; /* 원하는 크기로 조정 */
+    font-size: 0.5em; /* 원하는 크기로 조정 */
+}
+
+form button[type="button"] {
+    grid-column: 1 / 3;
+    padding: 5px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form button[type="button"]:hover {
+    background-color: #444;
+}
+
+form .buttons {
+    grid-column: 1 / 3;
+    display: flex;
+    justify-content: space-between;
+}
+
+form .buttons button {
+    width: 48%;
+    padding: 5px;
+    font-size: 1em;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+form .buttons .cancel {
+    background-color: black;
+    color: white;
+}
+
+form .buttons .cancel:hover {
+    background-color: #444;
+}
+
+form .buttons .submit {
+    background-color: yellow;
+    color: black;
+}
+
+form .buttons .submit:hover {
+    background-color: #ffeb3b;
+}
