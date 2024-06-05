@@ -20894,6 +20894,36 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/components/AppComponent.vue?vue&type=script&setup=true&lang=js":
+/*!**************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/components/AppComponent.vue?vue&type=script&setup=true&lang=js ***!
+  \**************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  __name: 'AppComponent',
+  setup: function setup(__props, _ref) {
+    var __expose = _ref.expose;
+    __expose();
+    function openMiniNav() {}
+    var __returned__ = {
+      openMiniNav: openMiniNav
+    };
+    Object.defineProperty(__returned__, '__isScriptSetup', {
+      enumerable: false,
+      value: true
+    });
+    return __returned__;
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/components/AppComponent.vue?vue&type=template&id=1a737966":
 /*!*******************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/components/AppComponent.vue?vue&type=template&id=1a737966 ***!
@@ -20907,9 +20937,52 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<header><div class=\"header_container\"><div class=\"header_content\"><div class=\"logo\"><a href=\"\"><img src=\"/img/logo.png\" class=\"logo\"></a></div><ul class=\"nav\"><li class=\"nav_box\"><a href=\"\" class=\"nav_font nav_title\"><ul class=\"nav_mini\"><li class=\"nav_mini_hover\">전체 메뉴</li><li><ul class=\"nav_mini_title\"><a href=\"\" class=\"nav_font\"><li>탁주</li></a><a href=\"\" class=\"nav_font\"><li>과실주</li></a><a href=\"\" class=\"nav_font\"><li>증류주</li></a></ul></li></ul></a></li><li class=\"nav_box\"><a href=\"\" class=\"nav_font nav_title\"> 전통주 이야기 </a></li><li class=\"nav_box\"><a href=\"\" class=\"nav_font nav_title\"> 1 : 1 문의 </a></li><li class=\"nav_box\"><a href=\"\" class=\"nav_font nav_title\"> 공지사항 </a></li><li><a href=\"\" class=\"nav_font nav_user_box\"><img src=\"/img/login.png\" class=\"nav_icon\"><div class=\"nav_user\">로그인</div></a></li><li><a href=\"\" class=\"nav_font nav_user_box\"><img src=\"/img/regist.png\" class=\"nav_icon\"><div class=\"nav_user\">회원가입</div></a></li><li><a href=\"\" class=\"nav_font nav_user_box\"><img src=\"/img/bag.png\" class=\"nav_icon\"><div class=\"nav_user\">장바구니</div></a></li></ul></div></div></header>", 1);
-function render(_ctx, _cache) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" header "), _hoisted_1], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */);
+var _hoisted_1 = {
+  "class": "header_container"
+};
+var _hoisted_2 = {
+  "class": "header_content"
+};
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "logo"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  href: ""
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  src: "/img/logo.png",
+  "class": "logo"
+})])], -1 /* HOISTED */);
+var _hoisted_4 = {
+  "class": "nav"
+};
+var _hoisted_5 = {
+  "class": "nav_box"
+};
+var _hoisted_6 = {
+  href: "",
+  "class": "nav_font"
+};
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", {
+  "class": "nav_mini_title"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  href: "",
+  "class": "nav_mini_font"
+}, "탁주")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  href: "",
+  "class": "nav_mini_font"
+}, "과실주")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  href: "",
+  "class": "nav_mini_font"
+}, "증류주")])], -1 /* HOISTED */);
+var _hoisted_8 = [_hoisted_7];
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<li class=\"nav_box\"><a href=\"\" class=\"nav_font\"> 전통주 이야기 </a></li><li class=\"nav_box\"><a href=\"\" class=\"nav_font\"> 1 : 1 문의 </a></li><li class=\"nav_box\"><a href=\"\" class=\"nav_font\"> 공지사항 </a></li><li><a href=\"\" class=\"nav_font nav_user_box\"><img src=\"/img/login.png\" class=\"nav_icon\"><img src=\"/img/goldlogin.png\" class=\"nav_icon_hover\"><div class=\"nav_user\">로그인</div></a></li><li><a href=\"\" class=\"nav_font nav_user_box\"><img src=\"/img/regist.png\" class=\"nav_icon\"><img src=\"/img/goldregist.png\" class=\"nav_icon_hover\"><div class=\"nav_user\">회원가입</div></a></li><li><a href=\"\" class=\"nav_font nav_user_box\"><img src=\"/img/bag.png\" class=\"nav_icon\"><img src=\"/img/goldbag.png\" class=\"nav_icon_hover\"><div class=\"nav_user\">장바구니</div></a></li>", 6);
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("전체 메뉴 "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    onMouseover: _cache[0] || (_cache[0] = function ($event) {
+      return $setup.openMiniNav();
+    }),
+    "class": "nav_mini",
+    id: "nav_mini"
+  }, [].concat(_hoisted_8), 32 /* NEED_HYDRATION */)])]), _hoisted_9])])])])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */);
 }
 
 /***/ }),
@@ -21081,8 +21154,9 @@ __webpack_require__.r(__webpack_exports__);
 // Imports
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "* {\r\n    margin: 0;\r\n    padding: 0;\r\n    box-sizing: border-box;\r\n}\r\n\r\na {\r\n    text-decoration: none;\r\n}\r\n\r\nli {\r\n    list-style: none;\r\n}\r\n\r\n.header_content {\r\n    background-color: black;\r\n    display: grid;\r\n    grid-template-columns: 0.3fr auto;\r\n    align-items: center;\r\n    padding: 0 150px;\r\n}\r\n\r\n.logo {\r\n    width: 110px;\r\n    height: 80px;\r\n}\r\n\r\n.nav {\r\n    display: grid;\r\n    grid-template-columns: 1fr 1fr 1fr 1fr 0.4fr 0.4fr 0.4fr;\r\n    align-items: center;\r\n    justify-items: center;\r\n}\r\n\r\n.nav_box {\r\n    width: 200px;\r\n    text-align: center;\r\n    line-height: 87px;\r\n}\r\n\r\n.nav_font {\r\n    color: white;\r\n}\r\n\r\n.nav_mini_hover {\r\n    position: relative;\r\n}\r\n\r\n.nav_mini_title {\r\n    text-align: center;\r\n    line-height: 50px;\r\n    color: white;\r\n    position: absolute;\r\n    width: 200px;\r\n    left: 18.8%;\r\n}\r\n\r\n.nav_title {\r\n    font-size: 1.5rem;\r\n}\r\n\r\n.nav_icon {\r\n    width: 30px;\r\n    height: 30px;\r\n}\r\n\r\n.nav_user_box {\r\n    display: grid;\r\n    grid-template-rows: 1fr 1fr;\r\n    align-items: center;\r\n    justify-items: center;\r\n    font-size: 0.8rem;\r\n    padding-left: 30px;\r\n}\r\n\r\n.nav > .nav_box:hover {\r\n    background-color: #FAC91D;\r\n    color: black;\r\n}\r\n\r\n.nav_mini_title > a > li {\r\n    background-color: rgba(0, 0, 0, 0.6);\r\n}\r\n\r\n.nav_mini_title > a > li:hover {\r\n    background-color: #FAC91D;\r\n    color: black;\r\n}\r\n\r\n#dis_none {\r\n    display: none;\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "* {\r\n    margin: 0;\r\n    padding: 0;\r\n    box-sizing: border-box;\r\n    font-family: \"Noto Sans KR\", sans-serif;\r\n}\r\n\r\na {\r\n    text-decoration: none;\r\n    display: block;\r\n}\r\n\r\nli {\r\n    list-style: none;\r\n}\r\n\r\n.logo {\r\n    width: 110px;\r\n    height: 80px;\r\n}\r\n\r\n@media screen and (min-width: 1201px) {\r\n    .header_content {\r\n        background-color: black;\r\n        display: grid;\r\n        grid-template-columns: 0.3fr 2fr;\r\n        align-items: center;\r\n        padding: 0 150px;\r\n    }\r\n    \r\n    .nav {\r\n        display: grid;\r\n        grid-template-columns: 1fr 1fr 1fr 1fr 0.4fr 0.4fr 0.4fr;\r\n        align-items: center;\r\n        justify-items: center;\r\n        margin-left: 50px;\r\n    }\r\n    \r\n    .nav_box {\r\n        width: 200px;\r\n        text-align: center;\r\n        line-height: 87px;\r\n    }\r\n    \r\n    .nav_font {\r\n        color: white;\r\n        font-size: 1rem;\r\n        font-weight: 600;\r\n    }\r\n    \r\n    .nav_mini_font {\r\n        color: white;\r\n        font-size: 0.8rem;\r\n    }\r\n    \r\n    .nav_mini {\r\n        position: relative;\r\n    }\r\n    \r\n    .nav_mini_title {\r\n        text-align: center;\r\n        line-height: 50px;\r\n        color: white;\r\n        position: absolute;\r\n        width: 200px;\r\n    }\r\n    \r\n    .nav_icon, .nav_icon_hover {\r\n        width: 30px;\r\n        height: 30px;\r\n    }\r\n    \r\n    .nav_user_box {\r\n        display: grid;\r\n        grid-template-rows: 1fr 1fr;\r\n        align-items: center;\r\n        justify-items: center;\r\n        font-size: 0.8rem;\r\n        padding-left: 30px;\r\n    }\r\n    \r\n    .nav > .nav_box:hover\r\n    , .nav_mini_title > li:hover {\r\n        background-color: #ffcd40;\r\n    }\r\n    \r\n    .nav_mini > li:hover \r\n    , .nav_mini_title > li > a:hover\r\n    {\r\n        color: black;\r\n    }\r\n    \r\n    .nav_mini_title > li {\r\n        background-color: rgba(0, 0, 0, 0.6);\r\n    }\r\n    \r\n    #nav_mini {\r\n        display: none;\r\n    }\r\n    .nav_icon_hover {\r\n        display: none;\r\n    }\r\n    \r\n    .nav_user_box > div:hover {\r\n        color: #ffcd40;\r\n    }\r\n}\r\n\r\n/* 태블릿 버전 */\r\n@media screen and (min-width:429px) and (max-width:1200px) {\r\n    .header_content {\r\n        background-color: black;\r\n        display: grid;\r\n        grid-template-columns: 0.3fr 2fr;\r\n        align-items: center;\r\n    }\r\n    \r\n    .nav {\r\n        display: grid;\r\n        grid-template-columns: 1fr 1fr 1fr 1fr 0.4fr 0.4fr 0.4fr;\r\n        align-items: center;\r\n        justify-items: center;\r\n        margin-left: 50px;\r\n    }\r\n    \r\n    .nav_box {\r\n        width: 200px;\r\n        text-align: center;\r\n        line-height: 87px;\r\n    }\r\n    \r\n    .nav_font {\r\n        color: white;\r\n        font-size: 1rem;\r\n        font-weight: 600;\r\n    }\r\n    \r\n    .nav_mini_font {\r\n        color: white;\r\n        font-size: 0.8rem;\r\n    }\r\n    \r\n    .nav_mini {\r\n        position: relative;\r\n    }\r\n    \r\n    .nav_mini_title {\r\n        text-align: center;\r\n        line-height: 50px;\r\n        color: white;\r\n        position: absolute;\r\n        width: 200px;\r\n    }\r\n    \r\n    .nav_icon, .nav_icon_hover {\r\n        width: 30px;\r\n        height: 30px;\r\n    }\r\n    \r\n    .nav_user_box {\r\n        display: grid;\r\n        grid-template-rows: 1fr 1fr;\r\n        align-items: center;\r\n        justify-items: center;\r\n        font-size: 0.8rem;\r\n        padding-left: 30px;\r\n    }\r\n    \r\n    .nav > .nav_box:hover\r\n    , .nav_mini_title > li:hover {\r\n        background-color: #ffcd40;\r\n    }\r\n    \r\n    .nav_mini > li:hover \r\n    , .nav_mini_title > li > a:hover\r\n    {\r\n        color: black;\r\n    }\r\n    \r\n    .nav_mini_title > li {\r\n        background-color: rgba(0, 0, 0, 0.6);\r\n    }\r\n    \r\n    #nav_mini {\r\n        display: none;\r\n    }\r\n    .nav_icon_hover {\r\n        display: none;\r\n    }\r\n    \r\n    .nav_user_box > div:hover {\r\n        color: #ffcd40;\r\n    }\r\n}\r\n\r\n/* 모바일 버전 */\r\n@media screen and (max-width: 428px) {\r\n    .header_content {\r\n        background-color: black;\r\n        display: grid;\r\n        grid-template-columns: 0.3fr auto;\r\n        align-items: center;\r\n    }\r\n    \r\n    .nav {\r\n        display: grid;\r\n        grid-template-rows: 1fr 1fr 1fr 1fr 0.4fr 0.4fr 0.4fr;\r\n        align-items: center;\r\n        justify-items: center;\r\n        margin-left: 50px;\r\n    }\r\n    \r\n    .nav_box {\r\n        width: 200px;\r\n        text-align: center;\r\n        line-height: 87px;\r\n    }\r\n    \r\n    .nav_font {\r\n        color: white;\r\n        font-size: 1rem;\r\n        font-weight: 600;\r\n    }\r\n    \r\n    .nav_mini_font {\r\n        color: white;\r\n        font-size: 0.8rem;\r\n    }\r\n    \r\n    .nav_mini {\r\n        position: relative;\r\n    }\r\n    \r\n    .nav_mini_title {\r\n        text-align: center;\r\n        line-height: 50px;\r\n        color: white;\r\n        position: absolute;\r\n        width: 200px;\r\n    }\r\n    \r\n    .nav_icon, .nav_icon_hover {\r\n        width: 30px;\r\n        height: 30px;\r\n    }\r\n    \r\n    .nav_user_box {\r\n        display: grid;\r\n        grid-template-rows: 1fr 1fr;\r\n        align-items: center;\r\n        justify-items: center;\r\n        font-size: 0.8rem;\r\n        padding-left: 30px;\r\n    }\r\n    \r\n    .nav > .nav_box:hover\r\n    , .nav_mini_title > li:hover {\r\n        background-color: #ffcd40;\r\n    }\r\n    \r\n    .nav_mini > li:hover \r\n    , .nav_mini_title > li > a:hover\r\n    {\r\n        color: black;\r\n    }\r\n    \r\n    .nav_mini_title > li {\r\n        background-color: rgba(0, 0, 0, 0.6);\r\n    }\r\n    \r\n    #nav_mini {\r\n        display: none;\r\n    }\r\n    .nav_icon_hover {\r\n        display: none;\r\n    }\r\n    \r\n    .nav_user_box > div:hover {\r\n        color: #ffcd40;\r\n    }\r\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -38927,20 +39001,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _AppComponent_vue_vue_type_template_id_1a737966__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AppComponent.vue?vue&type=template&id=1a737966 */ "./resources/components/AppComponent.vue?vue&type=template&id=1a737966");
-/* harmony import */ var _AppComponent_vue_vue_type_style_index_0_id_1a737966_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AppComponent.vue?vue&type=style&index=0&id=1a737966&lang=css */ "./resources/components/AppComponent.vue?vue&type=style&index=0&id=1a737966&lang=css");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _AppComponent_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AppComponent.vue?vue&type=script&setup=true&lang=js */ "./resources/components/AppComponent.vue?vue&type=script&setup=true&lang=js");
+/* harmony import */ var _AppComponent_vue_vue_type_style_index_0_id_1a737966_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AppComponent.vue?vue&type=style&index=0&id=1a737966&lang=css */ "./resources/components/AppComponent.vue?vue&type=style&index=0&id=1a737966&lang=css");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
-const script = {}
+
+
 
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(script, [['render',_AppComponent_vue_vue_type_template_id_1a737966__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/components/AppComponent.vue"]])
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_AppComponent_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_AppComponent_vue_vue_type_template_id_1a737966__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/components/AppComponent.vue"]])
 /* hot reload */
 if (false) {}
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
+/***/ "./resources/components/AppComponent.vue?vue&type=script&setup=true&lang=js":
+/*!**********************************************************************************!*\
+  !*** ./resources/components/AppComponent.vue?vue&type=script&setup=true&lang=js ***!
+  \**********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AppComponent_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AppComponent_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AppComponent.vue?vue&type=script&setup=true&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/components/AppComponent.vue?vue&type=script&setup=true&lang=js");
+ 
 
 /***/ }),
 
