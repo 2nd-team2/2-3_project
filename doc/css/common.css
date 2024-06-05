@@ -1,0 +1,283 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+a {
+    text-decoration: none;
+    display: block;
+}
+
+li {
+    list-style: none;
+}
+
+.logo {
+    width: 110px;
+    height: 80px;
+}
+
+@media screen and (min-width: 1201px) {
+    .header_content {
+        background-color: black;
+        display: grid;
+        grid-template-columns: 0.3fr 2fr;
+        align-items: center;
+        padding: 0 150px;
+    }
+    
+    .nav {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 0.4fr 0.4fr 0.4fr;
+        align-items: center;
+        justify-items: center;
+        margin-left: 50px;
+    }
+    
+    .nav_box {
+        width: 200px;
+        text-align: center;
+        line-height: 87px;
+    }
+    
+    .nav_font {
+        color: white;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+    
+    .nav_mini_font {
+        color: white;
+        font-size: 0.8rem;
+    }
+    
+    .nav_mini {
+        position: relative;
+    }
+    
+    .nav_mini_title {
+        text-align: center;
+        line-height: 50px;
+        color: white;
+        position: absolute;
+        width: 200px;
+    }
+    
+    .nav_icon, .nav_icon_hover {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .nav_user_box {
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        align-items: center;
+        justify-items: center;
+        font-size: 0.8rem;
+        padding-left: 30px;
+    }
+    
+    .nav > .nav_box:hover
+    , .nav_mini_title > li:hover {
+        background-color: #ffcd40;
+    }
+    
+    .nav_mini > li:hover 
+    , .nav_mini_title > li > a:hover
+    {
+        color: black;
+    }
+    
+    .nav_mini_title > li {
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+    
+    #nav_mini {
+        display: none;
+    }
+    .nav_icon_hover {
+        display: none;
+    }
+    
+    .nav_user_box > div:hover {
+        color: #ffcd40;
+    }
+}
+
+/* 태블릿 버전 */
+@media screen and (min-width:429px) and (max-width:1200px) {
+    .header_content {
+        background-color: black;
+        display: grid;
+        grid-template-columns: 0.3fr 2fr;
+        align-items: center;
+    }
+    
+    .nav {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 0.4fr 0.4fr 0.4fr;
+        align-items: center;
+        justify-items: center;
+        margin-left: 50px;
+    }
+    
+    .nav_box {
+        width: 200px;
+        text-align: center;
+        line-height: 87px;
+    }
+    
+    .nav_font {
+        color: white;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+    
+    .nav_mini_font {
+        color: white;
+        font-size: 0.8rem;
+    }
+    
+    .nav_mini {
+        position: relative;
+    }
+    
+    .nav_mini_title {
+        text-align: center;
+        line-height: 50px;
+        color: white;
+        position: absolute;
+        width: 200px;
+    }
+    
+    .nav_icon, .nav_icon_hover {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .nav_user_box {
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        align-items: center;
+        justify-items: center;
+        font-size: 0.8rem;
+        padding-left: 30px;
+    }
+    
+    .nav > .nav_box:hover
+    , .nav_mini_title > li:hover {
+        background-color: #ffcd40;
+    }
+    
+    .nav_mini > li:hover 
+    , .nav_mini_title > li > a:hover
+    {
+        color: black;
+    }
+    
+    .nav_mini_title > li {
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+    
+    #nav_mini {
+        display: none;
+    }
+    .nav_icon_hover {
+        display: none;
+    }
+    
+    .nav_user_box > div:hover {
+        color: #ffcd40;
+    }
+}
+
+/* 모바일 버전 */
+@media screen and (max-width: 428px) {
+    .header_content {
+        background-color: black;
+        display: grid;
+        grid-template-columns: 0.3fr auto;
+        align-items: center;
+    }
+    
+    .nav {
+        display: grid;
+        grid-template-rows: 1fr 1fr 1fr 1fr 0.4fr 0.4fr 0.4fr;
+        align-items: center;
+        justify-items: center;
+        margin-left: 50px;
+    }
+    
+    .nav_box {
+        width: 200px;
+        text-align: center;
+        line-height: 87px;
+    }
+    
+    .nav_font {
+        color: white;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+    
+    .nav_mini_font {
+        color: white;
+        font-size: 0.8rem;
+    }
+    
+    .nav_mini {
+        position: relative;
+    }
+    
+    .nav_mini_title {
+        text-align: center;
+        line-height: 50px;
+        color: white;
+        position: absolute;
+        width: 200px;
+    }
+    
+    .nav_icon, .nav_icon_hover {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .nav_user_box {
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        align-items: center;
+        justify-items: center;
+        font-size: 0.8rem;
+        padding-left: 30px;
+    }
+    
+    .nav > .nav_box:hover
+    , .nav_mini_title > li:hover {
+        background-color: #ffcd40;
+    }
+    
+    .nav_mini > li:hover 
+    , .nav_mini_title > li > a:hover
+    {
+        color: black;
+    }
+    
+    .nav_mini_title > li {
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+    
+    #nav_mini {
+        display: none;
+    }
+    .nav_icon_hover {
+        display: none;
+    }
+    
+    .nav_user_box > div:hover {
+        color: #ffcd40;
+    }
+}
