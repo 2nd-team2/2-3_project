@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로그인</title>
-    <link rel="stylesheet" href="../css/login.css">
+    <title>재확인</title>
+    <link rel="stylesheet" href="../css/confirm.css">
     <link rel="stylesheet" href="../css/common.css">
 </head>
 <body>
@@ -66,32 +66,23 @@
     </header>
     <main>
         <div class="main">
-            <div>
-                <h2>
-                    로그인 / 회원가입
-                </h2>
-            </div>
-            <div class="leftInfo">
-                <form action="">
-                    <br>
-                <div class="inputGroup">
-                    <img src="../img/otterFace.png" class="face">
-                    <input type="text" id="account" placeholder="아이디">
-                </div>
-                <div class="inputGroup">
-                    <img src="../img/otterFace.png" class="face">
-                    <input type="password" id="password" placeholder="비밀번호">
-                </div>
+            <div class="userChkTest">
+                **회원님의 정보를 안전하게 보호하기 위해 비밀번호를 다시 한번 확인합니다.
                 <br>
-                <div class="button">
-                    <button class="loginBtn" id="button">로그인</button>
-                    <button class="registBtn" id="button">회원가입</button>
-                    <button class="kakaoBtn"></button>
-                </div>
-            </form>
+                비밀번호는 타인에게 노출되지 않도록 항시 주의해 주세요.
             </div>
-            <div class="rightPoto">
-                <div class="textInPoto">"이거 가입하면 한잔과 함께가는 거다"<br>내 머릿속의 데이터(2024)</div>
+            <br>
+            <div class="userInfo">
+                <ul>
+                    <li>
+                        <span class="list_marker">·</span>아이디 
+                        <input type="text">
+                    </li>
+                    <li>
+                        <span class="list_marker">·</span>비밀번호 
+                        <input type="text">
+                    </li>
+                </ul>
             </div>
         </div>
     </main>
