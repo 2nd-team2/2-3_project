@@ -2,7 +2,10 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: "Noto Sans KR", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: weight;
+    font-style: normal;
 }
 body {
     background-color: #333333;
@@ -11,18 +14,39 @@ body {
     background-color: white;
     border-radius: 30px;
     display: grid;
-    width: 70%;
-    padding: 2% 5%;
+    width: 90%;
+    min-width: 670px;
+    max-width: 1240px;
+    padding: 10px 40px;
     margin: 5% auto;
 }
-.container h2,
-.container label,
-.container p {
-    font-size: 0.3em; /* 원하는 크기로 조정 */
+.redText {
+    color: red;
+}
+.info_header_title {
+    font-size: 1rem;
+    font-weight: 900;
+}
+.info_header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
 }
 .regist {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid rgb(206, 206, 206);
+}
+.regist_step {
+    display: flex;
+    list-style: none;
+    justify-content: right;
+}
+.regist_step :nth-child(3) {
+    color: #FAC91D;
+}
+.regist_step > li {
+    margin: 10px;
 }
 header {
     margin: 5px;
@@ -36,8 +60,8 @@ header nav ul li {
 }
 
 .container h2 {
-    margin-bottom: 10px;
-    text-align: center;
+    font-size: 1.8em; 
+    margin-bottom: 10px;    
 }
 
 .note {
@@ -46,81 +70,84 @@ header nav ul li {
 }
 
 form {
-    display: grid;
     place-self: center;
-    grid-template-columns: 1fr 1fr;
-    gap: 5px;
-    width: 70vh;
+    width: 100%;
+    max-width: 736px;
+    margin: 80px auto;
 }
-
-form label {
-    grid-column: 1 / 3;
-    margin-top: 10px;
+.info_item_box {
+    height: 80px;
+    display: grid;
+    grid-template-columns: 1fr 3.5fr 1.5fr;
+    gap: 20px;
+    justify-content: space-around;
+    align-items: center;
+    margin: 10px;
 }
-
-form input[type="email"],
-form input[type="password"],
-form input[type="text"],
-form input[type="tel"],
-form input[type="date"] {
-    grid-column: 1 / 3;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.address {
+    height: 160px;
+    display: grid;
+    grid-template-columns: 1fr 3.5fr 1.5fr;
+    gap: 20px;
+    justify-content: space-around;
+    align-items: center;
+    margin: 10px;
 }
-
-form input[type="email"],
-form input[type="password"],
-form input[type="text"],
-form input[type="tel"],
-form input[type="date"] {
-    padding: 4px; /* 원하는 크기로 조정 */
-    font-size: 0.5em; /* 원하는 크기로 조정 */
+.address_text {
+    margin-bottom: 60px;
 }
-
-form button[type="button"] {
-    grid-column: 1 / 3;
-    padding: 5px;
+.info_item_box > label::before {
+    content: '* ';
+    color: #ff0000;
+}
+.info_item_input {
+    position: relative;
+}
+.info_item_err_msg {
+    position: absolute;
+    top: -1.8rem;
+}
+.info_item_input > p {
+    color: #ff0000;
+}
+.info_item_input input {
+    width: 100%;
+    height: 30px;
+    max-width: 430px;
+}
+.info_item_btn {
+    height: 30px;
+    margin: auto;
+    padding: 0 1rem;
     background-color: black;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 15px;
     cursor: pointer;
 }
 
-form button[type="button"]:hover {
+.info_item_btn:hover {
     background-color: #444;
 }
 
-form .buttons {
-    grid-column: 1 / 3;
-    display: flex;
-    justify-content: space-between;
-}
-
 form .buttons button {
-    width: 48%;
-    padding: 5px;
+    width: 20%;
+    padding: 10px;
     font-size: 1em;
     border: none;
     border-radius: 20px;
     cursor: pointer;
 }
-
-form .buttons .cancel {
-    background-color: black;
-    color: white;
+.twobuttons {
+    display: flex;
 }
-
-form .buttons .cancel:hover {
-    background-color: #444;
+.form_btn {
+    height: 45px;
 }
-
-form .buttons .submit {
-    background-color: yellow;
+.form_btn_address {
+    margin-bottom: 95px;
+}
+.submit {
+    background-color: #FAC91D;
     color: black;
-}
-
-form .buttons .submit:hover {
-    background-color: #ffeb3b;
 }
