@@ -106,36 +106,42 @@ import { onMounted } from 'vue';
     function openIconLogin() {
         const g_iconuser = document.querySelector('#g_iconuser');
         const b_iconuser = document.querySelector('#b_iconuser');
+
         g_iconuser.classList.remove('nav_icon_hover');
         b_iconuser.style.display = 'none';
     }
     function closeIconLogin() {
         const g_iconuser = document.querySelector('#g_iconuser');
         const b_iconuser = document.querySelector('#b_iconuser');
+
         g_iconuser.classList.add('nav_icon_hover');
         b_iconuser.style.display = 'block';
     }
     function openIconRegist() {
         const g_iconregist = document.querySelector('#g_iconregist');
         const b_iconregist = document.querySelector('#b_iconregist');
+
         g_iconregist.classList.remove('nav_icon_hover');
         b_iconregist.style.display = 'none';
     }
     function closeIconRegist() {
         const g_iconregist = document.querySelector('#g_iconregist');
         const b_iconregist = document.querySelector('#b_iconregist');
+
         g_iconregist.classList.add('nav_icon_hover');
         b_iconregist.style.display = 'block';
     }
     function openIconBag() {
         const g_iconbag = document.querySelector('#g_iconbag');
         const b_iconbag = document.querySelector('#b_iconbag');
+
         g_iconbag.classList.remove('nav_icon_hover');
         b_iconbag.style.display = 'none';
     }
     function closeIconBag() {
         const g_iconbag = document.querySelector('#g_iconbag');
         const b_iconbag = document.querySelector('#b_iconbag');
+
         g_iconbag.classList.add('nav_icon_hover');
         b_iconbag.style.display = 'block';
     }
@@ -155,6 +161,7 @@ import { onMounted } from 'vue';
         const nav = document.querySelector('#nav');
         const hamburger = document.querySelector('#hamburger');
         const cancel = document.querySelector('#cancel');
+
         nav.removeAttribute('id', 'nav');
         hamburger.style.display = 'none'
         cancel.style.display = 'block'
@@ -166,18 +173,20 @@ import { onMounted } from 'vue';
         const nav = document.querySelector('.nav');
         const hamburger = document.querySelector('#hamburger');
         const cancel = document.querySelector('#cancel');
+
         nav.setAttribute('id', 'nav');
         hamburger.style.display = 'block';
         cancel.setAttribute('class', 'cancel');
         cancel.style.display = 'none'
     }
 
-    // 스크린 크기 변화에 따른 햄버거, X아이콘 조절
+    // 스크린 크기 (width: 770px) 변화에 따른 햄버거, X아이콘 조절
     function changeNav() {
         const nav = document.querySelector('.nav');
         const cancel = document.querySelector('#cancel');
         const hamburger = document.querySelector('#hamburger');
         const plus = document.querySelector('.plus');
+
         if(window.innerWidth > 770) {
             nav.removeAttribute('id', 'nav');
             hamburger.style.display = 'none';
