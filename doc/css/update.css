@@ -37,17 +37,6 @@ body {
     grid-template-columns: 1fr 1fr;
     border-bottom: 1px solid rgb(206, 206, 206);
 }
-.regist_step {
-    display: flex;
-    list-style: none;
-    justify-content: right;
-}
-.regist_step :nth-child(3) {
-    color: #FAC91D;
-}
-.regist_step > li {
-    margin: 10px;
-}
 header {
     margin: 5px;
     width: 90%;
@@ -96,7 +85,7 @@ form {
 .address_text {
     margin-bottom: 60px;
 }
-.info_item_box > label::before {
+.vital > label::before {
     content: '* ';
     color: #ff0000;
 }
@@ -125,13 +114,13 @@ form {
     border-radius: 15px;
     cursor: pointer;
 }
-.submit:hover {
-    background-color: rgb(237, 230, 97);
-}
+
 .info_item_btn:hover {
     background-color: #444;
 }
-
+.submit:hover {
+    background-color: rgb(237, 230, 97);
+}
 form .buttons button {
     width: 20%;
     padding: 10px;
