@@ -2,9 +2,8 @@
     <!-- 모달 -->
     <div class="modal">
         <div class="modal_img_box"></div>
-        <button @click="closeModal" class="btn_yes">YES</button>
         <button @click="openAlert" class="btn_no">NO</button>
-
+        <button @click="closeModal" class="btn_yes">YES</button>
     </div>
     <!-- header -->
     <header>
@@ -366,19 +365,19 @@ import { onMounted } from 'vue';
         cancel.style.display = 'none'
     }
 
-    // 스크린 크기 (width: 770px) 변화에 따른 햄버거, X아이콘 조절
+    // 스크린 크기 (width: 1200px) 변화에 따른 햄버거, X아이콘 조절
     function changeNav() {
         const nav = document.querySelector('.nav');
         const cancel = document.querySelector('#cancel');
         const hamburger = document.querySelector('#hamburger');
         const plus = document.querySelector('.plus');
 
-        if(window.innerWidth > 770) {
+        if(window.innerWidth > 1200) {
             nav.removeAttribute('id', 'nav');
             hamburger.style.display = 'none';
             cancel.style.display = 'none';
             plus.style.display = 'none';
-        } else if(window.innerWidth <= 770) {
+        } else if(window.innerWidth <= 1200) {
             nav.setAttribute('id', 'nav');
             hamburger.style.display = 'block';
             cancel.style.display = 'none';

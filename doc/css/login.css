@@ -43,7 +43,7 @@ main {
 .textInPoto {
     background-color: rgba(0, 0, 0, 0.377);
     color: white;
-    padding: 0 28%;
+    padding: 0 28px;
     border-radius: 5px;
     font-size: 0.5em;
     text-align: center;
@@ -69,10 +69,11 @@ input {
     justify-self: center;
 }
 .face {
-    width: 80px;
+    width: 60px;
+    width: 60px;
     position: absolute;
-    top: -35px;
-    left: 50px;
+    top: -44px;
+    left: 70px;
     margin: 0 auto 10px auto;
 }
 .inputGroup {
