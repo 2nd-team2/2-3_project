@@ -1,9 +1,7 @@
 <template>
     <!-- 모달 -->
     <div class="modal">
-        <div class="modal_img_box">
-            <!-- <img src="/img/age19.png" class="modal_img"> -->
-        </div>
+        <div class="modal_img_box"></div>
         <button @click="closeModal" class="btn_yes">YES</button>
         <button @click="openAlert" class="btn_no">NO</button>
 
@@ -86,6 +84,194 @@
         <img src="/img/left.png" class="swiper_left_icon">
         <img src="/img/right.png" class="swiper_right_icon">
     </div>
+
+    <!-- 전통주 이야기 -->
+    <div class="alcohol_story">
+        <div class="alcohol_story_title">
+            <h1>우리는 왜</h1>
+            <h1>한국 전통술을 알리고자 하는가?</h1>
+        </div>
+        <img class="alcohol_story_img" src="/img/alcohol.png"></img>
+        <img class="alcohol_story_img2" src="/img/hangari.png"></img>
+        <div class="alcohol_story_content">
+            <p>우리는 전통술의 발전을 통해 지역 경제를 활성화하고, 나아가 세계 10위의 경제대국에 걸맞는 한국 술의 문화 상품화에 작은 보탬이 되고자 합니다.</p>
+        </div>
+    </div>
+
+    <!-- 날씨 추천 술 -->
+    <h1 class="weather_alcohol_title">오늘의 날씨와 맞는 술은?</h1>
+    <div class="weather_alcohol">
+        <div class="weather_alcohol_box">
+            <img src="/img/alcohol1.jpeg" class="weather_alcohol_img">
+            <h1 class="weather_alcohol_num">01</h1>
+            <h1 class="weather_alcohol_name">고도리 샤인머스캣 와인</h1>
+            <div class="weather_alcohol_type">과실주 10.5%</div>
+            <a href="" class="weather_alcohol_a">바로가기</a>
+        </div>
+        <div class="weather_alcohol_box2">
+            <h1 class="weather_alcohol_num">01</h1>
+            <h1 class="weather_alcohol_name">고도리 샤인머스캣 와인</h1>
+            <div class="weather_alcohol_type">과실주 10.5%</div>
+            <a href="" class="weather_alcohol_a">바로가기</a>
+            <img src="/img/alcohol1.jpeg" class="weather_alcohol_img">
+        </div>
+        <div class="weather_alcohol_box">
+            <img src="/img/alcohol1.jpeg" class="weather_alcohol_img">
+            <h1 class="weather_alcohol_num">01</h1>
+            <h1 class="weather_alcohol_name">고도리 샤인머스캣 와인</h1>
+            <div class="weather_alcohol_type">과실주 10.5%</div>
+            <a href="" class="weather_alcohol_a">바로가기</a>
+        </div>
+        <div class="weather_alcohol_box2 weater_none">
+            <h1 class="weather_alcohol_num">01</h1>
+            <h1 class="weather_alcohol_name">고도리 샤인머스캣 와인</h1>
+            <div class="weather_alcohol_type">과실주 10.5%</div>
+            <a href="" class="weather_alcohol_a">바로가기</a>
+            <img src="/img/alcohol1.jpeg" class="weather_alcohol_img">
+        </div>
+        <div class="weather_alcohol_box">
+            <img src="/img/alcohol1.jpeg" class="weather_alcohol_img">
+            <h1 class="weather_alcohol_num">01</h1>
+            <h1 class="weather_alcohol_name">고도리 샤인머스캣 와인</h1>
+            <div class="weather_alcohol_type">과실주 10.5%</div>
+            <a href="" class="weather_alcohol_a">바로가기</a>
+        </div>
+        <div class="weather_alcohol_box2">
+            <h1 class="weather_alcohol_num">01</h1>
+            <h1 class="weather_alcohol_name">고도리 샤인머스캣 와인</h1>
+            <div class="weather_alcohol_type">과실주 10.5%</div>
+            <a href="" class="weather_alcohol_a">바로가기</a>
+            <img src="/img/alcohol1.jpeg" class="weather_alcohol_img">
+        </div>
+        <div class="weather_alcohol_box">
+            <img src="/img/alcohol1.jpeg" class="weather_alcohol_img">
+            <h1 class="weather_alcohol_num">01</h1>
+            <h1 class="weather_alcohol_name">고도리 샤인머스캣 와인</h1>
+            <div class="weather_alcohol_type">과실주 10.5%</div>
+            <a href="" class="weather_alcohol_a">바로가기</a>
+        </div>
+        <div class="weather_alcohol_box2 weater_none">
+            <h1 class="weather_alcohol_num">01</h1>
+            <h1 class="weather_alcohol_name">고도리 샤인머스캣 와인</h1>
+            <div class="weather_alcohol_type">과실주 10.5%</div>
+            <a href="" class="weather_alcohol_a">바로가기</a>
+            <img src="/img/alcohol1.jpeg" class="weather_alcohol_img">
+        </div>
+    </div>
+
+    <!-- 리뷰 -->
+    <h1 class="review">한잔 리뷰</h1>
+    <div class="review_container">
+        <div class="review_box">
+            <img src="/img/alcohol2.jpeg" class="goods_img">
+            <h1 class="review_title">리뷰 제목</h1>
+            <P class="review_content">여자들이 좋아할 맛 그런데 저한테도 깔끔한 맛 정도</P>
+            <a href="" class="review_a">
+                <div class="goods_title">제주, 동백</div>
+                <div class="goods_read">자세히 보기</div>
+            </a>
+        </div>
+        <div class="review_box">
+            <img src="/img/alcohol2.jpeg" class="goods_img">
+            <h1 class="review_title">리뷰 제목</h1>
+            <P class="review_content">여자들이 좋아할 맛 그런데 저한테도 깔끔한 맛 정도</P>
+            <a href="" class="review_a">
+                <div class="goods_title">제주, 동백</div>
+                <div class="goods_read">자세히 보기</div>
+            </a>
+        </div>
+        <div class="review_box">
+            <img src="/img/alcohol2.jpeg" class="goods_img">
+            <h1 class="review_title">리뷰 제목</h1>
+            <div class="review_content">
+                가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하
+            </div>
+            <a href="" class="review_a">
+                <div class="goods_title">제주, 동백</div>
+                <div class="goods_read">자세히 보기</div>
+            </a>
+        </div>
+        <div class="review_box review_none">
+            <img src="/img/alcohol2.jpeg" class="goods_img">
+            <h1 class="review_title">리뷰 제목</h1>
+            <P class="review_content">여자들이 좋아할 맛 그런데 저한테도 깔끔한 맛 정도</P>
+            <a href="" class="review_a">
+                <div class="goods_title">제주, 동백</div>
+                <div class="goods_read">자세히 보기</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- 공지사항 -->
+    <a href="" class="notification">공지사항 +</a>
+    <div class="notification_container">
+        <a href="" class="notification_a">
+            <div class="notification_title">공지 제목</div>
+            <div class="notification_date">2024-06-04</div>
+        </a>
+        <a href="" class="notification_a">
+            <div class="notification_title">공지 제목</div>
+            <div class="notification_date">2024-06-04</div>
+        </a>
+        <a href="" class="notification_a">
+            <div class="notification_title">공지 제목</div>
+            <div class="notification_date">2024-06-04</div>
+        </a>
+        <a href="" class="notification_a">
+            <div class="notification_title">공지 제목</div>
+            <div class="notification_date">2024-06-04</div>
+        </a>
+        <a href="" class="notification_a">
+            <div class="notification_title">공지 제목</div>
+            <div class="notification_date">2024-06-04</div>
+        </a>
+        <a href="" class="notification_a">
+            <div class="notification_title">공지 제목</div>
+            <div class="notification_date">2024-06-04</div>
+        </a>
+        <a href="" class="notification_a">
+            <div class="notification_title">공지 제목</div>
+            <div class="notification_date">2024-06-04</div>
+        </a>
+    </div>
+
+    <!-- move top -->
+    <a href="#" class="move_top">
+        <img src="/img/top-white.png" class="move_top_img">
+    </a>
+
+    <!-- footer -->
+     <footer>
+        <div class="footer_team">
+            <div class="footer_team_member">
+                <p class="team_member_name">권성환</p>
+                <p>간단한 소개</p>
+            </div>
+            <div class="footer_team_member">
+                <p class="team_member_name">서보원</p>
+                <p>간단한 소개</p>
+            </div>
+            <div class="footer_team_member">
+                <p class="team_member_name">유호경</p>
+                <p>간단한 소개</p>
+            </div>
+            <div class="footer_team_member">
+                <p class="team_member_name">권민서</p>
+                <p>간단한 소개</p>
+            </div>
+        </div>
+        <div class="footer_line"></div>
+        <div class="footer_info">
+            <p class="footer_info1 footer_info_font">아카데미 정보</p>
+            <p class="footer_info2 footer_info_font">그린컴퓨터아트학원 대구</p>
+            <p class="footer_info3 footer_info_font">대구광역시 중구 중앙대로 394 제일빌딩 5F</p>
+            <p class="footer_info4 footer_info_font">053.572.1005</p>
+            <p class="footer_info5 footer_info_font">기업요구를 반영한 PHP풀스택(프론트앤드 + 백앤드) 개발자 양성 과정</p>
+            <div class="footer_site footer_info_font">
+                참고한 사이트
+            </div>
+        </div>
+     </footer>
     
 </template>
 
