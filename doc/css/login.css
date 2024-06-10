@@ -69,10 +69,11 @@ input {
     justify-self: center;
 }
 .face {
-    width: 80px;
+    width: 60px;
+    width: 60px;
     position: absolute;
-    top: -35px;
-    left: 50px;
+    top: -44px;
+    left: 70px;
     margin: 0 auto 10px auto;
 }
 .inputGroup {
