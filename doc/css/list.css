@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Noto Sans KR", sans-serif;
+    text-decoration: none;
+}
+
+hr {
+    margin-top: 2rem;
+    width: 70%;
+    margin: 4rem auto;
+}
+
+/* ------------- 헤더이미지 ------------- */
+.list_main_img > img{
+    width: 100%;
+}
+
+/* ------------- 메뉴 ------------- */
+.list_menu {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    gap: 4rem;  
+    margin-top: 6rem;
+}
+.list_line {
+    border-right: 1px solid #000;
+    height: 70px;
+    margin: auto 0;
+}
+.list_menu_img {
+    color: #000;
+}
+
+/* ------------- 한잔 베스트 ------------- */
+.list_best_title {
+    margin-top: 6rem;
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 6rem 18rem 1rem;
+}
+
+.list_best {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    margin: auto;
+    width: 70%;
+    flex-wrap: nowrap;
+    margin-bottom: 2rem;
+}
+.list_best_img {
+    position: relative;
+}
+.list_best_img > p {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    color: #fff
+}
+
+.list_best_detail {
+    margin-top: 10px;
+    color: #000;
+}
+.list_best_detail > p {
+    font-size: 1rem;
+}
+.list_best_detail > strong {
+    font-size: 1.3rem;
+}
+
+/* ------------- 목록번호 ------------- */
+.list_num_item {
+    width: 70%;
+    margin: 6rem auto;
+    text-align: center;
+}
+.list_num_item > a {
+    margin-left: 1rem;
+    padding: 0.5rem 1rem;
+    color: #000;
+    font-size: 1rem;
+    font-weight: 500;
+}
+.num {
+    background-color: #FAC91D;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+}
+.num_none:hover {
+    background-color: #FAC91D;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+}

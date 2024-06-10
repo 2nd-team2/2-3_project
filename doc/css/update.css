@@ -14,7 +14,7 @@ body {
     background-color: white;
     border-radius: 30px;
     display: grid;
-    width: 90%;
+    width: 70%;
     min-width: 670px;
     max-width: 1240px;
     padding: 10px 40px;
@@ -35,7 +35,7 @@ body {
 .regist {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    border-bottom: 1px solid rgb(206, 206, 206);
+    border-bottom: 1px solid #5c5c5c;
 }
 header {
     margin: 5px;
