@@ -481,7 +481,7 @@ footer {
 /* --------------------- 미디어 쿼리 --------------------- */
 /* 웹 버전 */
 @media screen and (min-width: 1201px) {
-    /* ---------------------- 헤더 ---------------------*/
+    /* ---------------------- 헤더 --------------------- */
     .header_content {
         grid-template-columns: 0.5fr 2fr;
         padding: 0 150px;
@@ -517,8 +517,7 @@ footer {
     .nav_mini_title {
         position: absolute;
         width: 200px;
-        z-index: 900;
-        
+        z-index: 900;     
     }
 
     .nav_user_box {
@@ -672,7 +671,7 @@ footer {
     
 }
 
-/* 모바일 버전 */
+/* ---------------------- 모바일 버전 ---------------------- */
 @media screen and (max-width: 770px) {
     /* ----------------------- 모달 ------------------------ */
     .btn_yes, .btn_no {
@@ -698,8 +697,7 @@ footer {
         left: 25%;
     }
 
-    /* ---------------------- 헤더 ---------------------*/
-
+    /* ---------------------- 헤더 --------------------- */
     .header_content {
         grid-template-columns: 0.3fr auto 0.3fr;
         padding: 5px 20px;
