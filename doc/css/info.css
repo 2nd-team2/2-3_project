@@ -210,7 +210,7 @@ li{
     margin: 6rem auto;
     text-align: center;
 }
-.list_num_item > a {
+.list_num_item > span {
     margin-left: 1rem;
     text-decoration: none;
     padding: 0.5rem 1rem;
