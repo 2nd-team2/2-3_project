@@ -14,10 +14,12 @@
 }
 .order_list_header {
     display: flex;
+    padding-top: 15px;
     padding-bottom: 5px;
     border-bottom: 1px solid #c5c5c5;
     justify-content: space-between;
-    margin-top: 80px;
+    margin-top: 40px;
+    align-items: center;
 }
 .inquiry_list_header {
     display: flex;
@@ -46,7 +48,7 @@
     grid-template-columns: 1fr 0.3fr;
     border: 1px solid black;
     border-radius: 15px;
-    padding: 10px 30px 10px 30px;
+    padding: 25px 30px 10px 30px;
     height: 300px;
 }
 .user_update_btn {

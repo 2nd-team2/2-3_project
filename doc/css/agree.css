@@ -56,17 +56,14 @@ form {
     border-radius: 15px;
     cursor: pointer;
 }
-.submit:hover {
-    background-color: black;
-    color: white;
-}
+
 .info_item_btn:hover {
     background-color: #FAC91D;
     color: black;
 }
 
 form .buttons button {
-    width: 20%;
+    width: 250px;
     padding: 10px;
     font-size: 1em;
     border: none;
@@ -82,15 +79,7 @@ form .buttons button {
 .form_btn_address {
     margin-bottom: 95px;
 }
-.submit {
-    background-color: #FAC91D;
-    color: black;
-    height: 45px;
-    border: none;
-    border-radius: 15px;
-    margin: auto;
-    padding: 0 1rem;
-}
+
 .agree {
     font-size: 1.2em;
 }
@@ -109,11 +98,14 @@ form .buttons button {
 .red_a {
     color: red;
 }
-.agree_box {
-    border: 1px solid black;
-    padding: 10px 10px;
-}
 .agree_item {
     margin: 30px auto;
 }
-
+textarea {
+    width: 100%;
+    height: 10vh;
+    padding: 10px;
+    border: 1px solid #5C5C5C;
+    border-radius: 4px;
+    resize: none;
+} 
