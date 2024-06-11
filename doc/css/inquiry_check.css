@@ -9,12 +9,16 @@
     font-family: "Noto Sans KR", sans-serif;
 }
 
+hr{
+    margin: 2rem 0;
+}
+
 main {
     width: 70%;
     margin: 0 auto;
 } 
 
-.review_title {
+.inquiry_title {
     font-size: 1.8rem;
     margin-bottom: 10px;
     padding-bottom: 15px;
@@ -22,23 +26,23 @@ main {
 }
 
 /* 상품 목록 테두리 및 정렬*/
-.review_goods_item {
+.inquiry_goods_item {
     border: 1px solid #5c5c5c;
     border-radius: 20px;
     margin: 40px 0;
-    display: flex;
+    /* display: flex; */
     align-items: center;
 }
 
 /* 상품이미지 */
-.review_goods_img {
-    width: 70%;
-    height: 90%;
+.inquiry_goods_img {
+    width: 12%;
+    /* height: 90%; */
     place-items: center; /* Grid 컨테이너 내부의 모든 항목을 중앙에 정렬 */
 }
 
 /* 상품 이름 */
-.review_goods_title {
+.inquiry_goods_title {
     font-size: 1.5rem;
     font-weight: 500;
 }
@@ -48,18 +52,18 @@ main {
 /* *** 리뷰 관리 *** */
 
 /* 상품 목록 그리드 */
-.review_grid {
-    display: grid;
+.inquiry_grid {
+    /* display: grid; */
     gap: 10px;
-    grid-template-columns: 2fr 3fr 0.1fr 2fr;
+    /* grid-template-columns: 2fr 3fr 0.1fr 2fr; */
     /* grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); */
-    margin: 20px 0;
+    margin: 50px 0 30px;
     align-items: center;
     justify-items: center;
 }
 
 /* 상품 정보 그리드 */
-.review_goods_info {
+.inquiry_goods_info {
     display: grid;
     grid-template-rows: 1fr 0.5fr 3fr;
     padding-right: 20px;
@@ -78,7 +82,7 @@ main {
 }
 
 /* 작성일자 */
-.review_create_at {
+.inquiry_create_at {
     font-size: 0.7rem;
     color: #5c5c5c;
     line-height: 1.5rem;
@@ -86,7 +90,7 @@ main {
 }
     
 /* 리뷰표시 */
-.review_content {
+.inquiry_content {
     border: 1px solid #5c5c5c;
     border-radius: 10px;
     font-size: 0.7rem;
@@ -94,7 +98,7 @@ main {
     padding: 10px;
     margin-top: 10px;
 }
-     
+
 /* 세로 구분선 */
 .vertical-hr {
     width: 1px;
@@ -103,7 +107,7 @@ main {
 }
                 
 /* 수정, 삭제 버튼 */
-.review_goods_info_grid_btn {
+.inquiry_goods_info_grid_btn {
     display: grid;
     grid-template-rows: 1fr 1fr;
     gap: 20px;
@@ -111,7 +115,7 @@ main {
     width: 100%;
     justify-items: center;
 }
-.review_btn {
+.inquiry_btn {
     background-color: transparent;
     border-radius: 5px;
     border: 1px solid #5c5c5c;
@@ -159,58 +163,25 @@ main {
 
 /* *** 리뷰 작성 *** */
 
-.reviewC_title_grid {
+.inquiry_title_grid {
     display: flex;
     justify-content: space-between;
 }
 
-/* 쇼핑 계속하기 버튼 */
-.reviewC_cancel {
-    text-decoration: none;
-    font-size: 1rem;
-    font-weight: 300;
-    height: 30px;
-    line-height: 30px;
-    padding: 0 1rem;
-    background-color: black;
-    color: white;
-    border-radius: 15px;
-}
-.reviewC_cancel:hover {
-    background-color: #FAC91D;
-    font-weight: 400;
-    color: black;
-}
-
-.reviewC_padding_top {
-    padding-top: 10px;
-}
-.reviewC_padding_bottom {
-    padding-bottom: 10px;
-}
-
 /* 상품,날짜 그리드 */
-.reviewC_grid {
+/* .inquiry_grid {
     display: grid;
     padding: 20px;
-}
-
-/* 주문, 구매확정 날짜 */
-.reviewC_order_at{
-    font-weight: bold;
-}
-.reviewC_yellow {
-    color: #FAC91D;
-}
+} */
 
 /* 이미지, 상품정보 그리드 */
-.reviewC_goods_grid {
-    display: grid;
-    grid-template-columns: 1fr 5fr;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin: 20px 0;
+.inquiry_goods_grid {
+    /* display: grid; */
+    display: flex;
+    /* grid-template-columns: 1fr 1fr; */
+    align-items: flex-start;
+    gap: 30px;
+    margin: 40px 20px;
 
 }
 
@@ -220,32 +191,13 @@ main {
 
 
 /* 필수 */
-.reviewC_required {
+.inquiry_required {
     font-size: 0.7rem;
     color: #5c5c5c;
 }
-.reviewC_required_red{
-    color: red;
+.inquiry_privacy {
+    margin-top: 2rem;
 }
-
-/* 별점 선택*/
-.review_goods_info_grid_star {
-    display: grid;
-}
-.star-rating {
-    display: flex;
-    cursor: pointer;
-    align-items: center;
-    line-height: 20px;
-}
-.star {
-    font-size: 1.5rem;
-    color: lightgray;
-}
-.star.checked {
-    color: gold;
-}
-
 
 /* 리뷰작성 */
 textarea {
@@ -258,27 +210,33 @@ textarea {
 }
 
 /* 등록하기 버튼 */
-.reviewC_submit_btn {
+.inquiry_submit_btn {
     cursor: pointer;
     font-size: 1rem;
     font-weight: 300;
+    width: 120px;
     height: 30px;
     line-height: 30px;
-    padding: 0 1rem;
+    /* padding: 0 1rem; */
     background-color: black;
     color: white;
     border: none;
     border-radius: 15px;
-
+    margin-left: 3rem;
 }
-.reviewC_submit_btn:hover {
+.inquiry_submit_btn:hover {
     background-color: #FAC91D;
     color: black;
 }
 
-.reviewC_btn_right {
+.inquiry_btn_right {
     display: flex;
     justify-content: flex-end;
 }
 
+/* 문의내용 */
+.inquiry_padding_top {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+}
 
