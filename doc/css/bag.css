@@ -1,0 +1,221 @@
+/* 장바구니 공통 작업 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+main {
+    width: 70%;
+    margin: 0 auto;
+} 
+
+.bag_padding_top {
+    padding-top: 10px;
+}
+.bag_padding_bottom {
+    padding-bottom: 10px;
+}
+.bag_margin_top {
+    margin-top: 20px;
+}
+.bag_margin_bottom {
+    margin-bottom: 10px;
+}
+.bag_yellow {
+    color: #FAC91D;
+}
+.bag_border_none {
+    border: none;
+}
+.bag_flex_end{
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+/* 제목 */
+.bag_title{
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #5c5c5c;
+}
+.bag_title_grid {
+    display: flex;
+    justify-content: space-between;
+}
+.bag_Sequence {
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+
+/* 쇼핑 계속하기 버튼 */
+.bag_cancel {
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 300;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 1rem;
+    background-color: black;
+    color: white;
+    border-radius: 15px;
+}
+.bag_cancel:hover {
+    background-color: #FAC91D;
+    font-weight: 400;
+    color: black;
+}
+
+/* 상품 목록 테두리 및 정렬*/
+.bag_goods_item {
+    border: 1px solid #5c5c5c;
+    border-radius: 20px;
+    margin: 40px 0;
+    display: flex;
+    align-items: center;
+}
+
+/* 상품, 배송비, 금액, 수량 그리드 */
+.bag_grid {
+    display: grid;
+    grid-template-columns: 0.3fr 2fr 5fr 0.5fr;
+    gap: 10px;
+    padding: 20px;
+}
+
+/* 상품이미지 */
+.bag_goods_img {
+    width: 70%;
+    height: 90%;
+    place-items: center; /* Grid 컨테이너 내부의 모든 항목을 중앙에 정렬 */
+}
+
+
+/* 상품 이름 */
+.bag_goods_title {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+
+/* 상품 금액 글자조절 */
+.bag_font {
+    font-size: 0.8rem;
+    font-weight: 900;
+}
+
+/* 휴지통 위치 조절 */
+.bag_delete_flex {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* 휴지통 이미지 */
+.bag_delete {
+    background-image: url('../img/Vector.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: transparent;
+    height: 30px;
+    width: 30px;
+    border: none;
+    cursor: pointer;
+}
+
+/* 수량 증가 감소 버튼 */
+.bag_count {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    width: 100px;
+    border-radius: 5px;
+}
+.bag_count_minus {
+    padding: 0 10px;
+    cursor: pointer;
+}
+.bag_count_minus:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+.bag_count_plus {
+    padding: 0 10px;
+    cursor: pointer;
+}
+.bag_count_plus:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+.quantity-input {
+    width: 50px;
+    text-align: center;
+    border: none;
+}
+
+
+
+/* 페이지 네이션 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+.pagination button {
+    margin: 15px 7px;
+    padding: 2px 10px;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+.pagination .page-numbers {
+    display: flex;
+    font-weight: bold;
+    gap: 10px;
+}
+.pagination .page-number {
+    background-color: white;
+    cursor: pointer;
+}
+.pagination .page-number.active {
+    border-radius: 50%;
+    background-color: #FAC91D;
+    border-color: #FAC91D;
+}
+.pagination button.disabled {
+    background-color: #f1f1f1;
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+
+/* 합계금액 보더 */
+.bag_total_border {
+    border: 1px solid #5c5c5c;
+}
+
+/* 합계금액 그리드 */
+.bag_total_grid {
+    display: grid;
+    grid-template-columns: 6fr 3fr 1fr 2fr 1fr 2fr;
+    align-items: center;
+    justify-items: center;
+    height: 10rem;
+}
+
+/* 전체삭제, 결제하기 버튼 그리드 */
+.bag_btn_grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
