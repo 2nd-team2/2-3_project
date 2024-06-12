@@ -1,21 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>상세페이지</title>
-    <link rel="stylesheet" href="../css/detailed.css">
-</head>
-<main>
+<template>
+    <main>
     <div class="detailed_haeder">
-        <img src="../img/best.png">
+        <img src="/img/best.png">
         <div class="detailed_haeder_item">
             <p>적당한 산미와 쌀의 감칠맛</p>
             <p class="detailed_haeder_title">꿈의 대화</p>
             <p>판매가격 :</p>
             <p class="detailed_haeder_price">24,000원</p>
             <div class="detailed_haeder_review">
-                <img src="../img/detailed_star.png">
+                <img src="/img/detailed_star.png">
                 <p>5.0</p>
                 <p class="detailed_review">리뷰 999</p>
             </div>
@@ -29,7 +22,7 @@
             <p class="detailed_haeder_num">24,000원</p>
             <div class="detailed_haeder_btn">
                 <a href="">
-                    <img src="../img/shop.png">
+                    <img src="/img/shop.png">
                     장바구니
                 </a>
                 <button type="submit" class="detailed_haeder_b">구매하기</button>
@@ -37,13 +30,13 @@
         </div>
     </div>
     <div class="detailed_content">
-        <img src="../img/detailed_content.png">
+        <img src="/img/detailed_content.png">
     </div>
     <hr>
     <h1>리뷰</h1>
     <div class="detailed_footer_item">
         <div class="detailed_footer">
-            <img class="detailed_footer_user" src="../img/otterFace.png">
+            <img class="detailed_footer_user" src="/img/otterFace.png">
             <p class="detailed_footer_name">한술</p>
             <p class="detailed_footer_title">꿈의 대화</p>
             <div class="review_goods_info_grid_star">
@@ -61,7 +54,7 @@
     </div>
     <div class="detailed_footer_item">
         <div class="detailed_footer">
-            <img class="detailed_footer_user" src="../img/otterFace.png">
+            <img class="detailed_footer_user" src="/img/otterFace.png">
             <p class="detailed_footer_name">한술</p>
             <p class="detailed_footer_title">꿈의 대화</p>
             <div class="review_goods_info_grid_star">
@@ -79,7 +72,7 @@
     </div>
     <div class="detailed_footer_item">
         <div class="detailed_footer">
-            <img class="detailed_footer_user" src="../img/otterFace.png">
+            <img class="detailed_footer_user" src="/img/otterFace.png">
             <p class="detailed_footer_name">한술</p>
             <p class="detailed_footer_title">꿈의 대화</p>
             <div class="review_goods_info_grid_star">
@@ -97,7 +90,7 @@
     </div>
     <div class="detailed_footer_item">
         <div class="detailed_footer">
-            <img class="detailed_footer_user" src="../img/otterFace.png">
+            <img class="detailed_footer_user" src="/img/otterFace.png">
             <p class="detailed_footer_name">한술</p>
             <p class="detailed_footer_title">꿈의 대화</p>
             <div class="review_goods_info_grid_star">
@@ -115,7 +108,7 @@
     </div>
     <div class="detailed_footer_item">
         <div class="detailed_footer">
-            <img class="detailed_footer_user" src="../img/otterFace.png">
+            <img class="detailed_footer_user" src="/img/otterFace.png">
             <p class="detailed_footer_name">한술</p>
             <p class="detailed_footer_title">꿈의 대화</p>
             <div class="review_goods_info_grid_star">
@@ -135,4 +128,11 @@
         <a href="">더 많은 리뷰</a>
     </div>
 </main>
-</html>
+</template>
+
+<script setup>
+</script>
+
+<style>
+    @import url('../css/detailed.css');
+</style>

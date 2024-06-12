@@ -19,16 +19,16 @@ body {
 }
   
 .swiper-slide {
-justify-content: center;
-align-items: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .swiper-button-next {
     background: url("/img/right.png") no-repeat;
     background-size: 100%;
     background-position: center;
-    width: 40px;
-    height: 40px;
+    width: 40px !important; 
+    height: 40px !important;
     margin-right: 20px;
 }
 
@@ -36,8 +36,8 @@ align-items: center;
     background: url("/img/left.png") no-repeat;
     background-size: 100%;
     background-position: center;
-    width: 40px;
-    height: 40px;
+    width: 40px !important;
+    height: 40px !important;
     margin-left: 20px;
 }
 
