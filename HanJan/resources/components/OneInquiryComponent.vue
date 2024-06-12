@@ -1,17 +1,4 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/inquiry.css">
-    <script src="../js/star.js" defer></script>
-    <title>1:1리뷰작성</title>
-</head>
-<body>
-    <header>
-        네비게이션바
-    </header>
-    
+<template>
     <main>
         <h2 class="inquiry_title inquiry_title_grid">
             <span>1 : 1  문의하기</span>
@@ -30,12 +17,12 @@
                 <button type="submit" class="inquiry_submit_btn">등록하기</button>
             </div>
         </form>
-
-        
     </main>
+</template>
 
-    <footer>
-        카피라이터
-    </footer>
-</body>
-</html>
+<script setup>
+</script>
+
+<style>
+    @import url('../css/inquiry.css');
+</style>

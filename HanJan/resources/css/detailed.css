@@ -1,21 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
-
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Noto Sans KR", sans-serif;
-    text-decoration: none;
-}
-
-main {
-    width: 70%;
-    margin: 0 auto;
-}
-
-hr {
+/* hr {
     margin: 6rem 0;
-}
+} */
 
 /* ------------- 상품상세페이지 이미지상단 ------------- */
 
