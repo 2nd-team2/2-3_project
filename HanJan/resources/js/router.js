@@ -8,6 +8,16 @@ import ConfirmCompnent from '../components/ConfirmComponent.vue';
 import DetailedCompnent from '../components/DetailedComponent.vue';
 import ExchangeCompnent from '../components/ExchangeComponent.vue';
 import InfoComponent from '../components/InfoComponent.vue';
+import InquiryComponent from '../components/InquiryComponent.vue';
+import OneInquiryComponent from '../components/OneInquiryComponent.vue';
+import CheckInquiryComponent from '../components/CheckInquiryComponent.vue';
+import CheckOneInquiryComponent from '../components/CheckOneInquiryComponent.vue';
+import ListTakjuComponent from '../components/ListTakjuComponent.vue';
+import OrderComponent from '../components/OrderComponent.vue';
+import RegistComponent from '../components/RegistComponent.vue';
+import ReviewComponent from '../components/ReviewComponent.vue';
+import ReviewCreateComponent from '../components/ReviewCreateComponent.vue';
+import UpdateComponent from '../components/UpdateComponent.vue';
 
 const routes = [
     {
@@ -15,7 +25,7 @@ const routes = [
         component: MainComponent,
     },
     {
-        path: '/traditionalLiquor',
+        path: '/traditionalliquor',
         component: TraditionalLiquorComponent,
     },
     {
@@ -45,6 +55,46 @@ const routes = [
     {
         path: '/info',
         component: InfoComponent,
+    },
+    {
+        path: '/inquiry',
+        component: InquiryComponent,
+    },
+    {
+        path: '/inquiryone',
+        component: OneInquiryComponent,
+    },
+    {
+        path: '/checkinquiry',
+        component: CheckInquiryComponent,
+    },
+    {
+        path: '/checkoneinquiry',
+        component: CheckOneInquiryComponent,
+    },
+    {
+        path: '/listtakju',
+        component: ListTakjuComponent,
+    },
+    {
+        path: '/order',
+        component: OrderComponent,
+    },
+    {
+        path: '/regist',
+        component: RegistComponent,
+    },
+    {
+        path: '/review',
+        component: ReviewComponent,
+    },
+    {
+        path: '/reviewcreate',
+        component: ReviewCreateComponent,
+    },
+    {
+        path: '/update',
+        component: UpdateComponent,
     },
 
 ];
