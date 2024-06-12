@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('oderproducts', function (Blueprint $table) {
+        Schema::create('orderproducts', function (Blueprint $table) {
             $table->id('orp_id');
             $table->integer('or_id')->unsigned();
             $table->integer('p_id')->unsigned();
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('oderproducts');
+        Schema::dropIfExists('orderproducts');
     }
 };
