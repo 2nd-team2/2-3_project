@@ -4,7 +4,7 @@
             <div class="regist">
                 <h2>회원정보 수정</h2>
             </div>
-            <form id="regist_form">
+            <form id="regist_form" @submit.prevent="validateForm">
                 <div class="info_header">
                     <p class="info_header_title">기본정보</p>
                     <p class="note">* 표시는 반드시 입력하셔야 하는 항목입니다.</p>
@@ -20,36 +20,37 @@
                 <div class="info_item_box vital">
                     <label class="info_item_label" for="password">비밀번호</label>
                     <div class="info_item_input">
-                        <p id="passwordError" class="info_item_err_msg"></p>
-                        <input type="password" name="password" id="password">
+                        <p id="passwordError" class="info_item_err_msg">{{ passwordError }}</p>
+                        <input type="password" v-model="password" name="password" id="password" @input="chkPassword">
                     </div>
                 </div>
                 <hr>
                 <div class="info_item_box vital">
                     <label class="info_item_label" for="password_chk">비밀번호 확인</label>
                     <div class="info_item_input">
-                        <p class="info_item_err_msg">비밀번호가 일치하지 않습니다.</p>
-                        <input type="text" name="password_chk" id="password_chk">
+                        <p class="info_item_err_msg">{{ passwordChkError }}</p>
+                        <input type="password" v-model="passwordChk" name="password_chk" id="password_chk" @input="chkPasswordChk">
                     </div>
                 </div>
                 <hr>
                 <div class="info_item_box vital">
                     <label class="info_item_label" for="phone">휴대전화번호</label>
                     <div class="info_item_input">
-                        <p class="info_item_err_msg">전화번호 형식에 맞지 않습니다.</p>
-                        <input type="text" name="phone" id="phone">
+                        <p class="info_item_err_msg">{{ phoneError }}</p>
+                        <input type="text" name="phone" id="phone" @input="chkPhone">
                     </div>
                 </div>
                 <hr>
                 <div class="info_item_box address vital">
                     <label class="info_item_label address_text" for="address">주소</label>
                     <div class="info_item_input">
-                        <p class="info_item_err_msg">주소 형식이 맞지 않습니다.</p>
-                        <input type="text" name="address" id="address" class="top_input">
-                        <label class="info_item_label" for="address">상세주소</label>
-                        <input type="text" name="address_detail" id="address_detail">
+                        <p class="info_item_err_msg">{{ addressError }}</p>
+                        <input type="text" name="address" id="address" class="top_input" v-model="address" @input="chkAddress" readonly @click="kakaoPostcode">
+                        <input type="text" readonly v-model="postcode" class="postcode">
+                        <label class="address_detail_label" for="address">상세주소</label>
+                        <input type="text" class="address_detail" name="address_detail" id="address_detail" v-model="detailAddress">
+                        <button type="button" class="info_item_btn form_btn_address" @click="kakaoPostcode" id="postcode">주소검색</button>
                     </div>
-                    <button type="submit" class="info_item_btn form_btn_address">주소검색</button>
                 </div>
                 <hr>
                 <div class="info_item_box">
@@ -61,7 +62,7 @@
                 <hr>
                 <br>
                 <div class="buttons twobuttons">
-                    <button type="reset" class="info_item_btn form_btn">취소</button>
+                    <button type="reset" class="info_item_btn form_btn" @click="$router.back()">취소</button>
                     <button type="submit" class="info_item_btn form_btn">확인</button>
                     <button type="submit" class="info_item_btn form_btn">탈퇴</button>
                 </div>
@@ -71,6 +72,120 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
+
+const password = ref('');
+const passwordChk = ref('');
+const phone = ref('');
+const address = ref('');
+const detailAddress = ref('');
+const postcode = ref('');
+
+const passwordError = ref('');
+const passwordChkError = ref('');
+const phoneError = ref('');
+const addressError = ref('');
+
+function chkPassword(e) {
+  if (e.target.value.length < 8) {
+    passwordError.value = '비밀번호가 형식에 맞지 않습니다.';
+  } else {
+    passwordError.value = '';
+  }
+}
+
+function chkPasswordChk() {
+  if (password.value !== passwordChk.value) {
+    passwordChkError.value = '비밀번호가 일치하지 않습니다.';
+  } else {
+    passwordChkError.value = '';
+  }
+}
+
+function chkPhone(e) {
+  const phonePattern = /^\d{10,11}$/;
+  if (!phonePattern.test(e.target.value)) {
+    phoneError.value = '전화번호 형식에 맞지 않습니다.';
+  } else {
+    phoneError.value = '';
+  }
+}
+
+function chkAddress(e) {
+  if (e.target.value === '') {
+    addressError.value = '주소 형식이 맞지 않습니다.';
+  } else {
+    addressError.value = '';
+  }
+}
+
+
+function validateForm() {
+  let valid = true;
+
+  chkPassword({ target: { value: password.value } });
+  if (passwordError.value) valid = false;
+
+  chkPasswordChk({ target: { value: passwordChk.value } });
+  if (passwordChkError.value) valid = false;
+
+  chkPhone({ target: { value: phone.value } });
+  if (phoneError.value) valid = false;
+
+  chkAddress({ target: { value: address.value } });
+  if (addressError.value) valid = false;
+
+}
+
+// 카카오 주소 API
+function kakaoPostcode() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+            var addr = ''; // 주소 변수
+            var extraAddr = ''; // 참고항목 변수
+
+            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                addr = data.roadAddress;
+            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                addr = data.jibunAddress;
+            }
+
+            // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+            if(data.userSelectedType === 'R'){
+                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraAddr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                if(extraAddr !== ''){
+                    extraAddr = ' (' + extraAddr + ')';
+                }
+                // 조합된 참고항목을 해당 필드에 넣는다.
+                // document.getElementById("sample6_extraAddress").value = extraAddr;
+            
+            } else {
+                // document.getElementById("sample6_extraAddress").value = '';
+            }
+
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            postcode.value = data.zonecode;
+            // 주소 필드에 삽입
+            address.value = addr;
+            // 커서를 상세주소 필드로 이동한다.
+            document.querySelector('#address_detail').focus();
+        }
+    }).open();
+}
 </script>
 
 <style scoped src="../css/update.css">

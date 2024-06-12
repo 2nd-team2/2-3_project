@@ -19,7 +19,7 @@
                     </li>
                 </ul>
                 <div class="buttons twobuttons">
-                    <button type="reset" class="info_item_btn form_btn">취소</button>
+                    <button type="reset" class="info_item_btn form_btn" @click="$router.back()">취소</button>
                     <button type="submit" class="info_item_btn form_btn">확인</button>
                 </div>
             </div>
