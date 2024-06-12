@@ -21,13 +21,16 @@
             <hr>
 
             <div class="inquiry_padding_top inquiry_btn_right">
-                <button class="inquiry_submit_btn">취소</button>
+                <button @click="inquiry_back"  class="inquiry_submit_btn">취소</button>
             </div>
         </form>
     </main>
 </template>
 
 <script setup>
+    function inquiry_back() {
+        history.back()
+    }
 </script>
 
 <style scoped src="../css/inquiry_check.css">
