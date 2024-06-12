@@ -73,3 +73,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderPageNumbers();
 });
+
+
+
+// 수량 증가 감소 체크 js
+document.addEventListener('DOMContentLoaded', () => {
+    const decreaseButton = document.getElementById('dec');
+    const increaseButton = document.getElementById('inc');
+    const quantityInput = document.getElementById('quantity');
+
+    decreaseButton.addEventListener('click', () => {
+        let quantity = parseInt(quantityInput.value);
+        if (quantity > 1) {
+            quantity--;
+            quantityInput.value = quantity;
+        }
+        toggleButtons();
+    });
+
+    increaseButton.addEventListener('click', () => {
+        let quantity = parseInt(quantityInput.value);
+        quantity++;
+        quantityInput.value = quantity;
+        toggleButtons();
+    });
+
+    quantityInput.addEventListener('input', () => {
+        let quantity = parseInt(quantityInput.value);
+        if (isNaN(quantity) || quantity < 1) {
+            quantityInput.value = 1;
+        }
+        toggleButtons();
+    });
+
+    function toggleButtons() {
+        decreaseButton.disabled = parseInt(quantityInput.value) === 1;
+    }
+
+    toggleButtons(); // 초기 상태 업데이트
+});
