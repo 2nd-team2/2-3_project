@@ -28,7 +28,7 @@
         </div>
         <div class="main">
             <div class="main_top">
-                    <h2>받는 사람정보</h2>
+                <h2>받는 사람정보</h2>
             </div>
             <div class="main_bottom">
                 <div class="main_bottom_text">
@@ -58,8 +58,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="footer">
         </div>
     </main>
 </template>

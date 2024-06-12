@@ -3,18 +3,18 @@
         <div class="list_main_img" style="background-image: url('/img/list_img03.png');"></div>
         <div class="list_menu">
             <router-link to="/listtakju">
-                <a href="./list_takju.html" class="list_menu_img">
+                <a class="list_menu_img">
                     <img src="/img/menu01.png" alt="탁주">
                     <p>탁주</p>
                 </a>
             </router-link>
             <div class="list_line"></div>
-            <a href="./list_fruit.html" class="list_menu_img">
+            <a class="list_menu_img">
                 <img src="/img/menu02.png" alt="과실주">
                 <p>과실주</p>
             </a>
             <div class="list_line"></div>
-            <a href="./list_jacking.html" class="list_menu_img">
+            <a class="list_menu_img">
                 <img src="/img/menu03.png" alt="중류주">
                 <p>중류주</p>
             </a>
@@ -76,7 +76,7 @@
         <div class="list_content">
         <div class="list_best">
             <router-link to="/detailed">
-                <a href="./detailed.html" class="list_best_img">
+                <a class="list_best_img">
                     <img src="/img/best.png">
                     <div class="list_best_detail">
                         <p>한잔 꿈의 대화 13도 375ml</p>
@@ -85,7 +85,7 @@
                 </a>
             </router-link>
             <router-link to="/detailed">
-                <a href="./detailed.html" class="list_best_img">
+                <a class="list_best_img">
                     <img src="/img/best.png">
                     <div class="list_best_detail">
                         <p>한잔 꿈의 대화 13도 375ml</p>
@@ -94,7 +94,7 @@
                 </a>
             </router-link>
             <router-link to="/detailed">
-                <a href="./detailed.html" class="list_best_img">
+                <a class="list_best_img">
                     <img src="/img/best.png">
                     <div class="list_best_detail">
                         <p>한잔 꿈의 대화 13도 375ml</p>
@@ -103,7 +103,7 @@
                 </a>
             </router-link>
             <router-link to="/detailed">
-                <a href="./detailed.html" class="list_best_img">
+                <a class="list_best_img">
                     <img src="/img/best.png">
                     <div class="list_best_detail">
                         <p>한잔 꿈의 대화 13도 375ml</p>
@@ -112,54 +112,7 @@
                 </a>
             </router-link>
             <router-link to="/detailed">
-                <a href="./detailed.html" class="list_best_img">
-                    <img src="/img/best.png">
-                    <div class="list_best_detail">
-                        <p>한잔 꿈의 대화 13도 375ml</p>
-                        <strong>24,000원</strong>
-                    </div>
-                </a>
-            </router-link>
-        </div>
-        <div class="list_best">
-            <router-link to="/detailed">
-                <a href="./detailed.html" class="list_best_img">
-                    <img src="/img/best.png">
-                    <div class="list_best_detail">
-                        <p>한잔 꿈의 대화 13도 375ml</p>
-                        <strong>24,000원</strong>
-                    </div>
-                </a>
-            </router-link>
-            <router-link to="/detailed">
-                <a href="./detailed.html" class="list_best_img">
-                    <img src="/img/best.png">
-                    <div class="list_best_detail">
-                        <p>한잔 꿈의 대화 13도 375ml</p>
-                        <strong>24,000원</strong>
-                    </div>
-                </a>
-            </router-link>
-            <router-link to="/detailed">
-                <a href="./detailed.html" class="list_best_img">
-                    <img src="/img/best.png">
-                    <div class="list_best_detail">
-                        <p>한잔 꿈의 대화 13도 375ml</p>
-                        <strong>24,000원</strong>
-                    </div>
-                </a>
-            </router-link>
-            <router-link to="/detailed">
-                <a href="./detailed.html" class="list_best_img">
-                    <img src="/img/best.png">
-                    <div class="list_best_detail">
-                        <p>한잔 꿈의 대화 13도 375ml</p>
-                        <strong>24,000원</strong>
-                    </div>
-                </a>
-            </router-link>
-            <router-link to="/detailed">
-                <a href="./detailed.html" class="list_best_img">
+                <a class="list_best_img">
                     <img src="/img/best.png">
                     <div class="list_best_detail">
                         <p>한잔 꿈의 대화 13도 375ml</p>
@@ -170,7 +123,7 @@
         </div>
         <div class="list_best">
             <router-link to="/detailed">
-                <a href="./detailed.html" class="list_best_img">
+                <a class="list_best_img">
                     <img src="/img/best.png">
                     <div class="list_best_detail">
                         <p>한잔 꿈의 대화 13도 375ml</p>
@@ -179,7 +132,7 @@
                 </a>
             </router-link>
             <router-link to="/detailed">
-                <a href="./detailed.html" class="list_best_img">
+                <a class="list_best_img">
                     <img src="/img/best.png">
                     <div class="list_best_detail">
                         <p>한잔 꿈의 대화 13도 375ml</p>
@@ -188,7 +141,7 @@
                 </a>
             </router-link>
             <router-link to="/detailed">
-                <a href="./detailed.html" class="list_best_img">
+                <a class="list_best_img">
                     <img src="/img/best.png">
                     <div class="list_best_detail">
                         <p>한잔 꿈의 대화 13도 375ml</p>
@@ -197,7 +150,7 @@
                 </a>
             </router-link>
             <router-link to="/detailed">
-                <a href="./detailed.html" class="list_best_img">
+                <a class="list_best_img">
                     <img src="/img/best.png">
                     <div class="list_best_detail">
                         <p>한잔 꿈의 대화 13도 375ml</p>
@@ -206,7 +159,7 @@
                 </a>
             </router-link>
             <router-link to="/detailed">
-                <a href="./detailed.html" class="list_best_img">
+                <a class="list_best_img">
                     <img src="/img/best.png">
                     <div class="list_best_detail">
                         <p>한잔 꿈의 대화 13도 375ml</p>
@@ -217,7 +170,7 @@
         </div>
         <div class="list_best">
             <router-link to="/detailed">
-                <a href="./detailed.html" class="list_best_img">
+                <a class="list_best_img">
                     <img src="/img/best.png">
                     <div class="list_best_detail">
                         <p>한잔 꿈의 대화 13도 375ml</p>
@@ -226,7 +179,7 @@
                 </a>
             </router-link>
             <router-link to="/detailed">
-                <a href="./detailed.html" class="list_best_img">
+                <a class="list_best_img">
                     <img src="/img/best.png">
                     <div class="list_best_detail">
                         <p>한잔 꿈의 대화 13도 375ml</p>
@@ -235,7 +188,7 @@
                 </a>
             </router-link>
             <router-link to="/detailed">
-                <a href="./detailed.html" class="list_best_img">
+                <a class="list_best_img">
                     <img src="/img/best.png">
                     <div class="list_best_detail">
                         <p>한잔 꿈의 대화 13도 375ml</p>
@@ -244,7 +197,7 @@
                 </a>
             </router-link>
             <router-link to="/detailed">
-                <a href="./detailed.html" class="list_best_img">
+                <a class="list_best_img">
                     <img src="/img/best.png">
                     <div class="list_best_detail">
                         <p>한잔 꿈의 대화 13도 375ml</p>
@@ -253,7 +206,54 @@
                 </a>
             </router-link>
             <router-link to="/detailed">
-                <a href="./detailed.html" class="list_best_img">
+                <a class="list_best_img">
+                    <img src="/img/best.png">
+                    <div class="list_best_detail">
+                        <p>한잔 꿈의 대화 13도 375ml</p>
+                        <strong>24,000원</strong>
+                    </div>
+                </a>
+            </router-link>
+        </div>
+        <div class="list_best">
+            <router-link to="/detailed">
+                <a class="list_best_img">
+                    <img src="/img/best.png">
+                    <div class="list_best_detail">
+                        <p>한잔 꿈의 대화 13도 375ml</p>
+                        <strong>24,000원</strong>
+                    </div>
+                </a>
+            </router-link>
+            <router-link to="/detailed">
+                <a class="list_best_img">
+                    <img src="/img/best.png">
+                    <div class="list_best_detail">
+                        <p>한잔 꿈의 대화 13도 375ml</p>
+                        <strong>24,000원</strong>
+                    </div>
+                </a>
+            </router-link>
+            <router-link to="/detailed">
+                <a class="list_best_img">
+                    <img src="/img/best.png">
+                    <div class="list_best_detail">
+                        <p>한잔 꿈의 대화 13도 375ml</p>
+                        <strong>24,000원</strong>
+                    </div>
+                </a>
+            </router-link>
+            <router-link to="/detailed">
+                <a class="list_best_img">
+                    <img src="/img/best.png">
+                    <div class="list_best_detail">
+                        <p>한잔 꿈의 대화 13도 375ml</p>
+                        <strong>24,000원</strong>
+                    </div>
+                </a>
+            </router-link>
+            <router-link to="/detailed">
+                <a class="list_best_img">
                     <img src="/img/best.png">
                     <div class="list_best_detail">
                         <p>한잔 꿈의 대화 13도 375ml</p>
