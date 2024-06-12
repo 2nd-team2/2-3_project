@@ -133,6 +133,5 @@
 <script setup>
 </script>
 
-<style>
-    @import url('../css/detailed.css');
+<style scoped src="../css/detailed.css">
 </style>
