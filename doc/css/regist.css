@@ -127,7 +127,10 @@ form {
     background-color: #FAC91D;
     color: black;
 }
-
+.email_chk_btn:hover {
+    background-color: #FAC91D;
+    color: black;
+}
 form .buttons button {
     width: 250px;
     padding: 10px;
@@ -160,9 +163,5 @@ form .buttons button {
 }
 .error {
     color: red;
-    font-size: 0.9em;
-}
-.valid {
-    color: green;
     font-size: 0.9em;
 }

@@ -6,8 +6,9 @@
     <title>회원가입</title>
     <link rel="stylesheet" href="../css/regist.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="../js/error_chk.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body>
     <main>
@@ -31,7 +32,7 @@
                 <div class="info_item_box">
                     <label class="info_item_label" for="email">이메일</label>
                     <div class="info_item_input">
-                        <p class="info_item_err_msg">이메일 주소가 형식에 맞지않습니다.</p>
+                        <p id="emailError" class="info_item_err_msg"></p>
                         <input type="text" name="email" id="email">
                     </div>
                     <button type="button" class="email_chk_btn">이메일 중복확인</button>
@@ -40,23 +41,23 @@
                 <div class="info_item_box">
                     <label class="info_item_label" for="password">비밀번호</label>
                     <div class="info_item_input">
-                        <p class="info_item_err_msg">비밀번호가 형식에 맞지 않습니다.</p>
-                        <input type="text" name="password" id="password">
+                        <p id="passwordError" class="info_item_err_msg"></p>
+                        <input type="password" name="password" id="password">
                     </div>
                 </div>
                 <hr>
                 <div class="info_item_box">
                     <label class="info_item_label" for="password_chk">비밀번호 확인</label>
                     <div class="info_item_input">
-                        <p class="info_item_err_msg">비밀번호가 일치하지 않습니다.</p>
-                        <input type="text" name="password_chk" id="password_chk">
+                        <p id="passwordChkError" class="info_item_err_msg"></p>
+                        <input type="password" name="password_chk" id="password_chk">
                     </div>
                 </div>
                 <hr>
                 <div class="info_item_box">
                     <label class="info_item_label" for="phone">휴대전화번호</label>
                     <div class="info_item_input">
-                        <p class="info_item_err_msg">전화번호 형식에 맞지 않습니다.</p>
+                        <p id="phoneError" class="info_item_err_msg"></p>
                         <input type="text" name="phone" id="phone">
                     </div>
                 </div>
@@ -64,18 +65,18 @@
                 <div class="info_item_box address">
                     <label class="info_item_label address_text" for="address">주소</label>
                     <div class="info_item_input">
-                        <p class="info_item_err_msg">주소 형식이 맞지 않습니다.</p>
+                        <p id="addressError" class="info_item_err_msg"></p>
                         <input type="text" name="address" id="address" class="top_input">
                         <label class="info_item_label" for="address">상세주소</label>
                         <input type="text" name="address_detail" id="address_detail">
                     </div>
-                    <button type="submit" class="info_item_btn form_btn_address">주소검색</button>
+                    <button type="button" class="info_item_btn form_btn_address">주소검색</button>
                 </div>
                 <hr>
                 <div class="info_item_box">
                     <label class="info_item_label" for="birth">생년월일</label>
                     <div class="info_item_input">
-                        <p class="info_item_err_msg">만 19세 이상만 가입이 가능합니다.</p>
+                        <p id="birthError" class="info_item_err_msg"></p>
                         <input type="date" name="birth" id="birth">
                     </div>
                 </div>

@@ -114,7 +114,10 @@ form {
     border-radius: 15px;
     cursor: pointer;
 }
-
+.info_item_err_msg {
+    position: absolute;
+    top: -1.8rem;
+}
 .info_item_btn:hover {
     background-color: #FAC91D;
     color: black;
@@ -142,4 +145,8 @@ form .buttons button {
 }
 .bold_span {
     font-weight: 900;
+}
+.error {
+    color: red;
+    font-size: 0.9em;
 }
