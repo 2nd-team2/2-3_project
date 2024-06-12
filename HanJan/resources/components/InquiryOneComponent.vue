@@ -23,6 +23,5 @@
 <script setup>
 </script>
 
-<style>
-    @import url('../css/inquiry.css');
+<style scoped src="../css/inquiry.css">
 </style>

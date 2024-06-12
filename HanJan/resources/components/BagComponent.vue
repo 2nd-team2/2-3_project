@@ -116,6 +116,5 @@
 <script setup>
 </script>
 
-<style>
-    @import url('../css/bag.css');
+<style scoped src="../css/bag.css">
 </style>

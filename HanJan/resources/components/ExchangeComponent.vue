@@ -21,6 +21,5 @@
 <script setup>
 </script>
 
-<style>
-    @import url('../css/exchange.css');
+<style scoped src="../css/exchange.css">
 </style>

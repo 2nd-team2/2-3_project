@@ -48,6 +48,5 @@
 <script setup>
 </script>
 
-<style>
-    @import url('../css/review.css');
+<style scoped src="../css/review.css">
 </style>
