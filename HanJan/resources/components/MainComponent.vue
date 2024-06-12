@@ -161,7 +161,7 @@
         <div class="review_box">
             <img src="/img/alcohol2.jpeg" class="goods_img">
             <h1 class="review_title">리뷰 제목</h1>
-            <P class="review_content">여자들이 좋아할 맛 그런데 저한테도 깔끔한 맛 정도</P>
+            <p class="review_content">여자들이 좋아할 맛 그런데 저한테도 깔끔한 맛 정도</p>
             <a href="" class="review_a">
                 <div class="goods_title">제주, 동백 제주, 동백 제주, 동백</div>
                 <div class="goods_read">자세히 보기</div>
@@ -170,7 +170,7 @@
         <div class="review_box">
             <img src="/img/alcohol2.jpeg" class="goods_img">
             <h1 class="review_title">리뷰 제목</h1>
-            <P class="review_content">여자들이 좋아할 맛 그런데 저한테도 깔끔한 맛 정도</P>
+            <p class="review_content">여자들이 좋아할 맛 그런데 저한테도 깔끔한 맛 정도</p>
             <a href="" class="review_a">
                 <div class="goods_title">제주, 동백</div>
                 <div class="goods_read">자세히 보기</div>
@@ -190,7 +190,7 @@
         <div class="review_box review_none">
             <img src="/img/alcohol2.jpeg" class="goods_img">
             <h1 class="review_title">리뷰 제목</h1>
-            <P class="review_content">여자들이 좋아할 맛 그런데 저한테도 깔끔한 맛 정도</P>
+            <p class="review_content">여자들이 좋아할 맛 그런데 저한테도 깔끔한 맛 정도</p>
             <a href="" class="review_a">
                 <div class="goods_title">제주, 동백</div>
                 <div class="goods_read">자세히 보기</div>

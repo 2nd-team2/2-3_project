@@ -50,7 +50,7 @@
             </div>                   
             <p class="detailed_footer_date">2024-06-07</p>
         </div>
-        <P class="detailed_footer_content">완전 산뜻해서 좋았어요</P>
+        <p class="detailed_footer_content">완전 산뜻해서 좋았어요</p>
     </div>
     <div class="detailed_footer_item">
         <div class="detailed_footer">
@@ -68,7 +68,7 @@
             </div> 
             <p class="detailed_footer_date">2024-06-07</p>
         </div>
-        <P class="detailed_footer_content">완전 산뜻해서 좋았어요</P>
+        <p class="detailed_footer_content">완전 산뜻해서 좋았어요</p>
     </div>
     <div class="detailed_footer_item">
         <div class="detailed_footer">
@@ -86,7 +86,7 @@
             </div> 
             <p class="detailed_footer_date">2024-06-07</p>
         </div>
-        <P class="detailed_footer_content">완전 산뜻해서 좋았어요</P>
+        <p class="detailed_footer_content">완전 산뜻해서 좋았어요</p>
     </div>
     <div class="detailed_footer_item">
         <div class="detailed_footer">
@@ -104,7 +104,7 @@
             </div> 
             <p class="detailed_footer_date">2024-06-07</p>
         </div>
-        <P class="detailed_footer_content">완전 산뜻해서 좋았어요</P>
+        <p class="detailed_footer_content">완전 산뜻해서 좋았어요</p>
     </div>
     <div class="detailed_footer_item">
         <div class="detailed_footer">
@@ -122,7 +122,7 @@
             </div> 
             <p class="detailed_footer_date">2024-06-07</p>
         </div>
-        <P class="detailed_footer_content">완전 산뜻해서 좋았어요</P>
+        <p class="detailed_footer_content">완전 산뜻해서 좋았어요</p>
     </div>
     <div class="detailed_footer_review">
         <a href="">더 많은 리뷰</a>
