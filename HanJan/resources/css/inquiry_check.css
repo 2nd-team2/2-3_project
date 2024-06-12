@@ -166,6 +166,7 @@ main {
 .inquiry_title_grid {
     display: flex;
     justify-content: space-between;
+    margin-top: 3rem;
 }
 
 /* 상품,날짜 그리드 */

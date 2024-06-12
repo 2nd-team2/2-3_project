@@ -21,11 +21,11 @@
             <p>총 상품가격</p>
             <p class="detailed_haeder_num">24,000원</p>
             <div class="detailed_haeder_btn">
-                <a href="">
+                <a href="/bag">
                     <img src="/img/shop.png">
                     장바구니
                 </a>
-                <button type="submit" class="detailed_haeder_b">구매하기</button>
+                <button type="submit" @click="zeroAlert" class="detailed_haeder_b">구매하기</button>
             </div>
         </div>
     </div>
@@ -131,6 +131,10 @@
 </template>
 
 <script setup>
+// alert 띄우기
+    function zeroAlert() {
+        alert('수량확인 부탁드립니다.');
+    }
 </script>
 
 <style scoped src="../css/detailed.css">
