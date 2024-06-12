@@ -9,7 +9,6 @@ import DetailedCompnent from '../components/DetailedComponent.vue';
 import ExchangeCompnent from '../components/ExchangeComponent.vue';
 import InfoComponent from '../components/InfoComponent.vue';
 import InquiryComponent from '../components/InquiryComponent.vue';
-import OneInquiryComponent from '../components/OneInquiryComponent.vue';
 import CheckInquiryComponent from '../components/CheckInquiryComponent.vue';
 import CheckOneInquiryComponent from '../components/CheckOneInquiryComponent.vue';
 import ListTakjuComponent from '../components/ListTakjuComponent.vue';
@@ -18,6 +17,7 @@ import RegistComponent from '../components/RegistComponent.vue';
 import ReviewComponent from '../components/ReviewComponent.vue';
 import ReviewCreateComponent from '../components/ReviewCreateComponent.vue';
 import UpdateComponent from '../components/UpdateComponent.vue';
+import InquiryOneComponent from '../components/InquiryOneComponent.vue';
 
 const routes = [
     {
@@ -62,7 +62,7 @@ const routes = [
     },
     {
         path: '/inquiryone',
-        component: OneInquiryComponent,
+        component: InquiryOneComponent,
     },
     {
         path: '/checkinquiry',
