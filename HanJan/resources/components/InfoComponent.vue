@@ -96,6 +96,5 @@
 <script setup>
 </script>
 
-<style>
-    @import url('../css/info.css');
+<style scoped src="../css/info.css">
 </style>

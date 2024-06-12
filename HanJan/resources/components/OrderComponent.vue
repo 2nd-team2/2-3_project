@@ -67,6 +67,5 @@
 <script setup>
 </script>
 
-<style>
-    @import url('../css/order.css');
+<style scoped src="../css/order.css">
 </style>

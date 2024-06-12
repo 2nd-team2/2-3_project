@@ -211,6 +211,5 @@
 <script setup>
 </script>
 
-<style>
-    @import url('../css/list.css');
+<style scoped src="../css/list.css">
 </style>

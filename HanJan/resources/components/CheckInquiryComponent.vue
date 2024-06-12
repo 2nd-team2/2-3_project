@@ -44,6 +44,5 @@
 <script setup>
 </script>
 
-<style>
-    @import url('../css/inquiry_check.css');
+<style scoped src="../css/inquiry_check.css">
 </style>

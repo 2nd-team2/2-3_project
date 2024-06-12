@@ -37,6 +37,5 @@
 <script setup>
 </script>
 
-<style>
-    
+<style scoped src="../css/login.css">
 </style>

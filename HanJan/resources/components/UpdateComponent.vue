@@ -73,6 +73,5 @@
 <script setup>
 </script>
 
-<style>
-    @import url('../css/update.css');
+<style scoped src="../css/update.css">
 </style>

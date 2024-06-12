@@ -20,7 +20,11 @@
                             전체 메뉴 <span class="plus"> + </span>
                             <div class="nav_mini display_none" id="nav_mini">
                                 <ul class="nav_mini_title">
-                                    <li class="nav_mini_item1"><a href="" class="nav_mini_font">탁주</a></li>
+                                    <li class="nav_mini_item1">
+                                        <router-link to="/listtakju">
+                                            <a class="nav_mini_font">탁주</a>
+                                        </router-link>
+                                    </li>
                                     <li class="nav_mini_item2"><a href="" class="nav_mini_font">과실주</a></li>
                                     <li class="nav_mini_item3"><a href="" class="nav_mini_font">증류주</a></li>
                                 </ul>
