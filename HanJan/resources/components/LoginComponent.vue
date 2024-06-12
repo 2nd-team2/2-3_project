@@ -38,5 +38,5 @@
 </script>
 
 <style>
-    @import url('../css/login.css');
+    
 </style>
