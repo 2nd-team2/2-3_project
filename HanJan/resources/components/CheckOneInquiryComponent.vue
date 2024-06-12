@@ -1,0 +1,35 @@
+<template>
+    <main>
+        <h2 class="inquiry_title inquiry_title_grid">
+            <span>문의</span>
+        </h2>
+        <form action="">
+            <div class="inquiry_padding_top">문의내용</div>
+            <div class="inquiry_padding_top">
+                <textarea disabled></textarea>
+            </div>
+        </form>
+
+        <hr>
+
+        <form action="">
+            <div class="inquiry_padding_top">답변</div>
+            <div class="inquiry_padding_top">
+                <textarea disabled></textarea>
+            </div>
+            
+            <hr>
+
+            <div class="inquiry_padding_top inquiry_btn_right">
+                <button class="inquiry_submit_btn">취소</button>
+            </div>
+        </form>
+    </main>
+</template>
+
+<script setup>
+</script>
+
+<style>
+    @import url('../css/inquiry_check.css');
+</style>
