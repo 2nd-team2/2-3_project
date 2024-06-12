@@ -10,7 +10,7 @@
                 <div class="ex_goods_item ex_grid">
                     <div class="ex_order_at">2024-06-02 주문 / 구매확정 <span class="ex_yellow">06-07</span></div>
                     <div class="ex_goods_grid">
-                        <img class="ex_goods_img" src="../img/best.png">
+                        <img class="ex_goods_img" src="/img/best.png">
                         <div>
                             <div class="ex_goods_title ex_padding_bottom">한잔 꿈의 대화 13도 375ml</div>
                             <div class="ex_padding_bottom">
@@ -85,12 +85,12 @@
                     <div> 총 상품금액</div>
                     <div class="ex_yellow ex_flex_end"> 0원</div>
                 </div>
-                <img src="../img/plus.png">
+                <img src="/img/plus.png">
                 <div>
                     <div>배송비</div>
                     <div class="ex_yellow ex_flex_end"> 0원</div>
                 </div>
-                <img src="../img/equal.png">
+                <img src="/img/equal.png">
                 <div>
                     <div>합계</div>
                     <div class="ex_yellow ex_flex_end">0원</div>
@@ -98,6 +98,7 @@
             </div>
             <div class="ex_margin_top ex_flex_end">
                 <div>
+                    
                     <a href="" class="ex_cancel ex_cancel_padding">취소</a>
                     <button type="submit" class="ex_cancel ex_border_none">신청</button>
                 </div>
@@ -110,6 +111,5 @@
 
 <script setup>
 </script>
-
 <style scoped src="../css/exchange.css">
 </style>
