@@ -197,3 +197,9 @@ h1 {
     font-size: 1.5rem;
     color: lightgray;
 }
+
+ /* --------------------- move top --------------------- */
+ .move_top_img {
+    width: 100%;
+    height: 100%;
+}

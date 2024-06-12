@@ -113,63 +113,73 @@ hr {
     line-height: 40px;
 }
 
+/* --------------------- move top --------------------- */
+.move_top_img {
+    width: 100%;
+    height: 100%;
+}
+
 /* ------------- 모바일버전 ------------- */
 @media screen and (max-width: 770px) {
-.none {
-    display: none;
-}
-.list_best_title {
-    margin-top: 6rem;
-    font-size: 2rem;
-    font-weight: 800;
-    margin: 6rem 2rem 1rem;
-}
+    .none {
+        display: none;
+    }
+    .list_best_title {
+        margin-top: 6rem;
+        font-size: 2rem;
+        font-weight: 800;
+        margin: 6rem 2rem 1rem;
+    }
 
-/* ------------- 한잔 베스트 ------------- */
-.list_content {
-    display: flex;
-    flex-wrap: wrap;
-    /* align-items: center; */
-    /* justify-content: center; */
-    gap: 2rem;
-    flex-direction: row;
-}
-.list_best {
-    display: flex;
-    /* flex-direction: row; */
-    margin: auto;
-    width: 70%;
-    flex-wrap: nowrap;
-    /* margin-bottom: 2rem; */
-    align-items: center;
-    gap: 2rem;
-    justify-content: center;
-}
-.list_best_img img {
-    width: 250px;
-    height: 250px;
-}
-.list_best_img > p {
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.5);
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    line-height: 30px;
-    color: #fff
-}
+    /* ------------- 한잔 베스트 ------------- */
+    .list_content {
+        display: flex;
+        flex-wrap: wrap;
+        /* align-items: center; */
+        /* justify-content: center; */
+        gap: 2rem;
+        flex-direction: row;
+    }
+    .list_best {
+        display: flex;
+        /* flex-direction: row; */
+        margin: auto;
+        width: 70%;
+        flex-wrap: nowrap;
+        /* margin-bottom: 2rem; */
+        align-items: center;
+        gap: 2rem;
+        justify-content: center;
+    }
+    .list_best_img img {
+        width: 250px;
+        height: 250px;
+    }
+    .list_best_img > p {
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.5);
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        color: #fff
+    }
 
-.list_best_detail {
-    margin-top: 10px;
-    color: #000;
-}
-.list_best_detail > p {
-    font-size: 1rem;
-}
-.list_best_detail > strong {
-    font-size: 1.3rem;
-}
-
-
+    .list_best_detail {
+        margin-top: 10px;
+        color: #000;
+    }
+    .list_best_detail > p {
+        font-size: 1rem;
+    }
+    .list_best_detail > strong {
+        font-size: 1.3rem;
+    }
+    
+    /* --------------------- move top --------------------- */
+    .move_top_img {
+        width: 80%;
+        height: 80%;
+    }
 
 }

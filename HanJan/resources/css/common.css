@@ -772,7 +772,6 @@ footer {
         grid-template-columns: 0.3fr auto 0.3fr;
         padding: 3.5px 20px;
         gap: 5px;
-        position: absolute;
         width: 100%;
         z-index: 990;
     }
@@ -1022,7 +1021,6 @@ footer {
         grid-template-columns: 0.3fr auto 0.3fr;
         padding: 3.5px 20px;
         gap: 5px;
-        position: absolute;
         width: 100%;
         z-index: 990;
     }
@@ -1119,11 +1117,11 @@ footer {
     }
 
     .swiper-button-next {
-        display: none;
+        display: none !important;
     }
     
     .swiper-button-prev {
-        display: none;
+        display: none !important;
     }
 
     .swiper_title {
