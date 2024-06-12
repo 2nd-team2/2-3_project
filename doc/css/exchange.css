@@ -1,3 +1,4 @@
+/* 교환 및 반품 공통 작업 */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
 
 * {
@@ -10,4 +11,176 @@
 main {
     width: 70%;
     margin: 0 auto;
-} 
+}
+
+.ex_padding_top {
+    padding-top: 10px;
+}
+.ex_padding_bottom {
+    padding-bottom: 10px;
+}
+.ex_margin_top {
+    margin-top: 20px;
+}
+.ex_margin_bottom {
+    margin-bottom: 10px;
+}
+.ex_yellow {
+    color: #FAC91D;
+}
+.ex_border_none {
+    border: none;
+}
+.ex_flex_end{
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+/* 제목 */
+.ex_title{
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #5c5c5c;
+}
+
+/* 상품 목록 테두리 및 정렬*/
+.ex_goods_item {
+    border: 1px solid #5c5c5c;
+    border-radius: 20px;
+    margin: 40px 0;
+    display: flex;
+    align-items: center;
+}
+
+/* 상품,날짜 그리드 */
+.ex_grid {
+    display: grid;
+    padding: 20px;
+}
+
+/* 이미지, 상품 정보 그리드 */
+.ex_goods_grid {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    gap: 10px;
+    padding: 20px;
+}
+
+/* 주문, 구매확정 날짜 */
+.ex_order_at{
+    font-weight: bold;
+    padding: 0 20px;
+}
+.ex_yellow {
+    color: #FAC91D;
+}
+
+/* 상품이미지 */
+.ex_goods_img {
+    width: 100%;
+    height: 100%;
+    place-items: center; /* Grid 컨테이너 내부의 모든 항목을 중앙에 정렬 */
+}
+
+/* 상품 이름 */
+.ex_goods_title {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+/* 상품 금액 글자조절 */
+.ex_font {
+    font-size: 0.8rem;
+    font-weight: 900;
+}
+
+
+/* 사유 목록 글자 조절 */
+.ex_content {
+    font-size: 1.5rem;
+}
+
+
+/* 회수 정보 그리드 */
+.ex_exinfo_grid {
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 0.5fr;
+    margin: 5rem;
+    gap: 10px;
+}
+.ex_exinfo_name {
+    grid-column: 1/2;
+    grid-row: 1/2;
+}
+#name {
+    grid-column: 2/3;
+    grid-row: 1/2;
+}
+.ex_exinfo_tel {
+    grid-column: 1/2;
+    grid-row: 2/3;
+}
+#tel {
+    grid-column: 2/3;
+    grid-row: 2/3;
+}
+.ex_exinfo_address {
+    grid-column: 1/2;
+    grid-row: 3/4;
+}
+#address {
+    grid-column: 2/3;
+    grid-row: 3/4;
+}
+.ex_exinfo_address_btn {
+    grid-column: 3/4;
+    grid-row: 3/4;
+}
+.ex_exinfo_detail_address {
+    grid-column: 1/2;
+    grid-row: 4/5;
+}
+#detail_address {
+    grid-column: 2/3;
+    grid-row: 4/5;
+}
+
+
+/* 합계금액 보더 */
+.ex_total_border {
+    border: 1px solid #5c5c5c;
+}
+
+/* 합계금액 그리드 */
+.ex_total_grid {
+    display: grid;
+    grid-template-columns: 6fr 3fr 1fr 2fr 1fr 2fr;
+    align-items: center;
+    justify-items: center;
+    height: 10rem;
+}
+
+/* 취소 버튼 */
+.ex_cancel {
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 300;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 3rem;
+    background-color: black;
+    color: white;
+    border-radius: 15px;
+}
+.ex_cancel:hover {
+    background-color: #FAC91D;
+    font-weight: 400;
+    color: black;
+}
+
+.ex_cancel_padding {
+    padding: 2px 3rem;
+    margin-right: 2rem;
+}
