@@ -12,21 +12,109 @@
     </header>
     
     <main>
-        <div>
-            교환 및 반품신청
-        </div>
-        <div>
-            상품
-        </div>
-        <div>
-            교환 및 반품 사유
-        </div>
-        <div>
-            회수 정보
-        </div>
-        <div>
-            금액
-        </div>
+        <form action="">
+
+            <div>
+                <h2 class="ex_title">
+                    교환 및 반품 신청
+                </h2>
+                <div class="ex_goods_item ex_grid">
+                    <div class="ex_order_at">2024-06-02 주문 / 구매확정 <span class="ex_yellow">06-07</span></div>
+                    <div class="ex_goods_grid">
+                        <img class="ex_goods_img" src="../img/best.png">
+                        <div>
+                            <div class="ex_goods_title ex_padding_bottom">한잔 꿈의 대화 13도 375ml</div>
+                            <div class="ex_padding_bottom">
+                                <div class="ex_font">금액: 24,000원 / 1개</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <h2 class="ex_title">
+                        교환 및 반품 사유
+                    </h2>
+                    <div class="ex_padding_bottom">어떤문제가 있나요?</div>
+                </div>
+                <div class="ex_padding_bottom">
+                    <div class="ex_content">단순변심</div>
+                    <hr>
+                    <input type="radio" name="simple" id="simple1">
+                    <label for="simple1">상품이 마음에 들지 않음</label>
+                    <br>
+                    <input type="radio" name="simple" id="simple2">
+                    <label for="simple2">상품이 마음에 들지 않음</label>
+                </div>
+                <div class="ex_padding_bottom ex_padding_top">
+                    <div class="ex_content">배송문제</div>
+                    <hr>
+                    <input type="radio" name="delivery" id="delivery">
+                    <label for="delivery">다른 상품이 배송됨</label>
+                </div>
+                <div class="ex_padding_bottom ex_padding_top">
+                    <div class="ex_content">상품문제</div>
+                    <hr>
+                    <input type="radio" name="goods" id="goods1">
+                    <label for="goods1">상품의 구성품 / 부속품이 들어있지 않음</label>
+                    <br>
+                    <input type="radio" name="goods" id="goods2">
+                    <label for="goods2">상품이 파손되어 배송됨</label>
+                    <br>
+                    <input type="radio" name="goods" id="goods3">
+                    <label for="goods3">상품 결함 / 품질에 이상이 있음</label>
+                </div>
+            </div>
+            <div>
+                <h2 class="ex_title ex_padding_top">
+                    회수 정보
+                </h2>
+
+                <div class="ex_exinfo_grid">
+
+                    <label for="name" class="ex_exinfo_name">이름</label>
+                    <input type="text" name="name" id="name">
+
+                    <label for="tel" class="ex_exinfo_tel">휴대폰번호</label>
+                    <input type="text" name="tel" id="tel">
+
+                    <label for="address" class="ex_exinfo_address">주소</label>
+                    <input type="text" name="address" id="address">
+                    <button type="" class="ex_exinfo_address_btn ex_cancel ex_border_none">주소검색</button>
+
+                    <label for="detail_address" class="ex_exinfo_detail_address">상세주소</label>
+                    <input type="text" name="detail_address" id="detail_address">
+                </div>
+            </div>
+            
+            <hr>
+            <div class="ex_margin_top ex_margin_bottom ex_total_border ex_total_grid">
+                <div></div>
+                <div>
+                    <div> 총 상품금액</div>
+                    <div class="ex_yellow ex_flex_end"> 0원</div>
+                </div>
+                <img src="../img/plus.png">
+                <div>
+                    <div>배송비</div>
+                    <div class="ex_yellow ex_flex_end"> 0원</div>
+                </div>
+                <img src="../img/equal.png">
+                <div>
+                    <div>합계</div>
+                    <div class="ex_yellow ex_flex_end">0원</div>
+                </div>
+            </div>
+            <div class="ex_margin_top ex_flex_end">
+                <div>
+                    <a href="" class="ex_cancel ex_cancel_padding">취소</a>
+                    <button type="submit" class="ex_cancel ex_border_none">신청</button>
+                </div>
+            </div>
+        </form>
+
     </main>
 
     <footer>
