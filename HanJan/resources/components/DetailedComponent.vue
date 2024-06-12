@@ -128,6 +128,11 @@
         <a href="">더 많은 리뷰</a>
     </div>
 </main>
+
+<!-- move top -->
+<a href="#" class="move_top">
+    <img src="/img/up.png" class="move_top_img">
+</a>
 </template>
 
 <script setup>

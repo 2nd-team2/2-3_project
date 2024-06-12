@@ -111,6 +111,10 @@
                 </div>
             </form>
     </main>
+    <!-- move top -->
+    <a href="#" class="move_top">
+        <img src="/img/up.png" class="move_top_img">
+    </a>
 </template>
 
 <script setup>
