@@ -58,6 +58,6 @@
 <script setup>
 </script>
 
-<style>
-    @import url('../css/agree.css');
+<style scoped src="../css/agree.css">
+    /* @import url('../css/agree.css'); */
 </style>

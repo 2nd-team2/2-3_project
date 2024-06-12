@@ -30,6 +30,5 @@
 <script setup>
 </script>
 
-<style>
-    @import url('../css/confirm.css');
+<style scoped src="../css/confirm.css">
 </style>

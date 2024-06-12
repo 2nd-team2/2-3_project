@@ -144,6 +144,6 @@ function chkPassword(e) {
 //             }
 //         });
 </script>
-<style>
-    @import url('../css/regist.css');
+<style scoped src="../css/regist.css">
+    /* @import url('../css/regist.css'); */
 </style>
