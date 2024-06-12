@@ -1,0 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Noto Sans KR", sans-serif;
+    text-decoration: none;
+}
+
+main {
+    width: 70%;
+    margin: 0 auto;
+}
+
+hr {
+    margin: 6rem 0;
+}
+
+/* ------------- 상품상세페이지 이미지상단 ------------- */
+
+
+.detailed_haeder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5rem;
+    margin-top: 2rem;
+}
+
+.detailed_haeder > img {
+    width: 40%;
+    height: 40%;
+}
+/* ------------- 상품상세페이지 상품판매정보 ------------- */
+
+.detailed_haeder_item {
+    font-size: 1.1rem;
+}
+.detailed_haeder_title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+.detailed_haeder_price {
+    font-size: 2rem;
+    font-weight: 800;
+}
+.detailed_haeder_review {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    margin-bottom: 4rem;
+}
+.detailed_review {
+    margin-left: 1rem;
+    color: #FAC91D;
+}
+
+.detailed_quantity {
+    display: flex;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
+}
+    
+.detailed_haeder_plus {
+    border: 1px solid #5c5c5c;
+    height: 40px;
+    width: 3rem;
+    border-right: none;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    background-color: transparent;
+    font-weight: 500;
+    font-size: 1rem;
+}
+.detailed_haeder_quantity {
+    border: 1px solid #5c5c5c;
+    height: 40px;
+    width: 3rem;
+    text-align: center;
+    line-height: 40px;
+    border-right: none;
+    
+}
+
+.detailed_haeder_height {
+    border: 1px solid #5c5c5c;
+    height: 40px;
+    width: 3rem;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    background-color: transparent;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.detailed_haeder_num {
+    display: inline-block;
+    border: 1px solid #5c5c5c;
+    border-radius: 5px;
+    font-size: 1rem;
+    padding: 0.5rem 5.7rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+.detailed_haeder_btn {
+    display: flex;
+    gap: 4rem;
+    margin-top: 5rem;
+}
+.detailed_haeder_b
+,.detailed_haeder_btn a {
+    border: none;
+    display: flex;
+    background-color: black;
+    color: #fff;
+    border-radius: 30px;
+    height: 3.5rem;
+    width: 13rem;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2rem;
+}
+.detailed_haeder_btn a:hover {
+
+    background-color: #FAC91D;
+    color: black;
+}
+.detailed_haeder_b:hover {
+    background-color: #FAC91D;
+    color: black;
+}
+
+/* ------------- 상품상세 메인정보 ------------- */
+.detailed_footer_item {
+    margin-bottom: 6rem;
+}
+.detailed_content {
+    display: flex;
+    justify-content: center;
+    margin-top: 15rem;
+}
+
+/* ------------- 리뷰 ------------- */
+.detailed_footer {
+    margin-top: 3rem;
+    display: flex;
+    border: 1px solid #5c5c5c;
+    padding: 0.6rem;
+    border-radius: 20px;
+    align-items: center;
+    justify-content: flex-start;
+    justify-content: center;
+}
+.detailed_footer_user {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+}
+.detailed_footer_title {
+    margin-right: 1rem;
+}
+.detailed_footer_name {
+    padding-right: 56rem;
+}
+.detailed_footer_date {
+    padding-left: 2rem;
+}
+.detailed_footer_content {
+    margin: 2rem;
+    font-size: 1.3rem;
+}
+.detailed_footer_review {
+    text-align: center;
+    margin-bottom: 6rem;
+}
+.detailed_footer_review a {
+    font-size: 2rem;
+    color: #FAC91D;
+    text-decoration: underline;
+}
+
+/* 별점 */
+.review_goods_info_grid_star {
+    display: grid;
+}
+.star-rating {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+}
+.star {
+    font-size: 1.5rem;
+    color: lightgray;
+}

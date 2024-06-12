@@ -1,0 +1,84 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Noto Sans KR", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: weight;
+    font-style: normal;
+}
+body {
+    background-color: #333333
+}
+/* .userChkTest {
+    text-align: center;
+} */
+ul {
+    list-style: none;
+}
+
+.main {
+    background-color: white;
+    border-radius: 30px;
+    padding: 6% 5%;
+    width: 70%;
+    margin: 5% auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.userInfo {
+    width: 100%;
+    padding: 10px 20px;
+}
+
+.userInfo > ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    text-align: center;
+}
+.list_marker {
+    font-size: 2rem;
+}
+
+.userInfo > ul > li {
+    display: flex;
+    align-items: center;
+}
+.list_left {
+    margin-left: 290px;
+}
+.user_id {
+    font-weight: 900;
+}
+.info_item_btn {
+    height: 30px;
+    padding: 0 1rem;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+}
+.info_item_btn:hover {
+    background-color: #FAC91D;
+    color: black;
+}
+.buttons button {
+    width: 250px;
+    padding: 10px;
+    font-size: 1em;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+.twobuttons {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 100px;
+}
+.form_btn {
+    height: 45px;
+}
