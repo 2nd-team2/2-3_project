@@ -20,8 +20,8 @@
                 <div class="info_item_box">
                     <label class="info_item_label" for="email">이메일</label>
                     <div class="info_item_input">
-                        <p class="info_item_err_msg error" id="email_error">이메일 주소가 형식에 맞지않습니다.</p>
-                        <input type="email" name="email" id="email">
+                        <p class="info_item_err_msg error"></p>
+                        <input type="email" name="email" id="email" >
                     </div>
                     <button type="button" class="email_chk_btn">이메일 중복확인</button>
                 </div>
@@ -29,8 +29,8 @@
                 <div class="info_item_box">
                     <label class="info_item_label" for="password">비밀번호</label>
                     <div class="info_item_input">
-                        <p class="info_item_err_msg">비밀번호가 형식에 맞지 않습니다.</p>
-                        <input type="text" name="password" id="password">
+                        <p class="info_item_err_msg">{{ errorMsgPassword }}</p>
+                        <input type="text" name="password" id="password" @change="chkPassword">
                     </div>
                 </div>
                 <hr>
@@ -79,52 +79,70 @@
     </main>
 </template>
 <script setup>
-document.getElementById('username').addEventListener('input', function() {
-            var username = this.value;
-            var usernameError = document.getElementById('usernameError');
-            if (username === '' || username.length < 4 || username.length > 10) {
-                usernameError.textContent = 'Username must be between 4 and 10 characters';
-                this.classList.remove('valid');
-                this.classList.add('error');
-            } else {
-                usernameError.textContent = '';
-                this.classList.remove('error');
-                this.classList.add('valid');
-            }
-        });
-        document.getElementById('email').addEventListener('input', function() {
-            var email = this.value;
-            var emailError = document.getElementById('emailError');
-            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(email)) {
-                emailError.textContent = '이메일 주소가 형식에 맞지않습니다.';
-                this.classList.remove('valid');
-                this.classList.add('error');
-            } else {
-                emailError.textContent = '';
-                this.classList.remove('error');
-                this.classList.add('valid');
-            }
-        });
-        document.getElementById('myForm').addEventListener('submit', function(event) {
-            var username = document.getElementById('username').value;
-            var email = document.getElementById('email').value;
-            var usernameError = document.getElementById('usernameError');
-            var emailError = document.getElementById('emailError');
-            var valid = true;
-            if (username === '' || username.length < 4 || username.length > 10) {
-                usernameError.textContent = 'Username must be between 4 and 10 characters';
-                valid = false;
-            }
-            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(email)) {
-                emailError.textContent = 'Invalid email address';
-                valid = false;
-            }
-            if (!valid) {
-                event.preventDefault();
-            }
-        });
+
+
+
+const errorMsgPassword = ref('');
+
+function chkPassword(e) {
+    if (e.target.value.length < 8) {
+        errorMsgPassword.value = '비밀번호가 형식에 맞지 않습니다.';
+    } else {
+        errorMsgPassword.value = '';
+    }
+}
+
+
+
+
+
+
+// document.getElementById('username').addEventListener('input', function() {
+//             var username = this.value;
+//             var usernameError = document.getElementById('usernameError');
+//             if (username === '' || username.length < 4 || username.length > 10) {
+//                 usernameError.textContent = 'Username must be between 4 and 10 characters';
+//                 this.classList.remove('valid');
+//                 this.classList.add('error');
+//             } else {
+//                 usernameError.textContent = '';
+//                 this.classList.remove('error');
+//                 this.classList.add('valid');
+//             }
+//         });
+//         document.getElementById('email').addEventListener('input', function() {
+//             var email = this.value;
+//             var emailError = document.getElementById('emailError');
+//             var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+//             if (!emailPattern.test(email)) {
+//                 emailError.textContent = '이메일 주소가 형식에 맞지않습니다.';
+//                 this.classList.remove('valid');
+//                 this.classList.add('error');
+//             } else {
+//                 emailError.textContent = '';
+//                 this.classList.remove('error');
+//                 this.classList.add('valid');
+//             }
+//         });
+//         document.getElementById('myForm').addEventListener('submit', function(event) {
+//             var username = document.getElementById('username').value;
+//             var email = document.getElementById('email').value;
+//             var usernameError = document.getElementById('usernameError');
+//             var emailError = document.getElementById('emailError');
+//             var valid = true;
+//             if (username === '' || username.length < 4 || username.length > 10) {
+//                 usernameError.textContent = 'Username must be between 4 and 10 characters';
+//                 valid = false;
+//             }
+//             var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+//             if (!emailPattern.test(email)) {
+//                 emailError.textContent = 'Invalid email address';
+//                 valid = false;
+//             }
+//             if (!valid) {
+//                 event.preventDefault();
+//             }
+//         });
 </script>
 <style>
     @import url('../css/regist.css');

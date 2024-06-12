@@ -26,6 +26,23 @@ document.getElementById('password').addEventListener('input', function() {
     }
 });
 
+{/* <p>{{ errorMsgPassword }}</p>
+<input @change="chkPassword" /> */}
+
+{/* <script setup>
+
+const errorMsgPassword = ref('');
+
+function chkPassword(e) {
+    if (e.target.value.length < 8) {
+        errorMsgPassword.value = '비밀번호가 형식에 맞지 않습니다.';
+    } else {
+        errorMsgPassword.value = '';
+    }
+}
+
+</script> */}
+
 // 비밀번호 확인 유효성 검사
 document.getElementById('password_chk').addEventListener('input', function() {
     var password = document.getElementById('password').value;
