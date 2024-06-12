@@ -1,16 +1,16 @@
 // 이메일 유효성 검사
-// document.getElementById('email').addEventListener('input', function() {
-//     var email = this.value;
-//     var emailError = document.getElementById('emailError');
-//     var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-//     if (!emailPattern.test(email)) {
-//         emailError.textContent = '이메일 주소가 형식에 맞지 않습니다.';
-//         emailError.classList.add('error');
-//     } else {
-//         emailError.textContent = '';
-//         emailError.classList.remove('error');
-//     }
-// });
+document.getElementById('email').addEventListener('input', function() {
+    var email = this.value;
+    var emailError = document.getElementById('emailError');
+    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+        emailError.textContent = '이메일 주소가 형식에 맞지 않습니다.';
+        emailError.classList.add('error');
+    } else {
+        emailError.textContent = '';
+        emailError.classList.remove('error');
+    }
+});
 
 // 비밀번호 유효성 검사
 document.getElementById('password').addEventListener('input', function() {
