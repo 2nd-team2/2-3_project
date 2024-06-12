@@ -200,7 +200,9 @@
 
     <!-- 공지사항 -->
     <div class="notification_container">
-        <a href="" class="notification">공지사항 +</a>
+        <router-link to="/notice" class="notification">
+            <a>공지사항 +</a>
+        </router-link>
         <a href="" class="notification_a">
             <div class="notification_title">공지 제목</div>
             <div class="notification_date">2024-06-04</div>
