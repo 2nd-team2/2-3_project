@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Orderproduct;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class OderproductSeeder extends Seeder
+class OrderproductSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +15,11 @@ class OderproductSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $data = [
+            'or_id' => 1
+            ,'p_id' => 1
+            ,'orp_count' => 10
+        ];
+        Orderproduct::create($data);
     }
 }

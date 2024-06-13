@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('name', 100);
             $table->bigInteger('price')->comment('상품가격');
             $table->bigInteger('count')->comment('남은수량');
-            $table->string('ml', 10)->comment('용량');
+            $table->bigInteger('ml')->comment('용량');
+            $table->string('img', 100)->comment('상품이미지, 이미지파일');
             $table->string('info', 100)->comment('상품정보, 이미지파일');
             $table->char('type', 1)->default('0')->comment('상품타입, 0: 탁주, 1: 과실주, 2: 증류주');
             $table->char('w_flg', 1)->default('0')->comment('날씨, 0:맑음, 1:흐림, 2:비');

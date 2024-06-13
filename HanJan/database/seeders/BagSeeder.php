@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Bag;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,6 +15,10 @@ class BagSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $data = [
+            'u_id' => 1
+            ,'p_id' => 1
+        ];
+        Bag::create($data);
     }
 }

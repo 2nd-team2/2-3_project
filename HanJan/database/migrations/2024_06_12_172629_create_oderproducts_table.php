@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('orderproducts', function (Blueprint $table) {
             $table->id('orp_id');
-            $table->integer('or_id')->unsigned();
-            $table->integer('p_id')->unsigned();
+            $table->bigInteger('or_id')->unsigned();
+            $table->bigInteger('p_id')->unsigned();
             $table->bigInteger('orp_count')->comment('주문수량');
             $table->timestamp('created_at')->useCurrent();
             $table->softDeletes(); 

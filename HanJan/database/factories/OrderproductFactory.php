@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Oderproduct>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Orderproduct>
  */
-class OderproductFactory extends Factory
+class OrderproductFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,9 @@ class OderproductFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'or_id' => 1
+            ,'p_id' => 1
+            ,'orp_count' => $this->faker->numberBetween(1, 30)
         ];
     }
 }

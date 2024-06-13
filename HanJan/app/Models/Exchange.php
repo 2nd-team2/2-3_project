@@ -11,6 +11,7 @@ class Exchange extends Model
     use HasFactory, SoftDeletes;
 
     protected $primaryKey = 'ex_id';
+    public $timestamps = false;
 
     protected $fillable = [
         'u_id',
