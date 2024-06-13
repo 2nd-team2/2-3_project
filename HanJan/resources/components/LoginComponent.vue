@@ -1,6 +1,6 @@
 <template>
     <main>
-        <form action="">
+        <form id="login_form">
             <div class="leftInfo">
                 <h2>로그인 / 회원가입</h2>
                 <div class="inputGroup1">
@@ -11,8 +11,8 @@
                     <img src="/img/drunkOtter.png" class="face">
                     <input type="password" id="password" class="login_input" placeholder="비밀번호">
                 </div>
-                <button class="loginBtn">로그인</button>
-                <button class="registBtn">회원가입</button>
+                <button class="loginBtn" @click="$store.dispatch('login')">로그인</button>
+                <button class="registBtn" @click="$router.push('regist')">회원가입</button>
                 <button class="kakaoBtn"><img src="/img/kakao_login_large_wide.png" class="kakaoBtn_img"></button>
                 <img class="rightPoto" src="/img/IE002927310_STD.png"></img>
             </div>
