@@ -22,7 +22,9 @@
             <p class="detailed_haeder_num">24,000원</p>
             <div class="detailed_haeder_btn">
                 <a href="/bag">
-                    <img src="/img/shop.png">
+                    <img src="/img/bag.png">
+                    <!-- TODO -->
+                    <img src="/img/bag_b.gnh"> 
                     장바구니
                 </a>
                 <button type="submit" @click="zeroAlert" class="detailed_haeder_b">구매하기</button>

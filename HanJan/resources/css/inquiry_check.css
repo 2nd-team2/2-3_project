@@ -15,8 +15,8 @@ hr{
 
 main {
     width: 70%;
-    margin: 0 auto;
-} 
+    margin: 3rem auto;
+}
 
 .inquiry_title {
     font-size: 1.8rem;
@@ -166,7 +166,6 @@ main {
 .inquiry_title_grid {
     display: flex;
     justify-content: space-between;
-    margin-top: 3rem;
 }
 
 /* 상품,날짜 그리드 */

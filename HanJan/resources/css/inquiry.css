@@ -1,14 +1,13 @@
 /* *** 리뷰 공통 *** */
+main {
+    width: 70%;
+    margin: 3rem auto;
+}
 
 hr{
     margin-top: 0.2rem;
     margin-bottom: 2rem;
 }
-
-main {
-    width: 70%;
-    margin: 0 auto;
-} 
 
 .inquiry_title {
     font-size: 1.8rem;
@@ -158,7 +157,6 @@ main {
 .inquiry_title_grid {
     display: flex;
     justify-content: space-between;
-    margin-top: 3rem;
 }
 
 /* 상품,날짜 그리드 */
