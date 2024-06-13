@@ -135,8 +135,6 @@ import { ref, onMounted } from 'vue';
 import Cookies from 'js-cookie';
 
     const showModal = ref(true);
-
-    // 모달창 닫기 + 스크롤 움직임 제어
     function closeModal() {
         // 쿠키에 자정까지 유효시간 부여
         const now = new Date();
@@ -247,16 +245,6 @@ import Cookies from 'js-cookie';
         }
     }
 
-    // function clickCloseNav() {
-    //     const nav = document.querySelector('.nav');
-    //     const hamburger = document.querySelector('#hamburger');
-    //     const cancel = document.querySelector('#cancel');
-
-    //     if(window.innerWidth > 1200) {
-
-    //     }
-    // }
-
     // 스크린 크기 (width: 1200px) 변화에 따른 햄버거, X아이콘 조절
     function changeNav() {
         const nav = document.querySelector('.nav');
@@ -282,7 +270,8 @@ import Cookies from 'js-cookie';
         // 페이지 로드 시 쿠키 확인 
         const modalClosed = Cookies.get('modalClosed');
         if (modalClosed === 'true') {
-            showModal.value = false; // 모달 숨기기
+            // 모달 숨기기
+            showModal.value = false; 
             const modal = document.querySelector('.modal');
             modal.style.display = 'none';
             document.body.style.overflow = 'scroll';
