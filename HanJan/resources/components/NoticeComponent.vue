@@ -2,9 +2,7 @@
     <main>
         <div class="notice_container">
             <h2 class="notice_title">공지사항</h2>
-            <router-link to="/noticelist" class="move_notice_list">
-                <a>목록</a>
-            </router-link>
+            <router-link to="/noticelist" class="move_notice_list">목록</router-link>
             <div class="notice_line"></div>
             <div class="notice_name">제목</div>
             <div class="notice_item">{{ $store.state.noticeDetail.no_title }}</div>
