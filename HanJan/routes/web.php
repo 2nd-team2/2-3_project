@@ -40,6 +40,7 @@ Route::get('/api/bagsProduct', [ProductController::class, 'bagsIndex']);
 // ----------------------- 성환 시작 -------------------------
 Route::post('/api/login', [UserController::class, 'login']);
 Route::post('/api/regist', [UserController::class, 'regist']);
+Route::middleware('auth')->post('/api/logout', [UserController::class, 'logout']);
 // ----------------------- 성환 끝 ---------------------------
 
 // ----------------------- 민서 시작 -------------------------

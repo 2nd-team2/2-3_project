@@ -5,15 +5,15 @@
                 <h2>로그인 / 회원가입</h2>
                 <div class="inputGroup1">
                     <img src="/img/drunkOtter.png" class="face">
-                    <input type="text" id="account" class="login_input" placeholder="아이디">
+                    <input type="text" name="email" class="login_input" placeholder="아이디">
                 </div>
                 <div class="inputGroup2">
                     <img src="/img/drunkOtter.png" class="face">
-                    <input type="password" id="password" class="login_input" placeholder="비밀번호">
+                    <input type="password" name="password" id="password" class="login_input" placeholder="비밀번호">
                 </div>
-                <button class="loginBtn" @click="$store.dispatch('login')">로그인</button>
-                <button class="registBtn" @click="$router.push('regist')">회원가입</button>
-                <button class="kakaoBtn"><img src="/img/kakao_login_large_wide.png" class="kakaoBtn_img"></button>
+                <button type="button" class="loginBtn" @click="$store.dispatch('login')">로그인</button>
+                <button type="button" class="registBtn" @click="$router.push('regist')">회원가입</button>
+                <button type="button" class="kakaoBtn"><img src="/img/kakao_login_large_wide.png" class="kakaoBtn_img"></button>
                 <img class="rightPoto" src="/img/IE002927310_STD.png"></img>
             </div>
         </form>

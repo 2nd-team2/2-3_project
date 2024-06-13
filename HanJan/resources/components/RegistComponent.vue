@@ -11,7 +11,7 @@
                     <li>03 가입완료</li>
                 </ul>
             </div>
-            <form id="regist_form" @submit.prevent="validateForm">
+            <form id="regist" @submit.prevent="validateForm">
                 <div class="info_header">
                     <p class="info_header_title">기본정보</p>
                     <p class="note">* 표시는 반드시 입력하셔야 하는 항목입니다.</p>
@@ -73,7 +73,7 @@
                 <br>
                 <div class="buttons twobuttons">
                     <button type="reset" class="info_item_btn form_btn" @click="$router.back()">취소</button>
-                    <button type="submit" class="info_item_btn form_btn">확인</button>
+                    <button type="button" class="info_item_btn form_btn" @click="$store.dispatch('regist')">확인</button>
                 </div>
             </form>
         </div>
@@ -99,6 +99,7 @@ const passwordError = ref('');
 const passwordChkError = ref('');
 const phoneError = ref('');
 const addressError = ref('');
+
 const birthError = ref('');
 
 function chkEmail(e) {

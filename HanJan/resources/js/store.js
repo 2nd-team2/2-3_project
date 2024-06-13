@@ -83,15 +83,12 @@ const store = createStore({
             const data = new FormData(form);
             axios.post(url, data)
             .then(response => {
-                console.log(response.data); // TODO
                 localStorage.setItem('userInfo', JSON.stringify(response.data.data));
                 context.commit('setUserInfo', response.data.data);
                 context.commit('setAuthFlg', true);
-
                 router.replace('/');
             })
             .catch(error => {
-                console.log(error.response); // TODO
                 alert('로그인에 실패 (' + error.response.data.code + ')');
             });
         },
@@ -104,7 +101,7 @@ const store = createStore({
             })
             .catch(error => {
                 console.log(error.response); // TODO
-                alert('문제가 발생해 강제로그아웃 (' + error.response.data.code + ')');
+                alert('로그아웃 (' + error.response.data.code + ')');
             })
             .finally(() => {
                 localStorage.clear();
@@ -115,7 +112,22 @@ const store = createStore({
                 router.replace('/login');
             });
         },
+        // 회원가입
+        regist(context) {
+            const url = 'api/regist';
+            const data = new FormData(document.querySelector('#regist'));
 
+            axios.post(url, data)
+            .then(response => {
+                console.log(response.data); // TODO
+                router.replace('login');
+            })
+            .catch(error => {
+                console.log(error.response.data); // TODO
+                alert('회원가입 실패 (' + error.response.data.code + ')');
+            });
+
+        },
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------
         // ----------------------- 민서 끝 ---------------------------
