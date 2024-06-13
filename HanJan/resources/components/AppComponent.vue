@@ -17,7 +17,7 @@
                 <ul class="nav" id="nav">
                     <li class="nav_box nav_item1">
                         <router-link to="/list">
-                            <a @mouseover="openMiniNav" @mouseleave="closeMiniNav" href="" class="nav_font">
+                            <a @mouseover="openMiniNav" @mouseleave="closeMiniNav" class="nav_font">
                                 전체 메뉴 <span class="plus"> + </span>
                                 <div class="nav_mini display_none" id="nav_mini">
                                     <ul class="nav_mini_title">
@@ -234,11 +234,28 @@ import Cookies from 'js-cookie';
         const hamburger = document.querySelector('#hamburger');
         const cancel = document.querySelector('#cancel');
 
-        nav.setAttribute('id', 'nav');
-        hamburger.style.display = 'block';
-        cancel.setAttribute('class', 'cancel');
-        cancel.style.display = 'none'
+        if(window.innerWidth > 1200){
+            nav.setAttribute('id', 'nav');
+            hamburger.style.display = 'none';
+            cancel.setAttribute('class', 'cancel');
+            cancel.style.display = 'none'
+        }else if(window.innerWidth <= 1200) {
+            nav.setAttribute('id', 'nav');
+            hamburger.style.display = 'block';
+            cancel.setAttribute('class', 'cancel');
+            cancel.style.display = 'none'
+        }
     }
+
+    // function clickCloseNav() {
+    //     const nav = document.querySelector('.nav');
+    //     const hamburger = document.querySelector('#hamburger');
+    //     const cancel = document.querySelector('#cancel');
+
+    //     if(window.innerWidth > 1200) {
+
+    //     }
+    // }
 
     // 스크린 크기 (width: 1200px) 변화에 따른 햄버거, X아이콘 조절
     function changeNav() {
