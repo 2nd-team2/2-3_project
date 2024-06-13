@@ -9,15 +9,19 @@
                 </a>
             </router-link>
             <div class="list_line"></div>
-            <a class="list_menu_img">
-                <img src="/img/menu02.png" alt="과실주">
-                <p>과실주</p>
-            </a>
+            <router-link to="/listtakju">
+                <a class="list_menu_img">
+                    <img src="/img/menu02.png" alt="과실주">
+                    <p>과실주</p>
+                </a>
+            </router-link>
             <div class="list_line"></div>
-            <a class="list_menu_img">
-                <img src="/img/menu03.png" alt="중류주">
-                <p>중류주</p>
-            </a>
+            <router-link to="/listtakju">
+                <a class="list_menu_img">
+                    <img src="/img/menu03.png" alt="중류주">
+                    <p>중류주</p>
+                </a>
+            </router-link>
         </div>
         <p class="list_best_title">한잔 베스트</p>
         <div class="list_best">
