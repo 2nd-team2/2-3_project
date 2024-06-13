@@ -23,10 +23,10 @@ class Notice extends Model
      * 
      * @param \DataTimeInterface $date
      * 
-     * @return String('Y-m-d H:i:s')
+     * @return String('Y-m-d')
      */
     protected function serializeDate(\DateTimeInterface $date)
     {
-        return $date->format('Y-m-d H:i:s');
+        return $date->format('Y-m-d');
     }
 }

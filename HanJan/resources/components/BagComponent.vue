@@ -12,58 +12,14 @@
             
         <form action="" class="">
 
-            <div class="bag_goods_item bag_grid bag_padding_bottom">
+            <div v-for="(item, key) in $store.state.bagsProductData" :key="key" class="bag_goods_item bag_grid bag_padding_bottom">
                 <input type="checkbox" name="" id="">
                 <img class="bag_goods_img" src="/img/best.png">
                 <div class="reviewC_item_grid">
-                    <div class="bag_goods_title bag_padding_bottom"> {{ $store.state.bagsProductData[0].ba_id }}</div>
+                    <div class="bag_goods_title bag_padding_bottom"> {{ item.name }}</div>
                     <div class="bag_padding_bottom">
                         <div>배송비 : 착불</div>
-                        <div class="bag_font">금액: 24,000원</div>
-                    </div>
-                    <div class="bag_count">
-                        <div class="bag_count_minus" id="dec">-</div>
-                        <input type="text" class="quantity-input" id="quantity" value="1" min="1" />
-                        <div class="bag_count_plus" id="inc">+</div>
-                    </div>
-                </div>
-                <div class="bag_delete_flex">
-                    <form action="" >
-                        <button class="bag_delete" type="submit"></button>
-                    </form>
-                </div>
-            </div>
-
-            <div class="bag_goods_item bag_grid bag_padding_bottom">
-                <input type="checkbox" name="" id="">
-                <img class="bag_goods_img" src="/img/best.png">
-                <div class="reviewC_item_grid">
-                    <div class="bag_goods_title bag_padding_bottom">한잔 꿈의 대화 13도 375ml</div>
-                    <div class="bag_padding_bottom">
-                        <div>배송비 : 착불</div>
-                        <div class="bag_font">금액: 24,000원</div>
-                    </div>
-                    <div class="bag_count">
-                        <div class="bag_count_minus" id="dec">-</div>
-                        <input type="text" class="quantity-input" id="quantity" value="1" min="1" />
-                        <div class="bag_count_plus" id="inc">+</div>
-                    </div>
-                </div>
-                <div class="bag_delete_flex">
-                    <form action="" >
-                        <button class="bag_delete" type="submit"></button>
-                    </form>
-                </div>
-            </div>
-
-            <div class="bag_goods_item bag_grid bag_padding_bottom">
-                <input type="checkbox" name="" id="">
-                <img class="bag_goods_img" src="/img/best.png">
-                <div class="reviewC_item_grid">
-                    <div class="bag_goods_title bag_padding_bottom">한잔 꿈의 대화 13도 375ml</div>
-                    <div class="bag_padding_bottom">
-                        <div>배송비 : 착불</div>
-                        <div class="bag_font">금액: 24,000원</div>
+                        <div class="bag_font">금액: {{ item.price }}원</div>
                     </div>
                     <div class="bag_count">
                         <div class="bag_count_minus" id="dec">-</div>
@@ -129,9 +85,9 @@ const store = useStore();
 
 // 게시글 습득 관련
 onBeforeMount(() => {
-  if(store.state.bagsProductData.length < 1 ) {
-    store.dispatch('bagsGetProductData');
-  }
+    if(store.state.bagsProductData.length < 1 ) {
+        store.dispatch('bagsGetProductData');
+    }
 })
 
 </script>

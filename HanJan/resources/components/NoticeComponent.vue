@@ -7,9 +7,9 @@
             </router-link>
             <div class="notice_line"></div>
             <div class="notice_name">제목</div>
-            <div class="notice_item">공지사항입니다.</div>
-            <div class="notice_item_content">내용입니다.</div>
-            <div class="notice_item_date">2024-06-13</div>
+            <div class="notice_item">{{ $store.state.noticeDetail.no_title }}</div>
+            <div class="notice_item_content">{{ $store.state.noticeDetail.no_content }}</div>
+            <div class="notice_item_date">{{ $store.state.noticeDetail.created_at }}</div>
         </div>
 
         <!-- 페이지네이션 -->
