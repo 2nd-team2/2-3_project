@@ -53,6 +53,7 @@ h1 {
     color: #FAC91D;
 }
 
+/* ------------- 수량 ------------- */
 .detailed_quantity {
     display: flex;
     margin-bottom: 1rem;
@@ -60,7 +61,7 @@ h1 {
     font-weight: 500;
 }
     
-.detailed_haeder_plus {
+.detailed_haeder_minus {
     border: 1px solid #5c5c5c;
     height: 40px;
     width: 3rem;
@@ -81,7 +82,7 @@ h1 {
     
 }
 
-.detailed_haeder_height {
+.detailed_haeder_plus {
     border: 1px solid #5c5c5c;
     height: 40px;
     width: 3rem;
