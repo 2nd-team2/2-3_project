@@ -8,16 +8,18 @@ import ConfirmCompnent from '../components/ConfirmComponent.vue';
 import DetailedCompnent from '../components/DetailedComponent.vue';
 import ExchangeCompnent from '../components/ExchangeComponent.vue';
 import InfoComponent from '../components/InfoComponent.vue';
-import InquiryComponent from '../components/InquiryComponent.vue';
+import InquiryProductComponent from '../components/InquiryProductComponent.vue';
 import CheckInquiryComponent from '../components/CheckInquiryComponent.vue';
 import CheckOneInquiryComponent from '../components/CheckOneInquiryComponent.vue';
-import ListTakjuComponent from '../components/ListTakjuComponent.vue';
+import ListTakjuComponent from '../components/ListComponent.vue';
 import OrderComponent from '../components/OrderComponent.vue';
 import RegistComponent from '../components/RegistComponent.vue';
 import ReviewComponent from '../components/ReviewComponent.vue';
 import ReviewCreateComponent from '../components/ReviewCreateComponent.vue';
 import UpdateComponent from '../components/UpdateComponent.vue';
-import InquiryOneComponent from '../components/InquiryOneComponent.vue';
+import InquiryOneByeOneComponent from '../components/InquiryOneByOneComponent.vue';
+import NoticeListComponent from '../components/NoticeListComponent.vue';
+import NoticeComponent from '../components/NoticeComponent.vue';
 
 const routes = [
     {
@@ -57,12 +59,12 @@ const routes = [
         component: InfoComponent,
     },
     {
-        path: '/inquiry',
-        component: InquiryComponent,
+        path: '/inquiryproduct',
+        component: InquiryProductComponent,
     },
     {
-        path: '/inquiryone',
-        component: InquiryOneComponent,
+        path: '/inquiryonebyone',
+        component: InquiryOneByeOneComponent,
     },
     {
         path: '/checkinquiry',
@@ -73,7 +75,7 @@ const routes = [
         component: CheckOneInquiryComponent,
     },
     {
-        path: '/listtakju',
+        path: '/list',
         component: ListTakjuComponent,
     },
     {
@@ -95,6 +97,14 @@ const routes = [
     {
         path: '/update',
         component: UpdateComponent,
+    },
+    {
+        path: '/noticelist',
+        component: NoticeListComponent,
+    },
+    {
+        path: '/notice',
+        component: NoticeComponent,
     },
 
 ];

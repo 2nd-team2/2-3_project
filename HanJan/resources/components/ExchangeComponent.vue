@@ -2,7 +2,6 @@
 
     <main>
         <form action="">
-
             <div>
                 <h2 class="ex_title">
                     교환 및 반품 신청
@@ -17,7 +16,6 @@
                                 <div class="ex_font">금액: 24,000원 / 1개</div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -98,13 +96,11 @@
             </div>
             <div class="ex_margin_top ex_flex_end">
                 <div>
-                    
                     <a href="" class="ex_cancel ex_cancel_padding">취소</a>
                     <button type="submit" class="ex_cancel ex_border_none">신청</button>
                 </div>
             </div>
         </form>
-
     </main>
 
 </template>

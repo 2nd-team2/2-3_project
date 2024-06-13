@@ -12,7 +12,7 @@ hr {
     height: 28rem;
     background-repeat: no-repeat;
     background-position: center;
-    background-size: cover;
+    background-size: contain;
 }
 
 /* ------------- 메뉴 ------------- */

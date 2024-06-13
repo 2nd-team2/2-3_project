@@ -1,16 +1,14 @@
-body {
+main {
     width: 70%;
-    margin: 0 auto;
+    margin: 3rem auto;
 }
 
 hr {
     margin: 5rem auto;
-    width: 70%;
 }
 
 h1 {
     margin: 0 auto;
-    width: 70%;
 }
 
 /* ------------- 상품상세페이지 이미지상단 ------------- */
@@ -21,11 +19,10 @@ h1 {
     justify-content: center;
     align-items: center;
     gap: 5rem;
-    margin-top: 5rem;
 }
 
 .detailed_haeder > img {
-    width: 30%;
+    width: 43%;
 }
 /* ------------- 상품상세페이지 상품판매정보 ------------- */
 
@@ -109,8 +106,8 @@ h1 {
     gap: 4rem;
     margin-top: 5rem;
 }
-.detailed_haeder_b
-,.detailed_haeder_btn a {
+.detailed_haeder_bay
+,.detailed_haeder_bag_a {
     border: none;
     display: flex;
     background-color: black;
@@ -124,21 +121,19 @@ h1 {
     gap: 10px;
     font-size: 1.2rem;
 }
-.detailed_haeder_btn a:hover {
-
+.detailed_haeder_bag_b {
+    display: none;
+}
+.detailed_haeder_bag_a:hover {
+    font-weight: 500;
     background-color: #FAC91D;
     color: black;
 }
-.detailed_haeder_b:hover {
+.detailed_haeder_bay:hover {
     background-color: #FAC91D;
     color: black;
 }
-
 /* ------------- 상품상세 메인정보 ------------- */
-.detailed_footer_item {
-    width: 70%;
-    margin: 0rem auto 6rem;
-}
 .detailed_content {
     display: flex;
     justify-content: center;

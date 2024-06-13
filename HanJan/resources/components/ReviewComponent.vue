@@ -51,7 +51,8 @@
                             <span class="star_gold">&#9733;</span>
                             <span class="star_gold">&#9733;</span>
                             <span class="star_gray">&#9733;</span>
-                            <span class="star_gray">&#9733;</span>                            <div class="review_create_at">2024-06-10</div>
+                            <span class="star_gray">&#9733;</span>                            
+                            <div class="review_create_at">2024-06-10</div>
                         </div>                   
                     </div>
                     <div>
@@ -83,7 +84,8 @@
                             <span class="star_gold">&#9733;</span>
                             <span class="star_gold">&#9733;</span>
                             <span class="star_gray">&#9733;</span>
-                            <span class="star_gray">&#9733;</span>                            <div class="review_create_at">2024-06-10</div>
+                            <span class="star_gray">&#9733;</span>                            
+                            <div class="review_create_at">2024-06-10</div>
                         </div>                   
                     </div>
                     <div>
