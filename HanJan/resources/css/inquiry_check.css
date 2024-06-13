@@ -212,16 +212,16 @@ textarea {
 /* 등록하기 버튼 */
 .inquiry_submit_btn {
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 300;
-    width: 120px;
-    height: 30px;
+    width: 150px;
+    height: 35px;
     line-height: 30px;
     /* padding: 0 1rem; */
     background-color: black;
     color: white;
     border: none;
-    border-radius: 15px;
+    border-radius: 25px;
     margin-left: 3rem;
 }
 .inquiry_submit_btn:hover {

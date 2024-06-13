@@ -13,12 +13,10 @@
                     <p>5.0</p>
                     <p class="detailed_review">리뷰 999</p>
                 </div>
-                <label for="">수량</label>
-                <input type="number" name="" id="">
                 <p>수량</p>
                 <div class="detailed_quantity">
                     <button class="detailed_haeder_plus" type="submit">-</button>
-                    <p class="detailed_haeder_quantity">0</p>
+                    <p>{{ quantity }}</p>
                     <button class="detailed_haeder_height" type="submit">+</button>
                 </div>
                 <p>총 상품가격</p>
@@ -27,7 +25,7 @@
                     <a @mouseover="openIconBag" @mouseleave="closeIconBag" class="detailed_haeder_bag_a" href="/bag">
                         <img src="/img/bag.png" class="detailed_haeder_bag_w" id="b_detailed">
                         <img src="/img/bag_b.png" class="detailed_haeder_bag_b" id="bk_detailed">
-                        <div class="detailed_haeder_bag">장바구니</div>
+                        <div @click.prevent="zeroAlert" class="detailed_haeder_bag">장바구니</div>
                     </a>
                     <button type="submit" @click="zeroAlert" class="detailed_haeder_bay">구매하기</button>
                 </div>
@@ -41,7 +39,6 @@
     <h1>리뷰</h1>
     <div class="detailed_footer_item">
         <div class="detailed_footer">
-            <img class="detailed_footer_user" src="/img/otterFace.png">
             <p class="detailed_footer_name">한술</p>
             <p class="detailed_footer_title">꿈의 대화</p>
             <div class="review_goods_info_grid_star">
@@ -59,7 +56,6 @@
     </div>
     <div class="detailed_footer_item">
         <div class="detailed_footer">
-            <img class="detailed_footer_user" src="/img/otterFace.png">
             <p class="detailed_footer_name">한술</p>
             <p class="detailed_footer_title">꿈의 대화</p>
             <div class="review_goods_info_grid_star">
@@ -77,7 +73,6 @@
     </div>
     <div class="detailed_footer_item">
         <div class="detailed_footer">
-            <img class="detailed_footer_user" src="/img/otterFace.png">
             <p class="detailed_footer_name">한술</p>
             <p class="detailed_footer_title">꿈의 대화</p>
             <div class="review_goods_info_grid_star">
@@ -95,7 +90,6 @@
     </div>
     <div class="detailed_footer_item">
         <div class="detailed_footer">
-            <img class="detailed_footer_user" src="/img/otterFace.png">
             <p class="detailed_footer_name">한술</p>
             <p class="detailed_footer_title">꿈의 대화</p>
             <div class="review_goods_info_grid_star">
@@ -113,7 +107,6 @@
     </div>
     <div class="detailed_footer_item">
         <div class="detailed_footer">
-            <img class="detailed_footer_user" src="/img/otterFace.png">
             <p class="detailed_footer_name">한술</p>
             <p class="detailed_footer_title">꿈의 대화</p>
             <div class="review_goods_info_grid_star">
@@ -129,8 +122,14 @@
         </div>
         <p class="detailed_footer_content">완전 산뜻해서 좋았어요</p>
     </div>
-    <div class="detailed_footer_review">
-        <a href="">더 많은 리뷰</a>
+    <div class="list_num_item">
+        <a href="" class="before">〈 이전</a>
+        <a href="" class="num_none">1</a>
+        <a href="" class="num_none">2</a>
+        <a href="" class="num">3</a>
+        <a href="" class="num_none">4</a>
+        <a href="" class="num_none">5</a>
+        <a href="" class="nuxt">다음 〉</a>
     </div>
 </main>
 
@@ -141,11 +140,17 @@
 </template>
 
 <script setup>
-    // alert 띄우기
-    function zeroAlert() {
-        alert('수량확인 부탁드립니다.');
+// 재고수량 0일때 alert 띄우기
+const quantity = 0; // 초기 수량
+function zeroAlert(event) {
+    event.preventDefault(); // 기본 동작(페이지 이동)을 막습니다.
+        if( quantity = 0 ) {
+            quantity;
+        
+        }else {
+            alert('수량이 0이므로 확인 부탁드립니다.');
+        }
     }
-
     // 아이콘 호버시 색 변환
     function openIconBag() {
         const g_iconbag = document.querySelector('#bk_detailed');
@@ -161,6 +166,18 @@
         g_iconbag.classList.add('detailed_haeder_bag_b');
         b_iconbag.style.display = 'block';
     }
+
+    // 재고수량 0일때 alert 띄우기
+    // let quantity = 0; // 초기 수량을 0으로 설정합니다.
+
+    // function decreaseQuantity() {
+    //     if (quantity > 0) {
+    //         // quantity.value--; = quantity의 값을 1만큼 감소 자동으로 값 업데이트 해준다
+    //         quantity --;
+    //     } else {
+    //         alert("수량이 0이므로 다시확인 부탁드립니다.");
+    //     }
+    // }
 </script>
 
 <style scoped src="../css/detailed.css">
