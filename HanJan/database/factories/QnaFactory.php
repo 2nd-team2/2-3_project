@@ -17,7 +17,9 @@ class QnaFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'u_id' => 1
+            ,'qn_content' => $this->faker->realText(rand(50,200))
+            ,'qn_answer' => $this->faker->realText(rand(50,200))
         ];
     }
 }

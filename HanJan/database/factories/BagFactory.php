@@ -17,7 +17,8 @@ class BagFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'u_id' => 1
+            ,'p_id' => 1
         ];
     }
 }

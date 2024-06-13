@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('qnaproducts', function (Blueprint $table) {
             $table->id('qnp_id');
-            $table->integer('u_id')->unsigned();
-            $table->integer('p_id')->unsigned();
+            $table->bigInteger('u_id')->unsigned();
+            $table->bigInteger('p_id')->unsigned();
             $table->string('qnp_content', 1000)->comment('문의내용');
             $table->string('qnp_answer', 1000)->comment('문의답변');
             $table->timestamps();

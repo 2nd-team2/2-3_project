@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('bags', function (Blueprint $table) {
             $table->id('ba_id');
-            $table->integer('u_id')->unsigned();
-            $table->integer('p_id')->unsigned();
+            $table->bigInteger('u_id')->unsigned();
+            $table->bigInteger('p_id')->unsigned();
             $table->timestamp('created_at')->useCurrent();
             $table->softDeletes(); 
         });

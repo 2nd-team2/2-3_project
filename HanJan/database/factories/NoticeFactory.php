@@ -17,7 +17,8 @@ class NoticeFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'no_title' => $this->faker->realText(rand(10,30))
+            ,'no_content' => $this->faker->realText(rand(10,200))
         ];
     }
 }

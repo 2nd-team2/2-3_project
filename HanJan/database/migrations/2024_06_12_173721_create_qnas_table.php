@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('qnas', function (Blueprint $table) {
             $table->id('qn_id');
-            $table->integer('u_id')->unsigned();
+            $table->bigInteger('u_id')->unsigned();
             $table->string('qn_content', 1000)->comment('문의내용');
             $table->string('qn_answer', 1000)->comment('문의답변');
             $table->timestamps();
