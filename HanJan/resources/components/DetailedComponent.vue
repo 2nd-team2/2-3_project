@@ -1,42 +1,42 @@
 <template>
     <main>
-    <!-- <form> -->
-        <div class="detailed_haeder">
-            <img src="/img/best.png">
-            <div class="detailed_haeder_item">
-                <p>적당한 산미와 쌀의 감칠맛</p>
-                <p class="detailed_haeder_title">꿈의 대화</p>
-                <p>판매가격 :</p>
-                <p class="detailed_haeder_price">24,000원</p>
-                <div class="detailed_haeder_review">
-                    <img src="/img/detailed_star.png">
-                    <p>5.0</p>
-                    <p class="detailed_review">리뷰 999</p>
-                </div>
-                <p id="app">수량</p>
-                <div class="detailed_quantity">
-                    <button @click="decrement" class="detailed_haeder_minus" type="submit">-</button>
-                    <p id="quantityDisplay" class="detailed_haeder_quantity">{{ quantity }}</p>
-                    <button @click="increment" class="detailed_haeder_plus" type="submit">+</button>
-                </div>
-                <p>총 상품가격</p>
-                <p class="detailed_haeder_num">24,000원</p>
-                
-                <div class="detailed_haeder_btn">
-                    <router-link to="/bag">
-                        <button type="submit" @mouseover="openIconBag" @mouseleave="closeIconBag" @click="zeroAlert" class="detailed_haeder_bag_a">
-                            <img src="/img/bag.png" class="detailed_haeder_bag_w" id="b_detailed">
-                            <img src="/img/bag_b.png" class="detailed_haeder_bag_b" id="bk_detailed">
-                            <div class="detailed_haeder_bag">장바구니</div>
-                        </button>
-                    </router-link>
-                    <router-link to="/order">
-                        <button type="submit" @click="zeroAlert" class="detailed_haeder_bay">구매하기</button>
-                    </router-link>
+        <form action="" class="">
+            <div class="detailed_haeder">
+                <img src="/img/best.png">
+                <div class="detailed_haeder_item">
+                    <p>적당한 산미와 쌀의 감칠맛</p>
+                    <p class="detailed_haeder_title">꿈의 대화</p>
+                    <p>판매가격 :</p>
+                    <p class="detailed_haeder_price">24,000원</p>
+                    <div class="detailed_haeder_review">
+                        <img src="/img/detailed_star.png">
+                        <p>5.0</p>
+                        <p class="detailed_review">리뷰 999</p>
+                    </div>
+                    <p id="app">수량</p>
+                    <div class="detailed_quantity">
+                        <button @click="decrement" class="detailed_haeder_minus" type="submit">-</button>
+                        <p id="quantityDisplay" class="detailed_haeder_quantity">{{ quantity }}</p>
+                        <button @click="increment" class="detailed_haeder_plus" type="submit">+</button>
+                    </div>
+                    <p>총 상품가격</p>
+                    <p class="detailed_haeder_num">{{ price }}원</p>
+                    
+                    <div class="detailed_haeder_btn">
+                        <router-link to="/bag">
+                            <button type="submit" @mouseover="openIconBag" @mouseleave="closeIconBag" @click="zeroAlert" class="detailed_haeder_bag_a">
+                                <img src="/img/bag.png" class="detailed_haeder_bag_w" id="b_detailed">
+                                <img src="/img/bag_b.png" class="detailed_haeder_bag_b" id="bk_detailed">
+                                <div class="detailed_haeder_bag">장바구니</div>
+                            </button>
+                        </router-link>
+                        <router-link to="/order">
+                            <button type="submit" @click="as" class="detailed_haeder_bay">구매하기</button>
+                        </router-link>
+                    </div>
                 </div>
             </div>
-        </div>
-    <!-- </form> -->
+        </form>
     <div class="detailed_content">
         <img src="/img/detailed_content.png">
     </div>
@@ -148,6 +148,13 @@
     import { ref } from 'vue';
     const quantity = ref(0); //처음 숫자지정
 
+    // TODO : 두개 적용시
+    const as = () => {
+        zeroAlert();
+        $store.dispatch('getMoreBoardData');
+    };
+
+
     // 재고수량 0일때 alert 띄우기
     const zeroAlert = () => {
         if ( quantity.value <= 0 ) {
@@ -182,6 +189,7 @@
         g_iconbag.classList.add('detailed_haeder_bag_b');
         b_iconbag.style.display = 'block';
     }
+
 </script>
 
 <style scoped src="../css/detailed.css">
