@@ -5,7 +5,7 @@
                 <div class="order_list_header">
                     <h1>주문목록</h1>
                     <div>
-                        <button class="keep_shoping_btn black_button">계속 쇼핑하기</button>
+                        <button class="keep_shoping_btn black_button" @click="$router.push('/')">계속 쇼핑하기</button>
                         <button class="shoping_btn review_manage_btn black_button">리뷰관리</button>
                         <button class="user_update_btn black_button">회원정보 수정</button>
                     </div>
@@ -14,15 +14,14 @@
                     <div class="order_item">
                         <div class="item_left_list_text">
                             <div class="order_date">
-                            <span class="title_span">2024-06-02 주문 / 구매확정</span>
-                            <span class="yellow_span">06-07(금)</span>
-                        </div>
-                        <span class="order_delete"></span>
-                        <div class="order_img">
-                        </div>
-                        <p class="order_name">한잔 꿈의 대화 13도 375ml</p>
-                        <p class="order_price">금액 : 24,000원 / 1개</p>
-                        <span class="button_a">구매확정</span>
+                                <span class="title_span">2024-06-02 주문 / 구매확정 </span>
+                                <span class="yellow_span">06-07(금)</span>
+                            </div>
+                            <span class="order_delete"></span>
+                            <div class="order_img"></div>
+                            <p class="order_name">한잔 꿈의 대화 13도 375ml</p>
+                            <p class="order_price">금액 : 24,000원 / 1개</p>
+                            <span class="button_a">구매확정</span>
                         </div>
                         <div class="item_right">
                             <span class="button_a">상품문의하기</span>
@@ -96,9 +95,8 @@
         <img src="/img/up.png" class="move_top_img">
     </a>
 </template>
-
 <script setup>
-</script>
 
+</script>
 <style scoped src="../css/info.css">
 </style>
