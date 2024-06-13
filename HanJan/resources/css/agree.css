@@ -9,6 +9,10 @@
 body {
     background-color: #333333;
 }
+main {
+    width: 70%;
+    margin: 3rem auto;
+}
 .container {
     background-color: white;
     border-radius: 30px;
