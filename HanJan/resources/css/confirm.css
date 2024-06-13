@@ -7,22 +7,20 @@
     font-weight: weight;
     font-style: normal;
 }
-body {
-    background-color: #333333
-}
 
-/* .userChkTest {
-    text-align: center;
-} */
 ul {
     list-style: none;
+}
+
+main {
+    width: 70%;
+    margin: 3rem auto;
 }
 
 .main {
     background-color: white;
     border-radius: 30px;
     padding: 6% 5%;
-    width: 70%;
     margin: 5% auto;
     display: flex;
     flex-direction: column;
