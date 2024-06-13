@@ -30,6 +30,10 @@ hr {
 }
 .list_menu_img {
     color: #000;
+    border: none;
+    background-color: transparent;
+    font-weight: 500;
+    font-size: 1rem;
 }
 
 /* ------------- 한잔 베스트 ------------- */
