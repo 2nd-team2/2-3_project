@@ -285,6 +285,8 @@ import Cookies from 'js-cookie';
             showModal.value = false; // 모달 숨기기
             const modal = document.querySelector('.modal');
             modal.style.display = 'none';
+            document.body.style.overflow = 'scroll';
+            document.body.style.height = '';
         }
     })
 </script>
