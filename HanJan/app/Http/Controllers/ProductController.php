@@ -25,6 +25,7 @@ class ProductController extends Controller
                         ->where('bags.u_id','=', 1)
                         // ->where('boards.user_id', '=', Auth::id())
                         ->orderBy('bags.ba_id','DESC')
+                        ->limit(3)
                         ->get();
 
         Log::debug($productDate);

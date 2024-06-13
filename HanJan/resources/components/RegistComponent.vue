@@ -46,7 +46,7 @@
                     <label class="info_item_label" for="phone">휴대전화번호</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg">{{ phoneError }}</p>
-                        <input type="text" name="phone" id="phone" @input="chkPhone">
+                        <input type="text" name="tel" id="phone" @input="chkPhone">
                     </div>
                 </div>
                 <hr>
@@ -54,10 +54,10 @@
                     <label class="info_item_label address_text" for="address">주소</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg">{{ addressError }}</p>
-                        <input type="text" name="address" id="address" class="top_input" v-model="address" @input="chkAddress" readonly @click="kakaoPostcode">
+                        <input type="text" name="addr" id="address" class="top_input" v-model="address" @input="chkAddress" readonly @click="kakaoPostcode">
                         <input type="text" readonly v-model="postcode" class="postcode">
                         <label class="address_detail_label" for="address">상세주소</label>
-                        <input type="text" class="address_detail" name="address_detail" id="address_detail" v-model="detailAddress">
+                        <input type="text" class="address_detail" name="det_addr" id="address_detail" v-model="detailAddress">
                         <button type="button" class="info_item_btn form_btn_address" @click="kakaoPostcode" id="postcode">주소검색</button>
                     </div>
                 </div>

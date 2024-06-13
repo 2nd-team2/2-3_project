@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,6 +39,8 @@ Route::get('/api/bagsProduct', [ProductController::class, 'bagsIndex']);
 // ----------------------- 보원 끝 ---------------------------
 
 // ----------------------- 성환 시작 -------------------------
+Route::post('/api/login', [UserController::class, 'login']);
+Route::post('/api/regist', [UserController::class, 'regist']);
 // ----------------------- 성환 끝 ---------------------------
 
 // ----------------------- 민서 시작 -------------------------

@@ -17,10 +17,10 @@ main {
     align-items: center;
 }
 .order_list {
-    width: 60%;
+    width: 100%;
 }
 .inquiry_list {
-    width: 60%;
+    width: 100%;
 }
 .order_list_header {
     display: flex;
@@ -28,7 +28,6 @@ main {
     padding-bottom: 5px;
     border-bottom: 1px solid #c5c5c5;
     justify-content: space-between;
-    margin-top: 40px;
     align-items: center;
 }
 .inquiry_list_header {
@@ -185,6 +184,7 @@ main {
     grid-column: 2 / 3;
 }
 .button_a {
+    cursor: pointer;
     border: 1px solid gray;
     padding: 15px 5px;
     margin: 5px 0;

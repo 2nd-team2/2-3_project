@@ -12,6 +12,7 @@ const store = createStore({
             // ----------------------- 성환 시작 -------------------------
             // ----------------------- 성환 끝 ---------------------------
             // ----------------------- 민서 시작 -------------------------
+            detailedData: [],
             // ----------------------- 민서 끝 ---------------------------
             // ----------------------- 호경 시작 -------------------------
             // 공지사항 게시물 리스트
@@ -31,8 +32,19 @@ const store = createStore({
         },
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
+        // 인증 플래그 저장
+        setAuthFlg(state, flg) {
+            state.authFlg = flg;
+        },
+        //유저 정보 저장
+        setUserInfo(state, userInfo) {
+            state.userInfo = userInfo;
+        },
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------
+        detailedNumData(state, data) {
+            state.detailedData = data;
+        },
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
         // 공지사항 게시물 리스트
@@ -70,8 +82,70 @@ const store = createStore({
 
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
+
+        /**
+         * 로그인 처리
+         * 
+         * @param {*} context 
+         */
+        login(context) {
+            const url = '/api/login';
+            const form = document.querySelector('#login_form');
+            const data = new FormData(form);
+            axios.post(url, data)
+            .then(response => {
+                console.log(response.data); // TODO
+                localStorage.setItem('userInfo', JSON.stringify(response.data.data));
+                context.commit('setUserInfo', response.data.data);
+                context.commit('setAuthFlg', true);
+
+                router.replace('/');
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert('로그인에 실패 (' + error.response.data.code + ')');
+            });
+        },
+        logout(context) {
+            const url = '/api/logout';
+
+            axios.post(url)
+            .then(response => {
+                console.log(response.data); // TODO
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert('문제가 발생해 강제로그아웃 (' + error.response.data.code + ')');
+            })
+            .finally(() => {
+                localStorage.clear();
+
+                context.commit('setAuthFlg', false);
+                context.commit('setUserInfo', null);
+
+                router.replace('/login');
+            });
+        },
+
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------
+        /**
+         * 수량 획득
+         * 
+         * @param {*} constext 
+         */
+        postDetailedData(constext) {
+            const url = '/api/detailed';
+            axios.post(url)
+            .then(response => {
+                console.log(response.data); // TODO
+                constext.commit('detailedNumData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert('수량 획득에 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
         /**
