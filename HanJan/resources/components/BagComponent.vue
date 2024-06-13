@@ -16,7 +16,7 @@
                 <input type="checkbox" name="" id="">
                 <img class="bag_goods_img" src="/img/best.png">
                 <div class="reviewC_item_grid">
-                    <div class="bag_goods_title bag_padding_bottom">한잔 꿈의 대화 13도 375ml</div>
+                    <div class="bag_goods_title bag_padding_bottom"> {{ $store.state.bagsProductData[0].ba_id }}</div>
                     <div class="bag_padding_bottom">
                         <div>배송비 : 착불</div>
                         <div class="bag_font">금액: 24,000원</div>
@@ -113,6 +113,8 @@
             </div>
         </form>
     </main>
+
+
     <!-- move top -->
     <a href="#" class="move_top">
         <img src="/img/up.png" class="move_top_img">
@@ -120,6 +122,18 @@
 </template>
 
 <script setup>
+import { onBeforeMount } from 'vue';
+import { useStore } from 'vuex';
+
+const store = useStore();
+
+// 게시글 습득 관련
+onBeforeMount(() => {
+  if(store.state.bagsProductData.length < 1 ) {
+    store.dispatch('bagsGetProductData');
+  }
+})
+
 </script>
 
 <style scoped src="../css/bag.css">
