@@ -3,7 +3,7 @@ main {
     margin: 3rem auto;
 }
 
-.tl_title{
+.tl_title {
     font-size: 1.8rem;
     margin-bottom: 10px;
     padding-bottom: 15px;
@@ -13,7 +13,6 @@ main {
 .tl_box {
     display: grid;
     grid-template-columns: 150px auto;
-    grid-template-rows: auto 10px;
     gap: 20px;
     margin-top: 30px;
     justify-items: center;
@@ -22,6 +21,7 @@ main {
 
 .tl_type_img {
     width: 80%;
+    height: 80%;
     grid-column: 1 / 3;
 }
 

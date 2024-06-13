@@ -47,7 +47,7 @@
                         </router-link>
                     </li>
                     <li class="nav_box nav_item4">
-                        <router-link to="/notice">
+                        <router-link to="/noticelist">
                             <a class="nav_font">
                                 공지사항
                             </a>
