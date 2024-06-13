@@ -13,7 +13,8 @@
         <form action="" class="">
 
             <div v-for="(item, key) in $store.state.bagsProductData" :key="key" class="bag_goods_item bag_grid bag_padding_bottom">
-                <input type="checkbox" name="" id="">
+                <!-- 체크 박스 name, id 1씩 증가시키기 -->
+                <input type="checkbox" :name="'product_chk_' + (key + 1)" :id="'product_chk_' + (key + 1)">
                 <img class="bag_goods_img" src="/img/best.png">
                 <div class="reviewC_item_grid">
                     <div class="bag_goods_title bag_padding_bottom"> {{ item.name }}</div>
@@ -22,9 +23,14 @@
                         <div class="bag_font">금액: {{ item.price }}원</div>
                     </div>
                     <div class="bag_count">
-                        <div class="bag_count_minus" id="dec">-</div>
-                        <input type="text" class="quantity-input" id="quantity" value="1" min="1" />
-                        <div class="bag_count_plus" id="inc">+</div>
+
+                        <!-- 각 상품의 수량 name, id 1씩 증가시키기 -->
+                        <div @click="decInt" :disabled="count === 1" :id="'dec' + (key + 1)" class="bag_count_minus">-</div>
+                        <!-- 텍스트 기록 못하게 하거나 넘버로 했을때 자체적으로 숫자 증감버튼 없애기 -->
+                        <input type="text" v-model="count" :name="'count' + (key + 1)" :id="'count' + (key + 1)" @input="validateCount" class="quantity-input">
+                        <div @click="incInt" :id="'inc' + (key + 1)" class="bag_count_plus">+</div>
+                
+
                     </div>
                 </div>
                 <div class="bag_delete_flex">
@@ -78,7 +84,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount } from 'vue';
+import { onBeforeMount, ref } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
@@ -89,6 +95,27 @@ onBeforeMount(() => {
         store.dispatch('bagsGetProductData');
     }
 })
+
+// 수량 증가 감소 버튼
+const count = ref(1);
+
+const decInt = () => {
+  if (count.value > 1) {
+    count.value--;
+  }
+};
+
+const incInt = () => {
+  count.value++;
+};
+
+const validateCount = () => {
+  if (isNaN(count.value) || count.value < 1) {
+    count.value = 1;
+  }
+};
+
+
 
 </script>
 
