@@ -50,7 +50,7 @@
                     </div>
                     <div class="agree_item">
                         <label for="agree" class="chk_box">
-                            <input type="checkbox" v-model="agree3Checked" id="selectall" @click="toggleAllCheckbox" class="selectall" @change="selectAllAgreements"> 술마켓의 모든 약관을 확인하고 전체 동의합니다.
+                            <input type="checkbox" v-model="agree3Checked" id="selectall" @click="toggleAllCheckbox" class="selectall" @change="checkAllAgreements" > 술마켓의 모든 약관을 확인하고 전체 동의합니다.
                             <span class="gray_span">(전체동의, 선택항목도 포함됩니다.)</span>
                         </label>
                     </div>
@@ -96,35 +96,35 @@ onMounted(() => {
     });
 });
 
-// 전체 체크박스 체크/해제
-const toggleAllCheckbox = (event) => {
-    const isChecked = event.target.checked;
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    checkboxes.forEach((checkbox) => {
-        checkbox.checked = isChecked;
-    });
-};
-
 // 체크박스 체크시에만 regist로 이동
 
 const agree1Checked = ref(false);
 const agree2Checked = ref(false);
 const agree3Checked = ref(false);
+const allAgreed = ref(false);
 
-const checkAllAgreements = () => {
+function checkAllAgreements() {
     if (agree1Checked.value && agree2Checked.value) {
+        agree3Checked.value = true;
         allAgreed.value = true;
-        }
-    else if (agree1Checked.value && agree2Checked.value && agree3Checked.value) {
-        allAgreed.value = true;
-    }
-    else {
+    } else {
+        agree3Checked.value = false;
         allAgreed.value = false;
     }
 }
 
+// 전체 체크박스 체크/해제
+function toggleAllCheckbox() {
+    agree3Checked.value = !agree3Checked.value;
+    if(agree3Checked.value) {
+        agree1Checked.value = true;
+        agree2Checked.value = true;
+    } else {
+        agree1Checked.value = false;
+        agree2Checked.value = false;
+    }
+}
 
-const allAgreed = ref(false);
 
 </script>
 
