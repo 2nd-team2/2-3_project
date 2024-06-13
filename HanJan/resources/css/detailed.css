@@ -106,8 +106,8 @@ h1 {
     gap: 4rem;
     margin-top: 5rem;
 }
-.detailed_haeder_b
-,.detailed_haeder_btn a {
+.detailed_haeder_bay
+,.detailed_haeder_bag_a {
     border: none;
     display: flex;
     background-color: black;
@@ -121,16 +121,18 @@ h1 {
     gap: 10px;
     font-size: 1.2rem;
 }
-.detailed_haeder_btn a:hover {
-
+.detailed_haeder_bag_b {
+    display: none;
+}
+.detailed_haeder_bag_a:hover {
+    font-weight: 500;
     background-color: #FAC91D;
     color: black;
 }
-.detailed_haeder_b:hover {
+.detailed_haeder_bay:hover {
     background-color: #FAC91D;
     color: black;
 }
-
 /* ------------- 상품상세 메인정보 ------------- */
 .detailed_content {
     display: flex;
