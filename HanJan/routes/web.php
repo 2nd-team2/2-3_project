@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,4 +44,6 @@ Route::get('/api/bagsProduct', [ProductController::class, 'bagsIndex']);
 // ----------------------- 민서 끝 ---------------------------
 
 // ----------------------- 호경 시작 -------------------------
+// 공지사항 데이터 불러오기
+Route::get('/api/noticelist', [NoticeController::class, 'noticeIndex']);
 // ----------------------- 호경 끝 ---------------------------
