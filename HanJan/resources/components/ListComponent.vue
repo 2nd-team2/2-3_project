@@ -2,21 +2,21 @@
     <body>
         <div class="list_main_img" style="background-image: url('/img/list_img03.png');"></div>
         <div class="list_menu">
-            <router-link to="/listtakju">
+            <router-link to="/list">
                 <a class="list_menu_img">
                     <img src="/img/menu01.png" alt="탁주">
                     <p>탁주</p>
                 </a>
             </router-link>
             <div class="list_line"></div>
-            <router-link to="/listtakju">
+            <router-link to="/list">
                 <a class="list_menu_img">
                     <img src="/img/menu02.png" alt="과실주">
                     <p>과실주</p>
                 </a>
             </router-link>
             <div class="list_line"></div>
-            <router-link to="/listtakju">
+            <router-link to="/list">
                 <a class="list_menu_img">
                     <img src="/img/menu03.png" alt="중류주">
                     <p>중류주</p>
