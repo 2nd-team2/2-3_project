@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id('or_id');
-            $table->integer('u_id')->unsigned();
+            $table->bigInteger('u_id')->unsigned();
             $table->string('or_buy_name', 20)->comment('구매자 이름');
             $table->string('or_buy_tel', 20)->comment('구매자 연락처');
             $table->string('or_get_name', 20)->comment('받는사람 이름');

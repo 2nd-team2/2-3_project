@@ -17,7 +17,9 @@ class ReviewFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'u_id' => 1
+            ,'p_id' => 1
+            ,'re_content' => $this->faker->realText(rand(10,100)),
         ];
     }
 }

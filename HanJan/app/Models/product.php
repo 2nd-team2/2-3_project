@@ -15,6 +15,7 @@ class product extends Model
         'price',
         'count',
         'ml',
+        'img',
         'info',
         'type',
         'w_flg'

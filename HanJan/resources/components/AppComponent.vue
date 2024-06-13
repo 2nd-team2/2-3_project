@@ -10,10 +10,10 @@
         <div class="header_container">
             <div class="header_content">
                 <router-link to="/">
-                    <div class="logo"><a><img src="/img/logo.png" class="logo"></a></div>
+                    <div class="logo"><a @click="closeNavMini"><img src="/img/logo.png" class="logo"></a></div>
                 </router-link>
-                <div @click="clickHamburger" class="hamburger" id="hamburger"><img src="/img/hamburger.png" class="hamburger_img"></div>
-                <div @click="clickCancel" class="cancel" id="cancel"><img src="/img/cancel.png" class="cancel_img"></div>
+                <div @click="openNavMini" class="hamburger" id="hamburger"><img src="/img/hamburger.png" class="hamburger_img"></div>
+                <div @click="closeNavMini" class="cancel" id="cancel"><img src="/img/cancel.png" class="cancel_img"></div>
                 <ul class="nav" id="nav">
                     <li class="nav_box nav_item1">
                         <router-link to="/list">
@@ -23,17 +23,17 @@
                                     <ul class="nav_mini_title">
                                         <li class="nav_mini_item1">
                                             <router-link to="/list">
-                                                <a class="nav_mini_font">탁주</a>
+                                                <a class="nav_mini_font" @click="closeNavMini">탁주</a>
                                             </router-link>
                                         </li>
                                         <li class="nav_mini_item2">
                                             <router-link to="/list">
-                                                <a class="nav_mini_font">과실주</a>
+                                                <a class="nav_mini_font" @click="closeNavMini">과실주</a>
                                             </router-link>
                                         </li>
                                         <li class="nav_mini_item3">
                                             <router-link to="/list">
-                                                <a href="" class="nav_mini_font">증류주</a>
+                                                <a href="" class="nav_mini_font" @click="closeNavMini">증류주</a>
                                             </router-link>
                                         </li>
                                     </ul>
@@ -43,19 +43,19 @@
                     </li>
                     <li class="nav_box nav_item2">
                         <router-link to="/traditionalLiquor">
-                            <a class="nav_font ">전통주 이야기</a>
+                            <a class="nav_font" @click="closeNavMini">전통주 이야기</a>
                         </router-link>
                     </li>
                     <li class="nav_box nav_item4">
                         <router-link to="/noticelist">
-                            <a class="nav_font">
+                            <a class="nav_font" @click="closeNavMini">
                                 공지사항
                             </a>
                         </router-link>
                     </li>
                     <li class="nav_item5">
                         <router-link to="/login">
-                            <a @mouseover="openIconLogin" @mouseleave="closeIconLogin" href="" class="nav_font">
+                            <a @mouseover="openIconLogin" @mouseleave="closeIconLogin" @click="closeNavMini" class="nav_font">
                                 <div class="nav_user_box">
                                     <img src="/img/login.png" class="nav_icon" id="b_iconuser">
                                     <img src="/img/goldlogin.png" class="nav_icon_hover" id="g_iconuser">
@@ -67,7 +67,7 @@
                     <div class="nav_user_line"></div>
                     <li class="nav_item6">
                         <router-link to="/agree">
-                            <a @mouseover="openIconRegist" @mouseleave="closeIconRegist" href="" class="nav_font">
+                            <a @mouseover="openIconRegist" @mouseleave="closeIconRegist" @click="closeNavMini" class="nav_font">
                                 <div class="nav_user_box">
                                     <img src="/img/regist.png" class="nav_icon" id="b_iconregist">
                                     <img src="/img/goldregist.png" class="nav_icon_hover" id="g_iconregist">
@@ -79,7 +79,7 @@
                     <div class="nav_user_line"></div>
                     <li class="nav_item7">
                         <router-link to="/bag">
-                            <a @mouseover="openIconBag" @mouseleave="closeIconBag" href="" class="nav_font">
+                            <a @mouseover="openIconBag" @mouseleave="closeIconBag" @click="closeNavMini" class="nav_font">
                                 <div class="nav_user_box">
                                     <img src="/img/bag.png" class="nav_icon" id="b_iconbag">
                                     <img src="/img/goldbag.png" class="nav_icon_hover" id="g_iconbag">
@@ -131,14 +131,30 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
+import Cookies from 'js-cookie';
+
+    const showModal = ref(true);
 
     // 모달창 닫기 + 스크롤 움직임 제어
     function closeModal() {
+        // 쿠키에 자정까지 유효시간 부여
+        const now = new Date();
+        const midnight = new Date();
+        midnight.setHours(24, 0, 0, 0); // 자정 설정
+        const expires = (midnight.getTime() - now.getTime()) / (1000 * 60 * 60 * 24); // 자정까지 남은 시간(일 단위)
+
+        Cookies.set('modalClosed', 'true', { expires });
+
+        // 모달창 닫기
         const modal = document.querySelector('.modal');
         modal.style.display = 'none';
+
+        // 스크롤 움직임 제어 css
         document.body.style.overflow = 'scroll';
         document.body.style.height = '';
+
+        showModal.value = false;
     }
 
     // alert 띄우기
@@ -201,7 +217,7 @@ import { onMounted } from 'vue';
     }
 
     // 햄버거 클릭시 이벤트
-    function clickHamburger() {
+    function openNavMini() {
         const nav = document.querySelector('#nav');
         const hamburger = document.querySelector('#hamburger');
         const cancel = document.querySelector('#cancel');
@@ -213,7 +229,7 @@ import { onMounted } from 'vue';
     }
 
     // X 클릭시 이벤트
-    function clickCancel() {
+    function closeNavMini() {
         const nav = document.querySelector('.nav');
         const hamburger = document.querySelector('#hamburger');
         const cancel = document.querySelector('#cancel');
@@ -245,6 +261,14 @@ import { onMounted } from 'vue';
     }
     onMounted(() => {
         window.addEventListener('resize', changeNav)
+
+        // 페이지 로드 시 쿠키 확인 
+        const modalClosed = Cookies.get('modalClosed');
+        if (modalClosed === 'true') {
+            showModal.value = false; // 모달 숨기기
+            const modal = document.querySelector('.modal');
+            modal.style.display = 'none';
+        }
     })
 </script>
 
