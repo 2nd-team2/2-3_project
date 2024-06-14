@@ -18,7 +18,7 @@ class QnaproductFactory extends Factory
     {
         return [
             'u_id' => 1
-            ,'p_id' => 1
+            ,'orp_id' => 1
             ,'qnp_content' => $this->faker->realText(rand(50,200))
             ,'qnp_answer' => $this->faker->realText(rand(50,200))
         ];

@@ -80,6 +80,28 @@ const store = createStore({
             });
         },
 
+        /**
+         * 장바구니에 목록 삭제
+         * 
+         * @param {*} context
+         */
+
+        bagsDelete(context, ba_id) {
+            const url = '/api/bagsDelete/' + ba_id;
+
+            axios.post(url)
+            .then(response => {
+                console.log(response.data); // TODO : 삭제
+            })
+            .catch(error => {
+                console.log(error.response); //  TODO : 삭제
+                alert('장바구니 삭제에 실패했습니다.(' + error.response.data.code + ')' )
+            });
+
+        },
+
+
+
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
 

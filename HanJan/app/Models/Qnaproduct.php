@@ -14,7 +14,7 @@ class Qnaproduct extends Model
 
     protected $fillable =[
         'u_id',
-        'p_id',
+        'orp_id',
         'qnp_content',
         'qnp_answer',
     ];

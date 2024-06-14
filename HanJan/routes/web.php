@@ -33,6 +33,7 @@ Route::get('/{any}', function() {
 // 장바구니 초기 데이터 불러오기 //  TODO : 로그인 된 유저의 데이터만 들고오기 추가
 // Route::middleware('auth')->get('/api/board', [ProductController::class, 'bagsIndex']);
 Route::get('/api/bagsProduct', [ProductController::class, 'bagsIndex']);
+Route::post('/api/bagsDelete/{ba_id}', [ProductController::class, 'bagsDelete']);
 
 
 

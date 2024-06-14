@@ -17,7 +17,7 @@ class QnaproductSeeder extends Seeder
     {
         $data = [
             'u_id' => 1
-            ,'p_id' => 1
+            ,'orp_id' => 1
             ,'qnp_content' => '상품문의내용'
             ,'qnp_answer' => '상품문의답변'
         ];
