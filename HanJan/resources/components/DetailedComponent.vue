@@ -1,7 +1,7 @@
 <template>
     <main>
         <!-- <form class="" id="quantityForm"> -->
-            <div class="detailed_haeder" v-for="(item, key) in $store.state.valuedData" :key="key">
+            <div class="detailed_haeder">
                 <img src="/img/best.png">
                 <div class="detailed_haeder_item">
                     <p>적당한 산미와 쌀의 감칠맛</p>
@@ -15,25 +15,25 @@
                     </div>
                     <p id="app">수량</p>
                     <div class="detailed_quantity" >
-                        <button @click="decrement(count--)" :disabled="count === 1" class="detailed_haeder_minus" type="submit">-</button>
+                        <button @click="count--" :disabled="count === 1" class="detailed_haeder_minus" type="button">-</button>
                         <input type="number" id="quantityDisplay" class="detailed_haeder_quantity" v-model="count"  min="0"></input>
-                        <button @click="increment(count++)" :disabled="count >=  173 " class="detailed_haeder_plus" type="submit">+</button>
+                        <button @click="count++" :disabled="count >= $store.state.valuedData.count " class="detailed_haeder_plus" type="button">+</button>
                     </div>
                     <div>
                         <p>총 상품가격</p>
-                        <input type="number" class="detailed_haeder_num" :value="item.price*count">원</input>
+                        <input type="number" class="detailed_haeder_num" :value="$store.state.valuedData.price*count">원</input>
                     </div>
                     
                     <div class="detailed_haeder_btn">
                         <router-link to="/bag">
-                            <button type="submit" @mouseover="openIconBag" @mouseleave="closeIconBag" @click="quantit(item)" class="detailed_haeder_bag_a">
+                            <button type="submit" @mouseover="openIconBag" @mouseleave="closeIconBag" @click="quantit" class="detailed_haeder_bag_a">
                                 <img src="/img/bag.png" class="detailed_haeder_bag_w" id="b_detailed">
                                 <img src="/img/bag_b.png" class="detailed_haeder_bag_b" id="bk_detailed">
                                 <div class="detailed_haeder_bag">장바구니</div>
                             </button>
                         </router-link>
                         <router-link to="/order">
-                            <button type="submit" @click="quantit(item)" class="detailed_haeder_bay">구매하기</button>
+                            <button type="submit" @click="quantit" class="detailed_haeder_bay">구매하기</button>
                         </router-link>
                     </div>
                 </div>
@@ -149,18 +149,24 @@
 <script setup>
     import { onBeforeMount, ref, watch } from 'vue';
     import { useStore } from 'vuex';
+    const store = useStore();
     
+    // const count = ref(1);
+
+    // watch(count, (newVal) => {
+    //     if (newVal > 173) {
+    //         count.value = 1;
+    //     }
+    // });
     const count = ref(1);
 
-    watch(count, (newVal) => {
-        if (newVal > 173) {
+    watch(count, () => {
+        console.log(count.value, store.state.valuedData.count);
+        if (count.value > store.state.valuedData.count) {
             count.value = 1;
         }
     });
 
-
-
-    const store = useStore();
 
 
 
@@ -195,9 +201,7 @@
     }
 
     onBeforeMount(() => {
-        if(store.state.valuedData.length < 1) {
-            store.dispatch('getValue');
-        }
+        store.dispatch('getValue');
     })
 
 </script>

@@ -54,17 +54,16 @@ class ProductController extends Controller
         // products(상품)테이블에서
         // 로그인 되어있는 아이디와 일치하는 u_id의 초기 게시글 획득
         public function value() {
-            $productDate = Product::select('price', 'count')
+            $productData = Product::select('price', 'count')
                             ->where('id', 16) //16은 불려올 게시글 번호
-                            ->limit(1)
-                            ->get();
+                            ->first();
 
-            Log::debug($productDate);
+            Log::debug($productData);
         
             $responseData = [
                     'code' => '0'
                     ,'msg' => '초기 상품값 획득 완료'
-                    ,'data' => $productDate->toArray()
+                    ,'data' => $productData
             ];
             Log::debug($responseData);
             
