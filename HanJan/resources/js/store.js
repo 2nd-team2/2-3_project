@@ -10,6 +10,8 @@ const store = createStore({
             bagsProductData: [],
             // ----------------------- 보원 끝 ---------------------------
             // ----------------------- 성환 시작 -------------------------
+            authFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
+            userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
             // ----------------------- 성환 끝 ---------------------------
             // ----------------------- 민서 시작 -------------------------
             detailedData: [],
@@ -123,22 +125,53 @@ const store = createStore({
                 router.replace('/login');
             });
         },
+       
         // 회원가입
         regist(context) {
-            const url = 'api/regist';
-            const data = new FormData(document.querySelector('#regist'));
+            const url = '/api/regist';
+            const data = new FormData(document.querySelector('#regist_form'));
 
             axios.post(url, data)
             .then(response => {
-                console.log(response.data); // TODO
                 router.replace('login');
             })
             .catch(error => {
-                console.log(error.response.data); // TODO
-                alert('회원가입 실패 (' + error.response.data.code + ')');
+                console.log(error.response.data.code);
             });
 
         },
+        // 이메일 중복체크
+        chkEmailOn(context, emailText) {
+            const url = '/api/regist/' + emailText;
+            axios.get(url)
+            .then(response => {
+                if (response.data.exists) {
+                    alert('이미 사용 중인 이메일입니다.');
+                } else {
+                    alert('사용 가능한 이메일입니다.');
+                }
+            })
+            .catch(error => {
+                console.error('이메일 확인 중 오류 발생:', error);
+                emailError.value = '이메일 중복 확인 중 오류가 발생했습니다.';
+            });
+        },
+
+        // 회원정보 수정
+        // chkEmailOn(context) {
+        //     const url = '/api/update';
+        //     axios.post(url)
+        //     .then(response => {
+        //         localStorage.setItem('userInfo', JSON.stringify(response.data.data));
+        //         context.commit('setUserInfo', response.data.data);
+        //         router.replace('/');
+        //     })
+        //     .catch(error => {
+        //         console.log(error.response.data.code);
+        //     });
+        // },
+        
+        
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------
         /**
