@@ -16,8 +16,8 @@
                     <p id="app">수량</p>
                     <div class="detailed_quantity" >
                         <button @click="decrement(count--)" :disabled="count === 1" class="detailed_haeder_minus" type="submit">-</button>
-                        <input type="number" id="quantityDisplay" class="detailed_haeder_quantity" v-model="count"></input>
-                        <button @click="increment(count++)" @change="handleInput" :disabled="count >=  173 " class="detailed_haeder_plus" type="submit">+</button>
+                        <input type="number" id="quantityDisplay" class="detailed_haeder_quantity" v-model="count"  min="0"></input>
+                        <button @click="increment(count++)" :disabled="count >=  173 " class="detailed_haeder_plus" type="submit">+</button>
                     </div>
                     <div>
                         <p>총 상품가격</p>
@@ -147,17 +147,16 @@
 </template>
 
 <script setup>
-    import { onBeforeMount, ref } from 'vue';
+    import { onBeforeMount, ref, watch } from 'vue';
     import { useStore } from 'vuex';
     
     const count = ref(1);
 
-    const handleInput = () => {
-        console.log('현재 count 값:', count.value);
-        if (count.value >= 173) {
-            count.value = 0;
+    watch(count, (newVal) => {
+        if (newVal > 173) {
+            count.value = 1;
         }
-    };
+    });
 
 
 
