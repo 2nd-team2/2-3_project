@@ -16,6 +16,7 @@ class Bag extends Model
     protected $fillable = [
         'u_id',
         'p_id',
+        'ba_count',
     ];
 
 

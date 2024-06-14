@@ -13,6 +13,7 @@ const store = createStore({
             // ----------------------- 성환 끝 ---------------------------
             authFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
             // ----------------------- 민서 시작 -------------------------
+            valuedData: [],
             detailedData: [],
             // ----------------------- 민서 끝 ---------------------------
             // ----------------------- 호경 시작 -------------------------
@@ -47,6 +48,9 @@ const store = createStore({
         },
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------
+        valueNumData(state, data) {
+            state.valuedData = data;
+        },
         detailedNumData(state, data) {
             state.detailedData = data;
         },
@@ -100,6 +104,28 @@ const store = createStore({
                 alert('장바구니에 담긴 상품이 없습니다.(' + error.response.data.code + ')' )
             });
         },
+
+        /**
+         * 장바구니에 목록 삭제
+         * 
+         * @param {*} context
+         */
+
+        bagsDelete(context, ba_id) {
+            const url = '/api/bagsDelete/' + ba_id;
+
+            axios.post(url)
+            .then(response => {
+                console.log(response.data); // TODO : 삭제
+            })
+            .catch(error => {
+                console.log(error.response); //  TODO : 삭제
+                alert('장바구니 삭제에 실패했습니다.(' + error.response.data.code + ')' )
+            });
+
+        },
+
+
 
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
@@ -163,13 +189,36 @@ const store = createStore({
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------
         /**
+         * 상품상세페이지 값 획득
+         * 
+         * @param {*} context
+         */
+        getValue(context) {
+            const url = '/api/detailed';
+
+            axios.get(url)
+            .then(response => {
+                console.log(response.data); // TODO : 삭제
+
+                // 데이터베이스->서버를 통해 받은 데이터를 bagsProductData에 저장
+                context.commit('valueNumData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response.data); //  TODO : 삭제
+                alert('장바구니에 담긴 상품이 없습니다.(' + error.response.data.code + ')' )
+            });
+        },
+
+        /**
          * 수량 획득
          * 
          * @param {*} constext 
          */
-        postDetailedData(constext) {
+        quantityData(constext) {
             const url = '/api/detailed';
-            axios.post(url)
+            const data = new FormData(document.querySelector('#quantityForm'));
+
+            axios.post(url, data)
             .then(response => {
                 console.log(response.data); // TODO
                 constext.commit('detailedNumData', response.data.data);
