@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('det_addr', 100)->comment('상세주소');
             $table->integer('post')->comment('우편번호');
             $table->date('birth')->comment('생년월일');
-            $table->char('age_chk', 1)->default('0')->comment('연령동의, 0: 미동의, 1: 동의');
+            // $table->char('age_chk', 1)->default('0')->comment('연령동의, 0: 미동의, 1: 동의');
             $table->timestamps();
             $table->softDeletes(); 
         });

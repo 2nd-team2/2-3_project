@@ -9,83 +9,73 @@
     <header>
         <div class="header_container">
             <div class="header_content">
-                <router-link to="/">
-                    <div class="logo"><a @click="closeNavMini"><img src="/img/logo.png" class="logo"></a></div>
+                <router-link to="/" @click="closeNavMini">
+                    <div class="logo"><img src="/img/logo.png" class="logo"></div>
                 </router-link>
                 <div @click="openNavMini" class="hamburger" id="hamburger"><img src="/img/hamburger.png" class="hamburger_img"></div>
                 <div @click="closeNavMini" class="cancel" id="cancel"><img src="/img/cancel.png" class="cancel_img"></div>
                 <ul class="nav" id="nav">
                     <li class="nav_box nav_item1">
-                        <router-link to="/list">
-                            <a @mouseover="openMiniNav" @mouseleave="closeMiniNav" class="nav_font">
-                                전체 메뉴 <span class="plus"> + </span>
-                                <div class="nav_mini display_none" id="nav_mini">
-                                    <ul class="nav_mini_title">
-                                        <li class="nav_mini_item1">
-                                            <router-link to="/list">
-                                                <a class="nav_mini_font" @click="closeNavMini">탁주</a>
-                                            </router-link>
-                                        </li>
-                                        <li class="nav_mini_item2">
-                                            <router-link to="/list">
-                                                <a class="nav_mini_font" @click="closeNavMini">과실주</a>
-                                            </router-link>
-                                        </li>
-                                        <li class="nav_mini_item3">
-                                            <router-link to="/list">
-                                                <a href="" class="nav_mini_font" @click="closeNavMini">증류주</a>
-                                            </router-link>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </a>
+                        <router-link to="/list" @mouseover="openMiniNav" @mouseleave="closeMiniNav" class="nav_font">
+                            전체 메뉴 <span class="plus"> + </span>
+                            <div class="nav_mini display_none" id="nav_mini">
+                                <ul class="nav_mini_title">
+                                    <li class="nav_mini_item1">
+                                        <router-link to="/list" class="nav_mini_font" @click="closeNavMini">탁주</router-link>
+                                    </li>
+                                    <li class="nav_mini_item2">
+                                        <router-link to="/list" class="nav_mini_font" @click="closeNavMini">과실주</router-link>
+                                    </li>
+                                    <li class="nav_mini_item3">
+                                        <router-link to="/list" class="nav_mini_font" @click="closeNavMini">증류주</router-link>
+                                    </li>
+                                </ul>
+                            </div>
                         </router-link>
                     </li>
                     <li class="nav_box nav_item2">
-                        <router-link to="/traditionalLiquor">
-                            <a class="nav_font" @click="closeNavMini">전통주 이야기</a>
-                        </router-link>
+                        <router-link to="/traditionalLiquor" class="nav_font" @click="closeNavMini">전통주 이야기</router-link>
                     </li>
                     <li class="nav_box nav_item4">
-                        <router-link to="/noticelist">
-                            <a class="nav_font" @click="closeNavMini">
-                                공지사항
-                            </a>
-                        </router-link>
+                        <router-link to="/noticelist" class="nav_font" @click="closeNavMini">공지사항</router-link>
                     </li>
                     <li class="nav_item5">
-                        <router-link to="/login">
-                            <a @mouseover="openIconLogin" @mouseleave="closeIconLogin" @click="closeNavMini" class="nav_font">
-                                <div class="nav_user_box">
-                                    <img src="/img/login.png" class="nav_icon" id="b_iconuser">
-                                    <img src="/img/goldlogin.png" class="nav_icon_hover" id="g_iconuser">
-                                    <div class="nav_user">로그인</div>
-                                </div>
-                            </a> 
-                        </router-link>
+                        <div @mouseover="openIconLogin" @mouseleave="closeIconLogin" @click="closeNavMini" class="nav_font">
+                            <div v-if="!$store.state.authFlg" @click="$router.push('/login')" class="nav_user_box">
+                                <img src="/img/login.png" class="nav_icon" id="b_iconuser">
+                                <img src="/img/goldlogin.png" class="nav_icon_hover" id="g_iconuser">
+                                <div class="nav_user">로그인</div>
+                            </div>
+                            <div v-else class="nav_user_box" @click="$store.dispatch('logout')">
+                                <img src="/img/logout.png" class="nav_icon" id="b_iconuser">
+                                <img src="/img/goldlogout.png" class="nav_icon_hover" id="g_iconuser">
+                                <div class="nav_user">로그아웃</div>
+                            </div>
+                        </div>
                     </li>
                     <div class="nav_user_line"></div>
                     <li class="nav_item6">
-                        <router-link to="/agree">
-                            <a @mouseover="openIconRegist" @mouseleave="closeIconRegist" @click="closeNavMini" class="nav_font">
-                                <div class="nav_user_box">
-                                    <img src="/img/regist.png" class="nav_icon" id="b_iconregist">
-                                    <img src="/img/goldregist.png" class="nav_icon_hover" id="g_iconregist">
-                                    <div class="nav_user">회원가입</div>
-                                </div>
-                            </a>
-                        </router-link>
+                        <div @mouseover="openIconRegist" @mouseleave="closeIconRegist" @click="closeNavMini" class="nav_font">
+                            <div v-if="!$store.state.authFlg" @click="$store.dispatch('login')" class="nav_user_box">
+                                <img src="/img/regist.png" class="nav_icon" id="b_iconregist">
+                                <img src="/img/goldregist.png" class="nav_icon_hover" id="g_iconregist">
+                                <div class="nav_user">회원가입</div>
+                            </div>
+                            <router-link to="/info" v-else class="nav_user_box">
+                                <img src="/img/profile.png" class="nav_icon" id="b_iconregist">
+                                <img src="/img/goldprofile.png" class="nav_icon_hover" id="g_iconregist">
+                                <div class="nav_user">내 정보</div>
+                            </router-link>
+                        </div>
                     </li>
                     <div class="nav_user_line"></div>
                     <li class="nav_item7">
-                        <router-link to="/bag">
-                            <a @mouseover="openIconBag" @mouseleave="closeIconBag" @click="closeNavMini" class="nav_font">
-                                <div class="nav_user_box">
-                                    <img src="/img/bag.png" class="nav_icon" id="b_iconbag">
-                                    <img src="/img/goldbag.png" class="nav_icon_hover" id="g_iconbag">
-                                    <div class="nav_user">장바구니</div>
-                                </div>
-                            </a>
+                        <router-link to="/bag" @mouseover="openIconBag" @mouseleave="closeIconBag" @click="closeNavMini" class="nav_font">
+                            <div class="nav_user_box">
+                                <img src="/img/bag.png" class="nav_icon" id="b_iconbag">
+                                <img src="/img/goldbag.png" class="nav_icon_hover" id="g_iconbag">
+                                <div class="nav_user">장바구니</div>
+                            </div>
                         </router-link>
                     </li>
                 </ul>
@@ -133,7 +123,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import Cookies from 'js-cookie';
-
     const showModal = ref(true);
     function closeModal() {
         // 쿠키에 자정까지 유효시간 부여

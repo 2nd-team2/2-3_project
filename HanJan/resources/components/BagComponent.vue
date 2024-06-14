@@ -13,7 +13,7 @@
         <form action="" class="">
 
             <div v-for="(item, key) in $store.state.bagsProductData" :key="key" class="bag_goods_item bag_grid bag_padding_bottom">
-                <input type="checkbox" name="" id="">
+                <input @click="check(item.price)" type="checkbox" name="product_chk" :value="item.ba_id">
                 <img class="bag_goods_img" src="/img/best.png">
                 <div class="reviewC_item_grid">
                     <div class="bag_goods_title bag_padding_bottom"> {{ item.name }}</div>
@@ -21,16 +21,16 @@
                         <div>배송비 : 착불</div>
                         <div class="bag_font">금액: {{ item.price }}원</div>
                     </div>
+
                     <div class="bag_count">
-                        <div class="bag_count_minus" id="dec">-</div>
-                        <input type="text" class="quantity-input" id="quantity" value="1" min="1" />
-                        <div class="bag_count_plus" id="inc">+</div>
+                        <button type="button" @click="item.ba_count--" :disabled="item.ba_count === 1" id="dec" class="bag_count_minus">-</button>
+                        <input type="number" v-model="item.ba_count" name="count" @input="validateCount(item)" class="quantity-input">
+                        <button type="button" @click="item.ba_count++" :disabled="item.ba_count >= item.count" id="inc" class="bag_count_plus">+</button>
                     </div>
+
                 </div>
                 <div class="bag_delete_flex">
-                    <form action="" >
-                        <button class="bag_delete" type="submit"></button>
-                    </form>
+                    <button @click="$store.dispatch('bagsDelete', item.ba_id)" class="bag_delete" type="submit"></button>
                 </div>
             </div>
 
@@ -78,7 +78,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount } from 'vue';
+import { onBeforeMount, watch } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
@@ -89,6 +89,42 @@ onBeforeMount(() => {
         store.dispatch('bagsGetProductData');
     }
 })
+
+// // 최대 수량 넘어갈시 최대수량으로 고정하기
+// watch(item.ba_count, (newVal) => {
+//         if (newVal > 173) {
+//             count.value = item.count;
+//         }
+//     });
+
+
+// 수량 증가 감소 버튼
+const decInt = (item) => {
+  if (item.ba_count > 1) {
+    item.ba_count.value--;
+
+    // TODO : 새로고침하기전에 DB에 저장해두기 - incInt도 같이하기 
+    // store.dispatch('', item.ba_count);
+  }
+};
+
+const incInt = (item) => {
+    item.ba_count.value++;
+};
+
+// 1보다 작으면 1로 고정
+const validateCount = (item) => {
+  if ( item.ba_count.value < 1) {
+    item.ba_count.value = 1;
+  }
+};
+
+
+// 체크 했을때 상품의 가격 데이터를 들고옴
+const check = (price) => {
+    console.log(price);
+}
+
 
 </script>
 

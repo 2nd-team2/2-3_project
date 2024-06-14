@@ -28,17 +28,15 @@
 </template>
 
 <script setup>
-    import { onBeforeMount, ref } from 'vue';
+    import { onBeforeMount } from 'vue';
     import { useStore } from 'vuex';
     import router from '../js/router';
 
     const store = useStore();
-    const noticeData = ref({});
     onBeforeMount(() => {
         if(store.state.noticeData.length < 1) {
             store.dispatch('getNoticeData');
         }
-        noticeData.value = store.state.noticeData;
     })
 
     function noticeDetail(item) {
