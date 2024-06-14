@@ -11,6 +11,7 @@ const store = createStore({
             // ----------------------- 보원 끝 ---------------------------
             // ----------------------- 성환 시작 -------------------------
             // ----------------------- 성환 끝 ---------------------------
+            authFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
             // ----------------------- 민서 시작 -------------------------
             valuedData: [],
             detailedData: [],
@@ -20,6 +21,10 @@ const store = createStore({
             noticeData: [],
             // 공지사항 디테일 정보
             noticeDetail: {},
+            // 상품문의 게시물 리스트
+            qnaProductListData: [],
+            // 1 : 1 문의 게시물 리스트
+            qnaOneByOneListData: [],
             // ----------------------- 호경 끝 ---------------------------
         }
 
@@ -58,6 +63,22 @@ const store = createStore({
         // 공지사항 디테일 저장
         setNoticeDetailData(state, data) {
             state.noticeDetail = data;
+        },
+        // 상품문의내역 게시물 리스트
+        setQnaProductListData(state, data) {
+            state.qnaProductListData = data;
+        },
+        // 상품문의내역 작성 게시글 가장 앞에 추가
+        setUnshiftQnaProductData(state, data) {
+            state.qnaProductListData.unshift(data);
+        },
+        // 1 : 1 문의내역 게시물 리스트
+        setQnaOneByOneListData(state, data) {
+            state.qnaOneByOneListData = data;
+        },
+        // 1:1문의내역 작성 게시글 가장 앞에 추가
+        setUnshiftQnaOneByOneData(state, data) {
+            state.qnaOneByOneListData.unshift(data);
         },
         // ----------------------- 호경 끝 ---------------------------
     },actions: {
@@ -225,6 +246,91 @@ const store = createStore({
             .catch(error => {
                 console.log(error.response); // TODO
                 alert('공지사항 습득에 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
+        /**
+         * 상품문의내역 획득
+         * 
+         * @param {*} context 
+         */
+        getQnaProductListData(context) {
+            const url = '/api/qnaproductlist';
+            
+            axios.get(url)
+            .then(response => {
+                console.log(response.data); // TODO
+                context.commit('setQnaProductListData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert('상품문의내역 습득에 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
+
+        /**
+         * 상품문의 작성
+         * 
+         * @param {*} context
+         */
+        qnaProductCreate(context) {
+            const url = '/api/qnaproduct';
+            const data = new FormData(document.querySelector('#qnaProductForm'));
+
+            axios.post(url, data)
+            .then(response => {
+                if(context.state.qnaProductListData.length > 1) {
+                    context.commit('setUnshiftQnaProductData', response.data.data);
+                }
+                
+                console.log(response.data); // TODO
+                router.replace('/qnaproductlist');
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert('글 작성에 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
+
+        /**
+         * 1:1문의내역 획득
+         * 
+         * @param {*} context 
+         */
+        getQnaOneByOnetData(context) {
+            const url = '/api/qnaonebyonelist';
+            
+            axios.get(url)
+            .then(response => {
+                console.log(response.data); // TODO
+                context.commit('setQnaOneByOneListData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert('1:1문의내역 습득에 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
+
+        /**
+         * 1:1 문의 작성
+         * 
+         * @param {*} context
+         */
+        qnaOnebyOneCreate(context) {
+            const url = '/api/qnaonebyone';
+            const data = new FormData(document.querySelector('#qnaOneByOneForm'));
+
+            axios.post(url, data)
+            .then(response => {
+                if(context.state.qnaOneByOneListData.length > 1) {
+                    context.commit('setUnshiftQnaOneByOneData', response.data.data);
+                }
+                
+                console.log(response.data); // TODO
+                router.replace('/qnaonebyonelist');
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert('글 작성에 실패했습니다.(' + error.response.data.code + ')');
             });
         },
         // ----------------------- 호경 끝 ---------------------------

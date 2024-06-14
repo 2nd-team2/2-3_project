@@ -200,34 +200,13 @@
 
     <!-- 공지사항 -->
     <div class="notification_container">
-        <router-link to="/noticelist" class="notification">
-            <a>공지사항 +</a>
-        </router-link>
-        <router-link to="/notice" class="notification_a">
-            <a>
-                <div class="notification_title">공지 제목</div>
-                <div class="notification_date">2024-06-04</div>
-            </a>
-        </router-link>
-        <router-link to="/notice" class="notification_a">
-            <a>
-                <div class="notification_title">공지 제목</div>
-                <div class="notification_date">2024-06-04</div>
-            </a>
-        </router-link>
-        <router-link to="/notice" class="notification_a">
-            <a>
-                <div class="notification_title">공지 제목</div>
-                <div class="notification_date">2024-06-04</div>
-            </a>
-        </router-link>
-        <router-link to="/notice" class="notification_a">
-            <a>
-                <div class="notification_title">공지 제목</div>
-                <div class="notification_date">2024-06-04</div>
-            </a>
-        </router-link>
-       
+        <router-link to="/noticelist" class="notification">공지사항 +</router-link>
+        <div v-for="notice in $store.state.noticeData" :key="notice.no_id" class="notification_a">
+            <div @click="noticeDetail(notice)" class="notification_title">
+                {{ notice.no_title }}
+            </div>
+            <div class="notification_date">{{ notice.created_at }}</div>
+        </div>    
     </div>
 
     <!-- move top -->
@@ -237,14 +216,33 @@
 </template>
 
 <script setup>
+    // 스와이퍼
     import { Swiper, SwiperSlide } from 'swiper/vue';
     import 'swiper/css';
     import 'swiper/css/pagination';
     import 'swiper/css/navigation';
     import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
+    // 공지사항 
+    import { onBeforeMount, ref } from 'vue';
+    import { useStore } from 'vuex';
+    import router from '../js/router';
+
     // 스와이퍼
     const modules = [Autoplay, Pagination, Navigation];
+
+    // 공지사항 
+    const store = useStore();
+    onBeforeMount(() => {
+        if(store.state.noticeData.length < 1) {
+            store.dispatch('getNoticeData');
+        }
+    })
+
+    function noticeDetail(item) {
+        store.commit('setNoticeDetailData', item);
+        router.push('/notice');
+    }
 </script>
 
 <style>

@@ -3,6 +3,7 @@
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\QnaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,4 +54,12 @@ Route::post('/api/detailed', [ProductController::class, 'checksIndex']);
 // ----------------------- 호경 시작 -------------------------
 // 공지사항 데이터 불러오기
 Route::get('/api/noticelist', [NoticeController::class, 'noticeIndex']);
+// 상품문의내역 데이터 불러오기
+Route::middleware('auth')->get('/api/qnaproductlist', [QnaController::class, 'qnaProductListIndex']);
+// 상품문의 작성하기
+Route::middleware('auth')->post('/api/qnaproduct', [QnaController::class, 'qnaProductCreate']);
+// 상품문의내역 데이터 불러오기
+Route::middleware('auth')->get('/api/qnaonebyonelist', [QnaController::class, 'qnaOnebyOneListIndex']);
+// 1:1문의 작성하기
+Route::middleware('auth')->post('/api/qnaonebyone', [QnaController::class, 'qnaOnebyOneCreate']);
 // ----------------------- 호경 끝 ---------------------------
