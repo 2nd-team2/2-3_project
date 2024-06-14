@@ -23,9 +23,9 @@
                     </div>
 
                     <div class="bag_count">
-                        <div @click="decInt(item)" :disabled="item.ba_count.value === 1" id="dec" class="bag_count_minus">-</div>
+                        <button type="button" @click="item.ba_count--" :disabled="item.ba_count === 1" id="dec" class="bag_count_minus">-</button>
                         <input type="number" v-model="item.ba_count" name="count" @input="validateCount(item)" class="quantity-input">
-                        <div @click="incInt(item)" id="inc" class="bag_count_plus">+</div>
+                        <button type="button" @click="item.ba_count++" :disabled="item.ba_count >= item.count" id="inc" class="bag_count_plus">+</button>
                     </div>
 
                 </div>
@@ -78,7 +78,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, watch } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
@@ -90,7 +90,13 @@ onBeforeMount(() => {
     }
 })
 
-const count = ref(1)
+// // 최대 수량 넘어갈시 최대수량으로 고정하기
+// watch(item.ba_count, (newVal) => {
+//         if (newVal > 173) {
+//             count.value = item.count;
+//         }
+//     });
+
 
 // 수량 증가 감소 버튼
 const decInt = (item) => {
