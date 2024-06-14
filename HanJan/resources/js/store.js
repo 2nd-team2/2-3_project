@@ -205,18 +205,17 @@ const store = createStore({
         },
 
         // 회원정보 수정
-        // chkEmailOn(context) {
-        //     const url = '/api/update';
-        //     axios.post(url)
-        //     .then(response => {
-        //         localStorage.setItem('userInfo', JSON.stringify(response.data.data));
-        //         context.commit('setUserInfo', response.data.data);
-        //         router.replace('/');
-        //     })
-        //     .catch(error => {
-        //         console.log(error.response.data.code);
-        //     });
-        // },
+        userUpdate(context) {
+            const url = '/api/userUpdate';
+            const data = new FormData(document.querySelector('#update_form'));
+            axios.post(url, data)
+            .then(response => {
+                router.replace('info');
+            })
+            .catch(error => {
+                console.log(error.response.data.code);
+            });
+        },
         
         
         // ----------------------- 성환 끝 ---------------------------

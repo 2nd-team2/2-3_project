@@ -154,23 +154,26 @@ class UserController extends Controller
         }
 
         // 유저 정보 수정
-        public function update(Request $request) {
+        public function userUpdate(Request $request) {
             Log::debug('회원 정보 수정', $request->all());
 
             // 유저정보 획득
             $userInfo = User::find(1);
 
             // 업데이트 할 리퀘스트 데이터 셋팅
-
+            $userInfo->password = $request->password;
             $userInfo->password_chk = $request->password_chk;
             $userInfo->name = $request->name;
             $userInfo->tel = $request->tel;
             $userInfo->addr = $request->addr;
             $userInfo->det_addr = $request->det_addr;
+            Log::debug($userInfo);
+
             // 비밀번호 확인
             if(!Hash::check($request->password, $userInfo->password)) {
                 throw new MyAuthException('E21');
             }
+
             // 유저정보 갱신
             $userInfo->save();
             $response = [

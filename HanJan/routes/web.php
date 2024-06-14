@@ -44,6 +44,7 @@ Route::post('/api/bagsDelete/{ba_id}', [ProductController::class, 'bagsDelete'])
 Route::post('/api/login', [UserController::class, 'login']);
 Route::post('/api/regist', [UserController::class, 'regist']);
 Route::post('/api/update', [UserController::class, 'update']);
+Route::post('/api/userUpdate', [UserController::class, 'userUpdate']);
 Route::get('/api/regist/{emailText}', [UserController::class, 'registEmailChk']);
 Route::middleware('auth')->post('/api/logout', [UserController::class, 'logout']);
 // ----------------------- 성환 끝 ---------------------------
