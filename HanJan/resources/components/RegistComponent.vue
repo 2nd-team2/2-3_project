@@ -11,7 +11,7 @@
                     <li>03 가입완료</li>
                 </ul>
             </div>
-            <form id="regist" @submit.prevent="validateForm">
+            <form id="regist_form" @submit.prevent="validateForm">
                 <div class="info_header">
                     <p class="info_header_title">기본정보</p>
                     <p class="note">* 표시는 반드시 입력하셔야 하는 항목입니다.</p>
@@ -21,9 +21,9 @@
                     <label class="info_item_label" for="email">이메일</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg error">{{ emailError }}</p>
-                        <input type="email" name="email" id="email" @input="chkEmail">
+                        <input type="email" name="email" id="email" @input="chkEmail" v-model="emailText">
                     </div>
-                    <button type="button" class="info_item_btn form_btn email_chk_btn">이메일 중복확인</button>
+                    <button type="button" class="info_item_btn form_btn email_chk_btn" @click="$store.dispatch('chkEmailOn', emailText)">이메일 중복확인</button>
                 </div>
                 <hr>
                 <div class="info_item_box">
@@ -43,10 +43,18 @@
                 </div>
                 <hr>
                 <div class="info_item_box">
+                    <label class="info_item_label" for="name">이름</label>
+                    <div class="info_item_input">
+                        <p class="info_item_err_msg">{{ nameError }}</p>
+                        <input type="text" name="name" id="name" @input="chkName">
+                    </div>
+                </div>
+                <hr>
+                <div class="info_item_box">
                     <label class="info_item_label" for="phone">휴대전화번호</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg">{{ phoneError }}</p>
-                        <input type="text" name="tel" id="phone" @input="chkPhone">
+                        <input type="text" name="tel" id="tel" @input="chkPhone">
                     </div>
                 </div>
                 <hr>
@@ -55,7 +63,7 @@
                     <div class="info_item_input">
                         <p class="info_item_err_msg">{{ addressError }}</p>
                         <input type="text" name="addr" id="address" class="top_input" v-model="address" @input="chkAddress" readonly @click="kakaoPostcode">
-                        <input type="text" readonly v-model="postcode" class="postcode">
+                        <input type="text" readonly v-model="postcode" class="postcode" name="post">
                         <label class="address_detail_label" for="address">상세주소</label>
                         <input type="text" class="address_detail" name="det_addr" id="address_detail" v-model="detailAddress">
                         <button type="button" class="info_item_btn form_btn_address" @click="kakaoPostcode" id="postcode">주소검색</button>
@@ -72,8 +80,8 @@
                 <hr>
                 <br>
                 <div class="buttons twobuttons">
-                    <button type="reset" class="info_item_btn form_btn" @click="$router.back()">취소</button>
-                    <button type="button" class="info_item_btn form_btn" @click="$store.dispatch('regist')">확인</button>
+                    <button type="button" class="info_item_btn form_btn" @click="$router.push('/')">취소</button>
+                    <button type="submit" class="info_item_btn form_btn" @click="$store.dispatch('regist')">확인</button>
                 </div>
             </form>
         </div>
@@ -81,8 +89,7 @@
 </template>
 <script setup>
 import { ref } from 'vue';
-
-
+import axios from 'axios';
 
 // 실시간 유효성 체크
 const email = ref('');
@@ -93,10 +100,12 @@ const address = ref('');
 const detailAddress = ref('');
 const postcode = ref('');
 const birth = ref('');
+const name = ref('');
 
 const emailError = ref('');
 const passwordError = ref('');
 const passwordChkError = ref('');
+const nameError = ref('');
 const phoneError = ref('');
 const addressError = ref('');
 
@@ -112,7 +121,8 @@ function chkEmail(e) {
 }
 
 function chkPassword(e) {
-  if (e.target.value.length < 8) {
+  if (e.target.value.length < 1) { 
+  // if (e.target.value.length < 8) { // TODO : 배포
     passwordError.value = '비밀번호가 형식에 맞지 않습니다.';
   } else {
     passwordError.value = '';
@@ -127,10 +137,19 @@ function chkPasswordChk() {
   }
 }
 
+function chkName(e) {
+  const namePattern = /^[가-힣a-zA-Z]+$/;
+  if (!namePattern.test(e.target.value)) {
+    nameError.value = '이름은 영어 대소문자와 한글로만 사용 가능합니다.';
+  } else {
+    nameError.value = '';
+  }
+}
+
 function chkPhone(e) {
   const phonePattern = /^\d{10,11}$/;
   if (!phonePattern.test(e.target.value)) {
-    phoneError.value = '전화번호 형식에 맞지 않습니다.';
+    phoneError.value = '전화번호 형식이 맞지 않습니다.';
   } else {
     phoneError.value = '';
   }
@@ -170,6 +189,9 @@ function validateForm() {
 
   chkPasswordChk({ target: { value: passwordChk.value } });
   if (passwordChkError.value) valid = false;
+
+  chkName({ target: { value: name.value } });
+  if (nameError.value) valid = false;
 
   chkPhone({ target: { value: phone.value } });
   if (phoneError.value) valid = false;
@@ -231,6 +253,9 @@ function kakaoPostcode() {
         }
     }).open();
 }
+
+
+
 </script>
 <style scoped src="../css/regist.css">
     /* @import url('../css/regist.css'); */

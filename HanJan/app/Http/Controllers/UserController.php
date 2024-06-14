@@ -27,7 +27,6 @@ class UserController extends Controller
 
         public function login(Request $request) {
             // 유효성 검사
-            Log::debug('로그인 시작');
             $validator = Validator::make(
                 $request->only('email', 'password')
                 ,[
@@ -66,7 +65,6 @@ class UserController extends Controller
     
             // 로그인 처리
             Auth::login($userInfo);
-            Log::debug('로그인 성공');
     
             // 레스폰스 데이터 생성
             $responseData = [
@@ -76,68 +74,116 @@ class UserController extends Controller
             ];
             return response()->json($responseData, 200)->cookie('auth', '1', 120, null, null, false, false);
         }
-            public function logout() {
-                // 로그아웃
-                Auth::logout(Auth::user());
-                Session::invalidate(); // 기본 세션 파기하고 새로운 세션 생성
-                Session::regenerateToken(); // CSRF 토큰 재발급
-        
-                $responseData = [
-                    'code' => '0',
-                    'msg' => '로그아웃완료'
-                ];
-                return response()->json($responseData, 200)
-                                ->cookie('auth', '1', -1, null, null, false, false);
-        
+        public function logout() {
+            // 로그아웃
+            Auth::logout(Auth::user());
+            Session::invalidate(); // 기본 세션 파기하고 새로운 세션 생성
+            Session::regenerateToken(); // CSRF 토큰 재발급
+    
+            $responseData = [
+                'code' => '0',
+                'msg' => '로그아웃완료'
+            ];
+            return response()->json($responseData, 200)
+                            ->cookie('auth', '1', -1, null, null, false, false);
+    
+        }
+        // 회원가입
+        public function regist(Request $request) {
+            // 리퀘스트 데이터 획득
+            $requestData = $request->all();
+            Log::debug($requestData);
+            // 유효성 검사
+            $validator = Validator::make(
+                $requestData,
+                [
+                    'email' => ['required', 'min:1', 'max:30','unique:users', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'], // TODO : 개발할때
+                    // 'email' => ['required', 'min:10', 'max:30','unique:users', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'], // TODO : 배포
+                    'password' => ['required', 'min:1', 'max:20'], // TODO : 개발할때
+                    // 'password' => ['required', 'min:9', 'max:20', 'regex:/^[a-zA-Z0-9!@#$%^&*]+$/u'], // TODO : 배포
+                    'password_chk' => ['same:password'],
+                    'tel' => ['required', 'min:10','max:11', 'regex:/^[0-9]+$/'],
+                    'addr' => ['required'],
+                    'name' => ['required'],
+                    'post' => ['required'],
+                    'det_addr' => ['required'],
+                    'birth' => ['required'],
+                ] 
+            );
+
+            // 유효성 검사 실패 체크
+            if($validator->fails()) {
+                throw new MyValidateException('E01');
             }
-                // 회원가입
-                public function regist(Request $request) {
-                    // 리퀘스트 데이터 획득
-                    $requestData = $request->all();
-        
-                    // 유효성 검사
-                    $validator = Validator::make(
-                        $requestData,
-                        [
-                            'email' => ['required', 'min:1', 'max:30','unique:users', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'], // TODO : 개발할때
-                            // 'email' => ['required', 'min:10', 'max:30','unique:users', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'], // TODO : 배포
-                            'password' => ['required', 'min:1', 'max:20', 'regex:/^[a-zA-Z0-9!@#$%^&*]+$/u'], // TODO : 개발할때
-                            // 'password' => ['required', 'min:9', 'max:20', 'regex:/^[a-zA-Z0-9!@#$%^&*]+$/u'], // TODO : 배포
-                            'password_chk' => ['same:password'],
-                            'tel' => ['required', 'min:9','max:12','regex:/^\d{10,11}$/'],
-                            'addr' => ['required'],
-                            'det_addr' => ['required'],
-                            'birth' => ['required', 'integer', 'min:19'],
-                        ] 
-                    );
-        
-                    // 유효성 검사 실패 체크
-                    if($validator->fails()) {
-                        Log::debug('유효성 검사 실패', $validator->errors()->toArray());
-                        throw new MyValidateException('E01');
-                    }
-        
-                    // 작성 데이터 생성
-                    $insertData = $request->all();
-        
-                    // 파일저장
-                    $insertData['email'] = $request->file('email')->store('email');
-        
-                    // 비밀번호 설정
-                    $insertData['password'] = Hash::make($request->password);
-        
-                    // 인서트 처리
-                    $userInfo = User::create($insertData);
-        
-                    $responseData = [
-                        'code' => '0',
-                        'msg' => '로그아웃완료',
-                        'data' => $userInfo
-                    ];
-        
-                    return response()->json($responseData, 200);
-        
-                }
+
+            // 작성 데이터 생성
+            $insertData = $request->all();
+
+            // 비밀번호 설정
+            $insertData['password'] = Hash::make($request->password);
+
+            // 인서트 처리
+            $userInfo = User::create($insertData);
+
+            $responseData = [
+                'code' => '0',
+                'msg' => '회원 가입 완료',
+                'data' => $userInfo
+            ];
+
+            return response()->json($responseData, 200);
+
+        }
+
+        // 이메일 중복체크
+        public function registEmailChk($emailText)
+        {
+            $responseData = [
+                'code' => '0',
+                'msg' => '중복체크',
+                'exists' => false
+            ];
+
+            $userInfo = User::where('email', $emailText)->first();
+
+            if($userInfo) {
+                $responseData['exists'] = true;
+            }
+            
+            return response()->json($responseData, 200);
+        }
+
+        // 유저 정보 수정
+        public function userUpdate(Request $request) {
+            Log::debug('회원 정보 수정', $request->all());
+
+            // 유저정보 획득
+            $userInfo = User::find(1);
+
+            // 업데이트 할 리퀘스트 데이터 셋팅
+            $userInfo->password = $request->password;
+            $userInfo->password_chk = $request->password_chk;
+            $userInfo->name = $request->name;
+            $userInfo->tel = $request->tel;
+            $userInfo->addr = $request->addr;
+            $userInfo->det_addr = $request->det_addr;
+            Log::debug($userInfo);
+
+            // 비밀번호 확인
+            if(!Hash::check($request->password, $userInfo->password)) {
+                throw new MyAuthException('E21');
+            }
+
+            // 유저정보 갱신
+            $userInfo->save();
+            $response = [
+                'code' => 0,
+                'msg' => '회원 정보 수정 완료',
+                'data' => $userInfo
+            ];
+            return response()->json($response, 200);
+        }
+
 
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------

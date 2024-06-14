@@ -4,7 +4,7 @@
             <div class="regist">
                 <h2>회원정보 수정</h2>
             </div>
-            <form id="regist_form" @submit.prevent="validateForm">
+            <form id="update_form" @submit.prevent="validateForm">
                 <div class="info_header">
                     <p class="info_header_title">기본정보</p>
                     <p class="note">* 표시는 반드시 입력하셔야 하는 항목입니다.</p>
@@ -13,7 +13,7 @@
                 <div class="info_item_box">
                     <label class="info_item_label" for="email">이메일</label>
                     <div class="info_item_input">
-                        <span class="bold_span">이메일</span>
+                        <span class="bold_span">{{ $store.state.userInfo.email }}</span>
                     </div>
                 </div>
                 <hr>
@@ -30,6 +30,14 @@
                     <div class="info_item_input">
                         <p class="info_item_err_msg">{{ passwordChkError }}</p>
                         <input type="password" v-model="passwordChk" name="password_chk" id="password_chk" @input="chkPasswordChk">
+                    </div>
+                </div>
+                <hr>
+                <div class="info_item_box vital">
+                    <label class="info_item_label" for="name">이름</label>
+                    <div class="info_item_input">
+                        <p class="info_item_err_msg">{{ nameError }}</p>
+                        <input type="text" name="name" id="name" @input="chkName">
                     </div>
                 </div>
                 <hr>
@@ -56,15 +64,15 @@
                 <div class="info_item_box">
                     <label class="info_item_label" for="birth">생년월일</label>
                     <div class="info_item_input">
-                        <span class="bold_span">생년월일</span>
+                        <span class="bold_span">{{ $store.state.userInfo.birth }}</span>
                     </div>
                 </div>
                 <hr>
                 <br>
                 <div class="buttons twobuttons">
                     <button type="reset" class="info_item_btn form_btn" @click="$router.back()">취소</button>
-                    <button type="submit" class="info_item_btn form_btn">확인</button>
-                    <button type="submit" class="info_item_btn form_btn">탈퇴</button>
+                    <button type="button" class="info_item_btn form_btn" @click="$store.dispatch('userUpdate')">확인</button>
+                    <button type="button" class="info_item_btn form_btn">탈퇴</button>
                 </div>
             </form>
         </div>
@@ -80,11 +88,13 @@ const phone = ref('');
 const address = ref('');
 const detailAddress = ref('');
 const postcode = ref('');
+const name = ref('');
 
 const passwordError = ref('');
 const passwordChkError = ref('');
 const phoneError = ref('');
 const addressError = ref('');
+const nameError = ref('');
 
 function chkPassword(e) {
   if (e.target.value.length < 8) {
@@ -99,6 +109,15 @@ function chkPasswordChk() {
     passwordChkError.value = '비밀번호가 일치하지 않습니다.';
   } else {
     passwordChkError.value = '';
+  }
+}
+
+function chkName(e) {
+  const namePattern = /^[가-힣a-zA-Z]+$/;
+  if (!namePattern.test(e.target.value)) {
+    nameError.value = '이름은 영어 대소문자와 한글로만 사용 가능합니다.';
+  } else {
+    nameError.value = '';
   }
 }
 
@@ -128,6 +147,9 @@ function validateForm() {
 
   chkPasswordChk({ target: { value: passwordChk.value } });
   if (passwordChkError.value) valid = false;
+
+  chkName({ target: { value: name.value } });
+  if (nameError.value) valid = false;
 
   chkPhone({ target: { value: phone.value } });
   if (phoneError.value) valid = false;

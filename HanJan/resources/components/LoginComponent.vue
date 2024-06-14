@@ -12,7 +12,7 @@
                     <input type="password" name="password" id="password" class="login_input" placeholder="비밀번호">
                 </div>
                 <button type="button" class="loginBtn" @click="$store.dispatch('login')">로그인</button>
-                <button type="button" class="registBtn" @click="$router.push('regist')">회원가입</button>
+                <button type="button" class="registBtn" @click="$router.push('agree')">회원가입</button>
                 <button type="button" class="kakaoBtn"><img src="/img/kakao_login_large_wide.png" class="kakaoBtn_img"></button>
                 <img class="rightPoto" src="/img/IE002927310_STD.png"></img>
             </div>

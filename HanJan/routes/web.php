@@ -3,6 +3,7 @@
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\QnaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,6 +34,7 @@ Route::get('/{any}', function() {
 // 장바구니 초기 데이터 불러오기 //  TODO : 로그인 된 유저의 데이터만 들고오기 추가
 // Route::middleware('auth')->get('/api/board', [ProductController::class, 'bagsIndex']);
 Route::get('/api/bagsProduct', [ProductController::class, 'bagsIndex']);
+Route::post('/api/bagsDelete/{ba_id}', [ProductController::class, 'bagsDelete']);
 
 
 
@@ -41,6 +43,9 @@ Route::get('/api/bagsProduct', [ProductController::class, 'bagsIndex']);
 // ----------------------- 성환 시작 -------------------------
 Route::post('/api/login', [UserController::class, 'login']);
 Route::post('/api/regist', [UserController::class, 'regist']);
+Route::post('/api/update', [UserController::class, 'update']);
+Route::post('/api/userUpdate', [UserController::class, 'userUpdate']);
+Route::get('/api/regist/{emailText}', [UserController::class, 'registEmailChk']);
 Route::middleware('auth')->post('/api/logout', [UserController::class, 'logout']);
 // ----------------------- 성환 끝 ---------------------------
 
@@ -52,4 +57,12 @@ Route::post('/api/detailed', [ProductController::class, 'checksIndex']);
 // ----------------------- 호경 시작 -------------------------
 // 공지사항 데이터 불러오기
 Route::get('/api/noticelist', [NoticeController::class, 'noticeIndex']);
+// 상품문의내역 데이터 불러오기
+Route::middleware('auth')->get('/api/qnaproductlist', [QnaController::class, 'qnaProductListIndex']);
+// 상품문의 작성하기
+Route::middleware('auth')->post('/api/qnaproduct', [QnaController::class, 'qnaProductCreate']);
+// 상품문의내역 데이터 불러오기
+Route::middleware('auth')->get('/api/qnaonebyonelist', [QnaController::class, 'qnaOnebyOneListIndex']);
+// 1:1문의 작성하기
+Route::middleware('auth')->post('/api/qnaonebyone', [QnaController::class, 'qnaOnebyOneCreate']);
 // ----------------------- 호경 끝 ---------------------------

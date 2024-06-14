@@ -40,23 +40,33 @@
                         <router-link to="/noticelist" class="nav_font" @click="closeNavMini">공지사항</router-link>
                     </li>
                     <li class="nav_item5">
-                        <router-link to="/login" @mouseover="openIconLogin" @mouseleave="closeIconLogin" @click="closeNavMini" class="nav_font">
-                            <div class="nav_user_box">
+                        <div @mouseover="openIconLogin" @mouseleave="closeIconLogin" @click="closeNavMini" class="nav_font">
+                            <div v-if="!$store.state.authFlg" @click="$router.push('/login')" class="nav_user_box">
                                 <img src="/img/login.png" class="nav_icon" id="b_iconuser">
                                 <img src="/img/goldlogin.png" class="nav_icon_hover" id="g_iconuser">
                                 <div class="nav_user">로그인</div>
                             </div>
-                        </router-link>
+                            <div v-else class="nav_user_box" @click="$store.dispatch('logout')">
+                                <img src="/img/logout.png" class="nav_icon" id="b_iconuser">
+                                <img src="/img/goldlogout.png" class="nav_icon_hover" id="g_iconuser">
+                                <div class="nav_user">로그아웃</div>
+                            </div>
+                        </div>
                     </li>
                     <div class="nav_user_line"></div>
                     <li class="nav_item6">
-                        <router-link to="/agree" @mouseover="openIconRegist" @mouseleave="closeIconRegist" @click="closeNavMini" class="nav_font">
-                            <div class="nav_user_box">
+                        <div @mouseover="openIconRegist" @mouseleave="closeIconRegist" @click="closeNavMini" class="nav_font">
+                            <div v-if="!$store.state.authFlg" @click="$store.dispatch('login')" class="nav_user_box">
                                 <img src="/img/regist.png" class="nav_icon" id="b_iconregist">
                                 <img src="/img/goldregist.png" class="nav_icon_hover" id="g_iconregist">
                                 <div class="nav_user">회원가입</div>
                             </div>
-                        </router-link>
+                            <router-link to="/info" v-else class="nav_user_box">
+                                <img src="/img/profile.png" class="nav_icon" id="b_iconregist">
+                                <img src="/img/goldprofile.png" class="nav_icon_hover" id="g_iconregist">
+                                <div class="nav_user">내 정보</div>
+                            </router-link>
+                        </div>
                     </li>
                     <div class="nav_user_line"></div>
                     <li class="nav_item7">
@@ -113,7 +123,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import Cookies from 'js-cookie';
-
     const showModal = ref(true);
     function closeModal() {
         // 쿠키에 자정까지 유효시간 부여

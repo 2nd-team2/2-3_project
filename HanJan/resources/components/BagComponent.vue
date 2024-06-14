@@ -13,8 +13,7 @@
         <form action="" class="">
 
             <div v-for="(item, key) in $store.state.bagsProductData" :key="key" class="bag_goods_item bag_grid bag_padding_bottom">
-                <!-- 체크 박스 name, id 1씩 증가시키기 -->
-                <input type="checkbox" :name="'product_chk_' + (key + 1)" :id="'product_chk_' + (key + 1)">
+                <input @click="check(item.price)" type="checkbox" name="product_chk" :value="item.ba_id">
                 <img class="bag_goods_img" src="/img/best.png">
                 <div class="reviewC_item_grid">
                     <div class="bag_goods_title bag_padding_bottom"> {{ item.name }}</div>
@@ -22,21 +21,16 @@
                         <div>배송비 : 착불</div>
                         <div class="bag_font">금액: {{ item.price }}원</div>
                     </div>
+
                     <div class="bag_count">
-
-                        <!-- 각 상품의 수량 name, id 1씩 증가시키기 -->
-                        <div @click="decInt" :disabled="count === 1" :id="'dec' + (key + 1)" class="bag_count_minus">-</div>
-                        <!-- 텍스트 기록 못하게 하거나 넘버로 했을때 자체적으로 숫자 증감버튼 없애기 -->
-                        <input type="text" v-model="count" :name="'count' + (key + 1)" :id="'count' + (key + 1)" @input="validateCount" class="quantity-input">
-                        <div @click="incInt" :id="'inc' + (key + 1)" class="bag_count_plus">+</div>
-                
-
+                        <button type="button" @click="item.ba_count--" :disabled="item.ba_count === 1" id="dec" class="bag_count_minus">-</button>
+                        <input type="number" v-model="item.ba_count" name="count" @input="validateCount(item)" class="quantity-input">
+                        <button type="button" @click="item.ba_count++" :disabled="item.ba_count >= item.count" id="inc" class="bag_count_plus">+</button>
                     </div>
+
                 </div>
                 <div class="bag_delete_flex">
-                    <form action="" >
-                        <button class="bag_delete" type="submit"></button>
-                    </form>
+                    <button @click="$store.dispatch('bagsDelete', item.ba_id)" class="bag_delete" type="submit"></button>
                 </div>
             </div>
 
@@ -84,7 +78,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, watch } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
@@ -96,25 +90,40 @@ onBeforeMount(() => {
     }
 })
 
+// // 최대 수량 넘어갈시 최대수량으로 고정하기
+// watch(item.ba_count, (newVal) => {
+//         if (newVal > 173) {
+//             count.value = item.count;
+//         }
+//     });
+
+
 // 수량 증가 감소 버튼
-const count = ref(1);
+const decInt = (item) => {
+  if (item.ba_count > 1) {
+    item.ba_count.value--;
 
-const decInt = () => {
-  if (count.value > 1) {
-    count.value--;
+    // TODO : 새로고침하기전에 DB에 저장해두기 - incInt도 같이하기 
+    // store.dispatch('', item.ba_count);
   }
 };
 
-const incInt = () => {
-  count.value++;
+const incInt = (item) => {
+    item.ba_count.value++;
 };
 
-const validateCount = () => {
-  if (isNaN(count.value) || count.value < 1) {
-    count.value = 1;
+// 1보다 작으면 1로 고정
+const validateCount = (item) => {
+  if ( item.ba_count.value < 1) {
+    item.ba_count.value = 1;
   }
 };
 
+
+// 체크 했을때 상품의 가격 데이터를 들고옴
+const check = (price) => {
+    console.log(price);
+}
 
 
 </script>
