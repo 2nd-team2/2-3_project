@@ -1,7 +1,7 @@
 <template>
     <main>
-        <form action="" class="">
-            <div class="detailed_haeder">
+        <!-- <form class="" id="quantityForm"> -->
+            <div class="detailed_haeder" v-for="(item, key) in $store.state.valuedData" :key="key">
                 <img src="/img/best.png">
                 <div class="detailed_haeder_item">
                     <p>적당한 산미와 쌀의 감칠맛</p>
@@ -14,29 +14,31 @@
                         <p class="detailed_review">리뷰 999</p>
                     </div>
                     <p id="app">수량</p>
-                    <div class="detailed_quantity">
-                        <button @click="decrement" class="detailed_haeder_minus" type="submit">-</button>
-                        <p id="quantityDisplay" class="detailed_haeder_quantity">{{ quantity }}</p>
-                        <button @click="increment" class="detailed_haeder_plus" type="submit">+</button>
+                    <div class="detailed_quantity" >
+                        <button @click="decrement(count--)" :disabled="count === 1" class="detailed_haeder_minus" type="submit">-</button>
+                        <input type="number" id="quantityDisplay" class="detailed_haeder_quantity" v-model="count"></input>
+                        <button @click="increment(count++)" @change="handleInput" :disabled="count >=  173 " class="detailed_haeder_plus" type="submit">+</button>
                     </div>
-                    <p>총 상품가격</p>
-                    <p class="detailed_haeder_num">{{ price }}원</p>
+                    <div>
+                        <p>총 상품가격</p>
+                        <input type="number" class="detailed_haeder_num" :value="item.price*count">원</input>
+                    </div>
                     
                     <div class="detailed_haeder_btn">
                         <router-link to="/bag">
-                            <button type="submit" @mouseover="openIconBag" @mouseleave="closeIconBag" @click="zeroAlert" class="detailed_haeder_bag_a">
+                            <button type="submit" @mouseover="openIconBag" @mouseleave="closeIconBag" @click="quantit(item)" class="detailed_haeder_bag_a">
                                 <img src="/img/bag.png" class="detailed_haeder_bag_w" id="b_detailed">
                                 <img src="/img/bag_b.png" class="detailed_haeder_bag_b" id="bk_detailed">
                                 <div class="detailed_haeder_bag">장바구니</div>
                             </button>
                         </router-link>
                         <router-link to="/order">
-                            <button type="submit" @click="as" class="detailed_haeder_bay">구매하기</button>
+                            <button type="submit" @click="quantit(item)" class="detailed_haeder_bay">구매하기</button>
                         </router-link>
                     </div>
                 </div>
             </div>
-        </form>
+        <!-- </form> -->
     <div class="detailed_content">
         <img src="/img/detailed_content.png">
     </div>
@@ -145,32 +147,35 @@
 </template>
 
 <script setup>
-    import { ref } from 'vue';
-    const quantity = ref(0); //처음 숫자지정
+    import { onBeforeMount, ref } from 'vue';
+    import { useStore } from 'vuex';
+    
+    const count = ref(1);
 
-    // TODO : 두개 적용시
-    const as = () => {
-        zeroAlert();
-        $store.dispatch('getMoreBoardData');
-    };
-
-
-    // 재고수량 0일때 alert 띄우기
-    const zeroAlert = () => {
-        if ( quantity.value <= 0 ) {
-            alert('수량을 1 이상으로 선택해주세요.');
-            event.preventDefault();
+    const handleInput = () => {
+        console.log('현재 count 값:', count.value);
+        if (count.value >= 173) {
+            count.value = 0;
         }
     };
-    // + 버튼을 클릭했을 때 실행되는 함수
-    const increment = () => {
-        quantity.value ++;
+
+
+
+    const store = useStore();
+
+
+
+    // // TODO : 두개 적용시
+    const quantit = async() => {
+        await zeroAlert();
+        await store.dispatch('quantityData');
     };
 
-    // - 버튼을 클릭했을 때 실행되는 함수
-    const decrement = () => {
-        if (quantity.value > 0) {
-            quantity.value--;
+    // 재고수량 0일때 alert 띄우기
+    const zeroAlert = (event) => {
+        if ( count <= 0 ) {
+            alert('수량을 1 이상으로 선택해주세요.');
+            event.preventDefault();
         }
     };
 
@@ -189,6 +194,12 @@
         g_iconbag.classList.add('detailed_haeder_bag_b');
         b_iconbag.style.display = 'block';
     }
+
+    onBeforeMount(() => {
+        if(store.state.valuedData.length < 1) {
+            store.dispatch('getValue');
+        }
+    })
 
 </script>
 
