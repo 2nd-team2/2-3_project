@@ -5,9 +5,9 @@
                 <div class="order_list_header">
                     <h1>주문목록</h1>
                     <div>
-                        <button class="keep_shoping_btn black_button" @click="$router.push('/')">계속 쇼핑하기</button>
-                        <button class="shoping_btn review_manage_btn black_button">리뷰관리</button>
-                        <button class="user_update_btn black_button">회원정보 수정</button>
+                        <button class="keep_shoping_btn black_button" @click="$router.push('/list')">계속 쇼핑하기</button>
+                        <button class="shoping_btn review_manage_btn black_button" @click="$router.push('/review')">리뷰관리</button>
+                        <button class="user_update_btn black_button" @click="$router.push('/update')">회원정보 수정</button>
                     </div>
                 </div>
                 <div class="order_list_main">
@@ -17,16 +17,16 @@
                                 <span class="title_span">2024-06-02 주문 / 구매확정 </span>
                                 <span class="yellow_span">06-07(금)</span>
                             </div>
-                            <span class="order_delete"></span>
+                            <button class="order_delete"></button>
                             <div class="order_img"></div>
                             <p class="order_name">한잔 꿈의 대화 13도 375ml</p>
                             <p class="order_price">금액 : 24,000원 / 1개</p>
-                            <span class="button_a">구매확정</span>
+                            <button class="button_a">구매확정</button>
                         </div>
                         <div class="item_right">
-                            <span class="button_a">상품문의하기</span>
-                            <span class="button_a">교환, 반품 신청</span>
-                            <span class="button_a">리뷰 작성하기</span>
+                            <button @click="$router.push('/qnaproduct')" class="button_a">상품문의하기</button> 
+                            <button @click="$router.push('/exchange')" class="button_a">교환, 반품 신청</button>
+                            <button @click="$router.push('/reviewcreate')" class="button_a">리뷰 작성하기</button>
                         </div>
                     </div>
                     <div class="list_num_item">
@@ -43,9 +43,9 @@
             <div class="inquiry_list">
                 <div class="inquiry_list_header">
                     <h1>문의내역</h1>
-                    <div>
-                        <button class="keep_shoping_btn black_button">1:1 문의하기</button>
-                    </div>
+                    <router-link to="/qnaonebyone" class="keep_shoping_btn black_button">
+                        1:1 문의하기
+                    </router-link>
                 </div>
                 <div class="inquiry_list_main">
                     <div class="inquiry_item">
@@ -58,8 +58,8 @@
                             <p class="inquiry_date">2024-06-07</p>
                         </div>
                         <div class="inquiry_item_right_list">
-                            <span class="inquiry_delete"></span>
-                            <button class="keep_shoping_btn black_button">답변완료</button>
+                            <button class="inquiry_delete"></button>
+                            <div class="keep_shoping_btn qna_answer">답변완료</div>
                         </div>
                     </div>
                     <div class="inquiry_item">
@@ -74,7 +74,7 @@
                         </div>
                         <div class="inquiry_item_right_list">
                             <span class="inquiry_delete"></span>
-                            <button class="in_progress black_button">답변진행중</button>
+                            <div class="in_progress qna_answer">답변진행중</div>
                         </div>
                     </div>
                 </div>

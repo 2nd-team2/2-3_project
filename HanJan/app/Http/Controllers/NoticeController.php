@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Notice;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class NoticeController extends Controller
@@ -13,7 +12,7 @@ class NoticeController extends Controller
     public function noticeIndex() {
         $noticeData = Notice::select('notices.*')
                             ->orderBy('created_at', 'DESC')
-                            ->limit(10)
+                            ->limit(6)
                             ->get();
         $responseData = [
             'code' => '0'
