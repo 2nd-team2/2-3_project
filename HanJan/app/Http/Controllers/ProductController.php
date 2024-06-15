@@ -30,7 +30,7 @@ class ProductController extends Controller
                         ->where('bags.deleted_at', '=', null)
                         ->orderBy('bags.created_at','DESC')
                         ->orderBy('bags.ba_id','DESC')
-                        ->limit(3)
+                        // ->limit(3)
                         ->get();
 
         Log::debug($productDate); // TODO
@@ -43,8 +43,6 @@ class ProductController extends Controller
         Log::debug($responseData); // TODO
         
         return response()->json($responseData, 200);
-    
-    
     }
 
     // Bags(장바구니)테이블에서 휴지통 버튼 눌렀을때 삭제 처리
@@ -54,7 +52,7 @@ class ProductController extends Controller
         
         $responseData = [
             'code' => '0'
-            ,'msg' => '글 삭제 완료'
+            ,'msg' => '장바구니 상품 삭제 완료'
             ,'data' => $ba_id
         ];
 

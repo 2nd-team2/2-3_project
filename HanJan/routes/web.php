@@ -4,6 +4,7 @@ use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\QnaController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,11 +32,14 @@ Route::get('/{any}', function() {
 
 
 // ----------------------- 보원 시작 -------------------------
-// 장바구니 초기 데이터 불러오기 //  TODO : 로그인 된 유저의 데이터만 들고오기 추가
-// Route::middleware('auth')->get('/api/board', [ProductController::class, 'bagsIndex']);
-Route::get('/api/bagsProduct', [ProductController::class, 'bagsIndex']);
-Route::post('/api/bagsDelete/{ba_id}', [ProductController::class, 'bagsDelete']);
-
+// 장바구니 초기 데이터 불러오기
+Route::middleware('auth')->get('/api/bagsProduct', [ProductController::class, 'bagsIndex']);
+// 장바구니 데이터 삭제
+Route::middleware('auth')->delete('/api/bagsDelete/{ba_id}', [ProductController::class, 'bagsDelete']);
+// 리뷰 초기 데이터 불러오기
+Route::middleware('auth')->get('/api/review', [ReviewController::class, 'reviewIndex']);
+// 리뷰 데이터 삭제
+Route::middleware('auth')->delete('/api/reviewDelete/{re_id}', [ReviewController::class, 'reviewDelete']);
 
 
 // ----------------------- 보원 끝 ---------------------------

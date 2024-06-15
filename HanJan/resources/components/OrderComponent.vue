@@ -59,6 +59,7 @@
                 </div>
             </div>
         </div>
+        <button>결제하기</button>
     </main>
 </template>
 

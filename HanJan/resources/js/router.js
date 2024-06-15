@@ -13,6 +13,7 @@ import OrderComponent from '../components/OrderComponent.vue';
 import RegistComponent from '../components/RegistComponent.vue';
 import ReviewComponent from '../components/ReviewComponent.vue';
 import ReviewCreateComponent from '../components/ReviewCreateComponent.vue';
+import ReviewUpdateComponent from '../components/ReviewUpdateComponent.vue';
 import UpdateComponent from '../components/UpdateComponent.vue';
 import QnaProductComponent from '../components/QnaProductComponent.vue';
 import QnaProductListComponent from '../components/QnaProductListComponent.vue';
@@ -102,6 +103,11 @@ const routes = [
     {
         path: '/reviewcreate',
         component: ReviewCreateComponent,
+        beforeEnter: chkAuth,
+    },
+    {
+        path: '/reviewupdate',
+        component: ReviewUpdateComponent,
         beforeEnter: chkAuth,
     },
     {
