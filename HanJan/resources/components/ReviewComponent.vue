@@ -32,12 +32,12 @@
 
                 <!-- TODO : 수정하기 > 수정하는 페이지 및 a 태그 -->
                 <form action="" class="review_goods_info_grid_btn">
-                    <button @click="$router.push('/reviewupdate')" type="button" class="review_btn">수정하기</button>
-                    <button @click="$store.dispatch('reviewDelete', item.re_id)" class="review_btn">삭제하기</button>
+                    <button @click="reviewUpdate(item)" button="button" class="review_btn">수정하기</button>
+                    <button @click="reviewDelete(item.re_id)" class="review_btn">삭제하기</button>
                 </form>
             </div>
         </div>
-
+        <!-- TODO : 리뷰 관리는 더보기로 제안해보기 -->
         <div class="pagination">
             <button class="prev"><span> 〈 </span>이전</button>
             <div class="page-numbers"></div>
@@ -49,13 +49,31 @@
 <script setup>
 import { onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
 
 const store = useStore();
+const router = useRouter();
 
 // 리뷰 초기 데이터 가져오기
 onBeforeMount(() => {
+    // TODO: 이미 데이터가 있으면 onBeforeMount 요청 안하게 수정하기
     store.dispatch('reviewGet')
 })
+
+// 리뷰 수정하기 페이지로 정보 넘기기
+const reviewUpdate = (re_id) => {
+
+    store.dispatch('reviewUpdate', re_id);
+
+    // router.push({ path: '/reviewupdate', state: { item: item } });
+    // console.log(item);
+}
+
+// 리뷰 삭제하기 기능
+const reviewDelete = (re_id) => {
+    store.dispatch('reviewDelete', re_id)
+}
 
 
 </script>

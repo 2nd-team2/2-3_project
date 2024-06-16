@@ -10,6 +10,8 @@ const store = createStore({
             bagsProductData: [],
             // 리뷰 담을 리스트
             reviewData: [],
+            // 리뷰관리 > 리뷰수정으로 데이터 넘기기
+            reviewUpdateData :[],
             // ----------------------- 보원 끝 ---------------------------
             // ----------------------- 성환 시작 -------------------------
             authFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
@@ -43,6 +45,10 @@ const store = createStore({
         // state.리뷰에 추가 될 리스트
         reviewSetData(state, data) {
             state.reviewData = data;
+        },
+        // 리뷰관리에서 수정 페이지로 넘어갈때 데이터 전달
+        reviewUpdateData(state, data) {
+            state.reviewUpdateData = data;
         },
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
@@ -119,8 +125,7 @@ const store = createStore({
          * @param {*} context
          * @param {*} ba_id
         */
-       
-       bagsDelete(context, ba_id) {
+        bagsDelete(context, ba_id) {
             const url = '/api/bagsDelete/' + ba_id;
             
             axios.delete(url)
@@ -141,7 +146,7 @@ const store = createStore({
          * 
          * @param {*} context
         */
-       reviewGet(context) {
+        reviewGet(context) {
            const url = '/api/review';
            
            axios.get(url)
@@ -158,6 +163,38 @@ const store = createStore({
         },    
         
         /**
+         * 리뷰관리에서 리뷰 수정페이지로 이동
+         * 
+         * @param {*} context
+         * @param {*} item
+        */
+        reviewUpdate(context, item) {
+            const reviewUpdateData = context.commit('reviewUpdateData', item);
+            router.replace('/reviewupdate');
+        },
+
+        /**
+         * 리뷰수정 완료
+         * 
+         * @param {*} context
+        */
+        reviewUpdateSubmit(context, re_id) {
+            const url = '/api/reviewUpdateSubmit' + re_id;
+            
+            axios.get(url)
+            .then(response => {
+                console.log(response.data); // TODO : 삭제
+                
+                // 데이터베이스->서버를 통해 받은 데이터를 reviewtData에 저장
+                context.commit('reviewSetData', response.data.data);
+                })
+                .catch(error => {
+                    console.log(error.response); //  TODO : 삭제
+                    alert('리뷰 획득에 실패하였습니다.(' + error.response.data.code + ')' )
+                });
+        }, 
+
+        /**
          * 리뷰관리에서 리뷰 삭제
          * 
          * @param {*} context
@@ -166,15 +203,21 @@ const store = createStore({
         reviewDelete(context, re_id) {
             const url = '/api/reviewDelete/' + re_id;
             
-            axios.delete(url)
-            .then(response => {
-                console.log(response.data); // TODO : 삭제
-                confirm('확인을 누르면 작성한 리뷰가 삭제됩니다.')
-            })
-            .catch(error => {
-                console.log(error.response); //  TODO : 삭제
-                alert('리뷰 삭제에 실패했습니다.(' + error.response.data.code + ')' )
-            });
+            if (confirm('확인을 누르면 작성한 리뷰가 삭제됩니다.')) {
+                axios.delete(url)
+                .then(response => {
+                    console.log(response.data); // TODO : 삭제
+                })
+                .catch(error => {
+                    console.log(error.response); //  TODO : 삭제
+                    alert('리뷰 삭제에 실패했습니다.(' + error.response.data.code + ')' )
+                });
+
+            } else {
+                console.log('confirm false');
+            }
+
+
 
         },
               

@@ -38,6 +38,10 @@ Route::middleware('auth')->get('/api/bagsProduct', [ProductController::class, 'b
 Route::middleware('auth')->delete('/api/bagsDelete/{ba_id}', [ProductController::class, 'bagsDelete']);
 // 리뷰 초기 데이터 불러오기
 Route::middleware('auth')->get('/api/review', [ReviewController::class, 'reviewIndex']);
+// 리뷰 데이터 작성
+// Route::middleware('auth')->get('/api/reviewCreate', [ReviewController::class, 'reviewCreate']);
+// 리뷰 데이터 수정
+Route::middleware('auth')->get('/api/reviewUpdateSubmit/{re_id}', [ReviewController::class, 'reviewUpdateSubmit']);
 // 리뷰 데이터 삭제
 Route::middleware('auth')->delete('/api/reviewDelete/{re_id}', [ReviewController::class, 'reviewDelete']);
 

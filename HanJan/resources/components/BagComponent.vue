@@ -50,7 +50,7 @@
 
             <hr>
 
-            <!-- TODO: 스크롤 내려도 옆에 계속 보이게 하다가 일정 높이 도착하면 멈추게 하기 -->
+            <!-- TODO: CSS 수정 > 스크롤 내려도 옆에 계속 보이게 하다가 일정 높이 도착하면 멈추게 하기 -->
             <div class="bag_margin_top bag_margin_bottom bag_total_border bag_total_grid">
                 <div></div>
                 <div class="bag_price_grid">
@@ -79,6 +79,7 @@
                 </form>
                 <div class="bag_flex_end">
                     <button @click="$router.push('/order')" type="submit" class="bag_cancel bag_border_none">구매하기</button>
+                    <!-- TODO : 가지고 있는 정보를 다 oreder 페이지로 넘기기 -->
                     <!-- <button @click="store.dispatch('')" type="submit" class="bag_cancel bag_border_none">구매하기</button> -->
                 </div>
             </div>

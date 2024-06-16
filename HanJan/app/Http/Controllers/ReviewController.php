@@ -35,7 +35,7 @@ class ReviewController extends Controller
 
     }
 
-    // Bags(장바구니)테이블에서 휴지통 버튼 눌렀을때 삭제 처리
+    // 리뷰관리 페이지에서 휴지통 버튼 눌렀을때 reviews(리뷰) 테이블에서 삭제 처리
     public function reviewDelete($re_id) {
 
         Review::destroy($re_id);
@@ -47,5 +47,15 @@ class ReviewController extends Controller
         ];
 
         return response()->json($responseData);
+    }
+
+
+    // 리뷰수정 페이지에서  버튼 눌렀을때 reviews(리뷰) 테이블에서 데이터 저장하기
+    // TODO: 최초 리뷰 작성할때 데이터 저장이 아래 수정과 동일 하다면 reviewWrite로 함수명 바꾸고 통합하기
+    
+    // 리뷰수정 페이지에서 수정 후 등록하기 버튼 눌렀을때 reviews(리뷰) 테이블에서 데이터 수정하기
+    public function reviewUpdateSubmit($re_id) {
+        // 데이터 유효성 검사
+        // 데이터 저장
     }
 }
