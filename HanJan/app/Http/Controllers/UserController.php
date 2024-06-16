@@ -25,6 +25,7 @@ class UserController extends Controller
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
 
+        // 로그인 
         public function login(Request $request) {
             // 유효성 검사
             $validator = Validator::make(
@@ -155,24 +156,21 @@ class UserController extends Controller
 
         // 유저 정보 수정
         public function userUpdate(Request $request) {
-            Log::debug('회원 정보 수정', $request->all());
-
+            
             // 유저정보 획득
-            $userInfo = User::find(1);
+            $userInfo = Auth::user();
+
+            // 비밀번호와 비밀번호 확인이 일치하는지 확인
+            if ($request->password !== $request->password_chk) {
+                alert('비밀번호 불일치');
+            }
 
             // 업데이트 할 리퀘스트 데이터 셋팅
-            $userInfo->password = $request->password;
-            $userInfo->password_chk = $request->password_chk;
+            $userInfo->password = Hash::make($request->password); 
             $userInfo->name = $request->name;
             $userInfo->tel = $request->tel;
             $userInfo->addr = $request->addr;
             $userInfo->det_addr = $request->det_addr;
-            Log::debug($userInfo);
-
-            // 비밀번호 확인
-            if(!Hash::check($request->password, $userInfo->password)) {
-                throw new MyAuthException('E21');
-            }
 
             // 유저정보 갱신
             $userInfo->save();
@@ -182,6 +180,25 @@ class UserController extends Controller
                 'data' => $userInfo
             ];
             return response()->json($response, 200);
+        }
+
+        // 유저 탈퇴
+        public function userDelete(Request $request) {
+
+            // 유저정보 획득
+            $userInfo = Auth::user();
+
+            // 사용자 삭제
+            $deleted = User::destroy($userInfo->id);
+    
+            if ($deleted) {
+                // 로그아웃 처리
+                Auth::logout(Auth::user());
+                return response()->json(['msg' => '회원 탈퇴 완료'], 200);
+            } else {
+                return response()->json(['error' => '사용자 삭제 실패'], 500);
+            }
+            
         }
 
 

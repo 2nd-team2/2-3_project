@@ -15,7 +15,6 @@ const store = createStore({
             authFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
             userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
             // ----------------------- 성환 끝 ---------------------------
-            authFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
             // ----------------------- 민서 시작 -------------------------
             valuedData: {},
             detailedData: [],
@@ -261,6 +260,23 @@ const store = createStore({
             axios.post(url, data)
             .then(response => {
                 router.replace('info');
+            })
+            .catch(error => {
+                console.log(error.response.data.code);
+            });
+        },
+
+        //회원 탈퇴
+        userDelete(context) {
+            const url = '/api/userDelete';
+            const data = new FormData(document.querySelector('#update_form'));
+            axios.delete(url, data)
+            .then(response => {
+                localStorage.clear();
+
+                context.commit('setAuthFlg', false);
+                context.commit('setUserInfo', null);
+                router.replace('/');
             })
             .catch(error => {
                 console.log(error.response.data.code);
