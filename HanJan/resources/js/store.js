@@ -18,7 +18,10 @@ const store = createStore({
             userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
             // ----------------------- 성환 끝 ---------------------------
             // ----------------------- 민서 시작 -------------------------
+            // 상품 정보
             valuedData: {},
+            // 상품 게시물 리스트
+            listData: [],
             detailedData: [],
             // ----------------------- 민서 끝 ---------------------------
             // ----------------------- 호경 시작 -------------------------
@@ -63,6 +66,9 @@ const store = createStore({
         // ----------------------- 민서 시작 -------------------------
         valueNumData(state, data) {
             state.valuedData = data;
+        },
+        listInfoData(state, data) {
+            state.listData = data;
         },
         detailedNumData(state, data) {
             state.detailedData = data;
@@ -341,7 +347,7 @@ const store = createStore({
             .then(response => {
                 console.log(response.data); // TODO : 삭제
 
-                // 데이터베이스->서버를 통해 받은 데이터를 bagsProductData에 저장
+                // 데이터베이스->서버를 통해 받은 데이터를 valuedData 저장
                 context.commit('valueNumData', response.data.data);
             })
             .catch(error => {
@@ -351,13 +357,34 @@ const store = createStore({
         },
 
         /**
-         * 수량 획득
+         * 상품획득
+         * 
+         * @param {*} context
+         */
+        getList(context) {
+            const url = '/api/list';
+
+            axios.get(url)
+            .then(response => {
+                console.log(response.data); // TODO : 삭제
+
+                // 데이터베이스->서버를 통해 받은 데이터를 listData 저장
+                context.commit('listInfoData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response.data); //  TODO : 삭제
+                alert('선택한 상품이 없습니다.(' + error.response.data.code + ')' )
+            });
+        },
+
+        /**
+         * 상품정보 획득 상세페이지로 데이터 보내기
          * 
          * @param {*} constext 
          */
         quantityData(constext) {
-            const url = '/api/detailed';
-            const data = new FormData(document.querySelector('#quantityForm'));
+            const url = '/api/list' + checksIndex.id ;
+            const data = new FormData(document.querySelector('#listPostForm'));
 
             axios.post(url, data)
             .then(response => {

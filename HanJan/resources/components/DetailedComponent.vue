@@ -2,12 +2,12 @@
     <main>
         <!-- <form class="" id="quantityForm"> -->
             <div class="detailed_haeder">
-                <img src="/img/best.png">
+                <img :src="store.state.valuedData.img">
                 <div class="detailed_haeder_item">
                     <p>적당한 산미와 쌀의 감칠맛</p>
-                    <p class="detailed_haeder_title">꿈의 대화</p>
+                    <p class="detailed_haeder_title">{{ store.state.valuedData.name }}</p>
                     <p>판매가격 :</p>
-                    <p class="detailed_haeder_price">24,000원</p>
+                    <p class="detailed_haeder_price">{{ store.state.valuedData.price }}원</p>
                     <div class="detailed_haeder_review">
                         <img src="/img/detailed_star.png">
                         <p>5.0</p>
@@ -40,16 +40,16 @@
             </div>
         <!-- </form> -->
     <div class="detailed_content">
-        <img src="/img/detailed_content.png">
+        <img :src="store.state.valuedData.img">
     </div>
     <hr>
     <h1>리뷰</h1>
     <div class="detailed_footer_item">
         <div class="detailed_footer">
-            <p class="detailed_footer_name">한술</p>
-            <p class="detailed_footer_title">꿈의 대화</p>
+            <p class="detailed_footer_name">{{ store.state.valuedData.user_name }}</p>
+            <p class="detailed_footer_title">{{ store.state.valuedData.name }}</p>
             <div class="review_goods_info_grid_star">
-                <div class="star-rating">
+                <div class="star-rating" :value="$store.state.valuedData.re_star">
                     <span class="star" data-value="1">&#9733;</span>
                     <span class="star" data-value="2">&#9733;</span>
                     <span class="star" data-value="3">&#9733;</span>
@@ -57,77 +57,9 @@
                     <span class="star" data-value="5">&#9733;</span>
                 </div>                     
             </div>                   
-            <p class="detailed_footer_date">2024-06-07</p>
+            <p class="detailed_footer_date">{{ store.state.valuedData.updated_at }}</p>
         </div>
-        <p class="detailed_footer_content">완전 산뜻해서 좋았어요</p>
-    </div>
-    <div class="detailed_footer_item">
-        <div class="detailed_footer">
-            <p class="detailed_footer_name">한술</p>
-            <p class="detailed_footer_title">꿈의 대화</p>
-            <div class="review_goods_info_grid_star">
-                <div class="star-rating">
-                    <span class="star" data-value="1">&#9733;</span>
-                    <span class="star" data-value="2">&#9733;</span>
-                    <span class="star" data-value="3">&#9733;</span>
-                    <span class="star" data-value="4">&#9733;</span>
-                    <span class="star" data-value="5">&#9733;</span>
-                </div>                     
-            </div> 
-            <p class="detailed_footer_date">2024-06-07</p>
-        </div>
-        <p class="detailed_footer_content">완전 산뜻해서 좋았어요</p>
-    </div>
-    <div class="detailed_footer_item">
-        <div class="detailed_footer">
-            <p class="detailed_footer_name">한술</p>
-            <p class="detailed_footer_title">꿈의 대화</p>
-            <div class="review_goods_info_grid_star">
-                <div class="star-rating">
-                    <span class="star" data-value="1">&#9733;</span>
-                    <span class="star" data-value="2">&#9733;</span>
-                    <span class="star" data-value="3">&#9733;</span>
-                    <span class="star" data-value="4">&#9733;</span>
-                    <span class="star" data-value="5">&#9733;</span>
-                </div>                     
-            </div> 
-            <p class="detailed_footer_date">2024-06-07</p>
-        </div>
-        <p class="detailed_footer_content">완전 산뜻해서 좋았어요</p>
-    </div>
-    <div class="detailed_footer_item">
-        <div class="detailed_footer">
-            <p class="detailed_footer_name">한술</p>
-            <p class="detailed_footer_title">꿈의 대화</p>
-            <div class="review_goods_info_grid_star">
-                <div class="star-rating">
-                    <span class="star" data-value="1">&#9733;</span>
-                    <span class="star" data-value="2">&#9733;</span>
-                    <span class="star" data-value="3">&#9733;</span>
-                    <span class="star" data-value="4">&#9733;</span>
-                    <span class="star" data-value="5">&#9733;</span>
-                </div>                     
-            </div> 
-            <p class="detailed_footer_date">2024-06-07</p>
-        </div>
-        <p class="detailed_footer_content">완전 산뜻해서 좋았어요</p>
-    </div>
-    <div class="detailed_footer_item">
-        <div class="detailed_footer">
-            <p class="detailed_footer_name">한술</p>
-            <p class="detailed_footer_title">꿈의 대화</p>
-            <div class="review_goods_info_grid_star">
-                <div class="star-rating">
-                    <span class="star" data-value="1">&#9733;</span>
-                    <span class="star" data-value="2">&#9733;</span>
-                    <span class="star" data-value="3">&#9733;</span>
-                    <span class="star" data-value="4">&#9733;</span>
-                    <span class="star" data-value="5">&#9733;</span>
-                </div>                     
-            </div> 
-            <p class="detailed_footer_date">2024-06-07</p>
-        </div>
-        <p class="detailed_footer_content">완전 산뜻해서 좋았어요</p>
+        <p class="detailed_footer_content">{{ store.state.valuedData.re_content }}</p>
     </div>
     <div class="list_num_item">
         <a href="" class="before">〈 이전</a>
