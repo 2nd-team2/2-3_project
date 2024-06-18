@@ -58,6 +58,7 @@ Route::get('/api/regist/{emailText}', [UserController::class, 'registEmailChk'])
 Route::post('/api/confirm', [UserController::class, 'confirm']);
 Route::middleware('auth')->post('/api/logout', [UserController::class, 'logout']);
 Route::middleware('auth')->get('/api/info', [UserController::class, 'infoData']);
+Route::middleware('auth')->get('/api/ask', [UserController::class, 'askData']);
 // ----------------------- 성환 끝 ---------------------------
 
 // ----------------------- 민서 시작 -------------------------

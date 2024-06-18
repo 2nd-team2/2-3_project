@@ -48,29 +48,29 @@
                     </router-link>
                 </div>
                 <div class="inquiry_list_main">
-                    <div class="inquiry_item">
+                    <div class="inquiry_item" v-for="(item, key) in $store.state.askData" :key="key">
                         <div class="inquiry_item_left_list_text">
                             <div>
                                 <span class="title_span">상품문의</span>
                             </div>
                             <div class="inquiry_img"></div>
-                            <p class="inquiry_name">한잔 꿈의 대화 13도 375ml / 1개</p>
-                            <p class="inquiry_date">2024-06-07</p>
+                            <p class="inquiry_name">{{ item.qnp_content }}</p>
+                            <p class="inquiry_date">{{ item.created_at }}</p>
                         </div>
                         <div class="inquiry_item_right_list">
                             <button class="inquiry_delete"></button>
                             <div class="keep_shoping_btn qna_answer">답변완료</div>
                         </div>
                     </div>
-                    <div class="inquiry_item">
+                    <div class="inquiry_item" v-for="(item, key) in $store.state.askData" :key="key">
                         <div class="inquiry_item_left_list_text">
                             <div class="inquiry_text">
                                 <span class="title_span">1:1 문의</span>
                             </div>
                             <div class="inquiry_div">
                             </div>
-                            <p class="inquiry_name">개인 문의 제목</p>
-                            <p class="one_date">2024-06-07</p>
+                            <p class="inquiry_name">{{ item.qn_content }}</p>
+                            <p class="one_date">{{ item.created_at }}</p>
                         </div>
                         <div class="inquiry_item_right_list">
                             <span class="inquiry_delete"></span>

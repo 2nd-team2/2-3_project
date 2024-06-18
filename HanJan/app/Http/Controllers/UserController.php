@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\MyAuthException;
 use App\Exceptions\MyValidateException;
 use App\Models\Orderproduct;
+use App\Models\Qnaproduct;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -222,34 +223,48 @@ class UserController extends Controller
                 return response()->json($responseData, 200);
             }
         
-        // 마이페이지
+        // 마이페이지 주문목록
         public function infoData() {
                 $infoData = Orderproduct::select('orderproducts.*','users.id','products.*')
                                 ->join('users','orderproducts.or_id','=','users.id')
-                                // ->join('users','qnas.qn_id','=','users.id')
                                 ->join('products','orderproducts.p_id','=','products.id')
-                                // ->join('orderproducts', 'completes.co_id', '=', 'orderproducts.orp_id')
-                                // ->join('orderproducts', 'qnaproducts.qnp_id', '=', 'orderproducts.orp_id')
                                 ->where('orderproducts.or_id', '=', Auth::id())
                                 ->where('orderproducts.deleted_at', '=', null)
-                                // ->where('qnaproducts.deleted_at', '=', null)
-                                // ->where('qnas.deleted_at', '=', null)
-                                // ->where('completes.co_flg', '=', '1')
                                 ->orderBy('orderproducts.created_at','DESC')
                                 ->orderBy('orderproducts.orp_id','DESC')
+                                ->distinct()
                                 ->limit(3)
                                 ->get();
                 
-
-        
                 $responseData = [
                     'code' => '0'
-                    ,'msg' => '목록 획득 완료'
+                    ,'msg' => '주문목록 획득 완료'
                     ,'data' => $infoData->toArray()
                 ];
             
                 return response()->json($responseData, 200);
-        
+            }
+
+        // 마이페이지 문의목록
+        public function askData() {
+                $askData = Qnaproduct::select('qnas.*','users.id','qnaproducts.*')
+                                ->join('users','qnaproducts.u_id','=','users.id')
+                                ->join('qnas', 'qnaproducts.p_id', '=', 'qnas.u_id')
+                                ->where('qnaproducts.u_id', '=', Auth::id())
+                                ->where('qnaproducts.deleted_at', '=', null)
+                                ->orderBy('qnaproducts.created_at','DESC')
+                                ->orderBy('qnaproducts.qnp_id','DESC')
+                                ->distinct()
+                                ->limit(3)
+                                ->get();
+                
+                $responseData = [
+                    'code' => '0'
+                    ,'msg' => '문의목록 획득 완료'
+                    ,'data' => $askData->toArray()
+                ];
+            
+                return response()->json($responseData, 200);
             }
 
         // ----------------------- 성환 끝 ---------------------------
