@@ -29,9 +29,7 @@ const store = createStore({
             // ----------------------- 민서 끝 ---------------------------
             // ----------------------- 호경 시작 -------------------------
             // 공지사항 게시물 리스트
-            noticeData: [],
-            // // 공지사항 게시물 리스트 6개
-            // noticeDataSix: [],
+            noticeData: localStorage.getItem('noticeData') ? JSON.parse(localStorage.getItem('noticeData')) : {current_page: '1'},
             // 공지사항 디테일 정보
             noticeDetail: {},
             // 상품문의 게시물 리스트
@@ -92,11 +90,8 @@ const store = createStore({
         // 공지사항 게시물 리스트
         setNoticeData(state, data) {
             state.noticeData = data;
+            localStorage.setItem('noticeData', JSON.stringify(data))
         },
-        // // 공지사항 게시물 리스트 6개
-        // setNoticeDataSix(state, data) {
-        //     state.noticeDataSix = data;
-        // },
         // 공지사항 디테일 저장
         setNoticeDetailData(state, data) {
             state.noticeDetail = data;
@@ -464,12 +459,13 @@ const store = createStore({
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
         /**
-         * 공지사항 획득
+         * 공지사항 리스트 획득
          * 
          * @param {*} context 
          */
         getNoticeData(context, page) {
-            const url = '/api/noticelist';
+            const param = page == 1 ? '' : '?page=' + page;
+            const url = '/api/noticelist' + param;
             
             axios.get(url)
             .then(response => {
@@ -481,24 +477,6 @@ const store = createStore({
                 alert('공지사항 습득에 실패했습니다.(' + error.response.data.code + ')');
             });
         },
-        // /**
-        //  * 공지사항 6개 획득
-        //  * 
-        //  * @param {*} context 
-        //  */
-        // getNoticeDataSix(context) {
-        //     const url = '/api/noticelist';
-            
-        //     axios.get(url)
-        //     .then(response => {
-        //         console.log(response.data); // TODO
-        //         context.commit('setNoticeDataSix', response.data.data);
-        //     })
-        //     .catch(error => {
-        //         console.log(error.response); // TODO
-        //         alert('공지사항 습득에 실패했습니다.(' + error.response.data.code + ')');
-        //     });
-        // },
         /**
          * 상품문의내역 획득
          * 
