@@ -66,32 +66,38 @@
 
     // 총 페이지 수 계산
     // const totalPages = computed(() => Math.ceil(posts.value.data.length / itemsPerPage))
+    // const totalPages = computed(() => posts.value ? Math.ceil(posts.value.total / itemsPerPage) : 0);
 
     // 페이지 번호 배열 계산
     const pages = computed(() => {
         const pageArray = []
         // 페이지네이션 5개
-        const maxPagesToShow = 5
+        const maxPagesToShow = 5;
 
         const startPage = (posts.value.current_page - 2) < 1 ? 1 : posts.value.current_page;
         const endPage = startPage + maxPagesToShow - 1;
 
         // 시작페이지 구하기
-        // let startPage = Math.max(currentPage.value - Math.floor(maxPagesToShow / 2), 1);
         const pagingStart = startPage <= (posts.value.last_page - maxPagesToShow - 1) ? startPage : (posts.value.last_page - maxPagesToShow - 1);
+        // let startPage = Math.max(currentPage.value - Math.floor(maxPagesToShow / 2), 1);
+        
         // 마지막 페이지 구하기
-        // let endPage = startPage + maxPagesToShow - 1
         const pagingEnd = endPage > posts.value.last_page ? posts.value.last_page : endPage;
+        // let endPage = startPage + maxPagesToShow - 1
 
         // if (endPage > totalPages.value) {
         //     endPage = totalPages.value
         //     startPage = Math.max(endPage - maxPagesToShow + 1, 1)
         // }
+        // if (endPage > totalPages.value) {
+        //     endPage = totalPages.value;
+        //     startPage = Math.max(1, totalPages.value - maxPagesToShow + 1);
+        // }
 
         for (let i = pagingStart; i <= pagingEnd; i++) {
             pageArray.push(i)
         }
-        console.log('페이지네이션', posts.value, startPage, pagingStart, endPage, pagingEnd, pageArray);
+        console.log('페이지네이션', posts.value, '시작페이지:',startPage, '페이징시작:', pagingStart, '엔드페이지:',endPage, '엔드페이징:',pagingEnd, '페이징어레이:',pageArray);
         return pageArray
     })
 
@@ -114,6 +120,9 @@
         if (currentPage.value > 1) {
             currentPage.value--
         }
+        // if (currentPage.value > 1) {
+        //     goToPage(currentPage.value - 1);
+        // }
     }
 
     // 다음 페이지로 이동
@@ -121,6 +130,9 @@
         if (currentPage.value < totalPages.value) {
             currentPage.value++
         }
+        // if (currentPage.value < totalPages.value) {
+        //     goToPage(currentPage.value + 1);
+        // }
     }
 </script>
 
