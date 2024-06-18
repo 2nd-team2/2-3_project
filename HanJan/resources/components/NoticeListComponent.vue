@@ -50,7 +50,8 @@
     })
 
     function noticeDetail(item) {
-        store.commit('setNoticeDetailData', item);
+        store.com
+        mit('setNoticeDetailData', item);
         router.push('/notice');
     }
 
