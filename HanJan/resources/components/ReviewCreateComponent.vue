@@ -5,22 +5,22 @@
             <a href="" class="reviewC_cancel">계속 쇼핑하기</a>
         </h2>
 
+        <div>test : {{ $store.state.reviewToUpdate }}</div>
         <div>
             <div class="reviewC_padding_top">이 상품의 품질에 대해서 얼마나 만족하시나요?</div>
             <div class="review_goods_item reviewC_grid">
                 <div class="reviewC_order_at">2024-06-02 주문 / 구매확정 <span class="reviewC_yellow">06-07</span></div>
                 <div class="reviewC_goods_grid">
-                    <img class="review_goods_img" src="/img/best.png">
+                    <img class="review_goods_img" :src="$store.state.reviewToUpdate.img">
                     <div class="reviewC_item_grid">
-                        <div class="review_goods_title">한잔 꿈의 대화 13도 375ml / 1개</div>
+                        <div class="review_goods_title">{{ $store.state.reviewToUpdate.name +' / '+ $store.state.reviewToUpdate.ml +'ml /' + '1' +'개'}}</div>
                         <div class="reviewC_required"><span class="reviewC_required_red">*</span>(필수)</div>
                         <div class="star-rating">
-                            <span class="star" data-value="1">&#9733;</span>
-                            <span class="star" data-value="2">&#9733;</span>
-                            <span class="star" data-value="3">&#9733;</span>
-                            <span class="star" data-value="4">&#9733;</span>
-                            <span class="star" data-value="5">&#9733;</span>
-                        </div>        
+                            <span class="star" v-for="star in 5" :key="star" :class="{ checked: star <= selectedStar }" @click="selectStar(star)">
+                                &#9733;
+                            </span>
+                            <span>{{ selectedStar }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -46,6 +46,24 @@
 </template>
 
 <script setup>
+import { onBeforeUpdate, ref } from 'vue';
+import { useStore } from 'vuex';
+
+const store = useStore();
+
+onBeforeUpdate(() => {
+    console.log(store.state.reviewToUpdate);
+
+    return store.state.reviewToUpdate;
+})
+
+// 별 js
+const selectedStar = ref(0);
+
+const selectStar = (star) => {
+  selectedStar.value = star;
+};
+
 </script>
 
 <style scoped src="../css/review.css">

@@ -10,12 +10,16 @@ const store = createStore({
             bagsProductData: [],
             // 리뷰 담을 리스트
             reviewData: [],
-            // 리뷰관리 > 리뷰수정으로 데이터 넘기기
-            reviewUpdateData :[],
+            // 리뷰관리 > 리뷰수정으로 데이터 넘기기(로컬스토리지에 저장하기 - 새로고침 누를시 없어지는 걸 방지)
+            // reviewUpdateData :[],
+            reviewToUpdate: localStorage.getItem('reviewToUpdate') ? JSON.parse(localStorage.getItem('reviewToUpdate')) : null,
+
+            
             // ----------------------- 보원 끝 ---------------------------
             // ----------------------- 성환 시작 -------------------------
             authFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
             userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
+            infoData: [],
             // ----------------------- 성환 끝 ---------------------------
             // ----------------------- 민서 시작 -------------------------
             valuedData: {},
@@ -46,9 +50,10 @@ const store = createStore({
             state.reviewData = data;
         },
         // 리뷰관리에서 수정 페이지로 넘어갈때 데이터 전달
-        reviewUpdateData(state, data) {
-            state.reviewUpdateData = data;
-        },
+        // reviewUpdateData(state, data) {
+        //     state.reviewUpdateData = data;
+        // },
+
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
         // 인증 플래그 저장
@@ -168,29 +173,36 @@ const store = createStore({
          * @param {*} item
         */
         reviewUpdate(context, item) {
-            const reviewUpdateData = context.commit('reviewUpdateData', item);
+            const reviewUpdateData = item;
+
+            // context.commit('reviewUpdateData', reviewUpdateData);
+            localStorage.setItem('reviewToUpdate', JSON.stringify(reviewUpdateData));
+
+
             router.replace('/reviewupdate');
         },
 
+
+        // TODO: 리뷰 작성이랑 수정이랑 같을 경우 메소드 명 통일하기 > 중간에 update만 뺴기
         /**
          * 리뷰수정 완료
          * 
          * @param {*} context
         */
-        reviewUpdateSubmit(context, re_id) {
-            const url = '/api/reviewUpdateSubmit' + re_id;
+        reviewUpdateSubmit(context) {
+            const url = '/api/reviewUpdateSubmit';
+            const data = new FormData(document.querySelector('#reviewUpdateForm'));
             
-            axios.get(url)
+            axios.get(url, data)
             .then(response => {
                 console.log(response.data); // TODO : 삭제
-                
-                // 데이터베이스->서버를 통해 받은 데이터를 reviewtData에 저장
+            
                 context.commit('reviewSetData', response.data.data);
-                })
-                .catch(error => {
-                    console.log(error.response); //  TODO : 삭제
-                    alert('리뷰 획득에 실패하였습니다.(' + error.response.data.code + ')' )
-                });
+            })
+            .catch(error => {
+                console.log(error.response); //  TODO : 삭제
+                alert('리뷰 획득에 실패하였습니다.(' + error.response.data.code + ')' )
+            });
         }, 
 
         /**
