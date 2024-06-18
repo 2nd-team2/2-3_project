@@ -2,12 +2,12 @@
     <main>
         <!-- <form class="" id="quantityForm"> -->
             <div class="detailed_haeder">
-                <img :src="store.state.valuedData.img">
+                <img :src="store.state.productDetail.img">
                 <div class="detailed_haeder_item">
                     <p>적당한 산미와 쌀의 감칠맛</p>
-                    <p class="detailed_haeder_title">{{ store.state.valuedData.name }}</p>
+                    <p class="detailed_haeder_title">{{ store.state.productDetail.name }}</p>
                     <p>판매가격 :</p>
-                    <p class="detailed_haeder_price">{{ store.state.valuedData.price }}원</p>
+                    <p class="detailed_haeder_price">{{ store.state.productDetail.price }}원</p>
                     <div class="detailed_haeder_review">
                         <img src="/img/detailed_star.png">
                         <p>5.0</p>
@@ -17,11 +17,11 @@
                     <div class="detailed_quantity" >
                         <button @click="count--" :disabled="count === 1" class="detailed_haeder_minus" type="button">-</button>
                         <input type="number" id="quantityDisplay" class="detailed_haeder_quantity" v-model="count"  min="0"></input>
-                        <button @click="count++" :disabled="count >= $store.state.valuedData.count " class="detailed_haeder_plus" type="button">+</button>
+                        <button @click="count++" :disabled="count >= $store.state.productDetail.count " class="detailed_haeder_plus" type="button">+</button>
                     </div>
                     <div>
                         <p>총 상품가격</p>
-                        <input type="number" class="detailed_haeder_num" :value="$store.state.valuedData.price*count">원</input>
+                        <input type="number" class="detailed_haeder_num" :value="$store.state.productDetail.price*count">원</input>
                     </div>
                     
                     <div class="detailed_haeder_btn">
@@ -40,16 +40,16 @@
             </div>
         <!-- </form> -->
     <div class="detailed_content">
-        <img :src="store.state.valuedData.img">
+        <img :src="store.state.productDetail.img">
     </div>
     <hr>
     <h1>리뷰</h1>
     <div class="detailed_footer_item">
         <div class="detailed_footer">
-            <p class="detailed_footer_name">{{ store.state.valuedData.user_name }}</p>
-            <p class="detailed_footer_title">{{ store.state.valuedData.name }}</p>
+            <p class="detailed_footer_name">{{ store.state.productDetail.user_name }}</p>
+            <p class="detailed_footer_title">{{ store.state.productDetail.name }}</p>
             <div class="review_goods_info_grid_star">
-                <div class="star-rating" :value="$store.state.valuedData.re_star">
+                <div class="star-rating" :value="$store.state.productDetail.re_star">
                     <span class="star" data-value="1">&#9733;</span>
                     <span class="star" data-value="2">&#9733;</span>
                     <span class="star" data-value="3">&#9733;</span>
@@ -57,9 +57,9 @@
                     <span class="star" data-value="5">&#9733;</span>
                 </div>                     
             </div>                   
-            <p class="detailed_footer_date">{{ store.state.valuedData.updated_at }}</p>
+            <p class="detailed_footer_date">{{ store.state.productDetail.updated_at }}</p>
         </div>
-        <p class="detailed_footer_content">{{ store.state.valuedData.re_content }}</p>
+        <p class="detailed_footer_content">{{ store.state.productDetail.re_content }}</p>
     </div>
     <div class="list_num_item">
         <a href="" class="before">〈 이전</a>
@@ -93,8 +93,8 @@
     const count = ref(1);
 
     watch(count, () => {
-        console.log(count.value, store.state.valuedData.count);
-        if (count.value > store.state.valuedData.count) {
+        console.log(count.value, store.state.productDetail.count);
+        if (count.value > store.state.productDetail.count) {
             count.value = 1;
         }
     });

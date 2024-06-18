@@ -1,6 +1,6 @@
 <template>
     <body>
-        <div v-for="(item, key) in $store.state.listData" :key="key">
+        <div>
             <div class="list_main_img" style="background-image: url('/img/list_img03.png');"></div>
             <div class="list_menu">
                 <router-link to="/list">
@@ -68,204 +68,17 @@
                 </router-link>
             </div>
             <hr>
-            <div class="list_content">
-            <div class="list_best">
-                <router-link to="/detailed">
-                    <a class="list_best_img">
-                        <img src="/img/best.png">
+            <div class="list_content" v-for="(item, key) in $store.state.listData" :key="key">
+                <div class="list_best">
+                    <!-- 상세페이지 디테일로 이동하는 이벤트 넣어주기 -->
+                    <div @click="productDetail(item)"> 
+                        <img :src="item.img">
                         <div class="list_best_detail">
-                            <p>한잔 꿈의 대화 13도 375ml</p>
-                            <strong>24,000원</strong>
+                            <p>{{ item.name }}</p>
+                            <strong>{{ item.price }}원</strong>
                         </div>
-                    </a>
-                </router-link>
-                <router-link to="/detailed">
-                    <a class="list_best_img">
-                        <img src="/img/best.png">
-                        <div class="list_best_detail">
-                            <p>한잔 꿈의 대화 13도 375ml</p>
-                            <strong>24,000원</strong>
-                        </div>
-                    </a>
-                </router-link>
-                <router-link to="/detailed">
-                    <a class="list_best_img">
-                        <img src="/img/best.png">
-                        <div class="list_best_detail">
-                            <p>한잔 꿈의 대화 13도 375ml</p>
-                            <strong>24,000원</strong>
-                        </div>
-                    </a>
-                </router-link>
-                <router-link to="/detailed">
-                    <a class="list_best_img">
-                        <img src="/img/best.png">
-                        <div class="list_best_detail">
-                            <p>한잔 꿈의 대화 13도 375ml</p>
-                            <strong>24,000원</strong>
-                        </div>
-                    </a>
-                </router-link>
-                <router-link to="/detailed">
-                    <a class="list_best_img">
-                        <img src="/img/best.png">
-                        <div class="list_best_detail">
-                            <p>한잔 꿈의 대화 13도 375ml</p>
-                            <strong>24,000원</strong>
-                        </div>
-                    </a>
-                </router-link>
-            </div>
-            <div class="list_best">
-                <router-link to="/detailed">
-                    <a class="list_best_img">
-                        <img src="/img/best.png">
-                        <div class="list_best_detail">
-                            <p>한잔 꿈의 대화 13도 375ml</p>
-                            <strong>24,000원</strong>
-                        </div>
-                    </a>
-                </router-link>
-                <router-link to="/detailed">
-                    <a class="list_best_img">
-                        <img src="/img/best.png">
-                        <div class="list_best_detail">
-                            <p>한잔 꿈의 대화 13도 375ml</p>
-                            <strong>24,000원</strong>
-                        </div>
-                    </a>
-                </router-link>
-                <router-link to="/detailed">
-                    <a class="list_best_img">
-                        <img src="/img/best.png">
-                        <div class="list_best_detail">
-                            <p>한잔 꿈의 대화 13도 375ml</p>
-                            <strong>24,000원</strong>
-                        </div>
-                    </a>
-                </router-link>
-                <router-link to="/detailed">
-                    <a class="list_best_img">
-                        <img src="/img/best.png">
-                        <div class="list_best_detail">
-                            <p>한잔 꿈의 대화 13도 375ml</p>
-                            <strong>24,000원</strong>
-                        </div>
-                    </a>
-                </router-link>
-                <router-link to="/detailed">
-                    <a class="list_best_img">
-                        <img src="/img/best.png">
-                        <div class="list_best_detail">
-                            <p>한잔 꿈의 대화 13도 375ml</p>
-                            <strong>24,000원</strong>
-                        </div>
-                    </a>
-                </router-link>
-            </div>
-            <div class="list_best">
-                <router-link to="/detailed">
-                    <a class="list_best_img">
-                        <img src="/img/best.png">
-                        <div class="list_best_detail">
-                            <p>한잔 꿈의 대화 13도 375ml</p>
-                            <strong>24,000원</strong>
-                        </div>
-                    </a>
-                </router-link>
-                <router-link to="/detailed">
-                    <a class="list_best_img">
-                        <img src="/img/best.png">
-                        <div class="list_best_detail">
-                            <p>한잔 꿈의 대화 13도 375ml</p>
-                            <strong>24,000원</strong>
-                        </div>
-                    </a>
-                </router-link>
-                <router-link to="/detailed">
-                    <a class="list_best_img">
-                        <img src="/img/best.png">
-                        <div class="list_best_detail">
-                            <p>한잔 꿈의 대화 13도 375ml</p>
-                            <strong>24,000원</strong>
-                        </div>
-                    </a>
-                </router-link>
-                <router-link to="/detailed">
-                    <a class="list_best_img">
-                        <img src="/img/best.png">
-                        <div class="list_best_detail">
-                            <p>한잔 꿈의 대화 13도 375ml</p>
-                            <strong>24,000원</strong>
-                        </div>
-                    </a>
-                </router-link>
-                <router-link to="/detailed">
-                    <a class="list_best_img">
-                        <img src="/img/best.png">
-                        <div class="list_best_detail">
-                            <p>한잔 꿈의 대화 13도 375ml</p>
-                            <strong>24,000원</strong>
-                        </div>
-                    </a>
-                </router-link>
-            </div>
-            <div class="list_best">
-                <router-link to="/detailed">
-                    <a class="list_best_img">
-                        <img src="/img/best.png">
-                        <div class="list_best_detail">
-                            <p>한잔 꿈의 대화 13도 375ml</p>
-                            <strong>24,000원</strong>
-                        </div>
-                    </a>
-                </router-link>
-                <router-link to="/detailed">
-                    <a class="list_best_img">
-                        <img src="/img/best.png">
-                        <div class="list_best_detail">
-                            <p>한잔 꿈의 대화 13도 375ml</p>
-                            <strong>24,000원</strong>
-                        </div>
-                    </a>
-                </router-link>
-                <router-link to="/detailed">
-                    <a class="list_best_img">
-                        <img src="/img/best.png">
-                        <div class="list_best_detail">
-                            <p>한잔 꿈의 대화 13도 375ml</p>
-                            <strong>24,000원</strong>
-                        </div>
-                    </a>
-                </router-link>
-                <router-link to="/detailed">
-                    <a class="list_best_img">
-                        <img src="/img/best.png">
-                        <div class="list_best_detail">
-                            <p>한잔 꿈의 대화 13도 375ml</p>
-                            <strong>24,000원</strong>
-                        </div>
-                    </a>
-                </router-link>
-                <router-link to="/detailed">
-                    <a class="list_best_img">
-                        <img src="/img/best.png">
-                        <div class="list_best_detail">
-                            <p>한잔 꿈의 대화 13도 375ml</p>
-                            <strong>24,000원</strong>
-                        </div>
-                    </a>
-                </router-link>
-            </div>
-            <div class="list_num_item">
-                <a href="" class="before">〈 이전</a>
-                <a href="" class="num_none">1</a>
-                <a href="" class="num_none">2</a>
-                <a href="" class="num">3</a>
-                <a href="" class="num_none">4</a>
-                <a href="" class="num_none">5</a>
-                <a href="" class="nuxt">다음 〉</a>
-            </div>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- move top -->
@@ -278,12 +91,20 @@
 <script setup>
     import { onBeforeMount } from 'vue';
     import { useStore } from 'vuex';
+import router from '../js/router';
 
     const store = useStore();
     
     onBeforeMount(() => {
-        store.dispatch('getList');
+        if(store.state.listData.length < 1) {
+            store.dispatch('getList');
+        }
     })
+
+    function productDetail(item) {
+        store.commit('setProductDetailData', item);
+        router.push('/detailed');
+    }
 </script>
 
 <style scoped src="../css/list.css">

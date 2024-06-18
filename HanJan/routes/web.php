@@ -59,9 +59,10 @@ Route::middleware('auth')->post('/api/logout', [UserController::class, 'logout']
 // ----------------------- 성환 끝 ---------------------------
 
 // ----------------------- 민서 시작 -------------------------
+// 상세페이지 데이터 불러오기
 Route::get('/api/detailed', [ProductController::class, 'value']);
+// 상세리스트 데이터 불러오기
 Route::get('/api/list', [ProductController::class, 'list']);
-Route::post('/api/list', [ProductController::class, 'checksIndex']);
 // ----------------------- 민서 끝 ---------------------------
 
 // ----------------------- 호경 시작 -------------------------
