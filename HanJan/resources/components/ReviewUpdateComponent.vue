@@ -31,37 +31,36 @@
 
         <form id="reviewUpdateForm">
             <div class="reviewC_padding_top">상세리뷰</div>
-            <input type="hidden" name="u_id" :value="$store.state.reviewToUpdate.u_id">
+            <input type="hidden" name="re_id" :value="$store.state.reviewToUpdate.re_id">
+            <!-- <input type="hidden" name="u_id" :value="$store.state.reviewToUpdate.u_id">
             <input type="hidden" name="p_id" :value="$store.state.reviewToUpdate.p_id">
+            <input type="hidden" name="id" :value="$store.state.reviewToUpdate.id"> -->
+            <input type="hidden" name="name" :value="$store.state.reviewToUpdate.name">
+            <input type="hidden" name="ml" :value="$store.state.reviewToUpdate.ml">
+            <input type="hidden" name="img" :value="$store.state.reviewToUpdate.img">
             <input type="hidden" name="re_star" :value="selectedStar">
 
             <div class="reviewC_padding_top">
                 <textarea name="re_content" placeholder="다른 고객님에게 도움이 되도록 상품에 대한 솔직한 평가를 남겨주세요.">{{ $store.state.reviewToUpdate.re_content }}</textarea>
             </div>
             <div class="reviewC_required reviewC_padding_top" >· 상품 품질과 관계 없는 내용은 비공개 처리될 수 있습니다.</div>
-            <!-- TODO : 내 정보 > 글자 수정 할수 도 있음 -->
-            <div class="reviewC_required reviewC_padding_bottom">· 작성된 리뷰는 삭제 전까지 ‘상품리뷰’에 공개되고, ‘내 정보 > 리뷰관리’ 에서 수정 및 삭제가 가능합니다.</div>
+            <div class="reviewC_required reviewC_padding_bottom">· 작성된 리뷰는 삭제 전까지 ‘상품리뷰’에 공개되고, ‘내 술잔 > 리뷰관리’ 에서 수정 및 삭제가 가능합니다.</div>
             
             <hr>
 
             <div class="reviewC_padding_top reviewC_btn_right">
-                <button @click="$store.dispatch('reviewUpdateSubmit')" class="reviewC_submit_btn">등록하기</button>
+                <button type="button" @click="$store.dispatch('reviewUpdateSubmit')" class="reviewC_submit_btn">등록하기</button>
             </div>
         </form>
     </main>
 </template>
 
 <script setup>
-import { onBeforeUpdate, ref } from 'vue';
+import { ref } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
 
-onBeforeUpdate(() => {
-    console.log(store.state.reviewToUpdate);
-
-    return store.state.reviewToUpdate;
-})
 
 // 별 js
 const selectedStar = ref(store.state.reviewToUpdate.re_star);

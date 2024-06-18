@@ -54,9 +54,10 @@ const store = createStore({
             state.reviewData = data;
         },
         // 리뷰관리에서 수정 페이지로 넘어갈때 데이터 전달
-        // reviewUpdateData(state, data) {
-        //     state.reviewUpdateData = data;
-        // },
+        reviewToUpdate(state, data) {
+            state.reviewToUpdate = data;
+            localStorage.setItem('reviewToUpdate', JSON.stringify(data));
+        },
 
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
@@ -162,8 +163,6 @@ const store = createStore({
 
         },
         
-        
-        
         /**
          * 리뷰관리에 최초 게시글 획득
          * 
@@ -194,7 +193,7 @@ const store = createStore({
         reviewUpdate(context, item) {
             const reviewUpdateData = item;
 
-            // context.commit('reviewUpdateData', reviewUpdateData);
+            context.commit('reviewToUpdate', reviewUpdateData);
             localStorage.setItem('reviewToUpdate', JSON.stringify(reviewUpdateData));
 
 
@@ -211,12 +210,13 @@ const store = createStore({
         reviewUpdateSubmit(context) {
             const url = '/api/reviewUpdateSubmit';
             const data = new FormData(document.querySelector('#reviewUpdateForm'));
-            
-            axios.get(url, data)
+
+            axios.post(url, data)
             .then(response => {
-                console.log(response.data); // TODO : 삭제
-            
-                context.commit('reviewSetData', response.data.data);
+                console.log(response.data.data); // TODO : 삭제
+
+                context.commit('reviewToUpdate', response.data.data);
+                localStorage.setItem('reviewToUpdate', JSON.stringify(response.data.data));
             })
             .catch(error => {
                 console.log(error.response); //  TODO : 삭제

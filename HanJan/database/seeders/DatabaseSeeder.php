@@ -35,13 +35,14 @@ class DatabaseSeeder extends Seeder
             ExchangeSeeder::class,
             InfotlSeeder::class,
             NoticeSeeder::class,
-            OrderSeeder::class,
-            QnaproductSeeder::class,
-            QnaSeeder::class,
             reviewSeeder::class,
+            OrderSeeder::class,
             
             OrderproductSeeder::class,
             CompleteSeeder::class,
+
+            QnaproductSeeder::class,
+            QnaSeeder::class,
         ]);
         
         // 팩토리를 이용하여 대량 생성
@@ -49,10 +50,11 @@ class DatabaseSeeder extends Seeder
         product::factory(50)->create();
         Bag::factory(10)->create();
         Notice::factory(5)->create();
+        review::factory(10)->create();
         Orderproduct::factory(10)->create();
+
         Qna::factory(5)->create();
         Qnaproduct::factory(5)->create();
-        review::factory(10)->create();
         
         // \App\Models\User::factory(10)->create();
     }
