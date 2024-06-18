@@ -96,7 +96,7 @@
 
     <!-- 날씨 추천 술 -->
     <div class="weather_alcohol">
-        <h1 class="weather_alcohol_title">오늘의 날씨와 맞는 술은?</h1>
+        <h1 class="weather_alcohol_title">당신의 시원한 여름이 여기에</h1>
         <div class="weather_alcohol_box">
             <img src="/img/alcohol1.jpeg" class="weather_alcohol_img">
             <h1 class="weather_alcohol_num">01</h1>
