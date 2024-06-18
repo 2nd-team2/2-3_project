@@ -63,7 +63,9 @@ Route::middleware('auth')->get('/api/ask', [UserController::class, 'askData']);
 
 // ----------------------- 민서 시작 -------------------------
 // 상세페이지 데이터 불러오기
-Route::get('/api/detailed', [ProductController::class, 'value']);
+Route::get('/api/detailed/{id}', [ProductController::class, 'value']);
+// 리뷰 데이터 불러오기
+Route::get('/api/detailed', [ProductController::class, 'detailedReview']);
 // 상세리스트 데이터 불러오기
 Route::get('/api/list', [ProductController::class, 'list']);
 // ----------------------- 민서 끝 ---------------------------
@@ -71,6 +73,8 @@ Route::get('/api/list', [ProductController::class, 'list']);
 // ----------------------- 호경 시작 -------------------------
 // 공지사항 데이터 불러오기
 Route::get('/api/noticelist', [NoticeController::class, 'noticeIndex']);
+// 공지사항 데이터 불러오기
+Route::get('/api/notice', [NoticeController::class, 'detailNotice']);
 // 상품문의내역 데이터 불러오기
 Route::middleware('auth')->get('/api/qnaproductlist', [QnaController::class, 'qnaProductListIndex']);
 // 상품문의 작성하기
