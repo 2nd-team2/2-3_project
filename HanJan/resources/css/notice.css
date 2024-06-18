@@ -128,9 +128,10 @@ main {
     width: 70%;
     margin: 6rem auto 0;
     display: flex;
-    /* text-align: center; */
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+
 }
 .list_num_item > a {
     margin-left: 1rem;
@@ -150,7 +151,7 @@ main {
 .num_none:hover {
     background-color: #FAC91D;
     border-radius: 50%;
-    width: 40px;
+    width: 41px;
     height: 40px;
     text-align: center;
     line-height: 40px;

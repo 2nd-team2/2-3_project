@@ -27,6 +27,8 @@ const store = createStore({
             // ----------------------- 호경 시작 -------------------------
             // 공지사항 게시물 리스트
             noticeData: [],
+            // // 공지사항 게시물 리스트 6개
+            // noticeDataSix: [],
             // 공지사항 디테일 정보
             noticeDetail: {},
             // 상품문의 게시물 리스트
@@ -79,6 +81,10 @@ const store = createStore({
         setNoticeData(state, data) {
             state.noticeData = data;
         },
+        // // 공지사항 게시물 리스트 6개
+        // setNoticeDataSix(state, data) {
+        //     state.noticeDataSix = data;
+        // },
         // 공지사항 디테일 저장
         setNoticeDetailData(state, data) {
             state.noticeDetail = data;
@@ -403,7 +409,7 @@ const store = createStore({
          * 
          * @param {*} context 
          */
-        getNoticeData(context) {
+        getNoticeData(context, page) {
             const url = '/api/noticelist';
             
             axios.get(url)
@@ -416,6 +422,24 @@ const store = createStore({
                 alert('공지사항 습득에 실패했습니다.(' + error.response.data.code + ')');
             });
         },
+        // /**
+        //  * 공지사항 6개 획득
+        //  * 
+        //  * @param {*} context 
+        //  */
+        // getNoticeDataSix(context) {
+        //     const url = '/api/noticelist';
+            
+        //     axios.get(url)
+        //     .then(response => {
+        //         console.log(response.data); // TODO
+        //         context.commit('setNoticeDataSix', response.data.data);
+        //     })
+        //     .catch(error => {
+        //         console.log(error.response); // TODO
+        //         alert('공지사항 습득에 실패했습니다.(' + error.response.data.code + ')');
+        //     });
+        // },
         /**
          * 상품문의내역 획득
          * 
