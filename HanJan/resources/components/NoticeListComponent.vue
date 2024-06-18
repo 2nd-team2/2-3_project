@@ -8,7 +8,7 @@
         </div>
         <div v-for="notice in $store.state.noticeData.data" :key="notice.no_id" class="notice_list_container notice_paddingtop">
             <div class="notice_list_num">{{ notice.no_id }}</div>
-            <div @click="noticeDetail(notice)" class="notice_list_titlename">
+            <div @click="noticeDetail(notice.no_id)" class="notice_list_titlename">
                 {{ notice.no_title }}
             </div>
             <div class="notice_list_date">{{ notice.created_at }}</div>
@@ -46,12 +46,10 @@
     })
 
     // notice페이지 이동
-    function noticeDetail(item) {
-        // const noticeId = store.state.noticeData.data.no_id
-        store.commit('setNoticeDetailData', item);
-        // router.push('/notice?id=' + noticeId);
-        router.push('/notice');
+    function noticeDetail(id) {
+        router.push('/notice?id=' + id);
     }
+    
 
     // 페이지네이션
 

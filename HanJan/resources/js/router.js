@@ -125,10 +125,22 @@ const routes = [
     {
         path: '/noticelist',
         component: NoticeListComponent,
+        beforeEnter: (to, from, next) => {
+            console.log(to.query.page);
+            store.dispatch('getNoticeData', to.query.page);
+
+            next();
+        },
     },
     {
         path: '/notice',
         component: NoticeComponent,
+        beforeEnter: (to, from, next) => {
+            console.log(to.query.id);
+            store.dispatch('getNoticeDetailData', to.query.id);
+
+            next();
+        }
     },
 
 ];

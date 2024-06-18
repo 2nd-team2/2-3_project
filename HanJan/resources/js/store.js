@@ -482,6 +482,24 @@ const store = createStore({
             });
         },
         /**
+         * 공지사항 상세페이지 값 획득
+         * 
+         * @param {*} context
+         */
+        getNoticeDetailData(context, id) {
+            const url = '/api/notice?id=' + id;
+            console.log(url);
+            axios.get(url)
+            .then(response => {
+                console.log('공지사항 데이터', response.data); // TODO
+                context.commit('setNoticeDetailData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response.data); // TODO
+                alert('공지사항 불러오기 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
+        /**
          * 상품문의내역 획득
          * 
          * @param {*} context 
