@@ -63,7 +63,7 @@ hr {
     gap: 2rem;
     justify-content: center;
 }
-.list_best_img > p {
+.list_best_rank {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.5);
     width: 30px;
