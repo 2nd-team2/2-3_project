@@ -64,7 +64,7 @@
                             <router-link to="/info" v-else class="nav_user_box">
                                 <img src="/img/profile.png" class="nav_icon" id="b_iconregist">
                                 <img src="/img/goldprofile.png" class="nav_icon_hover" id="g_iconregist">
-                                <div class="nav_user">내 정보</div>
+                                <div class="nav_user">내 술잔</div>
                             </router-link>
                         </div>
                     </li>

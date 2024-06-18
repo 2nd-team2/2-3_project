@@ -66,11 +66,32 @@ class ProductController extends Controller
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------
         // products(상품)테이블에서
-        // 로그인 되어있는 아이디와 일치하는 u_id의 초기 게시글 획득
+        // users.name AS user_name = 유저이름 별칭
         public function value() {
-            $productData = Product::select('price', 'count')
-                            ->where('id', 16) //16은 불려올 게시글 번호
+            $productData = Product::select('products.price','products.count','products.img','products.info', 'products.name','users.name AS user_name','reviews.re_star','reviews.re_content','reviews.updated_at')
+                            ->JOIN('reviews','products.id','=','reviews.re_id')
+                            ->JOIN('users','reviews.re_id','=', 'users.id')
+                            // ->limit(10)
                             ->first();
+
+            Log::debug($productData);
+        
+            $responseData = [
+                    'code' => '0'
+                    ,'msg' => '초기 상품값 획득 완료'
+                    ,'data' => $productData
+            ];
+            Log::debug($responseData);
+            
+            return response()->json($responseData, 200);
+        }
+        // products(상품)테이블에서
+        // users.name AS user_name = 유저이름 별칭
+        public function list() {
+            $productData = Product::select('products.price','products.img', 'products.name', 'products.id')
+                            ->where('products.id', 2) //16은 불려올 게시글 번호
+                            ->limit(10)
+                            ->get();
 
             Log::debug($productData);
         
@@ -89,36 +110,18 @@ class ProductController extends Controller
         public function checksIndex(Request $request) {
             // 유효성 검사
             $validator = Validator::make(
-            $request->only('price', 'count'),
+            $request->only('price', 'count', 'img'),
                 [
                     'price' => ['required', 'numeric']
                     ,'count' => ['required', 'numeric']
+                    ,'img' => ['required', 'image']
                 ]
             );
             // 유효성 검사 실패시 처리
             if($validator->fails()) {
-                Log::debug('수량 체크 실패', $validator->errors()->toArray());
+                Log::debug('상품정보 전달 실패', $validator->errors()->toArray());
                 throw new MyValidateException('E01');
             }
-            
-            // 작성 데이터 생성
-            $checkData = $request->all();
-    
-            // 값 저장
-            $price = $request->input('price');
-            $count = $request->input('count');
-            $checkData['price'] = $price;
-            $checkData['count'] = $count;
-    
-            // 인서트 처리
-            $userInfo = Log::create($checkData);
-            $responseDate = [
-                'code' => '0'
-                ,'msg' => '수량,값 확득 완료'
-                ,'data' => $userInfo
-            ];
-    
-            return response()->json($responseDate, 200);
         }
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------

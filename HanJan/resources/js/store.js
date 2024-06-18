@@ -10,8 +10,11 @@ const store = createStore({
             bagsProductData: [],
             // 리뷰 담을 리스트
             reviewData: [],
-            // 리뷰관리 > 리뷰수정으로 데이터 넘기기
-            reviewUpdateData :[],
+            // 리뷰관리 > 리뷰수정으로 데이터 넘기기(로컬스토리지에 저장하기 - 새로고침 누를시 없어지는 걸 방지)
+            // reviewUpdateData :[],
+            reviewToUpdate: localStorage.getItem('reviewToUpdate') ? JSON.parse(localStorage.getItem('reviewToUpdate')) : null,
+
+            
             // ----------------------- 보원 끝 ---------------------------
             // ----------------------- 성환 시작 -------------------------
             authFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
@@ -19,12 +22,17 @@ const store = createStore({
             infoData: [],
             // ----------------------- 성환 끝 ---------------------------
             // ----------------------- 민서 시작 -------------------------
+            // 상품 정보
             valuedData: {},
+            // 상품 게시물 리스트
+            listData: [],
             detailedData: [],
             // ----------------------- 민서 끝 ---------------------------
             // ----------------------- 호경 시작 -------------------------
             // 공지사항 게시물 리스트
             noticeData: [],
+            // // 공지사항 게시물 리스트 6개
+            // noticeDataSix: [],
             // 공지사항 디테일 정보
             noticeDetail: {},
             // 상품문의 게시물 리스트
@@ -47,9 +55,10 @@ const store = createStore({
             state.reviewData = data;
         },
         // 리뷰관리에서 수정 페이지로 넘어갈때 데이터 전달
-        reviewUpdateData(state, data) {
-            state.reviewUpdateData = data;
-        },
+        // reviewUpdateData(state, data) {
+        //     state.reviewUpdateData = data;
+        // },
+
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
         // 인증 플래그 저장
@@ -69,6 +78,9 @@ const store = createStore({
         valueNumData(state, data) {
             state.valuedData = data;
         },
+        listInfoData(state, data) {
+            state.listData = data;
+        },
         detailedNumData(state, data) {
             state.detailedData = data;
         },
@@ -78,6 +90,10 @@ const store = createStore({
         setNoticeData(state, data) {
             state.noticeData = data;
         },
+        // // 공지사항 게시물 리스트 6개
+        // setNoticeDataSix(state, data) {
+        //     state.noticeDataSix = data;
+        // },
         // 공지사항 디테일 저장
         setNoticeDetailData(state, data) {
             state.noticeDetail = data;
@@ -173,29 +189,36 @@ const store = createStore({
          * @param {*} item
         */
         reviewUpdate(context, item) {
-            const reviewUpdateData = context.commit('reviewUpdateData', item);
+            const reviewUpdateData = item;
+
+            // context.commit('reviewUpdateData', reviewUpdateData);
+            localStorage.setItem('reviewToUpdate', JSON.stringify(reviewUpdateData));
+
+
             router.replace('/reviewupdate');
         },
 
+
+        // TODO: 리뷰 작성이랑 수정이랑 같을 경우 메소드 명 통일하기 > 중간에 update만 뺴기
         /**
          * 리뷰수정 완료
          * 
          * @param {*} context
         */
-        reviewUpdateSubmit(context, re_id) {
-            const url = '/api/reviewUpdateSubmit' + re_id;
+        reviewUpdateSubmit(context) {
+            const url = '/api/reviewUpdateSubmit';
+            const data = new FormData(document.querySelector('#reviewUpdateForm'));
             
-            axios.get(url)
+            axios.get(url, data)
             .then(response => {
                 console.log(response.data); // TODO : 삭제
-                
-                // 데이터베이스->서버를 통해 받은 데이터를 reviewtData에 저장
+            
                 context.commit('reviewSetData', response.data.data);
-                })
-                .catch(error => {
-                    console.log(error.response); //  TODO : 삭제
-                    alert('리뷰 획득에 실패하였습니다.(' + error.response.data.code + ')' )
-                });
+            })
+            .catch(error => {
+                console.log(error.response); //  TODO : 삭제
+                alert('리뷰 획득에 실패하였습니다.(' + error.response.data.code + ')' )
+            });
         }, 
 
         /**
@@ -373,7 +396,7 @@ const store = createStore({
             .then(response => {
                 console.log(response.data); // TODO : 삭제
 
-                // 데이터베이스->서버를 통해 받은 데이터를 bagsProductData에 저장
+                // 데이터베이스->서버를 통해 받은 데이터를 valuedData 저장
                 context.commit('valueNumData', response.data.data);
             })
             .catch(error => {
@@ -383,13 +406,34 @@ const store = createStore({
         },
 
         /**
-         * 수량 획득
+         * 상품획득
+         * 
+         * @param {*} context
+         */
+        getList(context) {
+            const url = '/api/list';
+
+            axios.get(url)
+            .then(response => {
+                console.log(response.data); // TODO : 삭제
+
+                // 데이터베이스->서버를 통해 받은 데이터를 listData 저장
+                context.commit('listInfoData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response.data); //  TODO : 삭제
+                alert('선택한 상품이 없습니다.(' + error.response.data.code + ')' )
+            });
+        },
+
+        /**
+         * 상품정보 획득 상세페이지로 데이터 보내기
          * 
          * @param {*} constext 
          */
         quantityData(constext) {
-            const url = '/api/detailed';
-            const data = new FormData(document.querySelector('#quantityForm'));
+            const url = '/api/list' + checksIndex.id ;
+            const data = new FormData(document.querySelector('#listPostForm'));
 
             axios.post(url, data)
             .then(response => {
@@ -408,7 +452,7 @@ const store = createStore({
          * 
          * @param {*} context 
          */
-        getNoticeData(context) {
+        getNoticeData(context, page) {
             const url = '/api/noticelist';
             
             axios.get(url)
@@ -421,6 +465,24 @@ const store = createStore({
                 alert('공지사항 습득에 실패했습니다.(' + error.response.data.code + ')');
             });
         },
+        // /**
+        //  * 공지사항 6개 획득
+        //  * 
+        //  * @param {*} context 
+        //  */
+        // getNoticeDataSix(context) {
+        //     const url = '/api/noticelist';
+            
+        //     axios.get(url)
+        //     .then(response => {
+        //         console.log(response.data); // TODO
+        //         context.commit('setNoticeDataSix', response.data.data);
+        //     })
+        //     .catch(error => {
+        //         console.log(error.response); // TODO
+        //         alert('공지사항 습득에 실패했습니다.(' + error.response.data.code + ')');
+        //     });
+        // },
         /**
          * 상품문의내역 획득
          * 
