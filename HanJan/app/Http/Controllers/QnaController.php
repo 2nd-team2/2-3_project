@@ -44,7 +44,7 @@ class QnaController extends Controller
 
         $qnaProductCreateData = new Qnaproduct();
         $qnaProductCreateData->qnp_content = $request->qnp_content;
-        $qnaProductCreateData->p_id = 1; // TODO 추후 p_id가지고 와야함
+        $qnaProductCreateData->orp_id = 1; // TODO 추후 p_id가지고 와야함
         $qnaProductCreateData->u_id = Auth::id();
         $qnaProductCreateData->save();
 

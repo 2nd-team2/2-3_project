@@ -21,18 +21,4 @@ class NoticeController extends Controller
 
         return response()->json($responseData, 200);
     }
-    // // 공지사항 6개 획득
-    // public function noticeGetSix() {
-    //     $noticeData = Notice::select('notices.*')
-    //                         ->orderBy('created_at', 'DESC')
-    //                         ->limit(6)
-    //                         ->get();
-    //     $responseData = [
-    //         'code' => '0'
-    //         ,'msg' => '게시글 획득 완료'
-    //         ,'data' => $noticeData->toArray()
-    //     ];
-
-    //     return response()->json($responseData, 200);
-    // }
 }

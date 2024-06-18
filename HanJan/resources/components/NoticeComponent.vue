@@ -9,17 +9,6 @@
             <div class="notice_item_content">{{ $store.state.noticeDetail.no_content }}</div>
             <div class="notice_item_date">{{ $store.state.noticeDetail.created_at }}</div>
         </div>
-
-        <!-- 페이지네이션 -->
-        <div class="list_num_item">
-            <a href="" class="before">〈 이전</a>
-            <a href="" class="num_none">1</a>
-            <a href="" class="num_none">2</a>
-            <a href="" class="num">3</a>
-            <a href="" class="num_none">4</a>
-            <a href="" class="num_none">5</a>
-            <a href="" class="nuxt">다음 〉</a>
-        </div>
     </main>
 </template>
 

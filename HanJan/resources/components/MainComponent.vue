@@ -201,7 +201,7 @@
     <!-- 공지사항 -->
     <div class="notification_container">
         <router-link to="/noticelist" class="notification">공지사항 +</router-link>
-        <div v-for="notice in $store.state.noticeData" :key="notice.no_id" class="notification_a">
+        <div v-for="notice in $store.state.noticeData.data" :key="notice.no_id" class="notification_a">
             <div @click="noticeDetail(notice)" class="notification_title">
                 {{ notice.no_title }}
             </div>

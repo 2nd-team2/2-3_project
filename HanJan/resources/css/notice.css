@@ -23,7 +23,7 @@ main {
 
 .notice_list_container {
     display: grid;
-    grid-template-columns: 0.2fr 2fr 0.4fr;
+    grid-template-columns: 0.4fr 2fr 0.4fr;
     align-items: center;
     border-bottom: 1px solid #5c5c5c;
     padding-bottom: 10px;
@@ -125,16 +125,15 @@ main {
 
 /* 페이지네이션 */
 .list_num_item {
-    width: 70%;
-    margin: 6rem auto 0;
-    display: flex;
+    margin: 100px auto;
+    width: 50%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    justify-items: center;
     align-items: center;
-    justify-content: center;
-    cursor: pointer;
-
+    
 }
 .list_num_item > a {
-    margin-left: 1rem;
     padding: 0rem 1rem;
     color: #000;
     font-size: 1rem;
