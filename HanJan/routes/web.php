@@ -58,7 +58,10 @@ Route::get('/api/regist/{emailText}', [UserController::class, 'registEmailChk'])
 Route::post('/api/confirm', [UserController::class, 'confirm']);
 Route::middleware('auth')->post('/api/logout', [UserController::class, 'logout']);
 Route::middleware('auth')->get('/api/info', [UserController::class, 'infoData']);
-Route::middleware('auth')->get('/api/ask', [UserController::class, 'askData']);
+Route::middleware('auth')->get('/api/productAsk', [UserController::class, 'productAsk']);
+Route::middleware('auth')->get('/api/askData', [UserController::class, 'askData']);
+Route::middleware('auth')->delete('/api/productAskDelete/{qnp_id}', [UserController::class, 'productAskDelete']);
+Route::middleware('auth')->delete('/api/askDelete/{qn_id}', [UserController::class, 'askDelete']);
 // ----------------------- 성환 끝 ---------------------------
 
 // ----------------------- 민서 시작 -------------------------

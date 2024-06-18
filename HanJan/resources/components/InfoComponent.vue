@@ -47,22 +47,24 @@
                         1:1 문의하기
                     </router-link>
                 </div>
-                <div class="inquiry_list_main">
-                    <div class="inquiry_item" v-for="(item, key) in $store.state.askData" :key="key">
+                <div class="inquiry_list_main" v-for="(item, key) in $store.state.productAskData" :key="key">
+                    <div class="inquiry_item" >
                         <div class="inquiry_item_left_list_text">
                             <div>
                                 <span class="title_span">상품문의</span>
                             </div>
-                            <div class="inquiry_img"></div>
+                            <!-- <div class="inquiry_img" :src="item.img"></div> -->
                             <p class="inquiry_name">{{ item.qnp_content }}</p>
                             <p class="inquiry_date">{{ item.created_at }}</p>
                         </div>
                         <div class="inquiry_item_right_list">
-                            <button class="inquiry_delete"></button>
+                            <button class="inquiry_delete" @click="$store.dispatch('productAskDelete', item.qnp_id)"></button>
                             <div class="keep_shoping_btn qna_answer">답변완료</div>
                         </div>
                     </div>
-                    <div class="inquiry_item" v-for="(item, key) in $store.state.askData" :key="key">
+                </div>
+                <div class="inquiry_list_main" v-for="(item, key) in $store.state.askSetData" :key="key">
+                    <div class="inquiry_item">
                         <div class="inquiry_item_left_list_text">
                             <div class="inquiry_text">
                                 <span class="title_span">1:1 문의</span>
@@ -73,7 +75,7 @@
                             <p class="one_date">{{ item.created_at }}</p>
                         </div>
                         <div class="inquiry_item_right_list">
-                            <span class="inquiry_delete"></span>
+                            <span class="inquiry_delete" @click="$store.dispatch('askDelete', item.qn_id)"></span>
                             <div class="in_progress qna_answer">답변진행중</div>
                         </div>
                     </div>
@@ -104,6 +106,7 @@ const store = useStore()
 // 초기 데이터
 onBeforeMount(() => {
     store.dispatch('infoData')
+    store.dispatch('productAskData')
     store.dispatch('askData')
 })
 </script>

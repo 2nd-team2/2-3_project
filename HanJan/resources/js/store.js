@@ -68,13 +68,25 @@ const store = createStore({
         setUserInfo(state, userInfo) {
             state.userInfo = userInfo;
         },
-        // 마이페이지
+        // 마이페이지 상품목록
         infoSetData(state, data) {
             state.infoData = data;
         },
-        // 마이페이지
+        // 상품문의목록
+        productAskSetData(state, data) {
+            state.productAskData = data;
+        },
+        // 상품문의 삭제
+        productAskDelete(state, data) {
+            state.productAskDelete = data;
+        },
+        // 1:1문의 목록
         askSetData(state, data) {
-            state.askData = data;
+            state.askSetData = data;
+        },
+        // 1:1문의 목록 삭제
+        askSetDelete(state, data) {
+            state.askSetDelete = data;
         },
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------
@@ -384,19 +396,69 @@ const store = createStore({
              });
          }, 
 
-        // 마이페이지에서 문의목록 불러오기
+        // 상품 문의목록 불러오기
+        productAskData(context) {
+            const url = '/api/productAsk';
+            axios.get(url)
+            .then(response => {
+                context.commit('productAskSetData', response.data.data);
+                console.log(response.data.data);
+             })
+             .catch(error => {
+                 alert('문의목록 불러오기 실패.(' + error.response.data.code + ')' )
+             });
+         }, 
+
+        //  상품 문의 삭제
+        productAskDelete(context, qnp_id) {
+            const url = '/api/productAskDelete/' + qnp_id;
+            if (confirm('확인을 누르면 작성한 상품 문의가 삭제됩니다.')) {
+                axios.delete(url)
+                .then(response => {
+                    context.commit('productAskDelete', response.data.data);
+                    router.replace('/info');
+                    console.log(response.data); // TODO : 삭제
+                })
+                .catch(error => {
+                    alert('삭제에 실패했습니다.(' + error.response.data.code + ')' )
+                });
+
+            } else {
+                console.log('confirm false');
+            }
+        },
+
+        // 상품 문의목록 불러오기
         askData(context) {
-            const url = '/api/ask';
-            
+            const url = '/api/askData';
             axios.get(url)
             .then(response => {
                 context.commit('askSetData', response.data.data);
+                console.log(response.data.data);
              })
              .catch(error => {
                  alert('문의목록 불러오기 실패.(' + error.response.data.code + ')' )
              });
          }, 
         
+         //  상품 문의 삭제
+        askDelete(context, qn_id) {
+            const url = '/api/askDelete/' + qn_id;
+            if (confirm('확인을 누르면 작성한 1:1 문의가 삭제됩니다.')) {
+                axios.delete(url)
+                .then(response => {
+                    context.commit('askSetDelete', response.data.data);
+                    router.replace('/info');
+                    console.log(response.data); // TODO : 삭제
+                })
+                .catch(error => {
+                    alert('삭제에 실패했습니다.(' + error.response.data.code + ')' )
+                });
+
+            } else {
+                console.log('confirm false');
+            }
+        },
         
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------
