@@ -51,6 +51,7 @@
             <p class="detailed_footer_title">{{ item.name }}</p>
             <div class="review_goods_info_grid_star">
                 <!-- 별점 초기 값은 date 들고오기 -->
+                 <!-- 수정 -->
                 <div class="star-rating">
                     <span class="star" v-for="star in 5" :key="star" :class="{ checked: star <= $store.state.reviewDetail.re_star }">
                         &#9733;
