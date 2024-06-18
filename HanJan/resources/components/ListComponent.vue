@@ -81,6 +81,15 @@
                     </div>
                 </div>
             </div>
+            <div class="list_num_item">
+                <a href="" class="before">〈 이전</a>
+                <a href="" class="num_none">1</a>
+                <a href="" class="num_none">2</a>
+                <a href="" class="num">3</a>
+                <a href="" class="num_none">4</a>
+                <a href="" class="num_none">5</a>
+                <a href="" class="nuxt">다음 〉</a>
+            </div>
         </div>
         <!-- move top -->
         <a href="#" class="move_top">

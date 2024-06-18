@@ -27,14 +27,15 @@
                     <div class="detailed_haeder_btn">
                         <router-link to="/bag">
                             <!-- 수량만 장바구니에 저장 -->
-                            <button type="submit" @mouseover="openIconBag" @mouseleave="closeIconBag" @click="quantit" class="detailed_haeder_bag_a">
+                            <button type="submit" @mouseover="openIconBag" @mouseleave="closeIconBag" @click="quantit($store.state.productDetail.id)" class="detailed_haeder_bag_a">
                                 <img src="/img/bag.png" class="detailed_haeder_bag_w" id="b_detailed">
                                 <img src="/img/bag_b.png" class="detailed_haeder_bag_b" id="bk_detailed">
                                 <div class="detailed_haeder_bag">장바구니</div>
                             </button>
                         </router-link>
                         <router-link to="/order">
-                            <button type="submit" @click="quantit" class="detailed_haeder_bay">구매하기</button>
+                            <button type="submit" class="detailed_haeder_bay">구매하기</button>
+                            <!-- TODO 구매하기 나중에 -->
                         </router-link>
                     </div>
                 </div>
@@ -51,7 +52,7 @@
             <p class="detailed_footer_title">{{ item.name }}</p>
             <div class="review_goods_info_grid_star">
                 <!-- 별점 초기 값은 date 들고오기 -->
-                 <!-- 수정 -->
+                <!-- 수정 -->
                 <div class="star-rating">
                     <span class="star" v-for="star in 5" :key="star" :class="{ checked: star <= $store.state.reviewDetail.re_star }">
                         &#9733;
@@ -63,13 +64,7 @@
         <p class="detailed_footer_content">{{ item.re_content }}</p>
     </div>
     <div class="list_num_item">
-        <a href="" class="before">〈 이전</a>
-        <a href="" class="num_none">1</a>
-        <a href="" class="num_none">2</a>
-        <a href="" class="num">3</a>
-        <a href="" class="num_none">4</a>
-        <a href="" class="num_none">5</a>
-        <a href="" class="nuxt">다음 〉</a>
+        더보기
     </div>
 </main>
 
@@ -103,10 +98,9 @@
             count.value = 1;
         }
     });
-
     // 상품 id/count 보내주기
-    function quantit() {
-        store.dispatch('/bag');
+    function quantit(id) {
+        router.push('/bag?id='+id);
     }
 
     // 아이콘 호버시 색 변환
