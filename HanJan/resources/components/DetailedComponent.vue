@@ -26,6 +26,7 @@
                     
                     <div class="detailed_haeder_btn">
                         <router-link to="/bag">
+                            <!-- 수량만 장바구니에 저장 -->
                             <button type="submit" @mouseover="openIconBag" @mouseleave="closeIconBag" @click="quantit" class="detailed_haeder_bag_a">
                                 <img src="/img/bag.png" class="detailed_haeder_bag_w" id="b_detailed">
                                 <img src="/img/bag_b.png" class="detailed_haeder_bag_b" id="bk_detailed">
@@ -40,26 +41,26 @@
             </div>
         <!-- </form> -->
     <div class="detailed_content">
-        <img :src="store.state.productDetail.img">
+        <img :src="$store.state.productDetail.info">
     </div>
     <hr>
     <h1>리뷰</h1>
-    <div class="detailed_footer_item">
+    <div class="detailed_footer_item" v-for="(item, key) in $store.state.reviewDetail" :key="key">
         <div class="detailed_footer">
-            <p class="detailed_footer_name">{{ store.state.productDetail.user_name }}</p>
-            <p class="detailed_footer_title">{{ store.state.productDetail.name }}</p>
+            <p class="detailed_footer_name">{{ item.user_name }}</p>
+            <p class="detailed_footer_title">{{ item.name }}</p>
             <div class="review_goods_info_grid_star">
-                <div class="star-rating" :value="$store.state.productDetail.re_star">
-                    <span class="star" data-value="1">&#9733;</span>
-                    <span class="star" data-value="2">&#9733;</span>
-                    <span class="star" data-value="3">&#9733;</span>
-                    <span class="star" data-value="4">&#9733;</span>
-                    <span class="star" data-value="5">&#9733;</span>
-                </div>                     
+                <!-- 별점 초기 값은 date 들고오기 -->
+                 <!-- 수정 -->
+                <div class="star-rating">
+                    <span class="star" v-for="star in 5" :key="star" :class="{ checked: star <= $store.state.reviewDetail.re_star }">
+                        &#9733;
+                    </span>
+                </div>                    
             </div>                   
-            <p class="detailed_footer_date">{{ store.state.productDetail.updated_at }}</p>
+            <p class="detailed_footer_date">{{ item.updated_at }}</p>
         </div>
-        <p class="detailed_footer_content">{{ store.state.productDetail.re_content }}</p>
+        <p class="detailed_footer_content">{{ item.re_content }}</p>
     </div>
     <div class="list_num_item">
         <a href="" class="before">〈 이전</a>
@@ -95,26 +96,18 @@
     watch(count, () => {
         console.log(count.value, store.state.productDetail.count);
         if (count.value > store.state.productDetail.count) {
+            // 물량 수 넘어가지 못하게
+            count.value = 1;
+        }if(0 == count.value ) {
+            // 0으로 못 넘어간다
             count.value = 1;
         }
     });
 
-
-
-
-    // // TODO : 두개 적용시
-    const quantit = async() => {
-        await zeroAlert();
-        await store.dispatch('quantityData');
-    };
-
-    // 재고수량 0일때 alert 띄우기
-    const zeroAlert = (event) => {
-        if ( count <= 0 ) {
-            alert('수량을 1 이상으로 선택해주세요.');
-            event.preventDefault();
-        }
-    };
+    // 상품 id/count 보내주기
+    function quantit() {
+        store.dispatch('/bag');
+    }
 
     // 아이콘 호버시 색 변환
     function openIconBag() {
@@ -133,7 +126,7 @@
     }
 
     onBeforeMount(() => {
-        store.dispatch('getValue');
+        store.dispatch('setProductReviewData');
     })
 
 </script>

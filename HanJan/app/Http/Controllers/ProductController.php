@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\MyValidateException;
 use App\Models\Bag;
 use App\Models\Product;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -67,14 +68,13 @@ class ProductController extends Controller
         // ----------------------- 민서 시작 -------------------------
         // products(상품)테이블에서
         // users.name AS user_name = 유저이름 별칭
-        public function value() {
-            $productData = Product::select('products.price','products.count','products.img','products.info', 'products.name','users.name AS user_name','reviews.re_star','reviews.re_content','reviews.updated_at')
-                            ->JOIN('reviews','products.id','=','reviews.re_id')
-                            ->JOIN('users','reviews.re_id','=', 'users.id')
-                            // ->limit(10)
-                            ->get();
+        public function value($id) {
+            $productData = Product::select('products.id', 'products.price','products.count','products.img','products.info', 'products.name')
+                            ->where('products.id', $id)
+                            ->first();
+                            // ->get();
 
-            Log::debug($productData);
+            Log::debug($productData); //TODO 나중에 삭제 
         
             $responseData = [
                     'code' => '0'
@@ -85,12 +85,32 @@ class ProductController extends Controller
             
             return response()->json($responseData, 200);
         }
-        // products(상품)테이블에서
+
+        // review(리뷰)테이블에서
         // users.name AS user_name = 유저이름 별칭
+        public function detailedReview() {
+            $productData = Review::select('users.name AS user_name','reviews.re_star','reviews.re_content','reviews.updated_at')
+                            ->JOIN('users','reviews.re_id','=', 'users.id')
+                            ->limit(5)
+                            ->get();
+
+            Log::debug($productData); //TODO 나중에 삭제 
+        
+            $responseData = [
+                    'code' => '0'
+                    ,'msg' => '초기 리뷰 획득 완료'
+                    ,'data' => $productData
+            ];
+            Log::debug($responseData); //TODO 나중에 삭제
+            
+            return response()->json($responseData, 200);
+        }
+
+        // products(상품)테이블에서
+        // 상세리스트 데이터 불러오기
         public function list() {
             $productData = Product::select('products.price','products.img', 'products.name', 'products.id')
-                            // ->where('products.id', 2) //16은 불려올 게시글 번호
-                            ->limit(10)
+                            ->limit(20)
                             ->get();
 
             Log::debug($productData);

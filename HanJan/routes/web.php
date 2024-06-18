@@ -63,7 +63,9 @@ Route::middleware('auth')->get('/api/ask', [UserController::class, 'askData']);
 
 // ----------------------- 민서 시작 -------------------------
 // 상세페이지 데이터 불러오기
-Route::get('/api/detailed', [ProductController::class, 'value']);
+Route::get('/api/detailed/{id}', [ProductController::class, 'value']);
+// 리뷰 데이터 불러오기
+Route::get('/api/detailed', [ProductController::class, 'detailedReview']);
 // 상세리스트 데이터 불러오기
 Route::get('/api/list', [ProductController::class, 'list']);
 // ----------------------- 민서 끝 ---------------------------

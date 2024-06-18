@@ -53,6 +53,12 @@ const routes = [
     {
         path: '/detailed',
         component: DetailedCompnent,
+        beforeEnter: (to, from, next) => {
+            console.log(to.query.id);
+            store.dispatch('setProductDetailData', to.query.id);
+
+            next();
+        }
     },
     {
         path: '/exchange',

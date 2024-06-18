@@ -26,6 +26,8 @@ const store = createStore({
             productDetail: {},
             // 상품 게시물 리스트
             listData: [],
+            // 리뷰 게시물 리스트
+            reviewDetail: [],
             // ----------------------- 민서 끝 ---------------------------
             // ----------------------- 호경 시작 -------------------------
             // 공지사항 게시물 리스트
@@ -82,8 +84,12 @@ const store = createStore({
             state.listData = data;
         },
         // 상품리스트 데이터 보내기
-        setProductDetailData(state, data) {
+        detailedNumData(state, data) {
             state.productDetail = data;
+        },
+        // 리뷰 데이터 보내기
+        detailedReviewData(state, data) {
+            state.reviewDetail = data;
         },
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
@@ -400,19 +406,17 @@ const store = createStore({
          * 
          * @param {*} context
          */
-        setProductDetailData(context) {
-            const url = '/api/detailed';
-
+        setProductDetailData(context, id) {
+            const url = '/api/detailed/' + id;
+            console.log(url);
             axios.get(url)
             .then(response => {
-                console.log(response.data); // TODO : 삭제
-
-                // 데이터베이스->서버를 통해 받은 데이터를 valuedData 저장
+                console.log('디테일 데이터', response.data); // TODO
                 context.commit('detailedNumData', response.data.data);
             })
             .catch(error => {
-                console.log(error.response.data); //  TODO : 삭제
-                alert('장바구니에 담긴 상품이 없습니다.(' + error.response.data.code + ')' )
+                console.log(error.response.data); // TODO
+                alert('상세정보 불러오기 실패했습니다.(' + error.response.data.code + ')');
             });
         },
 
@@ -437,26 +441,26 @@ const store = createStore({
             });
         },
 
-        /**
-         * 상품정보 획득 상세페이지로 데이터 보내기
-         * 
-         * @param {*} constext 
-         */
-        // setProductDetailData(constext) {
-        //     const url = '/api/list';
-        //     const data = new FormData(document.querySelector('#listPostForm'));
+        // /**
+        //  * 리뷰 데이터 불러오기
+        //  * 
+        //  * @param {*} constext 
+        //  */
+        setProductReviewData(constext) {
+            const url = '/api/detailed';
 
-        //     axios.post(url, data)
-        //     .then(response => {
-        //         console.log(response.data); // TODO
-        //         constext.commit('detailedNumData', response.data.data);
-        //     })
-        //     .catch(error => {
-        //         console.log(error.response); // TODO
-        //         alert('수량 획득에 실패했습니다.(' + error.response.data.code + ')');
-        //     });
-        // },
-        // ----------------------- 민서 끝 ---------------------------
+            axios.get(url)
+            .then(response => {
+                console.log('리뷰 데이터', response.data); // TODO
+                // 데이터베이스->서버를 통해 받은 데이터를 reviewDetail 저장
+                constext.commit('detailedReviewData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response.data); // TODO
+                alert('리뷰데이터 불러오기 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
+        // // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
         /**
          * 공지사항 리스트 획득
