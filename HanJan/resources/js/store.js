@@ -23,10 +23,9 @@ const store = createStore({
             // ----------------------- 성환 끝 ---------------------------
             // ----------------------- 민서 시작 -------------------------
             // 상품 정보
-            valuedData: {},
+            productDetail: {},
             // 상품 게시물 리스트
             listData: [],
-            detailedData: [],
             // ----------------------- 민서 끝 ---------------------------
             // ----------------------- 호경 시작 -------------------------
             // 공지사항 게시물 리스트
@@ -79,14 +78,14 @@ const store = createStore({
         },
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------
-        valueNumData(state, data) {
-            state.valuedData = data;
-        },
+        
+        // 상품리스트
         listInfoData(state, data) {
             state.listData = data;
         },
-        detailedNumData(state, data) {
-            state.detailedData = data;
+        // 상품리스트 데이터 보내기
+        setProductDetailData(state, data) {
+            state.productDetail = data;
         },
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
@@ -406,7 +405,7 @@ const store = createStore({
          * 
          * @param {*} context
          */
-        getValue(context) {
+        setProductDetailData(context) {
             const url = '/api/detailed';
 
             axios.get(url)
@@ -414,7 +413,7 @@ const store = createStore({
                 console.log(response.data); // TODO : 삭제
 
                 // 데이터베이스->서버를 통해 받은 데이터를 valuedData 저장
-                context.commit('valueNumData', response.data.data);
+                context.commit('detailedNumData', response.data.data);
             })
             .catch(error => {
                 console.log(error.response.data); //  TODO : 삭제
@@ -448,20 +447,20 @@ const store = createStore({
          * 
          * @param {*} constext 
          */
-        quantityData(constext) {
-            const url = '/api/list' + checksIndex.id ;
-            const data = new FormData(document.querySelector('#listPostForm'));
+        // setProductDetailData(constext) {
+        //     const url = '/api/list';
+        //     const data = new FormData(document.querySelector('#listPostForm'));
 
-            axios.post(url, data)
-            .then(response => {
-                console.log(response.data); // TODO
-                constext.commit('detailedNumData', response.data.data);
-            })
-            .catch(error => {
-                console.log(error.response); // TODO
-                alert('수량 획득에 실패했습니다.(' + error.response.data.code + ')');
-            });
-        },
+        //     axios.post(url, data)
+        //     .then(response => {
+        //         console.log(response.data); // TODO
+        //         constext.commit('detailedNumData', response.data.data);
+        //     })
+        //     .catch(error => {
+        //         console.log(error.response); // TODO
+        //         alert('수량 획득에 실패했습니다.(' + error.response.data.code + ')');
+        //     });
+        // },
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
         /**

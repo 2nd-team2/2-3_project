@@ -72,7 +72,7 @@ class ProductController extends Controller
                             ->JOIN('reviews','products.id','=','reviews.re_id')
                             ->JOIN('users','reviews.re_id','=', 'users.id')
                             // ->limit(10)
-                            ->first();
+                            ->get();
 
             Log::debug($productData);
         
@@ -81,7 +81,7 @@ class ProductController extends Controller
                     ,'msg' => '초기 상품값 획득 완료'
                     ,'data' => $productData
             ];
-            Log::debug($responseData);
+            Log::debug($responseData); //TODO 나중에 삭제
             
             return response()->json($responseData, 200);
         }
@@ -89,7 +89,7 @@ class ProductController extends Controller
         // users.name AS user_name = 유저이름 별칭
         public function list() {
             $productData = Product::select('products.price','products.img', 'products.name', 'products.id')
-                            ->where('products.id', 2) //16은 불려올 게시글 번호
+                            // ->where('products.id', 2) //16은 불려올 게시글 번호
                             ->limit(10)
                             ->get();
 
@@ -103,25 +103,6 @@ class ProductController extends Controller
             Log::debug($responseData);
             
             return response()->json($responseData, 200);
-        }
-
-        // products(상품)테이블에서
-        // 수량과 값을 보낸다
-        public function checksIndex(Request $request) {
-            // 유효성 검사
-            $validator = Validator::make(
-            $request->only('price', 'count', 'img'),
-                [
-                    'price' => ['required', 'numeric']
-                    ,'count' => ['required', 'numeric']
-                    ,'img' => ['required', 'image']
-                ]
-            );
-            // 유효성 검사 실패시 처리
-            if($validator->fails()) {
-                Log::debug('상품정보 전달 실패', $validator->errors()->toArray());
-                throw new MyValidateException('E01');
-            }
         }
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
