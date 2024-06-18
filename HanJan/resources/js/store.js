@@ -73,6 +73,10 @@ const store = createStore({
         infoSetData(state, data) {
             state.infoData = data;
         },
+        // 마이페이지
+        askSetData(state, data) {
+            state.askData = data;
+        },
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------
         valueNumData(state, data) {
@@ -368,7 +372,7 @@ const store = createStore({
             .catch();
         },
 
-        // 마이페이지에서 목록 불러오기
+        // 마이페이지에서 주문목록 불러오기
         infoData(context) {
             const url = '/api/info';
             
@@ -377,7 +381,20 @@ const store = createStore({
                 context.commit('infoSetData', response.data.data);
              })
              .catch(error => {
-                 alert('목록 불러오기 실패.(' + error.response.data.code + ')' )
+                 alert('주문목록 불러오기 실패.(' + error.response.data.code + ')' )
+             });
+         }, 
+
+        // 마이페이지에서 문의목록 불러오기
+        askData(context) {
+            const url = '/api/ask';
+            
+            axios.get(url)
+            .then(response => {
+                context.commit('askSetData', response.data.data);
+             })
+             .catch(error => {
+                 alert('문의목록 불러오기 실패.(' + error.response.data.code + ')' )
              });
          }, 
         
