@@ -30,6 +30,7 @@ class Orderproduct extends Model
      */
     protected function serializeDate(\DateTimeInterface $date)
     {
-        return $date->format('Y-m-d H:i:s');
+        // return $date->format('Y-m-d H:i:s');
+        return $date->format('Y-m-d'); //시분초 없어도 괜찮아서 뺐습니다
     }
 }
