@@ -57,15 +57,20 @@ class ReviewController extends Controller
     // TODO: 최초 리뷰 작성할때 데이터 저장이 아래 수정과 동일 하다면 reviewWrite로 함수명 바꾸고 통합하기
     
     // 리뷰수정 페이지에서 수정 후 등록하기 버튼 눌렀을때 reviews(리뷰) 테이블에서 데이터 수정하기
+    // public function reviewUpdateSubmit(Request $request) {
     public function reviewUpdateSubmit(Request $request) {
+
+        Log::debug($request);
+
         // 리퀘스트 데이터 받기
         $requestData = $request->all();
         
+
         // 데이터 유효성 검사
         $validator = Validator::make(
             $requestData
             , [
-                're_star' => ['requeired', 'regex:/^[1-5]{1}$/']
+                're_star' => ['required', 'regex:/^[1-5]{1}$/']
                 ,'re_content' => ['max: 200','regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
             ]
         );
@@ -75,21 +80,29 @@ class ReviewController extends Controller
             Log::debug('유효성 검사 실패', $validator->errors()->toArray());
             throw new MyValidateException('E01');
         }
-
+        
         // 데이터 생성
-        $updateData = $request->all();
+        $updateData = review::find($request->re_id);
 
-        // 데이터 저장
-        $updateData['u_id'] = Auth::id();
+        $updateData->re_content = $request->re_content;
+        $updateData->re_star = $request->re_star;
+
+        //데이터 저장
         $updateData->save();
+
+        // select 문으로 re_id 가지고 ml, name, img 등 필요한 자료 한번더 찾기
 
         // 레스폰스 데이터 생성
         $responseData = [
             'code' => '0'
-            ,'msg' => '회원 가입 완료'
+            ,'msg' => '리뷰 수정 완료'
             ,'data' => $updateData
+            // ,'ml' => $request->ml
+            // ,'name' => $request->name
+            // ,'img' => $request->img
         ];
 
+        Log::debug($responseData);
         return response()->json($responseData, 200);
     }
 }

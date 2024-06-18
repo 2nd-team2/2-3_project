@@ -21,18 +21,24 @@ class NoticeController extends Controller
 
         return response()->json($responseData, 200);
     }
-    // // 공지사항 6개 획득
-    // public function noticeGetSix() {
-    //     $noticeData = Notice::select('notices.*')
-    //                         ->orderBy('created_at', 'DESC')
-    //                         ->limit(6)
-    //                         ->get();
-    //     $responseData = [
-    //         'code' => '0'
-    //         ,'msg' => '게시글 획득 완료'
-    //         ,'data' => $noticeData->toArray()
-    //     ];
 
-    //     return response()->json($responseData, 200);
-    // }
+    public function detailNotice(Request $request) {
+        Log::debug('공지사항 pk : ' . $request->id);
+
+        $productData = Notice::select('notices.*')
+                        ->where('notices.no_id', $request->id)
+                        ->first();
+                        // ->get();
+
+        Log::debug('공지사항 데이터:', $productData->toArray());
+    
+        $responseData = [
+                'code' => '0'
+                ,'msg' => '초기 상품값 획득 완료'
+                ,'data' => $productData
+        ];
+        Log::debug($responseData);
+        
+        return response()->json($responseData, 200);
+    }
 }

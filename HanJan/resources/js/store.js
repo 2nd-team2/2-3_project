@@ -26,12 +26,12 @@ const store = createStore({
             productDetail: {},
             // 상품 게시물 리스트
             listData: [],
+            // 리뷰 게시물 리스트
+            reviewDetail: [],
             // ----------------------- 민서 끝 ---------------------------
             // ----------------------- 호경 시작 -------------------------
             // 공지사항 게시물 리스트
-            noticeData: [],
-            // // 공지사항 게시물 리스트 6개
-            // noticeDataSix: [],
+            noticeData: localStorage.getItem('noticeData') ? JSON.parse(localStorage.getItem('noticeData')) : {current_page: '1'},
             // 공지사항 디테일 정보
             noticeDetail: {},
             // 상품문의 게시물 리스트
@@ -54,9 +54,10 @@ const store = createStore({
             state.reviewData = data;
         },
         // 리뷰관리에서 수정 페이지로 넘어갈때 데이터 전달
-        // reviewUpdateData(state, data) {
-        //     state.reviewUpdateData = data;
-        // },
+        reviewToUpdate(state, data) {
+            state.reviewToUpdate = data;
+            localStorage.setItem('reviewToUpdate', JSON.stringify(data));
+        },
 
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
@@ -96,19 +97,20 @@ const store = createStore({
             state.listData = data;
         },
         // 상품리스트 데이터 보내기
-        setProductDetailData(state, data) {
+        detailedNumData(state, data) {
             state.productDetail = data;
+        },
+        // 리뷰 데이터 보내기
+        detailedReviewData(state, data) {
+            state.reviewDetail = data;
         },
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
         // 공지사항 게시물 리스트
         setNoticeData(state, data) {
             state.noticeData = data;
+            localStorage.setItem('noticeData', JSON.stringify(data))
         },
-        // // 공지사항 게시물 리스트 6개
-        // setNoticeDataSix(state, data) {
-        //     state.noticeDataSix = data;
-        // },
         // 공지사항 디테일 저장
         setNoticeDetailData(state, data) {
             state.noticeDetail = data;
@@ -174,8 +176,6 @@ const store = createStore({
 
         },
         
-        
-        
         /**
          * 리뷰관리에 최초 게시글 획득
          * 
@@ -206,7 +206,7 @@ const store = createStore({
         reviewUpdate(context, item) {
             const reviewUpdateData = item;
 
-            // context.commit('reviewUpdateData', reviewUpdateData);
+            context.commit('reviewToUpdate', reviewUpdateData);
             localStorage.setItem('reviewToUpdate', JSON.stringify(reviewUpdateData));
 
 
@@ -223,12 +223,13 @@ const store = createStore({
         reviewUpdateSubmit(context) {
             const url = '/api/reviewUpdateSubmit';
             const data = new FormData(document.querySelector('#reviewUpdateForm'));
-            
-            axios.get(url, data)
+
+            axios.post(url, data)
             .then(response => {
-                console.log(response.data); // TODO : 삭제
-            
-                context.commit('reviewSetData', response.data.data);
+                console.log(response.data.data); // TODO : 삭제
+
+                context.commit('reviewToUpdate', response.data.data);
+                localStorage.setItem('reviewToUpdate', JSON.stringify(response.data.data));
             })
             .catch(error => {
                 console.log(error.response); //  TODO : 삭제
@@ -467,19 +468,17 @@ const store = createStore({
          * 
          * @param {*} context
          */
-        setProductDetailData(context) {
-            const url = '/api/detailed';
-
+        setProductDetailData(context, id) {
+            const url = '/api/detailed/' + id;
+            console.log(url);
             axios.get(url)
             .then(response => {
-                console.log(response.data); // TODO : 삭제
-
-                // 데이터베이스->서버를 통해 받은 데이터를 valuedData 저장
+                console.log('디테일 데이터', response.data); // TODO
                 context.commit('detailedNumData', response.data.data);
             })
             .catch(error => {
-                console.log(error.response.data); //  TODO : 삭제
-                alert('장바구니에 담긴 상품이 없습니다.(' + error.response.data.code + ')' )
+                console.log(error.response.data); // TODO
+                alert('상세정보 불러오기 실패했습니다.(' + error.response.data.code + ')');
             });
         },
 
@@ -504,34 +503,35 @@ const store = createStore({
             });
         },
 
-        /**
-         * 상품정보 획득 상세페이지로 데이터 보내기
-         * 
-         * @param {*} constext 
-         */
-        // setProductDetailData(constext) {
-        //     const url = '/api/list';
-        //     const data = new FormData(document.querySelector('#listPostForm'));
+        // /**
+        //  * 리뷰 데이터 불러오기
+        //  * 
+        //  * @param {*} constext 
+        //  */
+        setProductReviewData(constext) {
+            const url = '/api/detailed';
 
-        //     axios.post(url, data)
-        //     .then(response => {
-        //         console.log(response.data); // TODO
-        //         constext.commit('detailedNumData', response.data.data);
-        //     })
-        //     .catch(error => {
-        //         console.log(error.response); // TODO
-        //         alert('수량 획득에 실패했습니다.(' + error.response.data.code + ')');
-        //     });
-        // },
-        // ----------------------- 민서 끝 ---------------------------
+            axios.get(url)
+            .then(response => {
+                console.log('리뷰 데이터', response.data); // TODO
+                // 데이터베이스->서버를 통해 받은 데이터를 reviewDetail 저장
+                constext.commit('detailedReviewData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response.data); // TODO
+                alert('리뷰데이터 불러오기 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
+        // // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
         /**
-         * 공지사항 획득
+         * 공지사항 리스트 획득
          * 
          * @param {*} context 
          */
         getNoticeData(context, page) {
-            const url = '/api/noticelist';
+            const param = page == 1 ? '' : '?page=' + page;
+            const url = '/api/noticelist' + param;
             
             axios.get(url)
             .then(response => {
@@ -543,24 +543,24 @@ const store = createStore({
                 alert('공지사항 습득에 실패했습니다.(' + error.response.data.code + ')');
             });
         },
-        // /**
-        //  * 공지사항 6개 획득
-        //  * 
-        //  * @param {*} context 
-        //  */
-        // getNoticeDataSix(context) {
-        //     const url = '/api/noticelist';
-            
-        //     axios.get(url)
-        //     .then(response => {
-        //         console.log(response.data); // TODO
-        //         context.commit('setNoticeDataSix', response.data.data);
-        //     })
-        //     .catch(error => {
-        //         console.log(error.response); // TODO
-        //         alert('공지사항 습득에 실패했습니다.(' + error.response.data.code + ')');
-        //     });
-        // },
+        /**
+         * 공지사항 상세페이지 값 획득
+         * 
+         * @param {*} context
+         */
+        getNoticeDetailData(context, id) {
+            const url = '/api/notice?id=' + id;
+            console.log(url);
+            axios.get(url)
+            .then(response => {
+                console.log('공지사항 데이터', response.data); // TODO
+                context.commit('setNoticeDetailData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response.data); // TODO
+                alert('공지사항 불러오기 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
         /**
          * 상품문의내역 획득
          * 
