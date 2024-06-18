@@ -19,6 +19,7 @@ class BagFactory extends Factory
         return [
             'u_id' => 1
             ,'p_id' => 1
+            ,'ba_count'=> $this->faker->numberBetween(3,10)
         ];
     }
 }

@@ -4,8 +4,9 @@
             <span>리뷰작성</span>
             <a href="" class="reviewC_cancel">계속 쇼핑하기</a>
         </h2>
-
         <div>test : {{ $store.state.reviewToUpdate }}</div>
+        <!-- 내 술잔 페이지에서 > 리뷰로 데이터 넘기는 방법 고민해보기 : 리뷰페이지에서 리뷰 수정이랑 동일하게 할건지 -->
+        <!-- reviewToUpdate 대신 infoToReview 로 만들어서 사용하기 >> <div>test : {{ $store.state.infoToReview }}</div> -->
         <div>
             <div class="reviewC_padding_top">이 상품의 품질에 대해서 얼마나 만족하시나요?</div>
             <div class="review_goods_item reviewC_grid">
@@ -28,10 +29,24 @@
 
         <hr>
 
-        <form action="">
+        <form id="reviewCreateForm">
             <div class="reviewC_padding_top">상세리뷰</div>
+            <input type="hidden" name="re_id" :value="$store.state.reviewToUpdate.re_id">
+            
+            <!-- infoToReview를 받아오면 아래 re_id 와 p_id 같이 넘기고 컨트롤러 저장할떄 p_id 받아서 저장 -->
+            <!-- <input type="hidden" name="re_id" :value="$store.state.infoToReview.re_id"> -->
+            <!-- <input type="hidden" name="p_id" :value="$store.state.infoToReview.p_id"> -->
+            <input type="hidden" name="re_star" :value="selectedStar">
+            
+            <!-- 작성 완료하고 작성페이지에 남을거면 이름 ml img를 같이 넘겨주고 -->
+            <!-- 작성 완료하고 리뷰관리 페이지로 갈거면 이름 ml img는 굳이 안넘겨줘도 될거 같음 -->
+            <!-- <input type="hidden" name="name" :value="$store.state.infoToReview.name">
+            <input type="hidden" name="ml" :value="$store.state.infoToReview.ml">
+            <input type="hidden" name="img" :value="$store.state.infoToReview.img"> -->
+
+
             <div class="reviewC_padding_top">
-                <textarea placeholder="다른 고객님에게 도움이 되도록 상품에 대한 솔직한 평가를 남겨주세요."></textarea>
+                <textarea name="re_content" placeholder="다른 고객님에게 도움이 되도록 상품에 대한 솔직한 평가를 남겨주세요."></textarea>
             </div>
             <div class="reviewC_required reviewC_padding_top" >· 상품 품질과 관계 없는 내용은 비공개 처리될 수 있습니다.</div>
             <div class="reviewC_required reviewC_padding_bottom">· 작성된 리뷰는 삭제 전까지 ‘상품리뷰’에 공개되고, ‘내 술잔 > 리뷰관리’ 에서 수정 및 삭제가 가능합니다.</div>
@@ -39,7 +54,7 @@
             <hr>
 
             <div class="reviewC_padding_top reviewC_btn_right">
-                <button type="submit" class="reviewC_submit_btn">등록하기</button>
+                <button type="button" @click="$store.dispatch('reviewCreateSubmit')" class="reviewC_submit_btn">등록하기</button>
             </div>
         </form>
     </main>

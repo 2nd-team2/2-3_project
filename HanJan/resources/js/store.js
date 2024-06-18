@@ -145,13 +145,10 @@ const store = createStore({
 
             axios.get(url)
             .then(response => {
-                console.log(response.data); // TODO : 삭제
-
                 // 데이터베이스->서버를 통해 받은 데이터를 bagsProductData에 저장
                 context.commit('bagsSetProductData', response.data.data);
             })
             .catch(error => {
-                console.log(error.response); //  TODO : 삭제
                 alert('장바구니 상품 획득에 실패했습니다.(' + error.response.data.code + ')' )
             });
         },
@@ -170,11 +167,11 @@ const store = createStore({
                 console.log(response.data); // TODO : 삭제
             })
             .catch(error => {
-                console.log(error.response); //  TODO : 삭제
                 alert('장바구니 삭제에 실패했습니다.(' + error.response.data.code + ')' )
             });
 
         },
+
         
         /**
          * 리뷰관리에 최초 게시글 획득
@@ -186,13 +183,10 @@ const store = createStore({
            
            axios.get(url)
            .then(response => {
-               console.log(response.data); // TODO : 삭제
-               
                // 데이터베이스->서버를 통해 받은 데이터를 reviewtData에 저장
                context.commit('reviewSetData', response.data.data);
             })
             .catch(error => {
-                console.log(error.response); //  TODO : 삭제
                 alert('리뷰 획득에 실패하였습니다.(' + error.response.data.code + ')' )
             });
         },    
@@ -209,33 +203,8 @@ const store = createStore({
             context.commit('reviewToUpdate', reviewUpdateData);
             localStorage.setItem('reviewToUpdate', JSON.stringify(reviewUpdateData));
 
-
             router.replace('/reviewupdate');
         },
-
-
-        // TODO: 리뷰 작성이랑 수정이랑 같을 경우 메소드 명 통일하기 > 중간에 update만 뺴기
-        /**
-         * 리뷰수정 완료
-         * 
-         * @param {*} context
-        */
-        reviewUpdateSubmit(context) {
-            const url = '/api/reviewUpdateSubmit';
-            const data = new FormData(document.querySelector('#reviewUpdateForm'));
-
-            axios.post(url, data)
-            .then(response => {
-                console.log(response.data.data); // TODO : 삭제
-
-                context.commit('reviewToUpdate', response.data.data);
-                localStorage.setItem('reviewToUpdate', JSON.stringify(response.data.data));
-            })
-            .catch(error => {
-                console.log(error.response); //  TODO : 삭제
-                alert('리뷰 획득에 실패하였습니다.(' + error.response.data.code + ')' )
-            });
-        }, 
 
         /**
          * 리뷰관리에서 리뷰 삭제
@@ -252,7 +221,6 @@ const store = createStore({
                     console.log(response.data); // TODO : 삭제
                 })
                 .catch(error => {
-                    console.log(error.response); //  TODO : 삭제
                     alert('리뷰 삭제에 실패했습니다.(' + error.response.data.code + ')' )
                 });
 
@@ -260,9 +228,57 @@ const store = createStore({
                 console.log('confirm false');
             }
 
-
-
         },
+
+        /**
+         * 리뷰작성에서 작성 완료
+         * 
+         * @param {*} context
+        */
+        reviewCreateSubmit(context) {
+            const url = '/api/reviewCreateSubmit';
+            const data = new FormData(document.querySelector('#reviewCreateForm'));
+
+            axios.post(url, data)
+            .then(response => {
+                console.log(response.data.data); // TODO : 삭제
+
+
+                //context.commit('reviewToUpdate', response.data.data);
+                // localStorage.setItem('reviewToUpdate', JSON.stringify(response.data.data));
+
+                alert('리뷰 작성을 완료하였습니다.');
+
+                router.replace('/info');
+            })
+            .catch(error => {
+                console.log(error.response); //  TODO : 삭제
+                alert('리뷰 작성에 실패하였습니다.(' + error.response.data.code + ')' )
+            });
+        }, 
+
+        /**
+         * 리뷰수정에서 수정 완료
+         * 
+         * @param {*} context
+        */
+        reviewUpdateSubmit(context) {
+            const url = '/api/reviewUpdateSubmit';
+            const data = new FormData(document.querySelector('#reviewUpdateForm'));
+
+            axios.post(url, data)
+            .then(response => {
+                context.commit('reviewToUpdate', response.data.data);
+                localStorage.setItem('reviewToUpdate', JSON.stringify(response.data.data));
+
+                alert('리뷰 수정을 완료하였습니다.');
+            })
+            .catch(error => {
+                alert('리뷰 수정에 실패하였습니다.(' + error.response.data.code + ')' )
+            });
+        }, 
+        
+
               
         
         // ----------------------- 보원 끝 ---------------------------

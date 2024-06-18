@@ -19,7 +19,7 @@ class OrderproductFactory extends Factory
         return [
             'or_id' => 1
             ,'p_id' => 1
-            ,'orp_count' => $this->faker->numberBetween(1, 30)
+            ,'orp_count' => $this->faker->numberBetween(2, 30)
         ];
     }
 }

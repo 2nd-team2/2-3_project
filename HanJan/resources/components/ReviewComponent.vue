@@ -13,13 +13,11 @@
                     <div class="review_goods_title"> {{ item.name +' / '+ item.ml +'ml /' + '1' +'개'}}</div>
                     <div class="review_goods_info_grid_star">
                         <div class="star-rating">
-                            <span class="star_gold">&#9733;</span>
-                            <span class="star_gold">&#9733;</span>
-                            <span class="star_gold">&#9733;</span>
-                            <span class="star_gray">&#9733;</span>
-                            <span class="star_gray">&#9733;</span>
-                            <div class="review_create_at">{{ item.created_at }}</div>
-                        </div>                   
+                            <span class="star" v-for="star in 5" :key="star" :class="{ checked: star <= item.re_star }">
+                                &#9733;
+                            </span>
+                            <span>{{ item.re_star }}</span>
+                        </div>                  
                     </div>
                     <div>
                         <div class="review_content">
@@ -33,7 +31,7 @@
                 <!-- TODO : 수정하기 > 수정하는 페이지 및 a 태그 -->
                 <form action="" class="review_goods_info_grid_btn">
                     <button @click="reviewUpdate(item)" button="button" class="review_btn">수정하기</button>
-                    <button @click="reviewDelete(item.re_id)" class="review_btn">삭제하기</button>
+                    <button @click="reviewDelete(item.re_id)" button="button" class="review_btn">삭제하기</button>
                 </form>
             </div>
         </div>
@@ -59,15 +57,12 @@ const router = useRouter();
 onBeforeMount(() => {
     // TODO: 이미 데이터가 있으면 onBeforeMount 요청 안하게 수정하기
     store.dispatch('reviewGet')
+
 })
 
 // 리뷰 수정하기 페이지로 정보 넘기기
 const reviewUpdate = (item) => {
-
     store.dispatch('reviewUpdate', item);
-
-    // router.push({ path: '/reviewupdate', state: { item: item } });
-    // console.log(item);
 }
 
 // 리뷰 삭제하기 기능

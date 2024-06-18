@@ -38,6 +38,7 @@ class ReviewController extends Controller
 
     }
 
+    // 리뷰 삭제
     // 리뷰관리 페이지에서 휴지통 버튼 눌렀을때 reviews(리뷰) 테이블에서 삭제 처리
     public function reviewDelete($re_id) {
 
@@ -52,26 +53,69 @@ class ReviewController extends Controller
         return response()->json($responseData);
     }
 
-
-    // 리뷰수정 페이지에서 버튼 눌렀을때 reviews(리뷰) 테이블에서 데이터 저장하기
-    // TODO: 최초 리뷰 작성할때 데이터 저장이 아래 수정과 동일 하다면 reviewWrite로 함수명 바꾸고 통합하기
-    
-    // 리뷰수정 페이지에서 수정 후 등록하기 버튼 눌렀을때 reviews(리뷰) 테이블에서 데이터 수정하기
-    // public function reviewUpdateSubmit(Request $request) {
-    public function reviewUpdateSubmit(Request $request) {
-
-        Log::debug($request);
+    // 리뷰 작성
+    // 리뷰작성 페이지에서 버튼 눌렀을 때 reviews(리뷰) 테이블에서 데이터 저장
+    public function reviewCreateSubmit(Request $request) {
 
         // 리퀘스트 데이터 받기
-        $requestData = $request->all();
-        
+        $requestData = [
+            're_id' => $request->re_id
+            ,'re_content' => $request->re_content
+            ,'re_star' => $request->re_star
+        ];
 
         // 데이터 유효성 검사
         $validator = Validator::make(
             $requestData
             , [
                 're_star' => ['required', 'regex:/^[1-5]{1}$/']
-                ,'re_content' => ['max: 200','regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
+                ,'re_content' => ['nullable', 'max: 200','regex:/^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
+            ]
+        );
+
+        // 유효성 검사 실패 체크
+        if($validator->fails()) {
+            Log::debug('유효성 검사 실패', $validator->errors()->toArray());
+            throw new MyValidateException('E01');
+        }
+
+        // 데이터 생성
+        $createData = $request->only('re_content','re_star');
+
+        
+        // 작성 처리
+        $createData['u_id'] = Auth::id();
+        $createData['p_id'] = 1; // $request->p_id; store에서 넘겨 받은 p_id 작성하기 
+        $createData['re_content'] = $request->re_content;
+        $createData['re_star'] = $request->re_star;
+
+
+        // 작성 처리
+        $reviewCreate = review::create($createData);
+
+        // 레스폰스 데이터 생성
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '리뷰 작성 완료'
+            ,'data' => $reviewCreate
+        ];
+
+        return response()->json($responseData, 200);
+    }
+
+    // 리뷰 수정
+    // 리뷰수정 페이지에서 버튼 눌렀을때 reviews(리뷰) 테이블에서 데이터 수정
+    public function reviewUpdateSubmit(Request $request) {
+
+        // 리퀘스트 데이터 받기
+        $requestData = $request->all();
+        
+        // 데이터 유효성 검사
+        $validator = Validator::make(
+            $requestData
+            , [
+                're_star' => ['required', 'regex:/^[1-5]{1}$/']
+                ,'re_content' => ['nullable', 'max: 200','regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
             ]
         );
 
@@ -84,25 +128,27 @@ class ReviewController extends Controller
         // 데이터 생성
         $updateData = review::find($request->re_id);
 
+        // 수정 처리
         $updateData->re_content = $request->re_content;
         $updateData->re_star = $request->re_star;
-
-        //데이터 저장
+        // 수정된 데이터 저장
         $updateData->save();
 
-        // select 문으로 re_id 가지고 ml, name, img 등 필요한 자료 한번더 찾기
+        // 출력될 데이터 가공
+        $updateArrayData = $updateData->toArray();
+        $addUpdateData = [
+            'ml' => $request->ml,
+            'name' => $request->name,
+            'img' => $request->img
+        ];
 
         // 레스폰스 데이터 생성
         $responseData = [
             'code' => '0'
             ,'msg' => '리뷰 수정 완료'
-            ,'data' => $updateData
-            // ,'ml' => $request->ml
-            // ,'name' => $request->name
-            // ,'img' => $request->img
+            ,'data' => array_merge($updateArrayData, $addUpdateData)
         ];
 
-        Log::debug($responseData);
         return response()->json($responseData, 200);
     }
 }

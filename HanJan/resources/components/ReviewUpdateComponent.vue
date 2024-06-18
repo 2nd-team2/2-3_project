@@ -4,7 +4,6 @@
             <span>리뷰수정</span>
             <a href="" class="reviewC_cancel">계속 쇼핑하기</a>
         </h2>
-        <!-- <div>test : {{ $store.state.reviewUpdateData }}</div> -->
         <div>test : {{ $store.state.reviewToUpdate }}</div>
         <div>
             <div class="reviewC_padding_top">이 상품의 품질에 대해서 얼마나 만족하시나요?</div>
@@ -32,13 +31,10 @@
         <form id="reviewUpdateForm">
             <div class="reviewC_padding_top">상세리뷰</div>
             <input type="hidden" name="re_id" :value="$store.state.reviewToUpdate.re_id">
-            <!-- <input type="hidden" name="u_id" :value="$store.state.reviewToUpdate.u_id">
-            <input type="hidden" name="p_id" :value="$store.state.reviewToUpdate.p_id">
-            <input type="hidden" name="id" :value="$store.state.reviewToUpdate.id"> -->
+            <input type="hidden" name="re_star" :value="selectedStar">
             <input type="hidden" name="name" :value="$store.state.reviewToUpdate.name">
             <input type="hidden" name="ml" :value="$store.state.reviewToUpdate.ml">
             <input type="hidden" name="img" :value="$store.state.reviewToUpdate.img">
-            <input type="hidden" name="re_star" :value="selectedStar">
 
             <div class="reviewC_padding_top">
                 <textarea name="re_content" placeholder="다른 고객님에게 도움이 되도록 상품에 대한 솔직한 평가를 남겨주세요.">{{ $store.state.reviewToUpdate.re_content }}</textarea>

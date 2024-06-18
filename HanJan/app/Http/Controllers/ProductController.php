@@ -33,15 +33,12 @@ class ProductController extends Controller
                         ->orderBy('bags.ba_id','DESC')
                         // ->limit(3)
                         ->get();
-
-        Log::debug($productDate); // TODO
     
         $responseData = [
                 'code' => '0'
                 ,'msg' => '초기 장바구니 상품 획득 완료'
                 ,'data' => $productDate->toArray()
         ];
-        Log::debug($responseData); // TODO
         
         return response()->json($responseData, 200);
     }
