@@ -83,10 +83,10 @@
         // let endPage = startPage + maxPagesToShow - 1
         const pagingEnd = endPage > posts.value.last_page ? posts.value.last_page : endPage;
 
-        // if (endPage > totalPages.value) {
-        //     endPage = totalPages.value
-        //     startPage = Math.max(endPage - maxPagesToShow + 1, 1)
-        // }
+        if (endPage > totalPages.value) {
+            endPage = totalPages.value
+            startPage = Math.max(endPage - maxPagesToShow + 1, 1)
+        }
 
         for (let i = pagingStart; i <= pagingEnd; i++) {
             pageArray.push(i)
