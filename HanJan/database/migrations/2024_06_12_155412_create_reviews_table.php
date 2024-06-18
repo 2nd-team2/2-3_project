@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id('re_id');
             $table->bigInteger('u_id')->unsigned();
             $table->bigInteger('p_id')->unsigned();
-            $table->string('re_content', 200)->nullable()->comment('리뷰내용');
             $table->char('re_star', 1)->default('0')->comment('별점, 0~5점');
-            $table->char('re_flg', 1)->default('0')->comment('후기 작성, 0:작성, 1:미작성');
+            $table->string('re_content', 200)->nullable()->comment('리뷰내용');
+            // $table->char('re_flg', 1)->default('0')->comment('후기 작성, 0:작성, 1:미작성');
             $table->timestamps();
             $table->softDeletes(); 
             

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\MyValidateException;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class ReviewController extends Controller
 {
@@ -55,8 +58,38 @@ class ReviewController extends Controller
     
     // 리뷰수정 페이지에서 수정 후 등록하기 버튼 눌렀을때 reviews(리뷰) 테이블에서 데이터 수정하기
     public function reviewUpdateSubmit(Request $request) {
-        // 데이터 유효성 검사
+        // 리퀘스트 데이터 받기
+        $requestData = $request->all();
         
+        // 데이터 유효성 검사
+        $validator = Validator::make(
+            $requestData
+            , [
+                're_star' => ['requeired', 'regex:/^[1-5]{1}$/']
+                ,'re_content' => ['max: 200','regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
+            ]
+        );
+
+        // 유효성 검사 실패 체크
+        if($validator->fails()) {
+            Log::debug('유효성 검사 실패', $validator->errors()->toArray());
+            throw new MyValidateException('E01');
+        }
+
+        // 데이터 생성
+        $updateData = $request->all();
+
         // 데이터 저장
+        $updateData['u_id'] = Auth::id();
+        $updateData->save();
+
+        // 레스폰스 데이터 생성
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '회원 가입 완료'
+            ,'data' => $updateData
+        ];
+
+        return response()->json($responseData, 200);
     }
 }

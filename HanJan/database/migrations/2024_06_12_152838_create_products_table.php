@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('img', 100)->comment('상품이미지, 이미지파일');
             $table->string('info', 100)->comment('상품정보, 이미지파일');
             $table->char('type', 1)->default('0')->comment('상품타입, 0: 탁주, 1: 과실주, 2: 증류주');
-            $table->char('w_flg', 1)->default('0')->comment('날씨, 0:맑음, 1:흐림, 2:비');
+            // $table->char('w_flg', 1)->default('0')->comment('날씨, 0:맑음, 1:흐림, 2:비');
             $table->timestamps();
             $table->softDeletes(); 
         });

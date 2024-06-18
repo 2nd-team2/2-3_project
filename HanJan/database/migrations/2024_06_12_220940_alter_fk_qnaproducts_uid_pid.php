@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('qnaproducts', function(Blueprint $table) {
             $table->foreign('u_id')->references('id')->on('users');
-            $table->foreign('orp_id')->references('id')->on('orderproducts');
+            $table->foreign('orp_id')->references('orp_id')->on('orderproducts');
         });
     }
 

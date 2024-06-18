@@ -21,7 +21,7 @@ class ProductSeeder extends Seeder
             ,'count' => 100
             ,'ml' => 355
             ,'img' => '/img/best.png'
-            ,'info' => '/img/bag.png'
+            ,'info' => '/img/best.png'
         ];
         product::create($data);
     }

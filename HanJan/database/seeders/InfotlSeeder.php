@@ -18,7 +18,7 @@ class InfotlSeeder extends Seeder
         $data = [
             'in_title' => '전통주설명제목'
             ,'in_content' => '전통주설명내용'
-            ,'in_img' => '/img/bag.png'
+            ,'in_img' => '/img/best.png'
         ];
         Infotl::create($data);
     }

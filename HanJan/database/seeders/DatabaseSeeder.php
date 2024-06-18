@@ -43,7 +43,9 @@ class DatabaseSeeder extends Seeder
             OrderproductSeeder::class,
             CompleteSeeder::class,
         ]);
-
+        
+        // 팩토리를 이용하여 대량 생성
+        // 모델명::factory(반복수)->create();
         product::factory(50)->create();
         Bag::factory(10)->create();
         Notice::factory(5)->create();
@@ -51,11 +53,7 @@ class DatabaseSeeder extends Seeder
         Qna::factory(5)->create();
         Qnaproduct::factory(5)->create();
         review::factory(10)->create();
-
-
-        // 팩토리를 이용하여 대량 생성
-        // 모델명::factory(반복수)->create();
-
+        
         // \App\Models\User::factory(10)->create();
     }
 }

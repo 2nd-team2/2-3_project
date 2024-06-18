@@ -16,8 +16,10 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
+        static $counter = 1;
+
         return [
-            'name' => '상품이름'
+            'name' => '상품이름'.$counter++
             ,'price' => $this->faker->numberBetween(10, 50)*1000
             ,'count' => $this->faker->numberBetween(10, 200)
             ,'ml' => $this->faker->numberBetween(250, 1000)
