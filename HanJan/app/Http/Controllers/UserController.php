@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\MyAuthException;
 use App\Exceptions\MyValidateException;
+use App\Models\Orderproduct;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -162,7 +163,7 @@ class UserController extends Controller
 
             // 비밀번호와 비밀번호 확인이 일치하는지 확인
             if ($request->password !== $request->password_chk) {
-                alert('비밀번호 불일치');
+                throw new MyAuthException('E21');
             }
 
             // 업데이트 할 리퀘스트 데이터 셋팅
@@ -171,6 +172,7 @@ class UserController extends Controller
             $userInfo->tel = $request->tel;
             $userInfo->addr = $request->addr;
             $userInfo->det_addr = $request->det_addr;
+            $userInfo->post = $request->post;
 
             // 유저정보 갱신
             $userInfo->save();
@@ -198,9 +200,57 @@ class UserController extends Controller
             } else {
                 return response()->json(['error' => '사용자 삭제 실패'], 500);
             }
-            
         }
 
+        // 수정 전 비밀번호 재확인
+        public function confirm(Request $request) 
+            {
+                $password = $request->input('password');
+
+                $userInfo = Auth::user();
+
+                $responseData = [
+                    'code' => '0',
+                    'msg' => '비밀번호 체크',
+                    'exists' => false
+                ];
+
+                if($userInfo && Hash::check($password, $userInfo->password)) {
+                    $responseData['exists'] = true;
+                }
+
+                return response()->json($responseData, 200);
+            }
+        
+        // 마이페이지
+        public function infoData() {
+                $infoData = Orderproduct::select('orderproducts.*','users.id','products.*')
+                                ->join('users','orderproducts.or_id','=','users.id')
+                                // ->join('users','qnas.qn_id','=','users.id')
+                                ->join('products','orderproducts.p_id','=','products.id')
+                                // ->join('orderproducts', 'completes.co_id', '=', 'orderproducts.orp_id')
+                                // ->join('orderproducts', 'qnaproducts.qnp_id', '=', 'orderproducts.orp_id')
+                                ->where('orderproducts.or_id', '=', Auth::id())
+                                ->where('orderproducts.deleted_at', '=', null)
+                                // ->where('qnaproducts.deleted_at', '=', null)
+                                // ->where('qnas.deleted_at', '=', null)
+                                // ->where('completes.co_flg', '=', '1')
+                                ->orderBy('orderproducts.created_at','DESC')
+                                ->orderBy('orderproducts.orp_id','DESC')
+                                ->limit(3)
+                                ->get();
+                
+
+        
+                $responseData = [
+                    'code' => '0'
+                    ,'msg' => '목록 획득 완료'
+                    ,'data' => $infoData->toArray()
+                ];
+            
+                return response()->json($responseData, 200);
+        
+            }
 
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------

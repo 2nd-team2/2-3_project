@@ -55,7 +55,9 @@ Route::post('/api/update', [UserController::class, 'update']);
 Route::post('/api/userUpdate', [UserController::class, 'userUpdate']);
 Route::delete('/api/userDelete', [UserController::class, 'userDelete']);
 Route::get('/api/regist/{emailText}', [UserController::class, 'registEmailChk']);
+Route::post('/api/confirm', [UserController::class, 'confirm']);
 Route::middleware('auth')->post('/api/logout', [UserController::class, 'logout']);
+Route::middleware('auth')->get('/api/info', [UserController::class, 'infoData']);
 // ----------------------- 성환 끝 ---------------------------
 
 // ----------------------- 민서 시작 -------------------------

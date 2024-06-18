@@ -16,6 +16,7 @@ const store = createStore({
             // ----------------------- 성환 시작 -------------------------
             authFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
             userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
+            infoData: [],
             // ----------------------- 성환 끝 ---------------------------
             // ----------------------- 민서 시작 -------------------------
             valuedData: {},
@@ -58,6 +59,10 @@ const store = createStore({
         //유저 정보 저장
         setUserInfo(state, userInfo) {
             state.userInfo = userInfo;
+        },
+        // 마이페이지
+        infoSetData(state, data) {
+            state.infoData = data;
         },
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------
@@ -309,7 +314,7 @@ const store = createStore({
             });
         },
 
-        //회원 탈퇴
+        // 회원 탈퇴
         userDelete(context) {
             const url = '/api/userDelete';
             const data = new FormData(document.querySelector('#update_form'));
@@ -325,6 +330,33 @@ const store = createStore({
                 console.log(error.response.data.code);
             });
         },
+
+        // 수정 전 비밀번호 재확인
+        confirm(context, password) {
+            const url = '/api/confirm';
+            axios.post(url, { password: password })
+            .then(response => {
+                if (response.data.exists) {
+                    router.replace('/update');
+                } else {
+                    alert('비밀번호가 일치하지 않습니다.');
+                }
+            })
+            .catch();
+        },
+
+        // 마이페이지에서 목록 불러오기
+        infoData(context) {
+            const url = '/api/info';
+            
+            axios.get(url)
+            .then(response => {
+                context.commit('infoSetData', response.data.data);
+             })
+             .catch(error => {
+                 alert('목록 불러오기 실패.(' + error.response.data.code + ')' )
+             });
+         }, 
         
         
         // ----------------------- 성환 끝 ---------------------------
