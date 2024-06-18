@@ -41,7 +41,7 @@ Route::middleware('auth')->get('/api/review', [ReviewController::class, 'reviewI
 // 리뷰 데이터 작성
 // Route::middleware('auth')->get('/api/reviewCreate', [ReviewController::class, 'reviewCreate']);
 // 리뷰 데이터 수정
-Route::middleware('auth')->get('/api/reviewUpdateSubmit/{re_id}', [ReviewController::class, 'reviewUpdateSubmit']);
+Route::middleware('auth')->get('/api/reviewUpdateSubmit', [ReviewController::class, 'reviewUpdateSubmit']);
 // 리뷰 데이터 삭제
 Route::middleware('auth')->delete('/api/reviewDelete/{re_id}', [ReviewController::class, 'reviewDelete']);
 
@@ -55,7 +55,9 @@ Route::post('/api/update', [UserController::class, 'update']);
 Route::post('/api/userUpdate', [UserController::class, 'userUpdate']);
 Route::delete('/api/userDelete', [UserController::class, 'userDelete']);
 Route::get('/api/regist/{emailText}', [UserController::class, 'registEmailChk']);
+Route::post('/api/confirm', [UserController::class, 'confirm']);
 Route::middleware('auth')->post('/api/logout', [UserController::class, 'logout']);
+Route::middleware('auth')->get('/api/info', [UserController::class, 'infoData']);
 // ----------------------- 성환 끝 ---------------------------
 
 // ----------------------- 민서 시작 -------------------------

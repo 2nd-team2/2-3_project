@@ -7,20 +7,20 @@
                     <div>
                         <button class="keep_shoping_btn black_button" @click="$router.push('/list')">계속 쇼핑하기</button>
                         <button class="shoping_btn review_manage_btn black_button" @click="$router.push('/review')">리뷰관리</button>
-                        <button class="user_update_btn black_button" @click="$router.push('/update')">회원정보 수정</button>
+                        <button class="user_update_btn black_button" @click="$router.push('/confirm')">회원정보 수정</button>
                     </div>
                 </div>
                 <div class="order_list_main">
-                    <div class="order_item">
+                    <div class="order_item" v-for="(item, key) in $store.state.infoData" :key="key">
                         <div class="item_left_list_text">
                             <div class="order_date">
-                                <span class="title_span">2024-06-02 주문 / 구매확정 </span>
+                                <span class="title_span">{{ item.created_at + ' / ' + '구매확정 ' }}</span>
                                 <span class="yellow_span">06-07(금)</span>
                             </div>
                             <button class="order_delete"></button>
-                            <div class="order_img"></div>
-                            <p class="order_name">한잔 꿈의 대화 13도 375ml</p>
-                            <p class="order_price">금액 : 24,000원 / 1개</p>
+                            <div class="order_img" :src="item.img"></div>
+                            <p class="order_name">{{ item.name + ' ' + item.ml +'ml' }}</p>
+                            <p class="order_price">{{ '금액 : ' + item.price + '원 / 1개' }}</p>
                             <button class="button_a">구매확정</button>
                         </div>
                         <div class="item_right">
@@ -96,7 +96,16 @@
     </a>
 </template>
 <script setup>
+import { onBeforeMount } from 'vue';
+import { useStore } from 'vuex'
 
+const store = useStore()
+
+// 초기 데이터
+onBeforeMount(() => {
+    store.dispatch('infoData')
+    store.dispatch('askData')
+})
 </script>
 <style scoped src="../css/info.css">
 </style>

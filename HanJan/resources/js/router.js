@@ -48,6 +48,7 @@ const routes = [
     {
         path: '/confirm',
         component: ConfirmCompnent,
+        beforeEnter: chkAuth,
     },
     {
         path: '/detailed',

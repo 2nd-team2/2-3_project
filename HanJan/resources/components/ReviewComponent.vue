@@ -62,9 +62,9 @@ onBeforeMount(() => {
 })
 
 // 리뷰 수정하기 페이지로 정보 넘기기
-const reviewUpdate = (re_id) => {
+const reviewUpdate = (item) => {
 
-    store.dispatch('reviewUpdate', re_id);
+    store.dispatch('reviewUpdate', item);
 
     // router.push({ path: '/reviewupdate', state: { item: item } });
     // console.log(item);
