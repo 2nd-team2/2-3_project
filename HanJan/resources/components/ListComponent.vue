@@ -69,6 +69,7 @@
             </div>
             <hr>
             <div class="list_content" v-for="(item, key) in $store.state.listData" :key="key">
+                <!-- 저장 -->
                 <div class="list_best">
                     <!-- 상세페이지 디테일로 이동하는 이벤트 넣어주기 -->
                     <div @click="productDetail(item)"> 
