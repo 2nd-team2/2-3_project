@@ -16,28 +16,32 @@
                     <p id="app">수량</p>
                     <div class="detailed_quantity" >
                         <button @click="count--" :disabled="count === 1" class="detailed_haeder_minus" type="button">-</button>
-                        <input type="number" id="quantityDisplay" class="detailed_haeder_quantity" v-model="count"  min="0"></input>
+                        <input type="number" id="quantityDisplay" class="detailed_haeder_quantity" v-model="count"  min="0">
                         <button @click="count++" :disabled="count >= $store.state.productDetail.count " class="detailed_haeder_plus" type="button">+</button>
                     </div>
                     <div>
                         <p>총 상품가격</p>
-                        <input type="number" class="detailed_haeder_num" :value="$store.state.productDetail.price*count">원</input>
+                        <input type="number" class="detailed_haeder_num" :value="$store.state.productDetail.price*count">원
                     </div>
-                    
-                    <div class="detailed_haeder_btn">
-                        <router-link to="/bag">
-                            <!-- 수량만 장바구니에 저장 -->
-                            <button type="submit" @mouseover="openIconBag" @mouseleave="closeIconBag" @click="quantit($store.state.productDetail.id)" class="detailed_haeder_bag_a">
-                                <img src="/img/bag.png" class="detailed_haeder_bag_w" id="b_detailed">
-                                <img src="/img/bag_b.png" class="detailed_haeder_bag_b" id="bk_detailed">
-                                <div class="detailed_haeder_bag">장바구니</div>
-                            </button>
-                        </router-link>
-                        <router-link to="/order">
-                            <button type="submit" class="detailed_haeder_bay">구매하기</button>
-                            <!-- TODO 구매하기 나중에 -->
-                        </router-link>
-                    </div>
+                        <div class="detailed_haeder_btn">
+                            <router-link to="/bag">
+                                <!-- 수량만 장바구니에 저장 -->
+                                <form> 
+                                    <input type="hidden" name="ba_count" :value="count">
+                                    <input type="hidden" name="p_id" :value="$store.state.productDetail.id">
+                                    <!-- p_id & conut-->
+                                    <button @click="$store.dispatch('detailedToCount')" type="button" @mouseover="openIconBag" @mouseleave="closeIconBag"  class="detailed_haeder_bag_a">
+                                        <img src="/img/bag.png" class="detailed_haeder_bag_w" id="b_detailed">
+                                        <img src="/img/bag_b.png" class="detailed_haeder_bag_b" id="bk_detailed">
+                                        <div class="detailed_haeder_bag">장바구니</div>
+                                    </button>
+                                </form>
+                            </router-link>
+                            <router-link to="/order">
+                                <button type="submit" class="detailed_haeder_bay" @click="quantit($store.state.productDetail.id)">구매하기</button>
+                                <!-- TODO 구매하기 나중에 -->
+                            </router-link>
+                        </div>
                 </div>
             </div>
         <!-- </form> -->
@@ -54,9 +58,10 @@
                 <!-- 별점 초기 값은 date 들고오기 -->
                 <!-- 수정 -->
                 <div class="star-rating">
-                    <span class="star" v-for="star in 5" :key="star" :class="{ checked: star <= $store.state.reviewDetail.re_star }">
+                    <span class="star" v-for="star in 5" :key="star" :class="{ checked: star <= item.re_star }">
                         &#9733;
                     </span>
+                    <span>{{ item.re_star }}</span>
                 </div>                    
             </div>                   
             <p class="detailed_footer_date">{{ item.updated_at }}</p>

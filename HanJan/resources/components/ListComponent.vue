@@ -20,7 +20,7 @@
                 <router-link to="/list">
                     <button type="submit" class="list_menu_img">
                         <img src="/img/menu03.png" alt="중류주">
-                        <p>중류주</p>
+                        <p>증류주</p>
                     </button>
                 </router-link>
             </div>
@@ -35,7 +35,7 @@
                     </div>
                 </router-link>
                 <router-link to="/detailed">
-                    <p class="list_best_rank">1</p>
+                    <p class="list_best_rank">2</p>
                     <!-- <img :src="item.img"> -->
                     <div class="list_best_detail">
                         <p></p>
@@ -43,7 +43,7 @@
                     </div>
                 </router-link>
                 <router-link to="/detailed">
-                    <p class="list_best_rank">1</p>
+                    <p class="list_best_rank">3</p>
                     <!-- <img :src="item.img"> -->
                     <div class="list_best_detail">
                         <p></p>
@@ -51,7 +51,7 @@
                     </div>
                 </router-link>
                 <router-link to="/detailed">
-                    <p class="list_best_rank">1</p>
+                    <p class="list_best_rank">4</p>
                     <!-- <img :src="item.img"> -->
                     <div class="list_best_detail">
                         <p></p>
@@ -59,7 +59,7 @@
                     </div>
                 </router-link>
                 <router-link to="/detailed">
-                    <p class="list_best_rank">1</p>
+                    <p class="list_best_rank">5</p>
                     <!-- <img :src="item.img"> -->
                     <div class="list_best_detail">
                         <p></p>
