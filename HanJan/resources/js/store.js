@@ -13,7 +13,8 @@ const store = createStore({
             // 리뷰관리 > 리뷰수정으로 데이터 넘기기(로컬스토리지에 저장하기 - 새로고침 누를시 없어지는 걸 방지)
             // reviewUpdateData :[],
             reviewToUpdate: localStorage.getItem('reviewToUpdate') ? JSON.parse(localStorage.getItem('reviewToUpdate')) : null,
-
+            // 전체 선택 여부
+            allChecked: false,
             
             // ----------------------- 보원 끝 ---------------------------
             // ----------------------- 성환 시작 -------------------------
@@ -34,6 +35,8 @@ const store = createStore({
             CountData: [],
             // ----------------------- 민서 끝 ---------------------------
             // ----------------------- 호경 시작 -------------------------
+            // 계절 추천 리스트
+            seasonData: [],
             // 리뷰 게시물 리스트
             reviewListData: [],
             // 공지사항 게시물 리스트
@@ -55,6 +58,25 @@ const store = createStore({
         bagsSetProductData(state, data) {
             state.bagsProductData = data;
         },
+
+
+        // 선택된 상품 삭제 처리
+        deleteSelectedItems(state, selectedIds) {
+            state.bagsProductData = state.bagsProductData.filter(item => !selectedIds.includes(item.ba_id));
+        },
+        // 전체 상품 삭제 처리
+        deleteAllItems(state) {
+            state.bagsProductData = [];
+        },
+        // 전체 선택 여부 변경
+        toggleAllChecked(state) {
+            state.allChecked = !state.allChecked;
+        },
+
+
+
+
+
         // state.리뷰에 추가 될 리스트
         reviewSetData(state, data) {
             state.reviewData = data;
@@ -120,6 +142,10 @@ const store = createStore({
         },
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
+        // 계절 추천 리스트
+        setSeasonListData(state, data) {
+            state.seasonData = data;
+        },
         // 리뷰 게시물 리스트
         setReviewListData(state, data) {
             state.reviewListData = data;
@@ -170,25 +196,114 @@ const store = createStore({
                 alert('장바구니 상품 획득에 실패했습니다.(' + error.response.data.code + ')' )
             });
         },
+
+        /**
+         * 장바구니에 수량 감소한 데이터 저장
+         * 
+         * @param {*} context
+         * @param {*} ba_id
+         */
+        bagsCountminus(context, $ba_id) {
+            const url = '/api/bagsCountminus/' + $ba_id;
+
+            axios.post(url)
+            .then(response => {
+                console.log(response.data.data);
+            })
+            .catch(error => {
+                alert('수량 감소에 실패했습니다.(' + error.response.data.code + ')' )
+            });
+        },
+
+        
         
         /**
-         * 장바구니에 목록 삭제
+         * 장바구니에서 휴지통 버튼 클릭시 목록에서 삭제
          * 
          * @param {*} context
          * @param {*} ba_id
         */
         bagsDelete(context, ba_id) {
             const url = '/api/bagsDelete/' + ba_id;
-            
-            axios.delete(url)
-            .then(response => {
-                console.log(response.data); // TODO : 삭제
-            })
-            .catch(error => {
-                alert('장바구니 삭제에 실패했습니다.(' + error.response.data.code + ')' )
-            });
+
+            if (confirm('확인을 누르면 장바구니에서 삭제됩니다.')) {
+                axios.delete(url)
+                .then(response => {
+                    console.log(response.data); // TODO : 삭제
+                })
+                .catch(error => {
+                    alert('장바구니 삭제에 실패했습니다.(' + error.response.data.code + ')' )
+                });
+
+            } else {
+                console.log('confirm false');
+            }
 
         },
+
+        // 전체 상품 삭제
+        allDelete(context) {
+
+            if (confirm('장바구니의 모든 상품을 삭제하시겠습니까?')) {
+                const url = '/api/deleteAll'
+
+                axios.delete(url)
+                .then(() => {
+                    context.commit('deleteAllItems');
+                })
+                .catch(error => {
+                    console.error('Error deleting all items:', error);
+                });
+
+            } else {
+                console.log('confirm false');
+            }
+        },
+
+        // 선택된 상품 삭제
+        selectDelete(context) {
+            const selectedItems = context.state.bagsProductData.filter(item => item.checked);
+            const selectedIds = selectedItems.map(item => item.ba_id);
+
+            if (selectedIds.length === 0) {
+                alert('삭제할 상품을 선택해주세요.');
+                return;
+            }
+
+            if (confirm('선택한 상품을 삭제하시겠습니까?')) {
+                const url = '/api/deleteSelect'
+
+                axios.post(url , { ids: selectedIds })
+                .then(() => {
+                    context.commit('deleteSelectedItems', selectedIds);
+                })
+                .catch(error => {
+                    console.error('Error deleting selected items:', error);
+                });
+            } else {
+                console.log('confirm false');
+            }
+        },
+
+
+        // 전체 삭제 버튼을 클릭시 데이터 삭제
+        // allDelete(context) {
+        //     const url = '/api/allDelete';
+
+        //     axios.delete(url)
+        //     .then(response => {
+                
+        //     })
+        //     .catch(error => {
+        //         alert('전체 삭제에 실패하였습니다.(' + error.response.data.code + ')' )
+        //     });
+        // },
+
+        // 선택 삭제 버튼을 클릭시 데이터 삭제
+        // selectDelete(context) {
+        //     const url = 
+        // },
+
 
         
         /**
@@ -219,7 +334,7 @@ const store = createStore({
             const reviewUpdateData = item;
 
             context.commit('reviewToUpdate', reviewUpdateData);
-            // localStorage.setItem('reviewToUpdate', JSON.stringify(reviewUpdateData));
+            localStorage.setItem('reviewToUpdate', JSON.stringify(reviewUpdateData));
 
             router.replace('/reviewupdate');
         },
@@ -614,6 +729,24 @@ const store = createStore({
         // // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
         /**
+         * 계절 추천 데이터 획득
+         * 
+         * @param {*} context 
+         */
+        getSeasonData(context) {
+            const url = '/api/season';
+            
+            axios.get(url)
+            .then(response => {
+                console.log(response.data); // TODO
+                context.commit('setSeasonListData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert('계절 별 추천 데이터 습득에 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
+        /**
          * 리뷰 데이터 획득
          * 
          * @param {*} context 
@@ -628,7 +761,7 @@ const store = createStore({
             })
             .catch(error => {
                 console.log(error.response); // TODO
-                alert('상품문의내역 습득에 실패했습니다.(' + error.response.data.code + ')');
+                alert('리뷰 데이터 습득에 실패했습니다.(' + error.response.data.code + ')');
             });
         },
         /**

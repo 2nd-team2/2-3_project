@@ -317,6 +317,7 @@ li {
     border-radius: 40px;
     color: white;
     text-align: center;
+    cursor: pointer;
 }
 
 .weather_alcohol_img {
