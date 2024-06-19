@@ -536,8 +536,8 @@ const store = createStore({
          * 
          * @param {*} context
          */
-        getList(context) {
-            const url = '/api/list';
+        getList(context, type) {
+            const url = '/api/list?type=' + type;
 
             axios.get(url)
             .then(response => {
@@ -577,7 +577,7 @@ const store = createStore({
         //  * @param {*} constext 
         //  */
         setProductReviewData(constext) {
-            const url = '/api/detailed';
+            const url = '/api/reviewdetailed';
 
             axios.get(url)
             .then(response => {
