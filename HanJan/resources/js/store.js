@@ -28,6 +28,8 @@ const store = createStore({
             listData: [],
             // 리뷰 게시물 리스트
             reviewDetail: [],
+            // 디테일->장바구니 데이터 보내기
+            CountData: [],
             // ----------------------- 민서 끝 ---------------------------
             // ----------------------- 호경 시작 -------------------------
             // 리뷰 게시물 리스트
@@ -105,6 +107,10 @@ const store = createStore({
         // 리뷰 데이터 보내기
         detailedReviewData(state, data) {
             state.reviewDetail = data;
+        },
+        // 디테일->장바구니 데이터 보내기
+        detailedCountData(state, data) {
+            state.CountData = data;
         },
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
@@ -538,6 +544,26 @@ const store = createStore({
                 console.log('리뷰 데이터', response.data); // TODO
                 // 데이터베이스->서버를 통해 받은 데이터를 reviewDetail 저장
                 constext.commit('detailedReviewData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response.data); // TODO
+                alert('리뷰데이터 불러오기 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
+
+        // /**
+        //  * 아이디 / 수량 데이터 보내기 (디테일->장바구니)
+        //  * 
+        //  * @param {*} constext 
+        //  */
+        detailedToCount(constext) {
+            const url = '/api/detailedToCount';
+
+            axios.post(url)
+            .then(response => {
+                console.log('수량데이터', response.data); // TODO
+                // 데이터베이스->서버를 통해 받은 데이터를 CountData 저장
+                constext.commit('detailedCountData', response.data.data);
             })
             .catch(error => {
                 console.log(error.response.data); // TODO
