@@ -432,7 +432,6 @@ const store = createStore({
             if (confirm('확인을 누르면 작성한 상품 문의가 삭제됩니다.')) {
                 axios.delete(url)
                 .then(response => {
-                    context.commit('productAskDelete', response.data.data);
                     router.replace('/info');
                     console.log(response.data); // TODO : 삭제
                 })
@@ -445,7 +444,7 @@ const store = createStore({
             }
         },
 
-        // 상품 문의목록 불러오기
+        // 1:1 문의목록 불러오기
         askData(context) {
             const url = '/api/askData';
             axios.get(url)
@@ -458,13 +457,12 @@ const store = createStore({
              });
          }, 
         
-         //  상품 문의 삭제
+         //  1:1 문의 삭제
         askDelete(context, qn_id) {
             const url = '/api/askDelete/' + qn_id;
             if (confirm('확인을 누르면 작성한 1:1 문의가 삭제됩니다.')) {
                 axios.delete(url)
                 .then(response => {
-                    context.commit('askSetDelete', response.data.data);
                     router.replace('/info');
                     console.log(response.data); // TODO : 삭제
                 })
@@ -476,6 +474,23 @@ const store = createStore({
                 console.log('confirm false');
             }
         },
+
+        // 구매확정
+        completeBtn(context, id) {
+            const url = '/api/complete/' + id;
+
+            axios.post(url)
+            .then(response => {
+                console.log(response.data.data); // TODO : 삭제
+                alert('구매 확정 완료')
+            })
+            .catch(error => {
+                alert('실패했습니다.(' + error.response.data.code + ')' )
+            });
+        },
+            
+            
+        
         
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------

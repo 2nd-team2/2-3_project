@@ -49,19 +49,34 @@ Route::middleware('auth')->delete('/api/reviewDelete/{re_id}', [ReviewController
 // ----------------------- 보원 끝 ---------------------------
 
 // ----------------------- 성환 시작 -------------------------
+
+// 로그인 처리
 Route::post('/api/login', [UserController::class, 'login']);
+// 회원가입 처리
 Route::post('/api/regist', [UserController::class, 'regist']);
-Route::post('/api/update', [UserController::class, 'update']);
+// 회원정보 수정 처리
 Route::post('/api/userUpdate', [UserController::class, 'userUpdate']);
+// 회원 탈퇴
 Route::delete('/api/userDelete', [UserController::class, 'userDelete']);
+// 이메일 중복체크
 Route::get('/api/regist/{emailText}', [UserController::class, 'registEmailChk']);
+// 비밀번호 재확인
 Route::post('/api/confirm', [UserController::class, 'confirm']);
+// 로그아웃 처리
 Route::middleware('auth')->post('/api/logout', [UserController::class, 'logout']);
-Route::middleware('auth')->get('/api/info', [UserController::class, 'infoData']);
-Route::middleware('auth')->get('/api/productAsk', [UserController::class, 'productAsk']);
-Route::middleware('auth')->get('/api/askData', [UserController::class, 'askData']);
-Route::middleware('auth')->delete('/api/productAskDelete/{qnp_id}', [UserController::class, 'productAskDelete']);
-Route::middleware('auth')->delete('/api/askDelete/{qn_id}', [UserController::class, 'askDelete']);
+// 구매확정 처리
+Route::middleware('auth')->post('/api/complete/{id}', [ProductController::class, 'complete']);
+// 주문목록 불러오기
+Route::middleware('auth')->get('/api/info', [ProductController::class, 'infoData']);
+// 상품목록 불러오기
+Route::middleware('auth')->get('/api/productAsk', [QnaController::class, 'productAsk']);
+// 1대1 문의 불러오기
+Route::middleware('auth')->get('/api/askData', [QnaController::class, 'askData']);
+// 상품목록 삭제
+Route::middleware('auth')->delete('/api/productAskDelete/{qnp_id}', [QnaController::class, 'productAskDelete']);
+// 1대1 문의 삭제
+Route::middleware('auth')->delete('/api/askDelete/{qn_id}', [QnaController::class, 'askDelete']);
+
 // ----------------------- 성환 끝 ---------------------------
 
 // ----------------------- 민서 시작 -------------------------

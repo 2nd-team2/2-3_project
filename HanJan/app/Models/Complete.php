@@ -10,7 +10,7 @@ class Complete extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $primarykey = 'co_id';
+    protected $primaryKey = 'co_id';
     public $timestamps = false;
 
     protected $fillable =[

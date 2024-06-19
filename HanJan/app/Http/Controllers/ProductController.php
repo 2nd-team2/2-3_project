@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\MyValidateException;
 use App\Models\Bag;
+use App\Models\Complete;
+use App\Models\Orderproduct;
 use App\Models\Product;
+use App\Models\Qna;
+use App\Models\Qnaproduct;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -61,6 +65,50 @@ class ProductController extends Controller
 
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
+
+        // 마이페이지 주문목록
+        public function infoData() {
+            $infoData = Orderproduct::select('orderproducts.*','users.id','products.*', 'completes.*', 'completes.created_at as completeOn')
+                            ->join('users','orderproducts.or_id','=','users.id')
+                            ->join('completes', 'orderproducts.orp_id', '=', 'completes.orp_id')
+                            ->join('products','orderproducts.p_id','=','products.id')
+                            ->where('orderproducts.or_id', '=', Auth::id())
+                            ->where('orderproducts.deleted_at', '=', null)
+                            ->orderBy('orderproducts.created_at','DESC')
+                            ->orderBy('orderproducts.orp_id','DESC')
+                            ->distinct()
+                            ->limit(3)
+                            ->get();
+            
+            $responseData = [
+                'code' => '0'
+                ,'msg' => '주문목록 획득 완료'
+                ,'data' => $infoData->toArray()
+            ];
+        
+            return response()->json($responseData, 200);
+        }
+
+        public function complete($id) {
+            
+            $completeData = [
+                'orp_id' => $id
+                ,'co_flg' => 1
+            ];
+
+            $completeCreate = Complete::create($completeData);
+
+            $responseData = [
+                'code' => '0'
+                ,'msg' => '구매확정'
+                ,'data' => $completeCreate
+            ];
+        
+            return response()->json($responseData, 200);
+        }
+
+
+
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------
         // products(상품)테이블에서
@@ -121,6 +169,7 @@ class ProductController extends Controller
             
             return response()->json($responseData, 200);
         }
+        
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
         // ----------------------- 호경 끝 ---------------------------
