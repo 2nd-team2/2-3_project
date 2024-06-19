@@ -35,4 +35,11 @@ class Product extends Model
         // return $date->format('Y-m-d H:i:s');
         return $date->format('Y-m-d'); // TODO월일만 필요해서 변경했습니다
     }
+
+    /**
+     * Accessor : Column type
+     */
+    public function getTypeAttribute($value) {
+        return $value == '0' ? '탁주' : ($value == '1' ? '과일주' : '증류주');
+    }
 }

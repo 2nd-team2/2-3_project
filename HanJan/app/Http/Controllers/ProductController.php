@@ -12,6 +12,7 @@ use App\Models\Qnaproduct;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -114,8 +115,12 @@ class ProductController extends Controller
         // review(리뷰)테이블에서
         // users.name AS user_name = 유저이름 별칭
         public function detailedReview() {
-            $productData = Review::select('users.name AS user_name','reviews.re_star','reviews.re_content','reviews.updated_at')
-                            ->JOIN('users','reviews.re_id','=', 'users.id')
+            $productData = Review::select('users.name AS user_name','products.id' ,'reviews.re_star','reviews.re_content','reviews.updated_at','reviews.p_id')
+                            ->JOIN('products','reviews.p_id','=', 'products.id')
+                            ->JOIN('users','reviews.u_id','=', 'users.id')
+                            // ->where('products.id','=', 60)
+                            ->where('products.id','=', 'reviews.p_id')
+                            ->orderBy('reviews.re_star', 'DESC')
                             ->limit(5)
                             ->get();
 
@@ -133,14 +138,19 @@ class ProductController extends Controller
 
         // products(상품)테이블에서
         // 상세리스트 데이터 불러오기
-        public function list() {
-            $productData = Product::select('products.price','products.img', 'products.name', 'products.id', 'products.type')
+        public function list(Request $request) {
+            $productQuery = Product::select('products.price','products.img', 'products.name', 'products.id')
                             ->orderBy('products.created_at', 'DESC')
-                            ->limit(20)
-                            ->get();
+                            ->limit(20);
+
+            if($request->type != '99') {
+                $productQuery->where('products.type', $request->type);
+            }
+            
+            $productData = $productQuery->get();
 
             Log::debug($productData);
-        
+          
             $responseData = [
                     'code' => '0'
                     ,'msg' => '초기 상품값 획득 완료'
@@ -154,12 +164,14 @@ class ProductController extends Controller
         // products(상품)테이블에서
         // 베스트 상품 출력
         public function listBast() {
-            $productData = Product::select('products.price','products.img', 'products.name', 'products.id', 'products.type', 'products.created_at', 'reviews.re_star')
-                            ->JOIN('reviews','reviews.re_id','=', 'products.id')
-                            ->orderBy('reviews.re_star', 'DESC')
-                            ->orderBy('products.created_at', 'DESC')
-                            ->limit(5)
-                            ->get();
+            $productData = Product::select('products.*', 'rev.star_avg', 'rev.star_avg_round')
+                                ->join(DB::raw('(SELECT p_id, AVG(re_star) as star_avg, ROUND(AVG(re_star), 0) as star_avg_round
+                                                FROM reviews
+                                                GROUP BY p_id) as rev'), 'rev.p_id', '=', 'products.id')
+                                ->orderByDesc('rev.star_avg')
+                                ->orderByDesc('products.created_at')
+                                ->limit(5)
+                                ->get();
 
             Log::debug($productData);
         
@@ -219,5 +231,33 @@ class ProductController extends Controller
         }
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
+        // 메인 페이지에서 계절별 추천 출력
+        public function seasonSelect() {
+            $nowMonth = date('n', strtotime(now()));
+            $season = '';
+            if ($nowMonth == 12 || $nowMonth == 1 || $nowMonth == 2 ) {
+                // 겨울
+                $season = '3'; 
+            } else if($nowMonth <= 5) {
+                // 
+                $season = '0';
+            } else if($nowMonth <= 8) {
+                $season = '1';
+            } else {
+                $season = '2';
+            }
+            $noticeData = Product::select('products.*')
+                                ->where('products.season', '=', $season)
+                                ->orderby('products.created_at', 'DESC')
+                                ->limit(8)
+                                ->get();
+            $responseData = [
+                'code' => '0'
+                ,'msg' => '리뷰 획득 완료'
+                ,'data' => $noticeData->toArray()
+            ];
+
+            return response()->json($responseData, 200);
+        }
         // ----------------------- 호경 끝 ---------------------------
 }

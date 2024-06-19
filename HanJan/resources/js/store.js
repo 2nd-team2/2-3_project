@@ -38,6 +38,8 @@ const store = createStore({
             CountData: [],
             // ----------------------- 민서 끝 ---------------------------
             // ----------------------- 호경 시작 -------------------------
+            // 계절 추천 리스트
+            seasonData: [],
             // 리뷰 게시물 리스트
             reviewListData: [],
             // 공지사항 게시물 리스트
@@ -140,6 +142,10 @@ const store = createStore({
         },
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
+        // 계절 추천 리스트
+        setSeasonListData(state, data) {
+            state.seasonData = data;
+        },
         // 리뷰 게시물 리스트
         setReviewListData(state, data) {
             state.reviewListData = data;
@@ -671,8 +677,8 @@ const store = createStore({
          * 
          * @param {*} context
          */
-        getList(context) {
-            const url = '/api/list';
+        getList(context, type) {
+            const url = '/api/list?type=' + type;
 
             axios.get(url)
             .then(response => {
@@ -712,7 +718,7 @@ const store = createStore({
         //  * @param {*} constext 
         //  */
         setProductReviewData(constext) {
-            const url = '/api/detailed';
+            const url = '/api/reviewdetailed';
 
             axios.get(url)
             .then(response => {
@@ -749,6 +755,24 @@ const store = createStore({
         // // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
         /**
+         * 계절 추천 데이터 획득
+         * 
+         * @param {*} context 
+         */
+        getSeasonData(context) {
+            const url = '/api/season';
+            
+            axios.get(url)
+            .then(response => {
+                console.log(response.data); // TODO
+                context.commit('setSeasonListData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert('계절 별 추천 데이터 습득에 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
+        /**
          * 리뷰 데이터 획득
          * 
          * @param {*} context 
@@ -763,7 +787,7 @@ const store = createStore({
             })
             .catch(error => {
                 console.log(error.response); // TODO
-                alert('상품문의내역 습득에 실패했습니다.(' + error.response.data.code + ')');
+                alert('리뷰 데이터 습득에 실패했습니다.(' + error.response.data.code + ')');
             });
         },
         /**

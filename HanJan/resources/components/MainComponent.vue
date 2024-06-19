@@ -97,61 +97,15 @@
     <!-- 날씨 추천 술 -->
     <div class="weather_alcohol">
         <h1 class="weather_alcohol_title">당신의 시원한 여름이 여기에</h1>
-        <div class="weather_alcohol_box">
-            <img src="/img/alcohol1.jpeg" class="weather_alcohol_img">
-            <h1 class="weather_alcohol_num">01</h1>
-            <h1 class="weather_alcohol_name">고도리 샤인머스캣 와인</h1>
-            <div class="weather_alcohol_type">과실주 10.5%</div>
-            <a href="" class="weather_alcohol_a">바로가기</a>
-        </div>
-        <div class="weather_alcohol_box2">
-            <h1 class="weather_alcohol_num">01</h1>
-            <h1 class="weather_alcohol_name">고도리 샤인머스캣 와인</h1>
-            <div class="weather_alcohol_type">과실주 10.5%</div>
-            <a href="" class="weather_alcohol_a">바로가기</a>
-            <img src="/img/alcohol1.jpeg" class="weather_alcohol_img">
-        </div>
-        <div class="weather_alcohol_box">
-            <img src="/img/alcohol1.jpeg" class="weather_alcohol_img">
-            <h1 class="weather_alcohol_num">01</h1>
-            <h1 class="weather_alcohol_name">고도리 샤인머스캣 와인</h1>
-            <div class="weather_alcohol_type">과실주 10.5%</div>
-            <a href="" class="weather_alcohol_a">바로가기</a>
-        </div>
-        <div class="weather_alcohol_box2 weather_none">
-            <h1 class="weather_alcohol_num">01</h1>
-            <h1 class="weather_alcohol_name">고도리 샤인머스캣 와인</h1>
-            <div class="weather_alcohol_type">과실주 10.5%</div>
-            <a href="" class="weather_alcohol_a">바로가기</a>
-            <img src="/img/alcohol1.jpeg" class="weather_alcohol_img">
-        </div>
-        <div class="weather_alcohol_box">
-            <img src="/img/alcohol1.jpeg" class="weather_alcohol_img">
-            <h1 class="weather_alcohol_num">01</h1>
-            <h1 class="weather_alcohol_name">고도리 샤인머스캣 와인</h1>
-            <div class="weather_alcohol_type">과실주 10.5%</div>
-            <a href="" class="weather_alcohol_a">바로가기</a>
-        </div>
-        <div class="weather_alcohol_box2">
-            <h1 class="weather_alcohol_num">01</h1>
-            <h1 class="weather_alcohol_name">고도리 샤인머스캣 와인</h1>
-            <div class="weather_alcohol_type">과실주 10.5%</div>
-            <a href="" class="weather_alcohol_a">바로가기</a>
-            <img src="/img/alcohol1.jpeg" class="weather_alcohol_img">
-        </div>
-        <div class="weather_alcohol_box">
-            <img src="/img/alcohol1.jpeg" class="weather_alcohol_img">
-            <h1 class="weather_alcohol_num">01</h1>
-            <h1 class="weather_alcohol_name">고도리 샤인머스캣 와인</h1>
-            <div class="weather_alcohol_type">과실주 10.5%</div>
-            <a href="" class="weather_alcohol_a">바로가기</a>
-        </div>
-        <div class="weather_alcohol_box2 weather_none">
-            <h1 class="weather_alcohol_num">01</h1>
-            <h1 class="weather_alcohol_name">고도리 샤인머스캣 와인</h1>
-            <div class="weather_alcohol_type">과실주 10.5%</div>
-            <a href="" class="weather_alcohol_a">바로가기</a>
-            <img src="/img/alcohol1.jpeg" class="weather_alcohol_img">
+        <div v-for="(season, index) in $store.state.seasonData" :key="index">
+            <div :class="{weather_alcohol_box: index % 2 === 0, weather_alcohol_box2: index % 2 === 1}">
+                <img v-if="index % 2 === 0" :src="season.img" class="weather_alcohol_img">
+                <h1 class="weather_alcohol_num">01</h1>
+                <h1 class="weather_alcohol_name">{{ season.name }}</h1>
+                <div class="weather_alcohol_type">{{ season.type }} {{ season.ml }}ml</div>
+                <div @click="productDetail(season.id)" class="weather_alcohol_a">바로가기</div>
+                <img v-if="index % 2 === 1" :src="season.img" class="weather_alcohol_img">
+            </div>
         </div>
     </div>
 
@@ -209,6 +163,9 @@
         }
         if(store.state.reviewListData.length < 1) {
             store.dispatch('getReviewistData');
+        }
+        if(store.state.seasonData.length < 1) {
+            store.dispatch('getSeasonData');
         }
     })
 

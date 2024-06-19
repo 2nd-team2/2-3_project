@@ -3,26 +3,20 @@
         <div>
             <div class="list_main_img" style="background-image: url('/img/list_img03.png');"></div>
             <div class="list_menu">
-                <div v-if="$store.state.listData.type === 0">
-                    <button type="submit" class="list_menu_img" >
-                        <img src="/img/menu01.png" alt="탁주">
-                        <p>탁주</p>
-                    </button>
-                </div>
+                <router-link to="/list?type=0" class="list_menu_img">
+                    <img src="/img/menu01.png" alt="탁주">
+                    <p>탁주</p>
+                </router-link>
                 <div class="list_line"></div>
-                <div v-if="$store.state.listData.type === 1">
-                    <button type="submit" class="list_menu_img">
-                        <img src="/img/menu02.png" alt="과실주">
-                        <p>과실주</p>
-                    </button>
-                </div>
+                <router-link to="/list?type=1" class="list_menu_img">
+                    <img src="/img/menu02.png" alt="과실주">
+                    <p>과실주</p>
+                </router-link>
                 <div class="list_line"></div>
-                <div v-if="$store.state.listData.type === 2">
-                    <button type="submit" class="list_menu_img">
-                        <img src="/img/menu03.png" alt="중류주">
-                        <p>증류주</p>
-                    </button>
-                </div>
+                <router-link to="/list?type=2" class="list_menu_img">
+                    <img src="/img/menu03.png" alt="중류주">
+                    <p>증류주</p>
+                </router-link>
             </div>
 
             <p class="list_best_title">한잔 베스트</p>
@@ -70,15 +64,14 @@
 </template>
 
 <script setup>
-    import { onBeforeMount, ref } from 'vue';
+    import { onBeforeMount } from 'vue';
     import { useStore } from 'vuex';
     import router from '../js/router';
-    
-    const type = ref(0);
+
     const store = useStore();
     
     onBeforeMount(() => {
-        store.dispatch('getList');
+        // store.dispatch('getList');
         store.dispatch('productBastDetail');
     })
     

@@ -92,6 +92,12 @@ const routes = [
     {
         path: '/list',
         component: ListTakjuComponent,
+        beforeEnter: (to, from, next) => {
+            console.log(to.query.type);
+            store.dispatch('getList', to.query.type);
+
+            next();
+        }, 
     },
     {
         path: '/order',
