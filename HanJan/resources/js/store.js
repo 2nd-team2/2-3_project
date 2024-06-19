@@ -24,6 +24,8 @@ const store = createStore({
             // ----------------------- 민서 시작 -------------------------
             // 상품 정보
             productDetail: {},
+            // 베스트 정보
+            bastData: [],
             // 상품 게시물 리스트
             listData: [],
             // 리뷰 게시물 리스트
@@ -99,6 +101,10 @@ const store = createStore({
         // 상품리스트
         listInfoData(state, data) {
             state.listData = data;
+        },
+        // 베스트리스트
+        listBastData(state, data) {
+            state.bastData = data;
         },
         // 상품리스트 데이터 보내기
         detailedNumData(state, data) {
@@ -520,7 +526,7 @@ const store = createStore({
 
             axios.get(url)
             .then(response => {
-                console.log(response.data); // TODO : 삭제
+                console.log(response.data);
 
                 // 데이터베이스->서버를 통해 받은 데이터를 listData 저장
                 context.commit('listInfoData', response.data.data);
@@ -540,13 +546,12 @@ const store = createStore({
 
             axios.get(url)
             .then(response => {
-                console.log(response.data); // TODO : 삭제
-
-                // 데이터베이스->서버를 통해 받은 데이터를 listData 저장
-                context.commit('listInfoData', response.data.data);
+                console.log('베스트 상품 데이터',response.data);
+                // 데이터베이스->서버를 통해 받은 데이터를 bastData 저장
+                context.commit('listBastData', response.data.data);
             })
             .catch(error => {
-                console.log(error.response.data); //  TODO : 삭제
+                console.log(error.response.data);
                 alert('선택한 상품이 없습니다.(' + error.response.data.code + ')' )
             });
         },
