@@ -25,44 +25,6 @@ class ProductController extends Controller
 {
     // ----------------------- 보원 시작 -------------------------
 
-    // Bags(장바구니)테이블에서
-    // 로그인 되어있는 아이디와 일치하는 u_id의 초기 게시글 획득
-    public function bagsIndex () {
-        $productDate = Bag::select('bags.*', 'products.*', 'users.id')
-                        ->join('users','bags.u_id','=','users.id')
-                        ->join('products','bags.p_id','=','products.id')
-                        ->where('bags.u_id', '=', Auth::id())
-                        ->where('bags.deleted_at', '=', null)
-                        ->orderBy('bags.created_at','DESC')
-                        ->orderBy('bags.ba_id','DESC')
-                        // ->limit(3)
-                        ->get();
-    
-        $responseData = [
-                'code' => '0'
-                ,'msg' => '초기 장바구니 상품 획득 완료'
-                ,'data' => $productDate->toArray()
-        ];
-        
-        return response()->json($responseData, 200);
-    }
-
-    // Bags(장바구니)테이블에서 휴지통 버튼 눌렀을때 삭제 처리
-    public function bagsDelete($ba_id) {
-
-        Bag::destroy($ba_id);
-        
-        $responseData = [
-            'code' => '0'
-            ,'msg' => '장바구니 상품 삭제 완료'
-            ,'data' => $ba_id
-        ];
-
-        return response()->json($responseData);
-    }
-
-
-
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
 
@@ -137,35 +99,14 @@ class ProductController extends Controller
                             ->first();
                             // ->get();
 
-            Log::debug($productData); //TODO 나중에 삭제 
+            Log::debug($productData);
         
             $responseData = [
                     'code' => '0'
                     ,'msg' => '초기 상품값 획득 완료'
                     ,'data' => $productData
             ];
-            Log::debug($responseData); //TODO 나중에 삭제
-            
-            return response()->json($responseData, 200);
-        }
-        // products(상품)테이블에서
-        public function listBast($id) {
-            $productData = Product::select('products.id', 'products.price','products.count','products.img','products.info', 'products.name',  'products.created_at', 'reviews.re_star')
-                            ->JOIN('reviews','reviews.re_id','=', 'products.id')
-                            ->where('products.id', $id)
-                            ->orderBy('products.created_at', 'DESC')
-                            ->limit(5)
-                            ->first();
-                            // ->get();
-
-            Log::debug($productData); //TODO 나중에 삭제 
-        
-            $responseData = [
-                    'code' => '0'
-                    ,'msg' => '초기 상품값 획득 완료'
-                    ,'data' => $productData
-            ];
-            Log::debug($responseData); //TODO 나중에 삭제
+            Log::debug($responseData);
             
             return response()->json($responseData, 200);
         }
@@ -178,14 +119,14 @@ class ProductController extends Controller
                             ->limit(5)
                             ->get();
 
-            Log::debug($productData); //TODO 나중에 삭제 
+            Log::debug($productData);
         
             $responseData = [
                     'code' => '0'
                     ,'msg' => '초기 리뷰 획득 완료'
                     ,'data' => $productData
             ];
-            Log::debug($responseData); //TODO 나중에 삭제
+            Log::debug($responseData);
             
             return response()->json($responseData, 200);
         }
@@ -193,8 +134,31 @@ class ProductController extends Controller
         // products(상품)테이블에서
         // 상세리스트 데이터 불러오기
         public function list() {
-            $productData = Product::select('products.price','products.img', 'products.name', 'products.id')
+            $productData = Product::select('products.price','products.img', 'products.name', 'products.id', 'products.type')
+                            ->orderBy('products.created_at', 'DESC')
                             ->limit(20)
+                            ->get();
+
+            Log::debug($productData);
+        
+            $responseData = [
+                    'code' => '0'
+                    ,'msg' => '초기 상품값 획득 완료'
+                    ,'data' => $productData
+            ];
+            Log::debug($responseData);
+            
+            return response()->json($responseData, 200);
+        }
+
+        // products(상품)테이블에서
+        // 베스트 상품 출력
+        public function listBast() {
+            $productData = Product::select('products.price','products.img', 'products.name', 'products.id', 'products.type', 'products.created_at', 'reviews.re_star')
+                            ->JOIN('reviews','reviews.re_id','=', 'products.id')
+                            ->orderBy('reviews.re_star', 'DESC')
+                            ->orderBy('products.created_at', 'DESC')
+                            ->limit(5)
                             ->get();
 
             Log::debug($productData);
