@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BagController;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -33,9 +34,17 @@ Route::get('/{any}', function() {
 
 // ----------------------- 보원 시작 -------------------------
 // 장바구니 초기 데이터 불러오기
-Route::middleware('auth')->get('/api/bagsProduct', [ProductController::class, 'bagsIndex']);
+Route::middleware('auth')->get('/api/bagsProduct', [BagController::class, 'bagsIndex']);
+// 장바구니 수량 감소한 데이터 저장
+Route::middleware('auth')->post('/api/bagsCountminus/{ba_id}', [BagController::class, 'bagsCountminus']);
+
 // 장바구니 데이터 삭제
-Route::middleware('auth')->delete('/api/bagsDelete/{ba_id}', [ProductController::class, 'bagsDelete']);
+Route::middleware('auth')->delete('/api/bagsDelete/{ba_id}', [BagController::class, 'bagsDelete']);
+// 장바구니 데이터 전체 삭제
+Route::middleware('auth')->delete('/api/deleteAll', [BagController::class, 'deleteAll']);
+// 장바구니 데이터 선택 삭제
+Route::middleware('auth')->delete('/api/deleteSelect', [BagController::class, 'deleteSelect']);
+
 // 리뷰 초기 데이터 불러오기
 Route::middleware('auth')->get('/api/review', [ReviewController::class, 'reviewIndex']);
 // 리뷰 데이터 작성

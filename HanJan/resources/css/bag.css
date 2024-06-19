@@ -25,6 +25,9 @@ main {
 .bag_margin_bottom {
     margin-bottom: 10px;
 }
+.bag_margin_right {
+    margin-right: 10px;
+}
 .bag_yellow {
     color: #FAC91D;
 }

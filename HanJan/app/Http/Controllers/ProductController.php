@@ -25,44 +25,6 @@ class ProductController extends Controller
 {
     // ----------------------- 보원 시작 -------------------------
 
-    // Bags(장바구니)테이블에서
-    // 로그인 되어있는 아이디와 일치하는 u_id의 초기 게시글 획득
-    public function bagsIndex () {
-        $productDate = Bag::select('bags.*', 'products.*', 'users.id')
-                        ->join('users','bags.u_id','=','users.id')
-                        ->join('products','bags.p_id','=','products.id')
-                        ->where('bags.u_id', '=', Auth::id())
-                        ->where('bags.deleted_at', '=', null)
-                        ->orderBy('bags.created_at','DESC')
-                        ->orderBy('bags.ba_id','DESC')
-                        // ->limit(3)
-                        ->get();
-    
-        $responseData = [
-                'code' => '0'
-                ,'msg' => '초기 장바구니 상품 획득 완료'
-                ,'data' => $productDate->toArray()
-        ];
-        
-        return response()->json($responseData, 200);
-    }
-
-    // Bags(장바구니)테이블에서 휴지통 버튼 눌렀을때 삭제 처리
-    public function bagsDelete($ba_id) {
-
-        Bag::destroy($ba_id);
-        
-        $responseData = [
-            'code' => '0'
-            ,'msg' => '장바구니 상품 삭제 완료'
-            ,'data' => $ba_id
-        ];
-
-        return response()->json($responseData);
-    }
-
-
-
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
 
