@@ -103,6 +103,7 @@ Route::post('/api/detailedToCount', [ProductController::class, 'detailedToCount'
 Route::get('/api/list', [ProductController::class, 'list']);
 // ----------------------- 민서 끝 ---------------------------
 
+
 // ----------------------- 호경 시작 -------------------------
 // 메인페이지 리뷰 불러오기
 Route::get('/api/reviewlist',[ReviewController::class, 'reviewMainIndex']);
