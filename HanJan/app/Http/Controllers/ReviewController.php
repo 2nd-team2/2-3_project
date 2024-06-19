@@ -91,7 +91,7 @@ class ReviewController extends Controller
 
 
         // 작성 처리
-        $reviewCreate = review::create($createData);
+        $reviewCreate = Review::create($createData);
 
         // 레스폰스 데이터 생성
         $responseData = [
@@ -126,7 +126,7 @@ class ReviewController extends Controller
         }
         
         // 데이터 생성
-        $updateData = review::find($request->re_id);
+        $updateData = Review::find($request->re_id);
 
         // 수정 처리
         $updateData->re_content = $request->re_content;
@@ -151,4 +151,22 @@ class ReviewController extends Controller
 
         return response()->json($responseData, 200);
     }
+
+    // 메인 페이지에서 리뷰 출력
+    public function reviewMainIndex() {
+        $noticeData = Review::select('reviews.*', 'products.*')
+                            ->join('products','reviews.p_id','=','products.id')
+                            ->orderBy('reviews.re_star', 'DESC')
+                            ->orderBy('reviews.created_at', 'DESC')
+                            ->limit(4)
+                            ->get();
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '리뷰 획득 완료'
+            ,'data' => $noticeData->toArray()
+        ];
+
+        return response()->json($responseData, 200);
+    }
+
 }
