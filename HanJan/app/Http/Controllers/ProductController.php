@@ -82,6 +82,27 @@ class ProductController extends Controller
             
             return response()->json($responseData, 200);
         }
+        // products(상품)테이블에서
+        public function listBast($id) {
+            $productData = Product::select('products.id', 'products.price','products.count','products.img','products.info', 'products.name',  'products.created_at', 'reviews.re_star')
+                            ->JOIN('reviews','reviews.re_id','=', 'products.id')
+                            ->where('products.id', $id)
+                            ->orderBy('products.created_at', 'DESC')
+                            ->limit(5)
+                            ->first();
+                            // ->get();
+
+            Log::debug($productData); //TODO 나중에 삭제 
+        
+            $responseData = [
+                    'code' => '0'
+                    ,'msg' => '초기 상품값 획득 완료'
+                    ,'data' => $productData
+            ];
+            Log::debug($responseData); //TODO 나중에 삭제
+            
+            return response()->json($responseData, 200);
+        }
 
         // review(리뷰)테이블에서
         // users.name AS user_name = 유저이름 별칭
@@ -125,20 +146,17 @@ class ProductController extends Controller
         // 디테일->장바구니 데이터 보내기
             public function detailedToCount(Request $request) {
             // 리퀘스트 데이터 받기
-            // $requestData = [
-            //     'p_id' => $request->p_id
-            //     ,'ba_count' => $request->ba_count
-            // ];
-            $requestData = $request->all();
-
+            $requestData = [
+                'p_id' => $request->p_id
+                ,'ba_count' => $request->ba_count
+            ];
+            Log::debug('장바구니 리퀘스트 데이터', $request->all());
             // 데이터 유효성 검사
             $validator = Validator::make(
                 $requestData
                 , [
-                    'ba_id' => ['required', 'regex:/^[0-9]$/']
-                    ,'u_id' => ['required', 'regex:/^[0-9]$/']
-                    ,'p_id' => ['required', 'regex:/^[0-9]$/']
-                    ,'ba_count' => ['required', 'regex:/^[0-9]$/']
+                    'p_id' => ['required', 'regex:/^[0-9]+$/']
+                    ,'ba_count' => ['required', 'regex:/^[0-9]+$/']
                 ]
             );
 
@@ -149,20 +167,22 @@ class ProductController extends Controller
             }
 
             // 데이터 생성
-            $createData = $request->all();
-
+            $createData = $request->only('p_id','ba_count');
             
             // 작성 처리
             $createData['u_id'] = Auth::id();
+            $createData['ba_id'] = 1;
+            $createData['p_id'] = $request->p_id;
+            $createData['ba_count'] = $request->ba_count;
 
             // 작성 처리
-            $reviewCreate = Bag::create($createData);
+            $bagItem = Bag::create($createData);
 
             // 레스폰스 데이터 생성
             $responseData = [
                 'code' => '0'
-                ,'msg' => '리뷰 작성 완료'
-                ,'data' => $reviewCreate
+                ,'msg' => '장바구니 추가 완료'
+                ,'data' => $bagItem
             ];
 
             return response()->json($responseData, 200);

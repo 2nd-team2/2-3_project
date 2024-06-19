@@ -213,7 +213,7 @@ const store = createStore({
             const reviewUpdateData = item;
 
             context.commit('reviewToUpdate', reviewUpdateData);
-            localStorage.setItem('reviewToUpdate', JSON.stringify(reviewUpdateData));
+            // localStorage.setItem('reviewToUpdate', JSON.stringify(reviewUpdateData));
 
             router.replace('/reviewupdate');
         },
@@ -530,6 +530,26 @@ const store = createStore({
                 alert('선택한 상품이 없습니다.(' + error.response.data.code + ')' )
             });
         },
+        /**
+         * 베스트 상품 불러오기
+         * 
+         * @param {*} context
+         */
+        productBastDetail(context) {
+            const url = '/api/listBast';
+
+            axios.get(url)
+            .then(response => {
+                console.log(response.data); // TODO : 삭제
+
+                // 데이터베이스->서버를 통해 받은 데이터를 listData 저장
+                context.commit('listInfoData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response.data); //  TODO : 삭제
+                alert('선택한 상품이 없습니다.(' + error.response.data.code + ')' )
+            });
+        },
 
         // /**
         //  * 리뷰 데이터 불러오기
@@ -558,8 +578,9 @@ const store = createStore({
         //  */
         detailedToCount(constext) {
             const url = '/api/detailedToCount';
+            const data = new FormData(document.querySelector('#bagForm'));
 
-            axios.post(url)
+            axios.post(url, data)
             .then(response => {
                 console.log('수량데이터', response.data); // TODO
                 // 데이터베이스->서버를 통해 받은 데이터를 CountData 저장

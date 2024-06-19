@@ -26,7 +26,7 @@
                         <div class="detailed_haeder_btn">
                             <router-link to="/bag">
                                 <!-- 수량만 장바구니에 저장 -->
-                                <form> 
+                                <form id="bagForm"> 
                                     <input type="hidden" name="ba_count" :value="count">
                                     <input type="hidden" name="p_id" :value="$store.state.productDetail.id">
                                     <!-- p_id & conut-->

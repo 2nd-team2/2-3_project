@@ -67,6 +67,8 @@ Route::middleware('auth')->delete('/api/askDelete/{qn_id}', [UserController::cla
 // ----------------------- 민서 시작 -------------------------
 // 상세페이지 데이터 불러오기
 Route::get('/api/detailed/{id}', [ProductController::class, 'value']);
+// 상세페이지 데이터 불러오기
+Route::get('/api/listBast/{id}', [ProductController::class, 'listBast']);
 // 리뷰 데이터 불러오기
 Route::get('/api/detailed', [ProductController::class, 'detailedReview']);
 // 수량 데이터 보내기(디테일->장바구니)

@@ -23,6 +23,7 @@ hr {
     gap: 4rem;  
     margin-top: 6rem;
 }
+
 .list_line {
     border-right: 1px solid #000;
     height: 70px;
@@ -61,6 +62,9 @@ hr {
     align-items: center;
     gap: 2rem;
     justify-content: center;
+}
+.list_best img {
+    width: 15rem;
 }
 .list_best_rank {
     position: absolute;
