@@ -263,6 +263,9 @@ li{
     text-align: center;
     line-height: 35px;
 }
+.cursorBtn {
+    cursor: pointer;
+}
 
 /* --------------------- move top --------------------- */
 .move_top_img {

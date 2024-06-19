@@ -20,6 +20,9 @@ const store = createStore({
             authFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
             userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
             infoData: [],
+            askSetData: [],
+            productAskData:[],
+            infoReviewCreate:localStorage.getItem('infoReviewCreate') ? JSON.parse(localStorage.getItem('infoReviewCreate')) : null,
             // ----------------------- 성환 끝 ---------------------------
             // ----------------------- 민서 시작 -------------------------
             // 상품 정보
@@ -81,17 +84,14 @@ const store = createStore({
         productAskSetData(state, data) {
             state.productAskData = data;
         },
-        // 상품문의 삭제
-        productAskDelete(state, data) {
-            state.productAskDelete = data;
-        },
         // 1:1문의 목록
         askSetData(state, data) {
             state.askSetData = data;
         },
-        // 1:1문의 목록 삭제
-        askSetDelete(state, data) {
-            state.askSetDelete = data;
+        // 리뷰관리에서 수정 페이지로 넘어갈때 데이터 전달
+        infoReviewCreate(state, data) {
+            state.infoReviewCreate = data;
+            localStorage.setItem('infoReviewCreate', JSON.stringify(data));
         },
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------
@@ -213,7 +213,7 @@ const store = createStore({
             const reviewUpdateData = item;
 
             context.commit('reviewToUpdate', reviewUpdateData);
-            // localStorage.setItem('reviewToUpdate', JSON.stringify(reviewUpdateData));
+            localStorage.setItem('reviewToUpdate', JSON.stringify(reviewUpdateData));
 
             router.replace('/reviewupdate');
         },
@@ -415,7 +415,6 @@ const store = createStore({
         // 마이페이지에서 주문목록 불러오기
         infoData(context) {
             const url = '/api/info';
-            
             axios.get(url)
             .then(response => {
                 context.commit('infoSetData', response.data.data);
@@ -425,13 +424,29 @@ const store = createStore({
              });
          }, 
 
+        //  상품 문의 삭제
+        orderItemDelete(context, itemId) {
+            const url = '/api/orderProductDelete/' + itemId;
+            axios.delete(url)
+            if (confirm('확인을 누르면 구매한 상품이 삭제됩니다.')) {
+                axios.delete(url)
+                .then(response => {
+                    window.location.reload();
+                })
+                .catch(error => {
+                    alert('삭제에 실패했습니다.(' + error.response.data.code + ')' )
+                });
+            } else {
+                console.log('confirm false');
+            }
+        },
+
         // 상품 문의목록 불러오기
         productAskData(context) {
             const url = '/api/productAsk';
             axios.get(url)
             .then(response => {
                 context.commit('productAskSetData', response.data.data);
-                console.log(response.data.data);
              })
              .catch(error => {
                  alert('문의목록 불러오기 실패.(' + error.response.data.code + ')' )
@@ -441,16 +456,15 @@ const store = createStore({
         //  상품 문의 삭제
         productAskDelete(context, qnp_id) {
             const url = '/api/productAskDelete/' + qnp_id;
-            if (confirm('확인을 누르면 작성한 상품 문의가 삭제됩니다.')) {
+            axios.delete(url)
+            if (confirm('확인을 누르면 작성한 상품문의가 삭제됩니다.')) {
                 axios.delete(url)
                 .then(response => {
-                    router.replace('/info');
-                    console.log(response.data); // TODO : 삭제
+                    window.location.reload();
                 })
                 .catch(error => {
                     alert('삭제에 실패했습니다.(' + error.response.data.code + ')' )
                 });
-
             } else {
                 console.log('confirm false');
             }
@@ -462,7 +476,6 @@ const store = createStore({
             axios.get(url)
             .then(response => {
                 context.commit('askSetData', response.data.data);
-                console.log(response.data.data);
              })
              .catch(error => {
                  alert('문의목록 불러오기 실패.(' + error.response.data.code + ')' )
@@ -472,16 +485,15 @@ const store = createStore({
          //  1:1 문의 삭제
         askDelete(context, qn_id) {
             const url = '/api/askDelete/' + qn_id;
+            axios.delete(url)
             if (confirm('확인을 누르면 작성한 1:1 문의가 삭제됩니다.')) {
                 axios.delete(url)
                 .then(response => {
-                    router.replace('/info');
-                    console.log(response.data); // TODO : 삭제
+                    window.location.reload();
                 })
                 .catch(error => {
                     alert('삭제에 실패했습니다.(' + error.response.data.code + ')' )
                 });
-
             } else {
                 console.log('confirm false');
             }
@@ -490,20 +502,34 @@ const store = createStore({
         // 구매확정
         completeBtn(context, id) {
             const url = '/api/complete/' + id;
+            if (confirm('확인을 누르면 구매가 확정됩니다.')) {
+                axios.post(url)
+                .then(response => {
+                    window.location.reload();
+                })
+                .catch(error => {
+                    alert('실패했습니다.(' + error.response.data.code + ')' )
+                });
+            } else {
+                console.log('confirm false');
+            }
+        },
 
-            axios.post(url)
-            .then(response => {
-                console.log(response.data.data); // TODO : 삭제
-                alert('구매 확정 완료')
-            })
-            .catch(error => {
-                alert('실패했습니다.(' + error.response.data.code + ')' )
-            });
+        /**
+         * 마이페이지에서 리뷰작성
+         * 
+         * @param {*} context
+         * @param {*} item
+        */
+        infoReviewCreate(context, item) {
+            const infoReviewCreateData = item;
+
+            context.commit('infoReviewCreate', infoReviewCreateData);
+            localStorage.setItem('infoReviewCreate', JSON.stringify(infoReviewCreateData));
+
+            router.replace('/reviewupdate');
         },
             
-            
-        
-        
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------
         /**
