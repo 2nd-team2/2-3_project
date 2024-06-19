@@ -169,7 +169,52 @@ class ProductController extends Controller
             
             return response()->json($responseData, 200);
         }
-        
+
+        // 디테일->장바구니 데이터 보내기
+            public function detailedToCount(Request $request) {
+            // 리퀘스트 데이터 받기
+            // $requestData = [
+            //     'p_id' => $request->p_id
+            //     ,'ba_count' => $request->ba_count
+            // ];
+            $requestData = $request->all();
+
+            // 데이터 유효성 검사
+            $validator = Validator::make(
+                $requestData
+                , [
+                    'ba_id' => ['required', 'regex:/^[0-9]$/']
+                    ,'u_id' => ['required', 'regex:/^[0-9]$/']
+                    ,'p_id' => ['required', 'regex:/^[0-9]$/']
+                    ,'ba_count' => ['required', 'regex:/^[0-9]$/']
+                ]
+            );
+
+            // 유효성 검사 실패 체크
+            if($validator->fails()) {
+                Log::debug('유효성 검사 실패', $validator->errors()->toArray());
+                throw new MyValidateException('E01');
+            }
+
+            // 데이터 생성
+            $createData = $request->all();
+
+            
+            // 작성 처리
+            $createData['u_id'] = Auth::id();
+
+            // 작성 처리
+            $reviewCreate = Bag::create($createData);
+
+            // 레스폰스 데이터 생성
+            $responseData = [
+                'code' => '0'
+                ,'msg' => '리뷰 작성 완료'
+                ,'data' => $reviewCreate
+            ];
+
+            return response()->json($responseData, 200);
+        }
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
         // ----------------------- 호경 끝 ---------------------------

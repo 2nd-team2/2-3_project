@@ -84,11 +84,15 @@ Route::middleware('auth')->delete('/api/askDelete/{qn_id}', [QnaController::clas
 Route::get('/api/detailed/{id}', [ProductController::class, 'value']);
 // 리뷰 데이터 불러오기
 Route::get('/api/detailed', [ProductController::class, 'detailedReview']);
+// 수량 데이터 보내기(디테일->장바구니)
+Route::post('/api/detailedToCount', [ProductController::class, 'detailedToCount']);
 // 상세리스트 데이터 불러오기
 Route::get('/api/list', [ProductController::class, 'list']);
 // ----------------------- 민서 끝 ---------------------------
 
 // ----------------------- 호경 시작 -------------------------
+// 메인페이지 리뷰 불러오기
+Route::get('/api/reviewlist',[ReviewController::class, 'reviewMainIndex']);
 // 공지사항 데이터 불러오기
 Route::get('/api/noticelist', [NoticeController::class, 'noticeIndex']);
 // 공지사항 데이터 불러오기

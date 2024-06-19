@@ -152,7 +152,7 @@ function chkAuth(to, from, next) {
         alert('로그인이 필요한 서비스입니다.');
         next('/login');
     }
-}
+};
 
 const router = createRouter({
     // 뒤로가기 했을때는 스크롤 위치 저장, 그 외는 최상단으로

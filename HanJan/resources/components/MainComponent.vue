@@ -158,42 +158,12 @@
     <!-- 리뷰 -->
     <div class="review_container">
         <h1 class="review">한잔 리뷰</h1>
-        <div class="review_box">
-            <img src="/img/alcohol2.jpeg" class="goods_img">
-            <h1 class="review_title">리뷰 제목</h1>
-            <p class="review_content">여자들이 좋아할 맛 그런데 저한테도 깔끔한 맛 정도</p>
+        <div class="review_box" v-for="review in $store.state.reviewListData">
+            <img :src="review.img" class="goods_img">
+            <p class="review_content">{{ review.re_content }}</p>
             <a href="" class="review_a">
-                <div class="goods_title">제주, 동백 제주, 동백 제주, 동백</div>
-                <div class="goods_read">자세히 보기</div>
-            </a>
-        </div>
-        <div class="review_box">
-            <img src="/img/alcohol2.jpeg" class="goods_img">
-            <h1 class="review_title">리뷰 제목</h1>
-            <p class="review_content">여자들이 좋아할 맛 그런데 저한테도 깔끔한 맛 정도</p>
-            <a href="" class="review_a">
-                <div class="goods_title">제주, 동백</div>
-                <div class="goods_read">자세히 보기</div>
-            </a>
-        </div>
-        <div class="review_box">
-            <img src="/img/alcohol2.jpeg" class="goods_img">
-            <h1 class="review_title">리뷰 제목</h1>
-            <div class="review_content">
-                가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하
-            </div>
-            <a href="" class="review_a">
-                <div class="goods_title">제주, 동백</div>
-                <div class="goods_read">자세히 보기</div>
-            </a>
-        </div>
-        <div class="review_box review_none">
-            <img src="/img/alcohol2.jpeg" class="goods_img">
-            <h1 class="review_title">리뷰 제목</h1>
-            <p class="review_content">여자들이 좋아할 맛 그런데 저한테도 깔끔한 맛 정도</p>
-            <a href="" class="review_a">
-                <div class="goods_title">제주, 동백</div>
-                <div class="goods_read">자세히 보기</div>
+                <div class="goods_title">{{ review.name }}</div>
+                <div class="goods_read" @click="productDetail(review.id)">자세히 보기</div>
             </a>
         </div>
     </div>
@@ -202,7 +172,7 @@
     <div class="notification_container">
         <router-link to="/noticelist" class="notification">공지사항 +</router-link>
         <div v-for="notice in $store.state.noticeData.data" :key="notice.no_id" class="notification_a">
-            <div @click="noticeDetail(notice)" class="notification_title">
+            <div @click="noticeDetail(notice.no_id)" class="notification_title">
                 {{ notice.no_title }}
             </div>
             <div class="notification_date">{{ notice.created_at }}</div>
@@ -224,7 +194,7 @@
     import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
     // 공지사항 
-    import { onBeforeMount, ref } from 'vue';
+    import { onBeforeMount } from 'vue';
     import { useStore } from 'vuex';
     import router from '../js/router';
 
@@ -237,12 +207,20 @@
         if(store.state.noticeData.length < 1) {
             store.dispatch('getNoticeData');
         }
+        if(store.state.reviewListData.length < 1) {
+            store.dispatch('getReviewistData');
+        }
     })
 
-    function noticeDetail(item) {
-        store.commit('setNoticeDetailData', item);
-        router.push('/notice');
+    function noticeDetail(id) {
+        router.push('/notice?id=' + id);
     }
+
+    // 
+    function productDetail(id) {
+        router.push('/detailed?id='+id);
+    }
+
 </script>
 
 <style>

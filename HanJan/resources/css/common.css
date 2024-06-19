@@ -342,7 +342,7 @@ li {
 
 .review_box {
     display: grid;
-    grid-template-rows: 1fr 0.1fr 100px 0.2fr;
+    grid-template-rows: 1fr 100px 0.2fr;
     align-items: start;
     gap: 10px;
 }
@@ -647,10 +647,6 @@ footer {
         width: 70%;
     }
 
-    .review_title {
-        font-size: 1.5rem;
-    }
-
     .review_content {
         font-size: 1rem;
     }
@@ -942,10 +938,6 @@ footer {
         width: 80%;
     }
 
-    .review_title {
-        font-size: 1.5rem;
-    }
-
     .review_content {
         font-size: 1rem;
     }
@@ -1217,10 +1209,6 @@ footer {
     .review_container {
         grid-template-columns: 1fr 1fr 1fr;
         width: 85%;
-    }
-
-    .review_title {
-        font-size: 1.2rem;
     }
 
     .review_content {
