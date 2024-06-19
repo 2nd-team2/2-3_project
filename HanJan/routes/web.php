@@ -95,6 +95,8 @@ Route::get('/api/list', [ProductController::class, 'list']);
 // ----------------------- 호경 시작 -------------------------
 // 메인페이지 리뷰 불러오기
 Route::get('/api/reviewlist',[ReviewController::class, 'reviewMainIndex']);
+// 메인페이지 계절 별 추천 불러오기
+Route::get('/api/season',[ProductController::class, 'seasonSelect']);
 // 공지사항 데이터 불러오기
 Route::get('/api/noticelist', [NoticeController::class, 'noticeIndex']);
 // 공지사항 데이터 불러오기

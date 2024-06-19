@@ -237,5 +237,33 @@ class ProductController extends Controller
         }
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
+        // 메인 페이지에서 계절별 추천 출력
+        public function seasonSelect() {
+            $nowMonth = date('n', strtotime(now()));
+            $season = '';
+            if ($nowMonth == 12 || $nowMonth == 1 || $nowMonth == 2 ) {
+                // 겨울
+                $season = '3'; 
+            } else if($nowMonth <= 5) {
+                // 
+                $season = '0';
+            } else if($nowMonth <= 8) {
+                $season = '1';
+            } else {
+                $season = '2';
+            }
+            $noticeData = Product::select('products.*')
+                                ->where('products.season', '=', $season)
+                                ->orderby('products.created_at', 'DESC')
+                                ->limit(8)
+                                ->get();
+            $responseData = [
+                'code' => '0'
+                ,'msg' => '리뷰 획득 완료'
+                ,'data' => $noticeData->toArray()
+            ];
+
+            return response()->json($responseData, 200);
+        }
         // ----------------------- 호경 끝 ---------------------------
 }
