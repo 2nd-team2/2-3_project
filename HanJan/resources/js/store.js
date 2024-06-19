@@ -30,6 +30,8 @@ const store = createStore({
             reviewDetail: [],
             // ----------------------- 민서 끝 ---------------------------
             // ----------------------- 호경 시작 -------------------------
+            // 리뷰 게시물 리스트
+            reviewListData: [],
             // 공지사항 게시물 리스트
             noticeData: localStorage.getItem('noticeData') ? JSON.parse(localStorage.getItem('noticeData')) : {current_page: '1'},
             // 공지사항 디테일 정보
@@ -106,6 +108,10 @@ const store = createStore({
         },
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
+        // 리뷰 게시물 리스트
+        setReviewListData(state, data) {
+            state.reviewListData = data;
+        },
         // 공지사항 게시물 리스트
         setNoticeData(state, data) {
             state.noticeData = data;
@@ -540,6 +546,24 @@ const store = createStore({
         },
         // // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
+        /**
+         * 리뷰 데이터 획득
+         * 
+         * @param {*} context 
+         */
+        getReviewistData(context) {
+            const url = '/api/reviewlist';
+            
+            axios.get(url)
+            .then(response => {
+                console.log(response.data); // TODO
+                context.commit('setReviewListData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert('상품문의내역 습득에 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
         /**
          * 공지사항 리스트 획득
          * 
