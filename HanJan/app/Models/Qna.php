@@ -10,7 +10,7 @@ class Qna extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $primarykey = 'qn_id';
+    protected $primaryKey = 'qn_id';
 
     protected $fillable =[
         'u_id',

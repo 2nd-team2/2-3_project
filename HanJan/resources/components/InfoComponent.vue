@@ -14,19 +14,20 @@
                     <div class="order_item" v-for="(item, key) in $store.state.infoData" :key="key">
                         <div class="item_left_list_text">
                             <div class="order_date">
-                                <span class="title_span">{{ item.created_at + ' / ' + '구매확정 ' }}</span>
-                                <span class="yellow_span">06-07(금)</span>
+                                <span class="title_span">{{ item.created_at }}</span>
+                                <span class="title_span" v-if="item.co_flg === '1'"> / 구매확정 : </span>
+                                <span class="yellow_span" v-if="item.co_flg === '1'">{{ item.completeOn }}</span>
                             </div>
                             <button class="order_delete"></button>
                             <div class="order_img" :src="item.img"></div>
                             <p class="order_name">{{ item.name + ' ' + item.ml +'ml' }}</p>
                             <p class="order_price">{{ '금액 : ' + item.price + '원 / 1개' }}</p>
-                            <button class="button_a">구매확정</button>
+                            <button class="button_a" @click="$store.dispatch('completeBtn', item.id)" v-if="item.co_flg === '0'">구매확정</button>
                         </div>
                         <div class="item_right">
-                            <button @click="$router.push('/qnaproduct')" class="button_a">상품문의하기</button> 
-                            <button @click="$router.push('/exchange')" class="button_a">교환, 반품 신청</button>
-                            <button @click="$router.push('/reviewcreate')" class="button_a">리뷰 작성하기</button>
+                            <button @click="$router.push('/qnaproduct')" class="button_a" v-if="item.co_flg === '0'">상품문의하기</button> 
+                            <button @click="$router.push('/exchange')" class="button_a" v-if="item.co_flg === '0'">교환, 반품 신청</button>
+                            <button @click="$router.push('/reviewcreate')" class="button_a" v-if="item.co_flg === '1'">리뷰 작성하기</button>
                         </div>
                     </div>
                     <div class="list_num_item">
@@ -48,6 +49,7 @@
                     </router-link>
                 </div>
                 <div class="inquiry_list_main" v-for="(item, key) in $store.state.productAskData" :key="key">
+                    <!-- <div>{{ item }}</div> -->
                     <div class="inquiry_item" >
                         <div class="inquiry_item_left_list_text">
                             <div>
@@ -59,7 +61,8 @@
                         </div>
                         <div class="inquiry_item_right_list">
                             <button class="inquiry_delete" @click="$store.dispatch('productAskDelete', item.qnp_id)"></button>
-                            <div class="keep_shoping_btn qna_answer">답변완료</div>
+                            <div class="keep_shoping_btn qna_answer" v-if="item.qnp_answer">답변완료</div>
+                            <div class="keep_shoping_btn qna_answer" v-else>답변진행중</div>
                         </div>
                     </div>
                 </div>
@@ -76,7 +79,8 @@
                         </div>
                         <div class="inquiry_item_right_list">
                             <span class="inquiry_delete" @click="$store.dispatch('askDelete', item.qn_id)"></span>
-                            <div class="in_progress qna_answer">답변진행중</div>
+                            <div class="in_progress qna_answer" v-if="item.qn_answer">답변완료</div>
+                            <div class="in_progress qna_answer" v-else>답변진행중</div>
                         </div>
                     </div>
                 </div>

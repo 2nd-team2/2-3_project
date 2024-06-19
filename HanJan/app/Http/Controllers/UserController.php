@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\MyAuthException;
 use App\Exceptions\MyValidateException;
-use App\Models\Orderproduct;
-use App\Models\Qna;
-use App\Models\Qnaproduct;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -224,100 +221,6 @@ class UserController extends Controller
                 return response()->json($responseData, 200);
             }
         
-        // 마이페이지 주문목록
-        public function infoData() {
-                $infoData = Orderproduct::select('orderproducts.*','users.id','products.*')
-                                ->join('users','orderproducts.or_id','=','users.id')
-                                ->join('products','orderproducts.p_id','=','products.id')
-                                ->where('orderproducts.or_id', '=', Auth::id())
-                                ->where('orderproducts.deleted_at', '=', null)
-                                ->orderBy('orderproducts.created_at','DESC')
-                                ->orderBy('orderproducts.orp_id','DESC')
-                                ->distinct()
-                                ->limit(3)
-                                ->get();
-                
-                $responseData = [
-                    'code' => '0'
-                    ,'msg' => '주문목록 획득 완료'
-                    ,'data' => $infoData->toArray()
-                ];
-            
-                return response()->json($responseData, 200);
-            }
-
-        
-
-        // 마이페이지 상품 문의목록
-        public function productAsk() {
-                $askData = Qnaproduct::select('users.id','qnaproducts.*')
-                                ->join('users','qnaproducts.u_id','=','users.id')
-                                ->where('qnaproducts.u_id', '=', Auth::id())
-                                ->where('qnaproducts.deleted_at', '=', null)
-                                ->orderBy('qnaproducts.created_at','DESC')
-                                ->orderBy('qnaproducts.qnp_id','DESC')
-                                ->limit(3)
-                                ->get();
-
-                // Log::debug($askData);
-
-                $responseData = [
-                    'code' => '0'
-                    ,'msg' => '문의목록 획득 완료'
-                    ,'data' => $askData->toArray()
-                ];
-            
-                return response()->json($responseData, 200);
-            }
-        
-        // 문의목록 삭제처리
-        public function productAskDelete($qnp_id) {
-
-            Qnaproduct::destroy($qnp_id);
-            
-            $responseData = [
-                'code' => '0'
-                ,'msg' => '삭제 완료'
-                ,'data' => $qnp_id
-            ];
-            Log::debug($responseData);
-            return response()->json($responseData);
-        }
-
-        // 마이페이지 1:1문의목록
-        public function askData() {
-            $askData = Qna::select('users.id','qnas.*')
-                            ->join('users','qnas.u_id','=','users.id')
-                            ->where('qnas.u_id', '=', Auth::id())
-                            ->where('qnas.deleted_at', '=', null)
-                            ->orderBy('qnas.created_at','DESC')
-                            ->orderBy('qnas.qn_id','DESC')
-                            ->limit(3)
-                            ->get();
-
-            $responseData = [
-                'code' => '0'
-                ,'msg' => '1:1 문의목록 획득 완료'
-                ,'data' => $askData->toArray()
-            ];
-        
-            return response()->json($responseData, 200);
-        }
-
-        // 문의목록 삭제처리
-        public function askDelete($qn_id) {
-
-            Qnaproduct::destroy($qn_id);
-            
-            $responseData = [
-                'code' => '0'
-                ,'msg' => '삭제 완료'
-                ,'data' => $qn_id
-            ];
-            Log::debug($responseData);
-            return response()->json($responseData);
-        }
-
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------
         // ----------------------- 민서 끝 ---------------------------
