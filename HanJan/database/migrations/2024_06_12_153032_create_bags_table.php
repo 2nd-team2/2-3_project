@@ -18,7 +18,7 @@ return new class extends Migration
             $table->bigInteger('u_id')->unsigned();
             $table->bigInteger('p_id')->unsigned();
             $table->bigInteger('ba_count')->default(1);
-            $table->timestamp('created_at')->useCurrent();
+            $table->timestamps();
             $table->softDeletes(); 
         });
     }

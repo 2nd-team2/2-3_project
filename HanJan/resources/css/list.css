@@ -49,19 +49,15 @@ hr {
     margin-top: 6rem;
     font-size: 2rem;
     font-weight: 800;
-    margin: 6rem 20rem 1rem;
+    margin: 6rem 18rem 1rem;
 }
 
 .list_best {
     display: flex;
-    /* flex-direction: row; */
     margin: auto;
-    width: 70%;
     flex-wrap: nowrap;
-    /* margin-bottom: 2rem; */
-    align-items: center;
     gap: 2rem;
-    justify-content: center;
+
 }
 .list_best img {
     width: 15rem;
