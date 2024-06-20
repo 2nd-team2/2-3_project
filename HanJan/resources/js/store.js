@@ -654,6 +654,16 @@ const store = createStore({
             router.replace('/reviewcreate');
         },
 
+        // 리뷰 관리로 이동
+        infoReviewManage(context, item) {
+            const infoReviewManageData = item;
+
+            context.commit('reviewSetData', infoReviewManageData);
+            localStorage.setItem('reviewSetData', JSON.stringify(infoReviewManageData));
+
+            router.replace('/review');
+        },
+
         connectProductAsk(context, p_id) {
             const connectProductAskData = p_id;
 

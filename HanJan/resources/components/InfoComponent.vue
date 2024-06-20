@@ -6,12 +6,12 @@
                     <h1>주문목록</h1>
                     <div>
                         <button class="keep_shoping_btn black_button" @click="$router.push('/list')">계속 쇼핑하기</button>
-                        <button class="shoping_btn review_manage_btn black_button" @click="$router.push('/review')">리뷰관리</button>
+                        <button class="shoping_btn review_manage_btn black_button" @click="store.dispatch('reviewGet')">리뷰관리</button>
                         <button class="user_update_btn black_button" @click="$router.push('/confirm')">회원정보 수정</button>
                     </div>
                 </div>
                 <div class="order_list_main">
-                    <div class="order_item" v-for="(item, key) in $store.state.infoData" :key="key">
+                    <div class="order_item" v-for="(item, key) in $store.state.infoData" :key="key" v-if="$store.state.infoData">
                         <!-- <div>{{ item }}</div> -->
                         <div class="item_left_list_text">
                             <div class="order_date">
@@ -22,16 +22,17 @@
                             <button class="order_delete" @click="$store.dispatch('orderItemDelete', item.itemId)" v-if="item.co_flg === '1'"></button>
                             <div class="order_img" :src="item.img"></div>
                             <p class="order_name">{{ item.name + ' ' + item.ml +'ml' }}</p>
-                            <p class="order_price">{{ '금액 : ' + item.price + '원 / 1개' }}</p>
+                            <p class="order_price">{{ '금액 : ' + item.price + '원 / ' + item.orp_count + '개' }}</p>
                             <button class="button_a" @click="$store.dispatch('completeBtn', item.id)" v-if="item.co_flg === '0' || item.co_flg === null">구매확정</button>
                         </div>
                         <div class="item_right">
-                            <button @click="connectProductAsk(item)" class="button_a" v-if="item.co_flg === '0' || item.co_flg === null">상품문의하기</button> 
+                            <button  class="button_a" v-if="item.co_flg === '0' || item.co_flg === null">상품문의하기</button> 
                             <button @click="$router.push('/exchange')" class="button_a" v-if="item.co_flg === '0' || item.co_flg === null">교환, 반품 신청</button>
                             
                             <button @click="infoReviewCreate(item)" class="button_a" v-if="item.co_flg === '1'">리뷰 작성하기</button>
                         </div>
                     </div>
+                    <h2 v-else>주문 상품이 없습니다.</h2>
                     <div class="list_num_item">
                         <span class="before">〈 이전</span>
                         <span class="num_none">1</span>
@@ -47,7 +48,7 @@
                 <div class="inquiry_list_header">
                     <h1>상품문의 내역</h1>
                 </div>
-                <div class="inquiry_list_main" v-for="(item, key) in $store.state.productAskData" :key="key">
+                <div class="inquiry_list_main" v-for="(item, key) in $store.state.productAskData" :key="key" v-if="$store.state.productAskData">
                     <!-- <div>{{ item }}</div> -->
                     <div class="inquiry_item" >
                         <div class="inquiry_item_left_list_text">
@@ -55,7 +56,7 @@
                                 <span class="title_span">상품문의</span>
                             </div>
                             <!-- <div class="inquiry_img" :src="item.img"></div> -->
-                            <p class="inquiry_name cursorBtn" @click="$router.push('/qnaproductlist/', item.qnp_id)">{{ item.qnp_content }}</p>
+                            <p class="inquiry_name cursorBtn" @click=qnaProductDetail(item.qnp_id)>{{ item.qnp_content }}</p>
                             <p class="inquiry_date">{{ item.created_at }}</p>
                         </div>
                         <div class="inquiry_item_right_list">
@@ -65,6 +66,7 @@
                         </div>
                     </div>
                 </div>
+                <h2 v-else>상품문의 내역이 없습니다.</h2>
                 <div class="list_num_item">
                     <span class="before">〈 이전</span>
                     <span class="num_none">1</span>
@@ -80,7 +82,7 @@
                         1:1 문의하기
                     </router-link>
                 </div>
-                <div class="inquiry_list_main" v-for="(item, key) in $store.state.askSetData" :key="key">
+                <div class="inquiry_list_main" v-for="(item, key) in $store.state.askSetData" :key="key" v-if="$store.state.askSetData">
                     <!-- <div>{{ item }}</div> -->
                     <div class="inquiry_item">
                         <div class="inquiry_item_left_list_text">
@@ -89,7 +91,7 @@
                             </div>
                             <div class="inquiry_div">
                             </div>
-                            <p class="inquiry_name cursorBtn" @click="$router.push('/qnaonebyonelist/', item.qn_id)">{{ item.qn_content }}</p>
+                            <p class="inquiry_name cursorBtn" @click=qnaOneByOneDetail(item.qn_id)>{{ item.qn_content }}</p>
                             <p class="one_date">{{ item.created_at }}</p>
                         </div>
                         <div class="inquiry_item_right_list">
@@ -99,6 +101,7 @@
                         </div>
                     </div>
                 </div>
+                <h2 v-else>상품문의 내역이 없습니다.</h2>
                 <div class="list_num_item">
                     <span class="before">〈 이전</span>
                     <span class="num_none">1</span>
@@ -119,7 +122,7 @@
 <script setup>
 import { onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
-
+import router from '../js/router';
 const store = useStore();
 
 // 초기 데이터
@@ -129,15 +132,13 @@ onBeforeMount(() => {
     store.dispatch('askData');
 })
 
-// 리뷰 수정하기 페이지로 정보 넘기기
+// 리뷰 작성하기 페이지로 정보 넘기기
 const infoReviewCreate = (item) => {
     store.dispatch('infoReviewCreate', item);
 }
-const connectProductAsk = (item) => {
-    store.dispatch('connectProductAsk', item);
-}
-// const connectAsk = (item) => {
-//     store.dispatch('connectAsk', item);
+// 리뷰 관리 페이지로 정보 넘기기
+// const infoReviewManage = (item) => {
+//     store.dispatch('reviewGet', item);
 // }
 // 상품문의 디테일 페이지 이동
 function qnaProductDetail(id) {
