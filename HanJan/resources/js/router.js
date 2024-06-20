@@ -10,6 +10,7 @@ import ExchangeCompnent from '../components/ExchangeComponent.vue';
 import InfoComponent from '../components/InfoComponent.vue';
 import ListTakjuComponent from '../components/ListComponent.vue';
 import OrderComponent from '../components/OrderComponent.vue';
+import OrderCompleteComponent from '../components/OrderCompleteComponent.vue';
 import RegistComponent from '../components/RegistComponent.vue';
 import ReviewComponent from '../components/ReviewComponent.vue';
 import ReviewCreateComponent from '../components/ReviewCreateComponent.vue';
@@ -102,6 +103,11 @@ const routes = [
     {
         path: '/order',
         component: OrderComponent,
+        beforeEnter: chkAuth,
+    },
+    {
+        path: '/ordercomplete',
+        component: OrderCompleteComponent,
         beforeEnter: chkAuth,
     },
     {

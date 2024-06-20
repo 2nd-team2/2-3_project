@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BagController;
 use App\Http\Controllers\NoticeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\QnaController;
@@ -36,14 +37,20 @@ Route::get('/{any}', function() {
 // 장바구니 초기 데이터 불러오기
 Route::middleware('auth')->get('/api/bagsProduct', [BagController::class, 'bagsIndex']);
 // 장바구니 수량 감소한 데이터 저장
-Route::middleware('auth')->post('/api/bagsCountminus/{ba_id}', [BagController::class, 'bagsCountminus']);
-
+Route::middleware('auth')->post('/api/bagsCountMinus/{ba_id}', [BagController::class, 'bagsCountMinus']);
+// 장바구니 수량 증가한 데이터 저장
+Route::middleware('auth')->post('/api/bagsCountPlus/{ba_id}', [BagController::class, 'bagsCountPlus']);
 // 장바구니 데이터 삭제
 Route::middleware('auth')->delete('/api/bagsDelete/{ba_id}', [BagController::class, 'bagsDelete']);
-// 장바구니 데이터 전체 삭제
-Route::middleware('auth')->delete('/api/deleteAll', [BagController::class, 'deleteAll']);
-// 장바구니 데이터 선택 삭제
-Route::middleware('auth')->delete('/api/deleteSelect', [BagController::class, 'deleteSelect']);
+// // 장바구니 데이터 전체 삭제
+// Route::middleware('auth')->delete('/api/deleteAll', [BagController::class, 'deleteAll']);
+// // 장바구니 데이터 선택 삭제
+// Route::middleware('auth')->delete('/api/deleteSelect', [BagController::class, 'deleteSelect']);
+
+// 주문 데이터 저장
+Route::middleware('auth')->post('/api/orderComplete', [OrderController::class, 'orderComplete']);
+
+
 
 // 리뷰 초기 데이터 불러오기
 Route::middleware('auth')->get('/api/review', [ReviewController::class, 'reviewIndex']);

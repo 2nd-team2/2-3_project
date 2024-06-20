@@ -61,12 +61,13 @@ const store = createStore({
         bagsSetProductData(state, data) {
             state.bagsProductData = data;
         },
-
-
         // 선택된 상품 삭제 처리
         deleteSelectedItems(state, selectedIds) {
             state.bagsProductData = state.bagsProductData.filter(item => !selectedIds.includes(item.ba_id));
         },
+
+
+
         // 전체 상품 삭제 처리
         deleteAllItems(state) {
             state.bagsProductData = [];
@@ -75,8 +76,6 @@ const store = createStore({
         toggleAllChecked(state) {
             state.allChecked = !state.allChecked;
         },
-
-
 
 
 
@@ -212,8 +211,25 @@ const store = createStore({
          * @param {*} context
          * @param {*} ba_id
          */
-        bagsCountminus(context, $ba_id) {
-            const url = '/api/bagsCountminus/' + $ba_id;
+        bagsCountMinus(context, $ba_id) {
+            const url = '/api/bagsCountMinus/' + $ba_id;
+
+            axios.post(url)
+            .then(response => {
+                console.log(response.data.data);
+            })
+            .catch(error => {
+                alert('수량 감소에 실패했습니다.(' + error.response.data.code + ')' )
+            });
+        },
+        /**
+         * 장바구니에 수량 증가한 데이터 저장
+         * 
+         * @param {*} context
+         * @param {*} ba_id
+         */
+        bagsCountPlus(context, $ba_id) {
+            const url = '/api/bagsCountPlus/' + $ba_id;
 
             axios.post(url)
             .then(response => {
@@ -224,7 +240,6 @@ const store = createStore({
             });
         },
 
-        
         
         /**
          * 장바구니에서 휴지통 버튼 클릭시 목록에서 삭제
@@ -250,68 +265,6 @@ const store = createStore({
 
         },
 
-        // 전체 상품 삭제
-        allDelete(context) {
-
-            if (confirm('장바구니의 모든 상품을 삭제하시겠습니까?')) {
-                const url = '/api/deleteAll'
-
-                axios.delete(url)
-                .then(() => {
-                    context.commit('deleteAllItems');
-                })
-                .catch(error => {
-                    console.error('Error deleting all items:', error);
-                });
-
-            } else {
-                console.log('confirm false');
-            }
-        },
-
-        // 선택된 상품 삭제
-        selectDelete(context) {
-            const selectedItems = context.state.bagsProductData.filter(item => item.checked);
-            const selectedIds = selectedItems.map(item => item.ba_id);
-
-            if (selectedIds.length === 0) {
-                alert('삭제할 상품을 선택해주세요.');
-                return;
-            }
-
-            if (confirm('선택한 상품을 삭제하시겠습니까?')) {
-                const url = '/api/deleteSelect'
-
-                axios.post(url , { ids: selectedIds })
-                .then(() => {
-                    context.commit('deleteSelectedItems', selectedIds);
-                })
-                .catch(error => {
-                    console.error('Error deleting selected items:', error);
-                });
-            } else {
-                console.log('confirm false');
-            }
-        },
-
-
-        // 전체 삭제 버튼을 클릭시 데이터 삭제
-        // allDelete(context) {
-        //     const url = '/api/allDelete';
-
-        //     axios.delete(url)
-        //     .then(response => {
-                
-        //     })
-        //     .catch(error => {
-        //         alert('전체 삭제에 실패하였습니다.(' + error.response.data.code + ')' )
-        //     });
-        // },
-
-        // 선택 삭제 버튼을 클릭시 데이터 삭제
-        // selectDelete(context) {
-        //     const url = 
-        // },
 
 
         
@@ -421,6 +374,26 @@ const store = createStore({
         }, 
         
 
+        /**
+         * order(주문) 페이지에서 결제하기 처리
+         * 실제 결제하기 기능은 없고 데이터 저장처리만 수행
+         * 
+         * @param {*} context
+        */
+        orderComplete(context) {
+            const url = '/api/orderComplete';
+            const data = new FormData(document.querySelector('#orderComplete'));
+
+            axios.post(url, data)
+            .then(response => {
+                console.log('주문')
+
+                router.push('/ordercomplete');
+            })
+            .catch(error => {
+                alert('결제에 실패하였습니다.(' + error.response.data.code + ')' )
+            });
+        },
               
         
         // ----------------------- 보원 끝 ---------------------------

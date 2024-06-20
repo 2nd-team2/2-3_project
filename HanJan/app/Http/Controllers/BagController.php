@@ -19,7 +19,7 @@ class BagController extends Controller
                         ->where('bags.deleted_at', '=', null)
                         ->orderBy('bags.created_at','DESC')
                         ->orderBy('bags.ba_id','DESC')
-                        // ->limit(3)
+                        ->limit(3)
                         ->get();
     
         $responseData = [
@@ -46,33 +46,66 @@ class BagController extends Controller
     }
 
     // 장바구니 수량 감소한 데이터 저장
-    public function bagsCountminus($ba_id) {
+    public function bagsCountMinus($ba_id) {
 
-        Log::debug($ba_id);
+        $productDate = Bag::where('ba_id','=', $ba_id)->first();
 
-        $productDate = Bag::select('bags.*')
-                        ->where('ba_id','=', $ba_id)
-                        ->get();
+        // 조회된 데이터가 있는지 확인
+        if($productDate) {
+            $productDate->ba_count -= 1;
 
-        Log::debug($productDate);
+            // TODO : update_at 생성하면주석해제하기
+            // $productDate->updated_at = now();
 
-        $productDate['ba_count'] = 
+            $productDate->save();
 
-        // TODO : update_at 생성하면주석해제하기
-        // $productDate['updated_at'] =
+            $responseData = [
+                'code' => '0'
+                ,'msg' => '장바구니 수량 감소 완료'
+                ,'data' => $ba_id
+            ];
 
-        $responseData = [
-            'code' => '0'
-            ,'msg' => '장바구니 상품 삭제 완료'
-            ,'data' => $ba_id
-        ];
+        } else {
+            $responseData = [
+                'code' => '0'
+                ,'msg' => '장바구니 상품을 찾을 수 없습니다.'
+                ,'data' => $ba_id
+            ];
+        }
+        
+        return response()->json($responseData);
+    }
+    // 장바구니 수량 증가한 데이터 저장
+    public function bagsCountPlus($ba_id) {
+
+        $productDate = Bag::where('ba_id','=', $ba_id)->first();
+
+        // 조회된 데이터가 있는지 확인
+        if($productDate) {
+
+            $productDate->ba_count += 1;
+            // TODO : update_at 컬럼 생성하면 주석 해제하기
+            // $productDate->updated_at = now();
+
+            $productDate->save();
+
+            $responseData = [
+                'code' => '0'
+                ,'msg' => '장바구니 수량 증가 완료'
+                ,'data' => $ba_id
+            ];
+
+        } else {
+            $responseData = [
+                'code' => '0'
+                ,'msg' => '장바구니 상품을 찾을 수 없습니다.'
+                ,'data' => $ba_id
+            ];
+        }
 
         return response()->json($responseData);
-
     }
 
 
-    // Bags(장바구니)테이블에서 전체삭제 버튼 눌렀을때 삭제 처리
 
-    // Bags(장바구니)테이블에서 선택삭제 버튼 눌렀을때 삭제 처리
 }

@@ -25,7 +25,7 @@ class ReviewController extends Controller
                         ->where('reviews.deleted_at', '=', null)
                         ->orderBy('reviews.created_at','DESC')
                         ->orderBy('reviews.re_id','DESC')
-                        ->limit(3)
+                        ->limit(3) // TODO : 페이지네이션 할때 수정하기
                         ->get();
 
         $responseData = [
@@ -85,7 +85,7 @@ class ReviewController extends Controller
         
         // 작성 처리
         $createData['u_id'] = Auth::id();
-        $createData['p_id'] = 1; // $request->p_id; store에서 넘겨 받은 p_id 작성하기 
+        $createData['p_id'] = 1; // TODO: $request->p_id; store에서 넘겨 받은 p_id 작성하기 
         $createData['re_content'] = $request->re_content;
         $createData['re_star'] = $request->re_star;
 
