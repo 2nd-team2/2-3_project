@@ -67,13 +67,14 @@
     import { onBeforeMount } from 'vue';
     import { useStore } from 'vuex';
     import router from '../js/router';
+    import { onBeforeRouteUpdate } from 'vue-router';
 
     const store = useStore();
     
     onBeforeMount(() => {
         // store.dispatch('getList');
         store.dispatch('productBastDetail');
-    })
+    });
     
     function bastDetail(id) {
         router.push('/detailed?id='+id);
@@ -81,6 +82,11 @@
     function productDetail(id) {
         router.push('/detailed?id='+id);
     }
+
+    onBeforeRouteUpdate((to, from) => {
+        console.log(to.query.type);
+        store.dispatch('getList', to.query.type);
+    });
 </script>
 
 <style scoped src="../css/list.css">
