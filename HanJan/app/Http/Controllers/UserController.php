@@ -105,7 +105,7 @@ class UserController extends Controller
                     'password_chk' => ['same:password'],
                     'tel' => ['required', 'min:10','max:11', 'regex:/^[0-9]+$/'],
                     'addr' => ['required'],
-                    'name' => ['required'],
+                    'name' => ['required', 'regex:/^[a-zA-Z가-힣]+$/u'],
                     'post' => ['required'],
                     'det_addr' => ['required'],
                     'birth' => ['required'],
@@ -175,12 +175,12 @@ class UserController extends Controller
 
             // 유저정보 갱신
             $userInfo->save();
-            $response = [
+            $responseData = [
                 'code' => 0,
                 'msg' => '회원 정보 수정 완료',
                 'data' => $userInfo
             ];
-            return response()->json($response, 200);
+            return response()->json($responseData, 200);
         }
 
         // 유저 탈퇴

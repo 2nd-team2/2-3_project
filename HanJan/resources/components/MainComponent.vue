@@ -97,12 +97,12 @@
     <!-- 날씨 추천 술 -->
     <div class="weather_alcohol">
         <h1 class="weather_alcohol_title">당신의 시원한 여름이 여기에</h1>
-        <div v-for="(season, index) in $store.state.seasonData" :key="index">
+        <div v-for="(season, index) in $store.state.seasonData.slice(0, 8)" :key="index">
             <div :class="{weather_alcohol_box: index % 2 === 0, weather_alcohol_box2: index % 2 === 1}">
                 <img v-if="index % 2 === 0" :src="season.img" class="weather_alcohol_img">
-                <h1 class="weather_alcohol_num">01</h1>
+                <h1 class="weather_alcohol_num">0{{ index + 1 }}</h1>
                 <h1 class="weather_alcohol_name">{{ season.name }}</h1>
-                <div class="weather_alcohol_type">{{ season.type }} {{ season.ml }}ml</div>
+                <div class="weather_alcohol_type">{{ season.type + ' ' + season.ml + 'ml'}}</div>
                 <div @click="productDetail(season.id)" class="weather_alcohol_a">바로가기</div>
                 <img v-if="index % 2 === 1" :src="season.img" class="weather_alcohol_img">
             </div>
@@ -115,10 +115,10 @@
         <div class="review_box" v-for="review in $store.state.reviewListData">
             <img :src="review.img" class="goods_img">
             <p class="review_content">{{ review.re_content }}</p>
-            <a href="" class="review_a">
+            <div @click="productDetail(review.id)" class="review_a">
                 <div class="goods_title">{{ review.name }}</div>
-                <div class="goods_read" @click="productDetail(review.id)">자세히 보기</div>
-            </a>
+                <div class="goods_read">자세히 보기</div>
+            </div>
         </div>
     </div>
 
@@ -158,12 +158,15 @@
     // 공지사항 
     const store = useStore();
     onBeforeMount(() => {
-        if(store.state.noticeData.length < 1) {
-            store.dispatch('getNoticeData');
+        // 공지사항 리스트
+        if(store.state.noticeData.current_page == 1) {
+            store.dispatch('getNoticeData', 1);
         }
+        // 리뷰 리스트
         if(store.state.reviewListData.length < 1) {
             store.dispatch('getReviewistData');
         }
+        // 계절 별 추천
         if(store.state.seasonData.length < 1) {
             store.dispatch('getSeasonData');
         }

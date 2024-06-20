@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\MyValidateException;
+use App\Models\Orderproduct;
 use App\Models\Qna;
 use App\Models\Qnaproduct;
 use Illuminate\Http\Request;
@@ -13,20 +14,41 @@ use Illuminate\Support\Facades\Validator;
 class QnaController extends Controller
 {
     // 상품문의내역 획득
-    public function qnaProductListIndex() {
-        $qnaProductListData = Qnaproduct::select('qnaproducts.qnp_content', 'qnaproducts.qnp_answer')
-                            ->where('qnaproducts.u_id', '=', Auth::id())
-                            ->orderby('created_at', 'DESC')
-                            ->limit(1)
-                            ->get();
-        $responseData = [
-            'code' => '0'
-            ,'msg' => '게시글 획득 완료'
-            ,'data' => $qnaProductListData->toArray()
-        ];
+    // public function qnaProductListIndex() {
+    //     $qnaProductListData = Qnaproduct::select('qnaproducts.qnp_content', 'qnaproducts.qnp_answer')
+    //                         ->where('qnaproducts.u_id', '=', Auth::id())
+    //                         ->orderby('created_at', 'DESC')
+    //                         ->limit(1)
+    //                         ->get();
+    //     $responseData = [
+    //         'code' => '0'
+    //         ,'msg' => '게시글 획득 완료'
+    //         ,'data' => $qnaProductListData->toArray()
+    //     ];
 
+    //     return response()->json($responseData, 200);
+    // }
+    // 상품문의내역 획득
+    public function detailNotice($id) {
+        Log::debug('상품문의내역 pk : ' . $id);
+
+        $qnaProductData = Qnaproduct::select('qnaproducts.*')
+                        ->where('qnaproducts.qnp_id', $id)
+                        ->first();
+                        // ->get();
+
+        Log::debug('공지사항 데이터:', $qnaProductData->toArray());
+    
+        $responseData = [
+                'code' => '0'
+                ,'msg' => '초기 상품값 획득 완료'
+                ,'data' => $qnaProductData
+        ];
+        Log::debug($responseData);
+        
         return response()->json($responseData, 200);
     }
+    
 
     // 상품문의 작성
     public function qnaProductCreate(Request $request) {
@@ -115,8 +137,6 @@ class QnaController extends Controller
                         ->limit(3)
                         ->get();
 
-        // Log::debug($askData);
-
         $responseData = [
             'code' => '0'
             ,'msg' => '문의목록 획득 완료'
@@ -136,11 +156,11 @@ class QnaController extends Controller
             ,'msg' => '삭제 완료'
             ,'data' => $qnp_id
         ];
-        Log::debug($responseData);
+        
         return response()->json($responseData);
     }
 
-        // 마이페이지 1:1문의목록
+    // 마이페이지 1:1문의목록
     public function askData() {
         $askData = Qna::select('users.id','qnas.*')
                         ->join('users','qnas.u_id','=','users.id')
@@ -170,7 +190,6 @@ class QnaController extends Controller
             ,'msg' => '삭제 완료'
             ,'data' => $qn_id
         ];
-        Log::debug($responseData);
         return response()->json($responseData);
     }
 }

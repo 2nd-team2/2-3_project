@@ -83,7 +83,13 @@ const routes = [
     {
         path: '/qnaproductlist',
         component: QnaProductListComponent,
-        beforeEnter: chkAuth,
+        beforeEnter: (to, from, next) => {
+            chkAuth(to, from, next)
+            console.log(to.query.id);
+            store.dispatch('getQnaProductDetailData', to.query.id);
+
+            next();
+        }, 
     },
     {
         path: '/qnaonebyonelist',
@@ -133,12 +139,12 @@ const routes = [
     {
         path: '/noticelist',
         component: NoticeListComponent,
-        beforeEnter: (to, from, next) => {
-            console.log(to.query.page);
-            store.dispatch('getNoticeData', to.query.page);
+        // beforeEnter: (to, from, next) => {
+        //     console.log(to.query.page);
+        //     store.dispatch('getNoticeData', to.query.page);
 
-            next();
-        },
+        //     next();
+        // },
     },
     {
         path: '/notice',
