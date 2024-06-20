@@ -72,22 +72,46 @@ const routes = [
     {
         path: '/qnaproduct',
         component: QnaProductComponent,
-        beforeEnter: chkAuth,
+        beforeEnter: (to, from, next) => {
+            chkAuth(to, from, next);
+            console.log(to.query.id);
+            store.dispatch('getQnaProductDetailData', to.query.id);
+
+            next();
+        }
     },
     {
         path: '/qnaonebyone',
         component: QnaOneByeOneComponent,
-        beforeEnter: chkAuth,
+        beforeEnter: (to, from, next) => {
+            chkAuth(to, from, next);
+            console.log(to.query.id);
+            store.dispatch('getQnaOneByOnetData', to.query.id);
+
+            next();
+        }
     },
     {
         path: '/qnaproductlist',
         component: QnaProductListComponent,
-        beforeEnter: chkAuth,
+        beforeEnter: (to, from, next) => {
+            chkAuth(to, from, next);
+            console.log(to.query.id);
+            store.dispatch('getQnaProductListData', to.query.id);
+
+            next();
+        }
     },
     {
         path: '/qnaonebyonelist',
         component: QnaOnebyOneListComponent,
-        beforeEnter: chkAuth,
+        beforeEnter: (to, from, next) => {
+            chkAuth(to, from, next);
+            console.log(to.query.id);
+            store.dispatch('getQnaOneByeOneDetailData', to.query.id);
+
+            next();
+        }
     },
     {
         path: '/list',
@@ -131,12 +155,12 @@ const routes = [
     {
         path: '/noticelist',
         component: NoticeListComponent,
-        beforeEnter: (to, from, next) => {
-            console.log(to.query.page);
-            store.dispatch('getNoticeData', to.query.page);
+        // beforeEnter: (to, from, next) => {
+        //     console.log(to.query.page);
+        //     store.dispatch('getNoticeData', to.query.page);
 
-            next();
-        },
+        //     next();
+        // },
     },
     {
         path: '/notice',

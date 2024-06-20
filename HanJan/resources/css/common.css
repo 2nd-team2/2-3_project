@@ -366,6 +366,12 @@ li {
     padding: 10px;
     border: 1px solid #5C5C5C;
     border-radius: 10px;
+    cursor: pointer;
+}
+
+.review_a:hover > .goods_read {
+    background-color: #ffcd40;
+    color: black;
 }
 
 .goods_title {
