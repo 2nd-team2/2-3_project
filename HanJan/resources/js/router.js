@@ -16,9 +16,9 @@ import ReviewCreateComponent from '../components/ReviewCreateComponent.vue';
 import ReviewUpdateComponent from '../components/ReviewUpdateComponent.vue';
 import UpdateComponent from '../components/UpdateComponent.vue';
 import QnaProductComponent from '../components/QnaProductComponent.vue';
-import QnaProductListComponent from '../components/QnaProductListComponent.vue';
-import QnaOnebyOneListComponent from '../components/QnaOnebyOneListComponent.vue';
 import QnaOneByeOneComponent from '../components/QnaOneByOneComponent.vue';
+import QnaProductDetailComponent from '../components/QnaProductDetailComponent.vue';
+import QnaOnebyOneDetailComponent from '../components/QnaOnebyOneDetailComponent.vue';
 import NoticeListComponent from '../components/NoticeListComponent.vue';
 import NoticeComponent from '../components/NoticeComponent.vue';
 import store from './store';
@@ -70,18 +70,18 @@ const routes = [
         beforeEnter: chkAuth,
     },
     {
-        path: '/qnaproduct',
+        path: '/qnaproductcreate',
         component: QnaProductComponent,
         beforeEnter: chkAuth,
     },
     {
-        path: '/qnaonebyone',
+        path: '/qnaonebyonecreate',
         component: QnaOneByeOneComponent,
         beforeEnter: chkAuth,
     },
     {
-        path: '/qnaproductlist',
-        component: QnaProductListComponent,
+        path: '/qnaproductdetail',
+        component: QnaProductDetailComponent,
         beforeEnter: (to, from, next) => {
             chkAuth(to, from, next)
             console.log(to.query.id);
@@ -91,9 +91,15 @@ const routes = [
         }, 
     },
     {
-        path: '/qnaonebyonelist',
-        component: QnaOnebyOneListComponent,
-        beforeEnter: chkAuth,
+        path: '/qnaonebyonedetail',
+        component: QnaOnebyOneDetailComponent,
+        beforeEnter: (to, from, next) => {
+            chkAuth(to, from, next)
+            console.log(to.query.id);
+            store.dispatch('getQnaProductDetailData', to.query.id);
+
+            next();
+        }, 
     },
     {
         path: '/list',
