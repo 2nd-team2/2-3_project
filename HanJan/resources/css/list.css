@@ -9,10 +9,10 @@ hr {
 /* ------------- 헤더이미지 ------------- */
 .list_main_img {
     width: 100%;
-    height: 28rem;
+    height: 40rem;
     background-repeat: no-repeat;
     background-position: center;
-    background-size: contain;
+    background-size: cover;
 }
 
 /* ------------- 메뉴 ------------- */
