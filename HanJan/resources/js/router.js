@@ -56,6 +56,7 @@ const routes = [
         beforeEnter: (to, from, next) => {
             console.log(to.query.id);
             store.dispatch('setProductDetailData', to.query.id);
+            store.dispatch('setProductReviewData', to.query.id);
 
             next();
         }
@@ -94,6 +95,7 @@ const routes = [
         component: ListTakjuComponent,
         beforeEnter: (to, from, next) => {
             console.log(to.query.type);
+            store.commit('setCurrentImage', to.query.type);
             store.dispatch('getList', to.query.type);
 
             next();
