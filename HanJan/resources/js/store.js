@@ -18,12 +18,15 @@ const store = createStore({
             
             // ----------------------- 보원 끝 ---------------------------
             // ----------------------- 성환 시작 -------------------------
+            // 유저정보
             authFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
             userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
-            infoData: [],
-            askSetData: [],
+            // 주문 목록
+            infoData:[],
+            // 1:1 문의 목록
+            askSetData:[],
+            // 상품 문의 목록
             productAskData:[],
-            infoReviewCreate:localStorage.getItem('infoReviewCreate') ? JSON.parse(localStorage.getItem('infoReviewCreate')) : null,
             // ----------------------- 성환 끝 ---------------------------
             // ----------------------- 민서 시작 -------------------------
             // 상품 정보
@@ -36,6 +39,10 @@ const store = createStore({
             reviewDetail: [],
             // 디테일->장바구니 데이터 보내기
             CountData: [],
+            // 리스트페이지 메인 이미지
+            currentImage: '',
+            // 상세페이지 에서 주문페이지으로 데이터 넘기기(로컬스토리지에 저장하기 - 새로고침 누를시 없어지는 걸 방지)
+            detailedUpdate: localStorage.getItem('detailedUpdate') ? JSON.parse(localStorage.getItem('detailedUpdate')) : null,
             // ----------------------- 민서 끝 ---------------------------
             // ----------------------- 호경 시작 -------------------------
             // 계절 추천 리스트
@@ -46,10 +53,10 @@ const store = createStore({
             noticeData: localStorage.getItem('noticeData') ? JSON.parse(localStorage.getItem('noticeData')) : {current_page: '1'},
             // 공지사항 디테일 정보
             noticeDetail: {},
-            // 상품문의 게시물 리스트
-            qnaProductListData: [],
-            // 1 : 1 문의 게시물 리스트
-            qnaOneByOneListData: [],
+            // 상품문의 디테일
+            qnaProductDetailData: [],
+            // 1 : 1 문의 디테일
+            qnaOneByOneDetailData: [],
             // ----------------------- 호경 끝 ---------------------------
         }
 
@@ -99,31 +106,22 @@ const store = createStore({
         setUserInfo(state, userInfo) {
             state.userInfo = userInfo;
         },
-        // 마이페이지 상품목록
+        // 마이페이지 주문목록
         infoSetData(state, data) {
             state.infoData = data;
-            // localStorage.setItem('infoData', JSON.stringify(data));
         },
         // 상품문의목록
         productAskSetData(state, data) {
             state.productAskData = data;
         },
-        // 상품문의 삭제
-        productAskDelete(state, data) {
-            state.productAskDelete = data;
-        },
         // 1:1문의 목록
         askSetData(state, data) {
             state.askSetData = data;
         },
-        // 1:1문의 목록 삭제
-        askSetDelete(state, data) {
-            state.askSetDelete = data;
-        },
         // 리뷰관리에서 수정 페이지로 넘어갈때 데이터 전달
         infoReviewCreate(state, data) {
-            state.infoReviewCreate = data;
-            localStorage.setItem('infoReviewCreate', JSON.stringify(data));
+            state.reviewToUpdate = data;
+            localStorage.setItem('reviewToUpdate', JSON.stringify(data));
         },
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------
@@ -148,6 +146,15 @@ const store = createStore({
         detailedCountData(state, data) {
             state.CountData = data;
         },
+        // 리스트 페이지 메인 이미지 변경
+        setCurrentImage(state, type) {
+            state.currentImage = '/img/list_img' + type + '.png';
+        },
+         // 상세페이지에서 주문페이지로 넘어갈때 데이터 전달
+        setdetailedUpdate(state, data) {
+            state.detailedUpdate = data;
+            localStorage.setItem('detailedUpdate', JSON.stringify(data));
+        },
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
         // 계절 추천 리스트
@@ -167,21 +174,21 @@ const store = createStore({
         setNoticeDetailData(state, data) {
             state.noticeDetail = data;
         },
-        // 상품문의내역 게시물 리스트
-        setQnaProductListData(state, data) {
-            state.qnaProductListData = data;
+        // 상품문의내역 디테일
+        setQnaProductDetailData(state, data) {
+            state.qnaProductDetailData = data;
         },
         // 상품문의내역 작성 게시글 가장 앞에 추가
         setUnshiftQnaProductData(state, data) {
-            state.qnaProductListData.unshift(data);
+            state.qnaProductDetailData.unshift(data);
         },
-        // 1 : 1 문의내역 게시물 리스트
-        setQnaOneByOneListData(state, data) {
-            state.qnaOneByOneListData = data;
+        // 1 : 1 문의내역 디테일
+        setQnaOneByOneDetailData(state, data) {
+            state.qnaOneByOneDetailData = data;
         },
         // 1:1문의내역 작성 게시글 가장 앞에 추가
         setUnshiftQnaOneByOneData(state, data) {
-            state.qnaOneByOneListData.unshift(data);
+            state.qnaOneByOneDetailData.unshift(data);
         },
         // ----------------------- 호경 끝 ---------------------------
     },actions: {
@@ -409,33 +416,32 @@ const store = createStore({
             const form = document.querySelector('#login_form');
             const data = new FormData(form);
             axios.post(url, data)
-            .then(response => {
-                localStorage.setItem('userInfo', JSON.stringify(response.data.data));
-                context.commit('setUserInfo', response.data.data);
+            .then(responseData => {
+                localStorage.setItem('userInfo', JSON.stringify(responseData.data.data));
+                context.commit('setUserInfo', responseData.data.data);
                 context.commit('setAuthFlg', true);
                 router.replace('/');
             })
             .catch(error => {
-                alert('로그인에 실패 (' + error.response.data.code + ')');
+                console.log(error);
+                alert('로그인에 실패 (' + error.responseData.data.code + ')');
             });
         },
+        // 로그아웃
         logout(context) {
             const url = '/api/logout';
-
             axios.post(url)
-            .then(response => {
-                console.log(response.data); // TODO
+            .then(responseData => {
+                console.log(responseData.data); // TODO
             })
             .catch(error => {
-                console.log(error.response); // TODO
-                alert('로그아웃 (' + error.response.data.code + ')');
+                console.log(error.responseData); // TODO
+                alert('로그아웃 (' + error.responseData.data.code + ')');
             })
             .finally(() => {
                 localStorage.clear();
-
                 context.commit('setAuthFlg', false);
                 context.commit('setUserInfo', null);
-
                 router.replace('/login');
             });
         },
@@ -444,22 +450,21 @@ const store = createStore({
         regist(context) {
             const url = '/api/regist';
             const data = new FormData(document.querySelector('#regist_form'));
-
             axios.post(url, data)
-            .then(response => {
+            .then(responseData => {
                 router.replace('login');
             })
             .catch(error => {
-                console.log(error.response.data.code);
+                console.log(error.responseData.data.code);
             });
-
         },
+
         // 이메일 중복체크
         chkEmailOn(context, emailText) {
             const url = '/api/regist/' + emailText;
             axios.get(url)
-            .then(response => {
-                if (response.data.exists) {
+            .then(responseData => {
+                if (responseData.data.exists) {
                     alert('이미 사용 중인 이메일입니다.');
                 } else {
                     alert('사용 가능한 이메일입니다.');
@@ -476,11 +481,11 @@ const store = createStore({
             const url = '/api/userUpdate';
             const data = new FormData(document.querySelector('#update_form'));
             axios.post(url, data)
-            .then(response => {
+            .then(responseData => {
                 router.replace('info');
             })
             .catch(error => {
-                console.log(error.response.data.code);
+                console.log(error.responseData.data.code);
             });
         },
 
@@ -489,15 +494,14 @@ const store = createStore({
             const url = '/api/userDelete';
             const data = new FormData(document.querySelector('#update_form'));
             axios.delete(url, data)
-            .then(response => {
+            .then(responseData => {
                 localStorage.clear();
-
                 context.commit('setAuthFlg', false);
                 context.commit('setUserInfo', null);
                 router.replace('/');
             })
             .catch(error => {
-                console.log(error.response.data.code);
+                console.log(error.responseData.data.code);
             });
         },
 
@@ -505,8 +509,8 @@ const store = createStore({
         confirm(context, password) {
             const url = '/api/confirm';
             axios.post(url, { password: password })
-            .then(response => {
-                if (response.data.exists) {
+            .then(responseData => {
+                if (responseData.data.exists) {
                     router.replace('/update');
                 } else {
                     alert('비밀번호가 일치하지 않습니다.');
@@ -519,22 +523,22 @@ const store = createStore({
         infoData(context) {
             const url = '/api/info';
             axios.get(url)
-            .then(response => {
-                context.commit('infoSetData', response.data.data);
+            .then(responseData => {
+                context.commit('infoSetData', responseData.data.data);
              })
              .catch(error => {
-                 alert('주문목록 불러오기 실패.(' + error.response.data.code + ')' )
+                 alert('주문목록 불러오기 실패.(' + error.responseData.data.code + ')' )
              });
          }, 
 
-        //  상품 문의 삭제
+        //  주문목록 삭제
         orderItemDelete(context, itemId) {
             const url = '/api/orderProductDelete/' + itemId;
             axios.delete(url)
             if (confirm('확인을 누르면 구매한 상품이 삭제됩니다.')) {
                 axios.delete(url)
-                .then(response => {
-                    window.location.reload();
+                .then(responseData => {
+                    context.dispatch('infoData');
                 })
                 .catch(error => {
                     alert('삭제에 실패했습니다.(' + error.response.data.code + ')' )
@@ -548,45 +552,25 @@ const store = createStore({
         productAskData(context) {
             const url = '/api/productAsk';
             axios.get(url)
-            .then(response => {
-                context.commit('productAskSetData', response.data.data);
-                console.log(response.data.data);
+            .then(responseData => {
+                context.commit('productAskSetData', responseData.data.data);
              })
              .catch(error => {
-                 alert('문의목록 불러오기 실패.(' + error.response.data.code + ')' )
+                 alert('문의목록 불러오기 실패.(' + error.responseData.data.code + ')' )
              });
          }, 
 
-        // //  상품 문의 삭제
-        // productAskDelete(context, qnp_id) {
-        //     const url = '/api/productAskDelete/' + qnp_id;
-        //     axios.delete(url)
-        //     if (confirm('확인을 누르면 작성한 상품문의가 삭제됩니다.')) {
-        //         axios.delete(url)
-        //         .then(response => {
-        //             window.location.reload();
-        //         })
-        //         .catch(error => {
-        //             alert('삭제에 실패했습니다.(' + error.response.data.code + ')' )
-        //         });
-        //     } else {
-        //         console.log('confirm false');
-        //     }
-        // },
         //  상품 문의 삭제
         productAskDelete(context, qnp_id) {
             const url = '/api/productAskDelete/' + qnp_id;
             if (confirm('확인을 누르면 작성한 상품 문의가 삭제됩니다.')) {
                 axios.delete(url)
-                .then(response => {
-                    context.commit('productAskDelete', response.data.data);
-                    router.replace('/info');
-                    console.log(response.data); // TODO : 삭제
+                .then(responseData => {
+                    context.dispatch('productAskData');
                 })
                 .catch(error => {
-                    alert('삭제에 실패했습니다.(' + error.response.data.code + ')' )
+                    alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
                 });
-
             } else {
                 console.log('confirm false');
             }
@@ -596,43 +580,24 @@ const store = createStore({
         askData(context) {
             const url = '/api/askData';
             axios.get(url)
-            .then(response => {
-                context.commit('askSetData', response.data.data);
-                console.log(response.data.data);
+            .then(responseData => {
+                context.commit('askSetData', responseData.data.data);
              })
              .catch(error => {
-                 alert('문의목록 불러오기 실패.(' + error.response.data.code + ')' )
+                 alert('문의목록 불러오기 실패.(' + error.responseData.data.code + ')' )
              });
          }, 
         
-        //  //  1:1 문의 삭제
-        // askDelete(context, qn_id) {
-        //     const url = '/api/askDelete/' + qn_id;
-        //     axios.delete(url)
-        //     if (confirm('확인을 누르면 작성한 1:1 문의가 삭제됩니다.')) {
-        //         axios.delete(url)
-        //         .then(response => {
-        //             window.location.reload();
-        //         })
-        //         .catch(error => {
-        //             alert('삭제에 실패했습니다.(' + error.response.data.code + ')' )
-        //         });
-        //     } else {
-        //         console.log('confirm false');
-        //     }
-        // },
-        //  상품 문의 삭제
+        //  1:1 문의 삭제
         askDelete(context, qn_id) {
             const url = '/api/askDelete/' + qn_id;
             if (confirm('확인을 누르면 작성한 1:1 문의가 삭제됩니다.')) {
                 axios.delete(url)
-                .then(response => {
-                    context.commit('askSetDelete', response.data.data);
-                    router.replace('/info');
-                    console.log(response.data); // TODO : 삭제
+                .then(responseData => {
+                    context.dispatch('askData');
                 })
                 .catch(error => {
-                    alert('삭제에 실패했습니다.(' + error.response.data.code + ')' )
+                    alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
                 });
 
             } else {
@@ -645,11 +610,11 @@ const store = createStore({
             const url = '/api/complete/' + id;
             if (confirm('확인을 누르면 구매가 확정됩니다.')) {
                 axios.post(url)
-                .then(response => {
-                    window.location.reload();
+                .then(responseData => {
+                    context.dispatch('infoData');
                 })
                 .catch(error => {
-                    alert('실패했습니다.(' + error.response.data.code + ')' )
+                    alert('실패했습니다.(' + error.responseData.data.code + ')' )
                 });
             } else {
                 console.log('confirm false');
@@ -657,7 +622,7 @@ const store = createStore({
         },
 
         /**
-         * 마이페이지에서 리뷰작성
+         * 마이페이지에서 리뷰작성 이동
          * 
          * @param {*} context
          * @param {*} item
@@ -665,10 +630,10 @@ const store = createStore({
         infoReviewCreate(context, item) {
             const infoReviewCreateData = item;
 
-            context.commit('infoReviewCreate', infoReviewCreateData);
-            localStorage.setItem('infoReviewCreate', JSON.stringify(infoReviewCreateData));
+            context.commit('reviewToUpdate', infoReviewCreateData);
+            localStorage.setItem('reviewToUpdate', JSON.stringify(infoReviewCreateData));
 
-            router.replace('/reviewupdate');
+            router.replace('/reviewcreate');
         },
             
         // ----------------------- 성환 끝 ---------------------------
@@ -737,8 +702,8 @@ const store = createStore({
         //  * 
         //  * @param {*} constext 
         //  */
-        setProductReviewData(constext) {
-            const url = '/api/reviewdetailed';
+        setProductReviewData(constext, id) {
+            const url = '/api/reviewdetailed/' + id;
 
             axios.get(url)
             .then(response => {
@@ -771,6 +736,26 @@ const store = createStore({
                 console.log(error.response.data); // TODO
                 alert('리뷰데이터 불러오기 실패했습니다.(' + error.response.data.code + ')');
             });
+        },
+
+        /**
+         * 상세페이지에서 주문페이지로 이동
+         * 
+         * @param {*} context
+         * @param {*} item
+        */
+        detailedUpdate(context, item) {
+            const detailedUpdateData = item;
+            const data = new FormData(document.querySelector('#bagForm'));
+            // FormData 담고있는 [key, value] 배열들을 객체로 변환
+            const formDataObject = Object.fromEntries(data.entries());
+            // detailedUpdateData와 formDataObject를 병합하여 detailedData 객체 생성
+            const detailedData = { ...detailedUpdateData, ...formDataObject };
+
+            context.commit('setdetailedUpdate', detailedData);
+            localStorage.setItem('detailedUpdate', JSON.stringify(detailedData));
+
+            router.replace('/order');
         },
         // // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
@@ -848,17 +833,19 @@ const store = createStore({
             });
         },
         /**
-         * 상품문의내역 획득
+         * 상품문의 상세페이지 값 획득
          * 
          * @param {*} context 
          */
-        getQnaProductListData(context) {
-            const url = '/api/qnaproductlist';
+        getQnaProductDetailData(context, id) {
+            const url = '/api/qnaproductdetail/' + id;
             
             axios.get(url)
             .then(response => {
                 console.log(response.data); // TODO
-                context.commit('setQnaProductListData', response.data.data);
+                console.log('1234 : '+ response.data.data); // TODO
+
+                context.commit('setQnaProductDetailData', response.data.data);
             })
             .catch(error => {
                 console.log(error.response); // TODO
@@ -871,13 +858,13 @@ const store = createStore({
          * 
          * @param {*} context
          */
-        qnaProductCreate(context) {
-            const url = '/api/qnaproduct';
+        qnaProductCreate(context, id) {
+            const url = '/api/qnaproduct?id=' + id;
             const data = new FormData(document.querySelector('#qnaProductForm'));
 
             axios.post(url, data)
             .then(response => {
-                if(context.state.qnaProductListData.length > 1) {
+                if(context.state.qnaProductDetailData.length > 1) {
                     context.commit('setUnshiftQnaProductData', response.data.data);
                 }
                 
@@ -895,32 +882,33 @@ const store = createStore({
          * 
          * @param {*} context 
          */
-        getQnaOneByOnetData(context) {
-            const url = '/api/qnaonebyonelist';
+        getQnaOneByOneData(context, id) {
+            const url = '/api/qnaonebyonedetail/' + id;
             
             axios.get(url)
             .then(response => {
                 console.log(response.data); // TODO
-                context.commit('setQnaOneByOneListData', response.data.data);
+                context.commit('setQnaOneByOneDetailData', response.data.data);
             })
             .catch(error => {
                 console.log(error.response); // TODO
                 alert('1:1문의내역 습득에 실패했습니다.(' + error.response.data.code + ')');
             });
         },
+        
 
         /**
          * 1:1 문의 작성
          * 
          * @param {*} context
          */
-        qnaOnebyOneCreate(context) {
-            const url = '/api/qnaonebyone';
+        qnaOnebyOneCreate(context, id) {
+            const url = '/api/qnaonebyone?id=' + id;
             const data = new FormData(document.querySelector('#qnaOneByOneForm'));
 
             axios.post(url, data)
             .then(response => {
-                if(context.state.qnaOneByOneListData.length > 1) {
+                if(context.state.qnaOneByOneDetailData.length > 1) {
                     context.commit('setUnshiftQnaOneByOneData', response.data.data);
                 }
                 

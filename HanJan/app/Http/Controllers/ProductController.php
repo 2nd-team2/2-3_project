@@ -7,9 +7,8 @@ use App\Models\Bag;
 use App\Models\Complete;
 use App\Models\Orderproduct;
 use App\Models\Product;
-use App\Models\Qna;
-use App\Models\Qnaproduct;
 use App\Models\Review;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -40,11 +39,8 @@ class ProductController extends Controller
                             ->orderBy('orderproducts.created_at','DESC')
                             ->orderBy('orderproducts.orp_id','DESC')
                             ->distinct()
-                            // ->limit(3)
+                            ->limit(3)
                             ->get();
-            
-            Log::debug($infoData);
-
 
             $responseData = [
                 'code' => '0'
@@ -72,13 +68,7 @@ class ProductController extends Controller
         // 구매확정
         public function complete($id) {
             
-            $completeData = [
-                'orp_id' => $id
-                ,'co_flg' => 1
-            ];
-
-            $completeCreate = Complete::create($completeData);
-
+            $completeCreate = Complete::updateOrCreate(['orp_id' => $id], ['co_flg' => '1', 'created_at' => Carbon::now()]);
             $responseData = [
                 'code' => '0'
                 ,'msg' => '구매확정'
@@ -95,10 +85,17 @@ class ProductController extends Controller
         // products(상품)테이블에서
         // users.name AS user_name = 유저이름 별칭
         public function value($id) {
-            $productData = Product::select('products.id', 'products.price','products.count','products.img','products.info', 'products.name')
-                            ->where('products.id', $id)
-                            ->first();
+            // $productData = Product::select('products.id', 'products.price','products.count','products.img','products.info', 'products.name', 'SUM(reviews.re_star)')
+            //                 ->join('reviews','reviews.p_id','=', 'products.id')
+            //                 ->where('products.id', $id)
+            //                 ->first();
                             // ->get();
+                            // 
+            $productData = Product::select('products.id', 'products.price', 'products.count', 'products.img', 'products.info', 'products.name', DB::raw('COUNT(reviews.re_id) as total_star'), DB::raw('ROUND(AVG(reviews.re_star),1) as star_avg'))
+            ->leftJoin('reviews', 'products.id', '=', 'reviews.p_id')
+            ->where('products.id', $id)
+            ->groupBy('products.id', 'products.price', 'products.count', 'products.img', 'products.info', 'products.name')
+            ->first();
 
             Log::debug($productData);
         
@@ -114,13 +111,14 @@ class ProductController extends Controller
 
         // review(리뷰)테이블에서
         // users.name AS user_name = 유저이름 별칭
-        public function detailedReview() {
-            $productData = Review::select('users.name AS user_name','products.id' ,'reviews.re_star','reviews.re_content','reviews.updated_at','reviews.p_id')
+        // 리뷰 최신순으로 가져오기
+        public function detailedReview($id) {
+            $productData = Review::select('users.name AS user_name','products.id' ,'reviews.re_star','reviews.re_content','reviews.updated_at')
                             ->JOIN('products','reviews.p_id','=', 'products.id')
                             ->JOIN('users','reviews.u_id','=', 'users.id')
-                            // ->where('products.id','=', 60)
-                            ->where('products.id','=', 'reviews.p_id')
+                            ->where('products.id', $id) // 상품 아이디 가져와 리뷰 출력
                             ->orderBy('reviews.re_star', 'DESC')
+                            ->orderBy('reviews.created_at', 'DESC')
                             ->limit(5)
                             ->get();
 
@@ -150,7 +148,7 @@ class ProductController extends Controller
             $productData = $productQuery->get();
 
             Log::debug($productData);
-          
+            
             $responseData = [
                     'code' => '0'
                     ,'msg' => '초기 상품값 획득 완료'

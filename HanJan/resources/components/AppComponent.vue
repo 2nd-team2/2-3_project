@@ -102,7 +102,7 @@
             </div>
             <div class="footer_team_member">
                 <p class="team_member_name">권민서</p>
-                <p>간단한 소개</p>
+                <p>수고많으셨습니다</p>
             </div>
         </div>
         <div class="footer_line"></div>
@@ -267,6 +267,8 @@ import Cookies from 'js-cookie';
             document.body.style.height = '';
         }
     })
+
+    
 </script>
 
 <style>

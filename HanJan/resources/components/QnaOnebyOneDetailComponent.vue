@@ -16,26 +16,13 @@
             <hr>
         </div>
         <div class="inquiry_padding_top inquiry_btn_right">
-            <button @click="inquiry_back"  class="inquiry_submit_btn">취소</button>
+            <button @click="$router.back()"  class="inquiry_submit_btn">취소</button>
         </div>
     </main>
 </template>
 
 <script setup>
-    function inquiry_back() {
-        history.back()
-    }
 
-    // 1:1문의내역
-    import { onBeforeMount } from 'vue';
-    import { useStore } from 'vuex';
-
-    const store = useStore();
-    onBeforeMount(() => {
-        if(store.state.qnaOneByOneListData.length < 1) {
-            store.dispatch('getQnaOneByOnetData');
-        }
-    })
 </script>
 
 <style scoped src="../css/inquiry_check.css">

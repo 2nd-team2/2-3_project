@@ -49,7 +49,6 @@
     function noticeDetail(id) {
         router.push('/notice?id=' + id);
     }
-    
 
     // 페이지네이션
 
