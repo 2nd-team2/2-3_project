@@ -14,28 +14,9 @@ use Illuminate\Support\Facades\Validator;
 class QnaController extends Controller
 {
     // 상품문의내역 획득
-    public function qnaProductListIndex() {
-        $qnaProductListData = Qnaproduct::select('qnaproducts.qnp_content', 'qnaproducts.qnp_answer')
-                            ->where('qnaproducts.u_id', '=', Auth::id())
-                            ->orderby('created_at', 'DESC')
-                            ->limit(1)
-                            ->get();
-        $responseData = [
-            'code' => '0'
-            ,'msg' => '게시글 획득 완료'
-            ,'data' => $qnaProductListData->toArray()
-        ];
-
-        return response()->json($responseData, 200);
-    }
-    // 상품문의내역 획득
     // public function qnaProductListIndex() {
-    //     $qnaProductListData = Orderproduct::select('qnaproducts.qnp_content', 'qnaproducts.qnp_answer','products.*')
-    //                         ->join('users','orderproducts.or_id','=','users.id')
-    //                         ->leftJoin('completes', 'orderproducts.orp_id', '=', 'completes.orp_id')
-    //                         ->leftJoin('products','orderproducts.p_id','=','products.id')
+    //     $qnaProductListData = Qnaproduct::select('qnaproducts.qnp_content', 'qnaproducts.qnp_answer')
     //                         ->where('qnaproducts.u_id', '=', Auth::id())
-    //                         ->where('orderproducts.deleted_at', '=', null)
     //                         ->orderby('created_at', 'DESC')
     //                         ->limit(1)
     //                         ->get();
@@ -47,6 +28,27 @@ class QnaController extends Controller
 
     //     return response()->json($responseData, 200);
     // }
+    // 상품문의내역 획득
+    public function detailNotice($id) {
+        Log::debug('상품문의내역 pk : ' . $id);
+
+        $qnaProductData = Qnaproduct::select('qnaproducts.*')
+                        ->where('qnaproducts.qnp_id', $id)
+                        ->first();
+                        // ->get();
+
+        Log::debug('공지사항 데이터:', $qnaProductData->toArray());
+    
+        $responseData = [
+                'code' => '0'
+                ,'msg' => '초기 상품값 획득 완료'
+                ,'data' => $qnaProductData
+        ];
+        Log::debug($responseData);
+        
+        return response()->json($responseData, 200);
+    }
+    
 
     // 상품문의 작성
     public function qnaProductCreate(Request $request) {

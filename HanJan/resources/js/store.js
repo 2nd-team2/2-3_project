@@ -49,10 +49,10 @@ const store = createStore({
             noticeData: localStorage.getItem('noticeData') ? JSON.parse(localStorage.getItem('noticeData')) : {current_page: '1'},
             // 공지사항 디테일 정보
             noticeDetail: {},
-            // 상품문의 게시물 리스트
-            qnaProductListData: [],
-            // 1 : 1 문의 게시물 리스트
-            qnaOneByOneListData: [],
+            // 상품문의 디테일
+            qnaProductDetailData: {},
+            // 1 : 1 문의 디테일
+            qnaOneByOneDetailData: {},
             // ----------------------- 호경 끝 ---------------------------
         }
 
@@ -167,21 +167,21 @@ const store = createStore({
         setNoticeDetailData(state, data) {
             state.noticeDetail = data;
         },
-        // 상품문의내역 게시물 리스트
-        setQnaProductListData(state, data) {
-            state.qnaProductListData = data;
+        // 상품문의내역 디테일
+        setQnaProductDetailData(state, data) {
+            state.qnaProductDetailData = data;
         },
         // 상품문의내역 작성 게시글 가장 앞에 추가
         setUnshiftQnaProductData(state, data) {
-            state.qnaProductListData.unshift(data);
+            state.qnaProductDetailData.unshift(data);
         },
-        // 1 : 1 문의내역 게시물 리스트
-        setQnaOneByOneListData(state, data) {
-            state.qnaOneByOneListData = data;
+        // 1 : 1 문의내역 디테일
+        setQnaOneByOneDetailData(state, data) {
+            state.qnaOneByOneDetailData = data;
         },
         // 1:1문의내역 작성 게시글 가장 앞에 추가
         setUnshiftQnaOneByOneData(state, data) {
-            state.qnaOneByOneListData.unshift(data);
+            state.qnaOneByOneDetailData.unshift(data);
         },
         // ----------------------- 호경 끝 ---------------------------
     },actions: {
@@ -840,17 +840,17 @@ const store = createStore({
             });
         },
         /**
-         * 상품문의내역 획득
+         * 상품문의 상세페이지 값 획득
          * 
          * @param {*} context 
          */
-        getQnaProductListData(context, id) {
-            const url = '/api/qnaproductlist?id=' + id;
+        getQnaProductDetailData(context, id) {
+            const url = '/api/qnaproductlist/' + id;
             
             axios.get(url)
             .then(response => {
                 console.log(response.data); // TODO
-                context.commit('setQnaProductListData', response.data.data);
+                context.commit('setQnaProductDetailData', response.data.data);
             })
             .catch(error => {
                 console.log(error.response); // TODO
@@ -869,7 +869,7 @@ const store = createStore({
 
             axios.post(url, data)
             .then(response => {
-                if(context.state.qnaProductListData.length > 1) {
+                if(context.state.qnaProductDetailData.length > 1) {
                     context.commit('setUnshiftQnaProductData', response.data.data);
                 }
                 
@@ -893,7 +893,7 @@ const store = createStore({
             axios.get(url)
             .then(response => {
                 console.log(response.data); // TODO
-                context.commit('setQnaOneByOneListData', response.data.data);
+                context.commit('setQnaOneByOneDetailData', response.data.data);
             })
             .catch(error => {
                 console.log(error.response); // TODO
@@ -913,7 +913,7 @@ const store = createStore({
 
             axios.post(url, data)
             .then(response => {
-                if(context.state.qnaOneByOneListData.length > 1) {
+                if(context.state.qnaOneByOneDetailData.length > 1) {
                     context.commit('setUnshiftQnaOneByOneData', response.data.data);
                 }
                 

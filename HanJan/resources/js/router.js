@@ -72,46 +72,28 @@ const routes = [
     {
         path: '/qnaproduct',
         component: QnaProductComponent,
-        beforeEnter: (to, from, next) => {
-            chkAuth(to, from, next);
-            console.log(to.query.id);
-            store.dispatch('getQnaProductDetailData', to.query.id);
-
-            next();
-        }
+        beforeEnter: chkAuth,
     },
     {
         path: '/qnaonebyone',
         component: QnaOneByeOneComponent,
-        beforeEnter: (to, from, next) => {
-            chkAuth(to, from, next);
-            console.log(to.query.id);
-            store.dispatch('getQnaOneByOnetData', to.query.id);
-
-            next();
-        }
+        beforeEnter: chkAuth,
     },
     {
         path: '/qnaproductlist',
         component: QnaProductListComponent,
         beforeEnter: (to, from, next) => {
-            chkAuth(to, from, next);
+            chkAuth(to, from, next)
             console.log(to.query.id);
-            store.dispatch('getQnaProductListData', to.query.id);
+            store.dispatch('getQnaProductDetailData', to.query.id);
 
             next();
-        }
+        }, 
     },
     {
         path: '/qnaonebyonelist',
         component: QnaOnebyOneListComponent,
-        beforeEnter: (to, from, next) => {
-            chkAuth(to, from, next);
-            console.log(to.query.id);
-            store.dispatch('getQnaOneByeOneDetailData', to.query.id);
-
-            next();
-        }
+        beforeEnter: chkAuth,
     },
     {
         path: '/list',

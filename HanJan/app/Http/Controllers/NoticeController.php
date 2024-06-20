@@ -23,6 +23,7 @@ class NoticeController extends Controller
         return response()->json($responseData, 200);
     }
 
+    // 공지사항 디테일 페이지
     public function detailNotice(Request $request) {
         Log::debug('공지사항 pk : ' . $request->id);
 

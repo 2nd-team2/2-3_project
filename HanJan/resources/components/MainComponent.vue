@@ -102,7 +102,7 @@
                 <img v-if="index % 2 === 0" :src="season.img" class="weather_alcohol_img">
                 <h1 class="weather_alcohol_num">0{{ index + 1 }}</h1>
                 <h1 class="weather_alcohol_name">{{ season.name }}</h1>
-                <div class="weather_alcohol_type">{{ season.type }} {{ season.ml }}ml</div>
+                <div class="weather_alcohol_type">{{ season.type + ' ' + season.ml + 'ml'}}</div>
                 <div @click="productDetail(season.id)" class="weather_alcohol_a">바로가기</div>
                 <img v-if="index % 2 === 1" :src="season.img" class="weather_alcohol_img">
             </div>
