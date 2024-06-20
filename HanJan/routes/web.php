@@ -111,7 +111,7 @@ Route::get('/api/reviewlist',[ReviewController::class, 'reviewMainIndex']);
 Route::get('/api/season',[ProductController::class, 'seasonSelect']);
 // 공지사항 데이터 불러오기
 Route::get('/api/noticelist', [NoticeController::class, 'noticeIndex']);
-// 공지사항 데이터 불러오기
+// 공지사항 디테일 데이터 불러오기
 Route::get('/api/notice', [NoticeController::class, 'detailNotice']);
 // 상품문의내역 데이터 불러오기
 Route::middleware('auth')->get('/api/qnaproductlist', [QnaController::class, 'qnaProductListIndex']);

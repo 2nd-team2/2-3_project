@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\MyValidateException;
+use App\Models\Orderproduct;
 use App\Models\Qna;
 use App\Models\Qnaproduct;
 use Illuminate\Http\Request;
@@ -27,6 +28,25 @@ class QnaController extends Controller
 
         return response()->json($responseData, 200);
     }
+    // 상품문의내역 획득
+    // public function qnaProductListIndex() {
+    //     $qnaProductListData = Orderproduct::select('qnaproducts.qnp_content', 'qnaproducts.qnp_answer','products.*')
+    //                         ->join('users','orderproducts.or_id','=','users.id')
+    //                         ->leftJoin('completes', 'orderproducts.orp_id', '=', 'completes.orp_id')
+    //                         ->leftJoin('products','orderproducts.p_id','=','products.id')
+    //                         ->where('qnaproducts.u_id', '=', Auth::id())
+    //                         ->where('orderproducts.deleted_at', '=', null)
+    //                         ->orderby('created_at', 'DESC')
+    //                         ->limit(1)
+    //                         ->get();
+    //     $responseData = [
+    //         'code' => '0'
+    //         ,'msg' => '게시글 획득 완료'
+    //         ,'data' => $qnaProductListData->toArray()
+    //     ];
+
+    //     return response()->json($responseData, 200);
+    // }
 
     // 상품문의 작성
     public function qnaProductCreate(Request $request) {

@@ -854,8 +854,8 @@ const store = createStore({
          * 
          * @param {*} context 
          */
-        getQnaProductListData(context) {
-            const url = '/api/qnaproductlist';
+        getQnaProductListData(context, id) {
+            const url = '/api/qnaproductlist?id=' + id;
             
             axios.get(url)
             .then(response => {
@@ -873,8 +873,8 @@ const store = createStore({
          * 
          * @param {*} context
          */
-        qnaProductCreate(context) {
-            const url = '/api/qnaproduct';
+        qnaProductCreate(context, id) {
+            const url = '/api/qnaproduct?id=' + id;
             const data = new FormData(document.querySelector('#qnaProductForm'));
 
             axios.post(url, data)
@@ -897,8 +897,8 @@ const store = createStore({
          * 
          * @param {*} context 
          */
-        getQnaOneByOnetData(context) {
-            const url = '/api/qnaonebyonelist';
+        getQnaOneByOnetData(context, id) {
+            const url = '/api/qnaonebyonelist?id=' + id;
             
             axios.get(url)
             .then(response => {
@@ -910,14 +910,15 @@ const store = createStore({
                 alert('1:1문의내역 습득에 실패했습니다.(' + error.response.data.code + ')');
             });
         },
+        
 
         /**
          * 1:1 문의 작성
          * 
          * @param {*} context
          */
-        qnaOnebyOneCreate(context) {
-            const url = '/api/qnaonebyone';
+        qnaOnebyOneCreate(context, id) {
+            const url = '/api/qnaonebyone?id=' + id;
             const data = new FormData(document.querySelector('#qnaOneByOneForm'));
 
             axios.post(url, data)
