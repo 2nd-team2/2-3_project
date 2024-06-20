@@ -155,11 +155,11 @@ const exchange = (orp_id) => {
 }
 // 상품문의 디테일 페이지 이동
 function qnaProductDetail(id) {
-    router.push('/qnaproductlist?id=' + id);
-}
+        router.push('/qnaproductdetail?id=' + id);
+    }
 // 1:1 문의 디테일 페이지 이동
 function qnaOneByOneDetail(id) {
-    router.push('/qnaonebyonelist?id=' + id);
+    router.push('/qnaonebyonedetail?id=' + id);
 }
 // 상품문의 하는 페이지 이동
 function askProduct(orp_id) {

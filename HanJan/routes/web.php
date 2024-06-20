@@ -114,11 +114,11 @@ Route::get('/api/noticelist', [NoticeController::class, 'noticeIndex']);
 // 공지사항 디테일 데이터 불러오기
 Route::get('/api/notice', [NoticeController::class, 'detailNotice']);
 // 상품문의내역 데이터 불러오기
-Route::middleware('auth')->get('/api/qnaproductlist', [QnaController::class, 'qnaProductListIndex']);
+Route::middleware('auth')->get('/api/qnaproductdetail/{id}', [QnaController::class, 'qnaProductListIndex']);
 // 상품문의 작성하기
 Route::middleware('auth')->post('/api/qnaproduct', [QnaController::class, 'qnaProductCreate']);
 // 상품문의내역 데이터 불러오기
-Route::middleware('auth')->get('/api/qnaonebyonelist/{id}', [QnaController::class, 'qnaOnebyOneListIndex']);
+Route::middleware('auth')->get('/api/qnaonebyonedetail/{id}', [QnaController::class, 'qnaOnebyOneListIndex']);
 // 1:1문의 작성하기
 Route::middleware('auth')->post('/api/qnaonebyone', [QnaController::class, 'qnaOnebyOneCreate']);
 // ----------------------- 호경 끝 ---------------------------

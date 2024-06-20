@@ -54,9 +54,9 @@ const store = createStore({
             // 공지사항 디테일 정보
             noticeDetail: {},
             // 상품문의 디테일
-            qnaProductDetailData: {},
+            qnaProductDetailData: [],
             // 1 : 1 문의 디테일
-            qnaOneByOneDetailData: {},
+            qnaOneByOneDetailData: [],
             // ----------------------- 호경 끝 ---------------------------
         }
 
@@ -865,11 +865,13 @@ const store = createStore({
          * @param {*} context 
          */
         getQnaProductDetailData(context, id) {
-            const url = '/api/qnaproductlist/' + id;
+            const url = '/api/qnaproductdetail/' + id;
             
             axios.get(url)
             .then(response => {
                 console.log(response.data); // TODO
+                console.log('1234 : '+ response.data.data); // TODO
+
                 context.commit('setQnaProductDetailData', response.data.data);
             })
             .catch(error => {
@@ -907,8 +909,8 @@ const store = createStore({
          * 
          * @param {*} context 
          */
-        getQnaOneByOnetData(context, id) {
-            const url = '/api/qnaonebyonelist?id=' + id;
+        getQnaOneByOneData(context, id) {
+            const url = '/api/qnaonebyonedetail/' + id;
             
             axios.get(url)
             .then(response => {

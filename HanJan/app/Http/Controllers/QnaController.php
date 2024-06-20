@@ -28,20 +28,23 @@ class QnaController extends Controller
 
     //     return response()->json($responseData, 200);
     // }
-    // 상품문의내역 획득
-    public function detailNotice($id) {
+    
+    // 상품문의 내역 디테일 획득
+    public function qnaProductListIndex($id) {
+        
+        $qnaProductData = Qnaproduct::select('qnaproducts.*', 'products.*','orderproducts.orp_count','completes.created_at as complete')
+                                    ->join('orderproducts','orderproducts.orp_id','=','qnaproducts.orp_id')
+                                    ->join('completes','orderproducts.orp_id','=','completes.co_id')
+                                    ->join('products','orderproducts.p_id','=','products.id')
+                                    ->where('qnaproducts.qnp_id', $id)
+                                    ->first();
+        
         Log::debug('상품문의내역 pk : ' . $id);
-
-        $qnaProductData = Qnaproduct::select('qnaproducts.*')
-                        ->where('qnaproducts.qnp_id', $id)
-                        ->first();
-                        // ->get();
-
         Log::debug('공지사항 데이터:', $qnaProductData->toArray());
     
         $responseData = [
                 'code' => '0'
-                ,'msg' => '초기 상품값 획득 완료'
+                ,'msg' => '초기 상품문의 값 획득 완료'
                 ,'data' => $qnaProductData
         ];
         Log::debug($responseData);
@@ -80,18 +83,39 @@ class QnaController extends Controller
     }
 
     // 1 :1 문의내역 획득
-    public function qnaOnebyOneListIndex() {
-        $qnaOneByOneListData = Qna::select('qnas.qn_content', 'qnas.qn_answer')
-                            ->where('qnas.u_id', '=', Auth::id())
-                            ->orderby('created_at', 'DESC')
-                            ->limit(1)
-                            ->get();
-        $responseData = [
-            'code' => '0'
-            ,'msg' => '게시글 획득 완료'
-            ,'data' => $qnaOneByOneListData->toArray()
-        ];
+    // public function qnaOnebyOneListIndex() {
+    //     $qnaOneByOneListData = Qna::select('qnas.qn_content', 'qnas.qn_answer')
+    //                         ->where('qnas.u_id', '=', Auth::id())
+    //                         ->orderby('created_at', 'DESC')
+    //                         ->limit(1)
+    //                         ->get();
+    //     $responseData = [
+    //         'code' => '0'
+    //         ,'msg' => '게시글 획득 완료'
+    //         ,'data' => $qnaOneByOneListData->toArray()
+    //     ];
 
+    //     return response()->json($responseData, 200);
+    // }
+
+    // 1 :1 문의 내역 디테일 획득
+    public function qnaOnebyOneListIndex($id) {
+        
+        $qnaOnByeOneData = Qna::select('qnas.qn_content', 'qnas.qn_answer')
+                                ->where('qnas.u_id', '=', Auth::id())
+                                ->orderby('created_at', 'DESC')
+                                ->get();
+        
+        Log::debug('1:1 문의 내역 pk : ' . $id);
+        Log::debug('공지사항 데이터:', $qnaOnByeOneData->toArray());
+    
+        $responseData = [
+                'code' => '0'
+                ,'msg' => '초기 1:1 문의 값 획득 완료'
+                ,'data' => $qnaOnByeOneData
+        ];
+        Log::debug($responseData);
+        
         return response()->json($responseData, 200);
     }
 
