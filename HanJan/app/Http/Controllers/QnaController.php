@@ -115,8 +115,6 @@ class QnaController extends Controller
                         ->limit(3)
                         ->get();
 
-        // Log::debug($askData);
-
         $responseData = [
             'code' => '0'
             ,'msg' => '문의목록 획득 완료'
@@ -136,11 +134,11 @@ class QnaController extends Controller
             ,'msg' => '삭제 완료'
             ,'data' => $qnp_id
         ];
-        Log::debug($responseData);
+        
         return response()->json($responseData);
     }
 
-        // 마이페이지 1:1문의목록
+    // 마이페이지 1:1문의목록
     public function askData() {
         $askData = Qna::select('users.id','qnas.*')
                         ->join('users','qnas.u_id','=','users.id')
@@ -170,7 +168,6 @@ class QnaController extends Controller
             ,'msg' => '삭제 완료'
             ,'data' => $qn_id
         ];
-        Log::debug($responseData);
         return response()->json($responseData);
     }
 }

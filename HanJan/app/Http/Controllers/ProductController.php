@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\Qna;
 use App\Models\Qnaproduct;
 use App\Models\Review;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -40,10 +41,8 @@ class ProductController extends Controller
                             ->orderBy('orderproducts.created_at','DESC')
                             ->orderBy('orderproducts.orp_id','DESC')
                             ->distinct()
-                            // ->limit(3)
+                            ->limit(3)
                             ->get();
-            
-            Log::debug($infoData);
 
 
             $responseData = [
@@ -72,13 +71,7 @@ class ProductController extends Controller
         // 구매확정
         public function complete($id) {
             
-            $completeData = [
-                'orp_id' => $id
-                ,'co_flg' => 1
-            ];
-
-            $completeCreate = Complete::create($completeData);
-
+            $completeCreate = Complete::updateOrCreate(['orp_id' => $id], ['co_flg' => '1', 'created_at' => Carbon::now()]);
             $responseData = [
                 'code' => '0'
                 ,'msg' => '구매확정'

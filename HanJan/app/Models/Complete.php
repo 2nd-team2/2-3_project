@@ -16,6 +16,7 @@ class Complete extends Model
     protected $fillable =[
         'orp_id',
         'co_flg',
+        'created_at',
     ];
 
     /**
