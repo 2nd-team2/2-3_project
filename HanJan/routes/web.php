@@ -96,7 +96,7 @@ Route::get('/api/detailed/{id}', [ProductController::class, 'value']);
 // 상세페이지 데이터 불러오기
 Route::get('/api/listBast', [ProductController::class, 'listBast']);
 // 리뷰 데이터 불러오기
-Route::get('/api/reviewdetailed', [ProductController::class, 'detailedReview']);
+Route::get('/api/reviewdetailed/{id}', [ProductController::class, 'detailedReview']);
 // 수량 데이터 보내기(디테일->장바구니)
 Route::post('/api/detailedToCount', [ProductController::class, 'detailedToCount']);
 // 상세리스트 데이터 불러오기
@@ -118,7 +118,7 @@ Route::middleware('auth')->get('/api/qnaproductlist', [QnaController::class, 'qn
 // 상품문의 작성하기
 Route::middleware('auth')->post('/api/qnaproduct', [QnaController::class, 'qnaProductCreate']);
 // 상품문의내역 데이터 불러오기
-Route::middleware('auth')->get('/api/qnaonebyonelist', [QnaController::class, 'qnaOnebyOneListIndex']);
+Route::middleware('auth')->get('/api/qnaonebyonelist/{id}', [QnaController::class, 'qnaOnebyOneListIndex']);
 // 1:1문의 작성하기
 Route::middleware('auth')->post('/api/qnaonebyone', [QnaController::class, 'qnaOnebyOneCreate']);
 // ----------------------- 호경 끝 ---------------------------

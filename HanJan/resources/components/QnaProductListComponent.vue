@@ -46,8 +46,8 @@
 
     const store = useStore();
     onBeforeMount(() => {
-        if(store.state.qnaProductListData.length < 1) {
-            store.dispatch('getQnaProductListData');
+        if(store.state.qnaProductDetailData.length < 1) {
+            store.dispatch('getQnaProductDetailData');
         }
     })
 </script>

@@ -39,6 +39,10 @@ const store = createStore({
             reviewDetail: [],
             // 디테일->장바구니 데이터 보내기
             CountData: [],
+            // 리스트페이지 메인 이미지
+            currentImage: '',
+            // 상세페이지 에서 주문페이지으로 데이터 넘기기(로컬스토리지에 저장하기 - 새로고침 누를시 없어지는 걸 방지)
+            detailedUpdate: localStorage.getItem('detailedUpdate') ? JSON.parse(localStorage.getItem('detailedUpdate')) : null,
             // ----------------------- 민서 끝 ---------------------------
             // ----------------------- 호경 시작 -------------------------
             // 계절 추천 리스트
@@ -49,10 +53,10 @@ const store = createStore({
             noticeData: localStorage.getItem('noticeData') ? JSON.parse(localStorage.getItem('noticeData')) : {current_page: '1'},
             // 공지사항 디테일 정보
             noticeDetail: {},
-            // 상품문의 게시물 리스트
-            qnaProductListData: [],
-            // 1 : 1 문의 게시물 리스트
-            qnaOneByOneListData: [],
+            // 상품문의 디테일
+            qnaProductDetailData: {},
+            // 1 : 1 문의 디테일
+            qnaOneByOneDetailData: {},
             // ----------------------- 호경 끝 ---------------------------
         }
 
@@ -143,6 +147,15 @@ const store = createStore({
         detailedCountData(state, data) {
             state.CountData = data;
         },
+        // 리스트 페이지 메인 이미지 변경
+        setCurrentImage(state, type) {
+            state.currentImage = '/img/list_img' + type + '.png';
+        },
+         // 상세페이지에서 주문페이지로 넘어갈때 데이터 전달
+        setdetailedUpdate(state, data) {
+            state.detailedUpdate = data;
+            localStorage.setItem('detailedUpdate', JSON.stringify(data));
+        },
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
         // 계절 추천 리스트
@@ -162,21 +175,21 @@ const store = createStore({
         setNoticeDetailData(state, data) {
             state.noticeDetail = data;
         },
-        // 상품문의내역 게시물 리스트
-        setQnaProductListData(state, data) {
-            state.qnaProductListData = data;
+        // 상품문의내역 디테일
+        setQnaProductDetailData(state, data) {
+            state.qnaProductDetailData = data;
         },
         // 상품문의내역 작성 게시글 가장 앞에 추가
         setUnshiftQnaProductData(state, data) {
-            state.qnaProductListData.unshift(data);
+            state.qnaProductDetailData.unshift(data);
         },
-        // 1 : 1 문의내역 게시물 리스트
-        setQnaOneByOneListData(state, data) {
-            state.qnaOneByOneListData = data;
+        // 1 : 1 문의내역 디테일
+        setQnaOneByOneDetailData(state, data) {
+            state.qnaOneByOneDetailData = data;
         },
         // 1:1문의내역 작성 게시글 가장 앞에 추가
         setUnshiftQnaOneByOneData(state, data) {
-            state.qnaOneByOneListData.unshift(data);
+            state.qnaOneByOneDetailData.unshift(data);
         },
         // ----------------------- 호경 끝 ---------------------------
     },actions: {
@@ -716,8 +729,8 @@ const store = createStore({
         //  * 
         //  * @param {*} constext 
         //  */
-        setProductReviewData(constext) {
-            const url = '/api/reviewdetailed';
+        setProductReviewData(constext, id) {
+            const url = '/api/reviewdetailed/' + id;
 
             axios.get(url)
             .then(response => {
@@ -750,6 +763,26 @@ const store = createStore({
                 console.log(error.response.data); // TODO
                 alert('리뷰데이터 불러오기 실패했습니다.(' + error.response.data.code + ')');
             });
+        },
+
+        /**
+         * 상세페이지에서 주문페이지로 이동
+         * 
+         * @param {*} context
+         * @param {*} item
+        */
+        detailedUpdate(context, item) {
+            const detailedUpdateData = item;
+            const data = new FormData(document.querySelector('#bagForm'));
+            // FormData 담고있는 [key, value] 배열들을 객체로 변환
+            const formDataObject = Object.fromEntries(data.entries());
+            // detailedUpdateData와 formDataObject를 병합하여 detailedData 객체 생성
+            const detailedData = { ...detailedUpdateData, ...formDataObject };
+
+            context.commit('setdetailedUpdate', detailedData);
+            localStorage.setItem('detailedUpdate', JSON.stringify(detailedData));
+
+            router.replace('/order');
         },
         // // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
@@ -827,17 +860,17 @@ const store = createStore({
             });
         },
         /**
-         * 상품문의내역 획득
+         * 상품문의 상세페이지 값 획득
          * 
          * @param {*} context 
          */
-        getQnaProductListData(context, id) {
-            const url = '/api/qnaproductlist?id=' + id;
+        getQnaProductDetailData(context, id) {
+            const url = '/api/qnaproductlist/' + id;
             
             axios.get(url)
             .then(response => {
                 console.log(response.data); // TODO
-                context.commit('setQnaProductListData', response.data.data);
+                context.commit('setQnaProductDetailData', response.data.data);
             })
             .catch(error => {
                 console.log(error.response); // TODO
@@ -856,7 +889,7 @@ const store = createStore({
 
             axios.post(url, data)
             .then(response => {
-                if(context.state.qnaProductListData.length > 1) {
+                if(context.state.qnaProductDetailData.length > 1) {
                     context.commit('setUnshiftQnaProductData', response.data.data);
                 }
                 
@@ -880,7 +913,7 @@ const store = createStore({
             axios.get(url)
             .then(response => {
                 console.log(response.data); // TODO
-                context.commit('setQnaOneByOneListData', response.data.data);
+                context.commit('setQnaOneByOneDetailData', response.data.data);
             })
             .catch(error => {
                 console.log(error.response); // TODO
@@ -900,7 +933,7 @@ const store = createStore({
 
             axios.post(url, data)
             .then(response => {
-                if(context.state.qnaOneByOneListData.length > 1) {
+                if(context.state.qnaOneByOneDetailData.length > 1) {
                     context.commit('setUnshiftQnaOneByOneData', response.data.data);
                 }
                 
