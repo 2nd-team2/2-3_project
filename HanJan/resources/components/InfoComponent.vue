@@ -26,8 +26,9 @@
                             <button class="button_a" @click="$store.dispatch('completeBtn', item.id)" v-if="item.co_flg === '0' || item.co_flg === null">구매확정</button>
                         </div>
                         <div class="item_right">
-                            <button @click="$router.push('/qnaproduct/', item.p_id)" class="button_a" v-if="item.co_flg === '0' || item.co_flg === null">상품문의하기</button> 
+                            <button @click="connectProductAsk(item)" class="button_a" v-if="item.co_flg === '0' || item.co_flg === null">상품문의하기</button> 
                             <button @click="$router.push('/exchange')" class="button_a" v-if="item.co_flg === '0' || item.co_flg === null">교환, 반품 신청</button>
+                            
                             <button @click="infoReviewCreate(item)" class="button_a" v-if="item.co_flg === '1'">리뷰 작성하기</button>
                         </div>
                     </div>
@@ -38,16 +39,13 @@
                         <span class="num">3</span>
                         <span class="num_none">4</span>
                         <span class="num_none">5</span>
-                        <span class="nuxt">다음 〉</span>
+                        <span class="next">다음 〉</span>
                     </div>
                 </div>
             </div>
             <div class="inquiry_list">
                 <div class="inquiry_list_header">
-                    <h1>문의내역</h1>
-                    <router-link to="/qnaonebyone" class="keep_shoping_btn black_button">
-                        1:1 문의하기
-                    </router-link>
+                    <h1>상품문의 내역</h1>
                 </div>
                 <div class="inquiry_list_main" v-for="(item, key) in $store.state.productAskData" :key="key">
                     <!-- <div>{{ item }}</div> -->
@@ -66,6 +64,21 @@
                             <div class="keep_shoping_btn qna_answer" v-else>답변진행중</div>
                         </div>
                     </div>
+                </div>
+                <div class="list_num_item">
+                    <span class="before">〈 이전</span>
+                    <span class="num_none">1</span>
+                    <span class="num_none">2</span>
+                    <span class="num">3</span>
+                    <span class="num_none">4</span>
+                    <span class="num_none">5</span>
+                    <span class="next">다음 〉</span>
+                </div>
+                <div class="inquiry_list_header">
+                    <h1>1:1문의 내역</h1>
+                    <router-link to="/qnaonebyone" class="keep_shoping_btn black_button">
+                        1:1 문의하기
+                    </router-link>
                 </div>
                 <div class="inquiry_list_main" v-for="(item, key) in $store.state.askSetData" :key="key">
                     <!-- <div>{{ item }}</div> -->
@@ -93,7 +106,7 @@
                     <span class="num">3</span>
                     <span class="num_none">4</span>
                     <span class="num_none">5</span>
-                    <span class="nuxt">다음 〉</span>
+                    <span class="next">다음 〉</span>
                 </div>
             </div>
         </div>
@@ -120,6 +133,23 @@ onBeforeMount(() => {
 const infoReviewCreate = (item) => {
     store.dispatch('infoReviewCreate', item);
 }
+const connectProductAsk = (item) => {
+    store.dispatch('connectProductAsk', item);
+}
+// const connectAsk = (item) => {
+//     store.dispatch('connectAsk', item);
+// }
+// 상품문의 디테일 페이지 이동
+function qnaProductDetail(id) {
+        router.push('/qnaproduct?id=' + id);
+    }
+// 1:1 문의 디테일 페이지 이동
+function qnaOneByOneDetail(id) {
+    router.push('/qnaonebyone?id=' + id);
+}
+
+
+
 </script>
 <style scoped src="../css/info.css">
 </style>
