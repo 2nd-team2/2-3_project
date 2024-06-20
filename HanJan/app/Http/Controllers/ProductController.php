@@ -7,8 +7,6 @@ use App\Models\Bag;
 use App\Models\Complete;
 use App\Models\Orderproduct;
 use App\Models\Product;
-use App\Models\Qna;
-use App\Models\Qnaproduct;
 use App\Models\Review;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -43,7 +41,6 @@ class ProductController extends Controller
                             ->distinct()
                             ->limit(3)
                             ->get();
-
 
             $responseData = [
                 'code' => '0'

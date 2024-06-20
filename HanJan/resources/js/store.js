@@ -106,7 +106,6 @@ const store = createStore({
         // 마이페이지 주문목록
         infoSetData(state, data) {
             state.infoData = data;
-            // localStorage.setItem('infoData', JSON.stringify(data));
         },
         // 상품문의목록
         productAskSetData(state, data) {
@@ -120,10 +119,6 @@ const store = createStore({
         infoReviewCreate(state, data) {
             state.reviewToUpdate = data;
             localStorage.setItem('reviewToUpdate', JSON.stringify(data));
-        },
-        connectProductAsk(state, data) {
-            state.setQnaProductListData = data;
-            localStorage.setItem('setQnaProductListData', JSON.stringify(data));
         },
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------
@@ -442,6 +437,7 @@ const store = createStore({
                 router.replace('/');
             })
             .catch(error => {
+                console.log(error);
                 alert('로그인에 실패 (' + error.responseData.data.code + ')');
             });
         },
@@ -652,25 +648,6 @@ const store = createStore({
             localStorage.setItem('reviewToUpdate', JSON.stringify(infoReviewCreateData));
 
             router.replace('/reviewcreate');
-        },
-
-        // 리뷰 관리로 이동
-        infoReviewManage(context, item) {
-            const infoReviewManageData = item;
-
-            context.commit('reviewSetData', infoReviewManageData);
-            localStorage.setItem('reviewSetData', JSON.stringify(infoReviewManageData));
-
-            router.replace('/review');
-        },
-
-        connectProductAsk(context, p_id) {
-            const connectProductAskData = p_id;
-
-            context.commit('connectProductAsk', connectProductAskData);
-            localStorage.setItem('connectProductAsk', JSON.stringify(connectProductAskData));
-
-            router.replace('/qnaproduct');
         },
             
         // ----------------------- 성환 끝 ---------------------------
