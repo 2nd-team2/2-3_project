@@ -455,6 +455,7 @@ const store = createStore({
                 form.reset();
             });
         },
+
         // 로그아웃
         logout(context) {
             const url = '/api/logout';
@@ -468,7 +469,7 @@ const store = createStore({
             })
             .finally(() => {
                 localStorage.clear();
-                context.commit('setAuthFlg', false);
+                context.commit('setAuthFlg', null);
                 context.commit('setUserInfo', null);
                 router.replace('/login');
             });
