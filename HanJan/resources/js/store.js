@@ -57,6 +57,8 @@ const store = createStore({
             qnaProductDetailData: [],
             // 1 : 1 문의 디테일
             qnaOneByOneDetailData: [],
+            // 주문 목록
+            productAskCreateData:{},
             // ----------------------- 호경 끝 ---------------------------
         }
 
@@ -180,7 +182,7 @@ const store = createStore({
         },
         // 상품문의내역 작성 게시글 가장 앞에 추가
         setUnshiftQnaProductData(state, data) {
-            state.qnaProductDetailData.unshift(data);
+            state.qnaProductDetailData = data;
         },
         // 1 : 1 문의내역 디테일
         setQnaOneByOneDetailData(state, data) {
@@ -189,6 +191,10 @@ const store = createStore({
         // 1:1문의내역 작성 게시글 가장 앞에 추가
         setUnshiftQnaOneByOneData(state, data) {
             state.qnaOneByOneDetailData.unshift(data);
+        },
+        // 상품 문의 작성 게시글 정보
+        setProductAskCreateData(state, data) {
+            state.productAskCreateData = data;
         },
         // ----------------------- 호경 끝 ---------------------------
     },actions: {
@@ -281,12 +287,12 @@ const store = createStore({
          * @param {*} context
         */
         reviewGet(context) {
-           const url = '/api/review';
-           
-           axios.get(url)
-           .then(response => {
+            const url = '/api/review';
+            
+            axios.get(url)
+            .then(response => {
                // 데이터베이스->서버를 통해 받은 데이터를 reviewtData에 저장
-               context.commit('reviewSetData', response.data.data);
+                context.commit('reviewSetData', response.data.data);
             })
             .catch(error => {
                 alert('리뷰 획득에 실패하였습니다.(' + error.response.data.code + ')' )
@@ -663,6 +669,8 @@ const store = createStore({
          * @param {*} context
          */
         getList(context, type) {
+            const param = page == 1 ? '' : '?page=' + page;
+            // const url = '/api/list' + param;
             const url = '/api/list?type=' + type;
 
             axios.get(url)
@@ -843,8 +851,6 @@ const store = createStore({
             axios.get(url)
             .then(response => {
                 console.log(response.data); // TODO
-                console.log('1234 : '+ response.data.data); // TODO
-
                 context.commit('setQnaProductDetailData', response.data.data);
             })
             .catch(error => {
@@ -854,35 +860,11 @@ const store = createStore({
         },
 
         /**
-         * 상품문의 작성
-         * 
-         * @param {*} context
-         */
-        qnaProductCreate(context, id) {
-            const url = '/api/qnaproduct?id=' + id;
-            const data = new FormData(document.querySelector('#qnaProductForm'));
-
-            axios.post(url, data)
-            .then(response => {
-                if(context.state.qnaProductDetailData.length > 1) {
-                    context.commit('setUnshiftQnaProductData', response.data.data);
-                }
-                
-                console.log(response.data); // TODO
-                router.replace('/qnaproductlist');
-            })
-            .catch(error => {
-                console.log(error.response); // TODO
-                alert('글 작성에 실패했습니다.(' + error.response.data.code + ')');
-            });
-        },
-
-        /**
-         * 1:1문의내역 획득
+         * 1:1문의내역 상세페이지 획득
          * 
          * @param {*} context 
          */
-        getQnaOneByOneData(context, id) {
+        getQnaOneByOneDetailData(context, id) {
             const url = '/api/qnaonebyonedetail/' + id;
             
             axios.get(url)
@@ -895,6 +877,31 @@ const store = createStore({
                 alert('1:1문의내역 습득에 실패했습니다.(' + error.response.data.code + ')');
             });
         },
+
+        /**
+         * 상품문의 작성
+         * 
+         * @param {*} context
+         */
+        qnaProductCreate(context) {
+            const url = '/api/qnaproductcreate';
+            const data = new FormData(document.querySelector('#qnaProductForm'));
+
+            console.log(url); // TODO
+            axios.post(url, data)
+            .then(response => {
+                if(context.state.qnaProductDetailData.length > 1) {
+                    context.commit('setUnshiftQnaProductData', response.data.data);
+                }
+                
+                console.log(response.data); // TODO
+                router.replace('/info');
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert('글 작성에 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
         
 
         /**
@@ -902,8 +909,8 @@ const store = createStore({
          * 
          * @param {*} context
          */
-        qnaOnebyOneCreate(context, id) {
-            const url = '/api/qnaonebyone?id=' + id;
+        qnaOnebyOneCreate(context) {
+            const url = '/api/qnaonebyonecreate';
             const data = new FormData(document.querySelector('#qnaOneByOneForm'));
 
             axios.post(url, data)
@@ -913,7 +920,7 @@ const store = createStore({
                 }
                 
                 console.log(response.data); // TODO
-                router.replace('/qnaonebyonelist');
+                router.replace('/qnaonebyonedetail');
             })
             .catch(error => {
                 console.log(error.response); // TODO

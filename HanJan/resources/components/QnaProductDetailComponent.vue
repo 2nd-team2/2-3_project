@@ -3,17 +3,15 @@
         <h2 class="inquiry_title inquiry_title_grid">
             <span>상품문의내역</span>
         </h2>
-        <div>
-            <div class="inquiry_goods_item inquiry_grid">
-                <div class="inquiry_goods_grid">
-                    <img class="inquiry_goods_img" :src="$store.state.qnaProductDetailData.img">
-                    <div class="inquiry_item_grid">
-                        <div class="inquiry_goods_title">
-                            {{ $store.state.qnaProductDetailData.name + ' ' + $store.state.qnaProductDetailData.ml + 'ml' + ' ' +  $store.state.qnaProductDetailData.orp_count + '개' }}
-                        </div>
-                        <div class="inquiry_required">{{ $store.state.qnaProductDetailData.complete }}</div>
-                    </div>        
-                </div>
+        <div class="inquiry_goods_item inquiry_grid">
+            <div class="inquiry_goods_grid">
+                <img class="inquiry_goods_img" :src="$store.state.qnaProductDetailData.img">
+                <div class="inquiry_item_grid">
+                    <div class="inquiry_goods_title">
+                        {{ $store.state.qnaProductDetailData.name + ' ' + $store.state.qnaProductDetailData.ml + 'ml' + ' ' +  $store.state.qnaProductDetailData.orp_count + '개' }}
+                    </div>
+                    <div class="inquiry_required">{{ $store.state.qnaProductDetailData.complete }}</div>
+                </div>        
             </div>
         </div>
         <div>
