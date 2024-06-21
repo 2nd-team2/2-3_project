@@ -89,7 +89,6 @@ class UserController extends Controller
             ];
             return response()->json($responseData, 200)
                             ->cookie('auth', '1', -1, null, null, false, false);
-                            // ->withCookie(Cookie::forget('auth'));
     
         }
 

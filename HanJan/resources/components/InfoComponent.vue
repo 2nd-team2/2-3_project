@@ -70,7 +70,7 @@
                         </div>
                         <div class="inquiry_item_right_list">
                             <button type="submit" class="inquiry_delete" @click="$store.dispatch('productAskDelete', item.qnp_id)"></button>
-                            <div class="keep_shoping_btn qna_answer" v-if="item.qnp_answer">답변완료</div>
+                            <div class="keep_shoping_btn qna_answer_complete" v-if="item.qnp_answer">답변완료</div>
                             <div class="keep_shoping_btn qna_answer" v-else>답변진행중</div>
                         </div>
                     </div>
