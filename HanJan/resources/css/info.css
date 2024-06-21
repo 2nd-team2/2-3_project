@@ -266,6 +266,16 @@ li{
     text-align: center;
     line-height: 35px;
 }
+.qna_answer_complete {
+    background-color: #FAC91D;
+    color: rgb(0, 0, 0);
+    height: 35px;
+    width: 150px;
+    padding: 0 1rem;
+    border-radius: 20px;
+    text-align: center;
+    line-height: 35px;
+}
 .cursorBtn {
     cursor: pointer;
 }

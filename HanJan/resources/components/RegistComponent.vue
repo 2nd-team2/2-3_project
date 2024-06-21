@@ -54,7 +54,7 @@
                     <label class="info_item_label" for="phone">휴대전화번호</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg">{{ phoneError }}</p>
-                        <input type="text" name="tel" id="tel" @input="chkPhone">
+                        <input placeholder="숫자만 입력해주세요" type="text" name="tel" id="tel" @input="chkPhone">
                     </div>
                 </div>
                 <hr>

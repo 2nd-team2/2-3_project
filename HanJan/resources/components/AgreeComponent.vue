@@ -22,7 +22,7 @@
                             <input type="checkbox" v-model="agree1Checked" @change="checkAllAgreements">
                             <span class="red_span">(필수)</span>
                             <span class="middle_span">이용약관 </span>
-                            <button type="button" id="first_btn_modal" class="red_a text_btn">전체보기 ></button>
+                            <button type="button" id="first_btn_modal" class="text_btn">전체보기 ></button>
                             <div class="agree_box">
                                 <textarea name="" id="first_modal_text" readonly>가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사
                                 </textarea>
@@ -34,11 +34,11 @@
                             <input type="checkbox" v-model="agree2Checked" @change="checkAllAgreements">
                             <span class="red_span">(필수)</span>
                             <span class="middle_span">개인정보 수집 및 이용 </span>
-                            <button type="button" id="second_btn_modal" class="red_a text_btn">전체보기 ></button>
+                            <button type="button" id="second_btn_modal" class="text_btn">전체보기 ></button>
                             <!-- 모달창 -->
                             <div class="agree_box modal_overlay" id="modal" v-show="showModal">
                                 <div class="modal_window">
-                                    <div class="close_area" @click="modalOff">X</div>
+                                    <div class="close_area" @click="modalOff">x</div>
                                     <div class="content">
                                         <p>{{ modalContent }}</p>
                                     </div>
