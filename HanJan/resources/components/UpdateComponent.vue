@@ -71,7 +71,7 @@
                 <br>
                 <div class="buttons twobuttons">
                     <button type="reset" class="info_item_btn form_btn" @click="$router.back()">취소</button>
-                    <button type="button" class="info_item_btn form_btn" @click="$store.dispatch('userUpdate')">확인</button>
+                    <button type="submit" class="info_item_btn form_btn" @click="$store.dispatch('userUpdate')">확인</button>
                     <button type="button" class="info_item_btn form_btn" @click="$store.dispatch('userDelete')">탈퇴</button>
                 </div>
             </form>
@@ -156,6 +156,14 @@ function validateForm() {
 
   chkAddress({ target: { value: address.value } });
   if (addressError.value) valid = false;
+
+  // if (!valid) {
+  //   window.scrollTo({
+  //     top: 0,
+  //     behavior: 'smooth'
+  //   });
+  // }
+
 
 }
 
