@@ -281,12 +281,12 @@ const store = createStore({
          * @param {*} context
         */
         reviewGet(context) {
-           const url = '/api/review';
-           
-           axios.get(url)
-           .then(response => {
+            const url = '/api/review';
+            
+            axios.get(url)
+            .then(response => {
                // 데이터베이스->서버를 통해 받은 데이터를 reviewtData에 저장
-               context.commit('reviewSetData', response.data.data);
+                context.commit('reviewSetData', response.data.data);
             })
             .catch(error => {
                 alert('리뷰 획득에 실패하였습니다.(' + error.response.data.code + ')' )
@@ -663,6 +663,8 @@ const store = createStore({
          * @param {*} context
          */
         getList(context, type) {
+            const param = page == 1 ? '' : '?page=' + page;
+            // const url = '/api/list' + param;
             const url = '/api/list?type=' + type;
 
             axios.get(url)

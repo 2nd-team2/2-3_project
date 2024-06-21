@@ -184,11 +184,11 @@ const router = createRouter({
     // 뒤로가기 했을때는 스크롤 위치 저장, 그 외는 최상단으로
     scrollBehavior(to, from, savedPosition) {
         if (savedPosition) {
-          return savedPosition
+            return savedPosition
         } else {
-          return { top: 0 }
+            return { top: 0 }
         }
-      },
+    },
     history: createWebHistory(),
     routes,
 });

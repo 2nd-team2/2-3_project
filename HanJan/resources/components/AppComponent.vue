@@ -114,9 +114,14 @@
             <p class="footer_info5 footer_info_font">기업요구를 반영한 PHP풀스택(프론트앤드 + 백앤드) 개발자 양성 과정</p>
             <div class="footer_site footer_info_font">
                 참고한 사이트
+                <br>
+                <br>
+                <img src="/img/logo02.png">
+                <img src="/img/logo03.gif">
+                <img src="/img/logo04.png">
             </div>
         </div>
-     </footer>
+    </footer>
     
 </template>
 
