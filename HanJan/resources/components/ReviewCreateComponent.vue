@@ -2,7 +2,9 @@
     <main>
         <h2 class="review_title reviewC_title_grid">
             <span>리뷰작성</span>
-            <a href="" class="reviewC_cancel">계속 쇼핑하기</a>
+            <router-link to="/list?type=99" class="reviewC_cancel">
+                계속 쇼핑하기
+            </router-link >
         </h2>
         <div>test : {{ $store.state.reviewToUpdate }}</div>
         <!-- 내 술잔 페이지에서 > 리뷰로 데이터 넘기는 방법 고민해보기 : 리뷰페이지에서 리뷰 수정이랑 동일하게 할건지 -->

@@ -2,7 +2,9 @@
     <main>
         <h2 class="review_title reviewC_title_grid">
             <span>리뷰수정</span>
-            <a href="" class="reviewC_cancel">계속 쇼핑하기</a>
+            <router-link to="/list?type=99" class="reviewC_cancel">
+                계속 쇼핑하기
+            </router-link >
         </h2>
         <div>test : {{ $store.state.reviewToUpdate }}</div>
         <div>
