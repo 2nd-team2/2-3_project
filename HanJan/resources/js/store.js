@@ -120,7 +120,7 @@ const store = createStore({
         askSetData(state, data) {
             state.askSetData = data;
         },
-        // 리뷰관리에서 수정 페이지로 넘어갈때 데이터 전달
+        // 마이페이지에서 리뷰작성 넘어갈때 데이터 전달
         infoReviewCreate(state, data) {
             state.reviewToUpdate = data;
             localStorage.setItem('reviewToUpdate', JSON.stringify(data));
@@ -429,8 +429,8 @@ const store = createStore({
                 router.replace('/');
             })
             .catch(responseData => {
-                console.log(responseData);
                 alert('로그인 실패');
+                form.reset();
             });
         },
         // 로그아웃
@@ -499,16 +499,21 @@ const store = createStore({
         userDelete(context) {
             const url = '/api/userDelete';
             const data = new FormData(document.querySelector('#update_form'));
-            axios.delete(url, data)
-            .then(responseData => {
-                localStorage.clear();
-                context.commit('setAuthFlg', false);
-                context.commit('setUserInfo', null);
-                router.replace('/');
+            if (confirm('정말 탈퇴 하시겠습니까?')) {
+                axios.delete(url, data)
+                .then(responseData => {
+                    localStorage.clear();
+                    context.commit('setAuthFlg', false);
+                    context.commit('setUserInfo', null);
+                    router.replace('/');
+                    console.log(responseData);
             })
-            .catch(error => {
-                console.log(error.responseData.data.code);
+                .catch(error => {
+                    console.log(error.responseData.data.code);
             });
+            } else {
+                console.log('confirm false');
+            }
         },
 
         // 수정 전 비밀번호 재확인
@@ -629,7 +634,6 @@ const store = createStore({
 
         /**
          * 마이페이지에서 리뷰작성 이동
-         * 
          * @param {*} context
          * @param {*} item
         */

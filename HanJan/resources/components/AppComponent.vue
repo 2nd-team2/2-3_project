@@ -56,7 +56,7 @@
                     <div class="nav_user_line"></div>
                     <li class="nav_item6">
                         <div @mouseover="openIconRegist" @mouseleave="closeIconRegist" @click="closeNavMini" class="nav_font">
-                            <div v-if="!$store.state.authFlg" @click="$store.dispatch('login')" class="nav_user_box">
+                            <div v-if="!$store.state.authFlg" @click="$router.push('/agree')" class="nav_user_box">
                                 <img src="/img/regist.png" class="nav_icon" id="b_iconregist">
                                 <img src="/img/goldregist.png" class="nav_icon_hover" id="g_iconregist">
                                 <div class="nav_user">회원가입</div>
@@ -90,7 +90,7 @@
         <div class="footer_team">
             <div class="footer_team_member">
                 <p class="team_member_name">권성환</p>
-                <p>간단한 소개</p>
+                <p>감사합니다</p>
             </div>
             <div class="footer_team_member">
                 <p class="team_member_name">서보원</p>
