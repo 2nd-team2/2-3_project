@@ -122,67 +122,61 @@ hr {
     height: 100%;
 }
 
-/* ------------- 모바일버전 ------------- */
-@media screen and (max-width: 770px) {
-    .none {
-        display: none;
-    }
-    .list_best_title {
-        margin-top: 6rem;
-        font-size: 2rem;
-        font-weight: 800;
-        margin: 6rem 2rem 1rem;
-    }
+/* 미디어 쿼리를 사용하여 반응형으로 스타일 조정 */
 
-    /* ------------- 한잔 베스트 ------------- */
+/* 작은 화면에서는 내용들이 좀 더 넓게 보이도록 */
+@media (max-width: 768px) {
     .list_content {
-        display: flex;
-        flex-wrap: wrap;
-        /* align-items: center; */
-        /* justify-content: center; */
-        gap: 2rem;
-        flex-direction: row;
+        grid-template-columns: 1fr 1fr;
+        width: 90%;
     }
-    .list_best {
-        display: flex;
-        /* flex-direction: row; */
-        margin: auto;
-        width: 70%;
-        flex-wrap: nowrap;
-        /* margin-bottom: 2rem; */
-        align-items: center;
-        gap: 2rem;
-        justify-content: center;
-    }
-    .list_best_img img {
-        width: 250px;
-        height: 250px;
-    }
-    .list_best_img > p {
-        position: absolute;
-        background-color: rgba(0, 0, 0, 0.5);
-        width: 30px;
-        height: 30px;
+    
+    .list_best_title {
+        margin: 4rem auto 1rem;
+        font-size: 1.5rem;
         text-align: center;
-        line-height: 30px;
-        color: #fff
     }
+    
+    .list_num_item {
+        width: 90%;
+        margin: 3rem auto 0;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .list_num_item > a {
+        margin: 1rem 0;
+    }
+}
 
-    .list_best_detail {
-        margin-top: 10px;
-        color: #000;
+/* 아주 작은 화면에서는 한 컬럼으로 */
+@media (max-width: 480px) {
+    .list_content {
+        grid-template-columns: 1fr;
+        width: 90%;
     }
-    .list_best_detail > p {
-        font-size: 1rem;
-    }
-    .list_best_detail > strong {
+    
+    .list_best_title {
+        margin: 2rem auto 1rem;
         font-size: 1.3rem;
     }
     
-    /* --------------------- move top --------------------- */
-    .move_top_img {
-        width: 80%;
-        height: 80%;
+    .list_num_item {
+        margin-top: 2rem;
     }
+}
 
+/* 더 큰 화면에서는 넓은 이미지와 메뉴 간격을 늘려서 보기 좋게 */
+@media (min-width: 1200px) {
+    .list_main_img {
+        height: 50rem;
+    }
+    
+    .list_menu {
+        gap: 6rem;
+    }
+    
+    .list_num_item {
+        width: 60%;
+    }
 }

@@ -4,10 +4,10 @@
             <div class="order_list">
                 <div class="order_list_header">
                     <h1>주문목록</h1>
-                    <div>
-                        <button class="keep_shoping_btn black_button" @click="$router.push('/list')">계속 쇼핑하기</button>
-                        <button class="shoping_btn review_manage_btn black_button" @click="$router.push('/review')">리뷰관리</button>
-                        <button class="user_update_btn black_button" @click="$router.push('/confirm')">회원정보 수정</button>
+                    <div class="order_list_button">
+                        <router-link to="/list?type=99" class="keep_shoping_btn black_button">계속 쇼핑하기</router-link>
+                        <router-link to="/review" class="shoping_btn review_manage_btn black_button">리뷰관리</router-link>
+                        <router-link to="/confirm" class="user_update_btn black_button">회원정보 수정</router-link>
                     </div>
                 </div>
                 <div class="order_list_main">

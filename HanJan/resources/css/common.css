@@ -514,12 +514,9 @@ footer {
     grid-row: 3 / 4;
 }
 
-.footer_site {
-    border: 1px solid #5C5C5C;
-    background-color: #5C5C5C;
-    padding: 20px;
+.footer_site img {
+    margin-left: 1rem;
 }
-
 
 /* --------------------- 미디어 쿼리 --------------------- */
 /* ----------------------- 웹 버전 ----------------------- */
