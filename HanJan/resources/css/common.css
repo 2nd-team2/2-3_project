@@ -516,6 +516,7 @@ footer {
 
 .footer_site img {
     margin-left: 1rem;
+    width: 100px;
 }
 
 /* --------------------- 미디어 쿼리 --------------------- */
