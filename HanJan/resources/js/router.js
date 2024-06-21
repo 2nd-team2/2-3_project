@@ -98,7 +98,7 @@ const routes = [
         beforeEnter: (to, from, next) => {
             chkAuth(to, from, next)
             console.log(to.query.id);
-            store.dispatch('getQnaProductDetailData', to.query.id);
+            store.dispatch('getQnaOneByOneDetailData', to.query.id);
 
             next();
         }, 

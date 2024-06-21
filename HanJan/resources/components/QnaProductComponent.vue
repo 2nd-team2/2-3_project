@@ -7,16 +7,17 @@
         <div>
             <div class="inquiry_goods_item inquiry_grid">
                 <div class="inquiry_goods_grid">
-                    <img class="inquiry_goods_img" src="/img/best.png">
+                    <img class="inquiry_goods_img" :src="$store.state.productAskCreateData.img">
                     <div class="inquiry_item_grid">
-                        <div class="inquiry_goods_title">한잔 꿈의 대화 13도 375ml / 1개</div>
-                        <div class="inquiry_required">2024-06-02</div>
+                        <div class="inquiry_goods_title">{{ $store.state.productAskCreateData.name + ' ' + $store.state.productAskCreateData.ml + 'ml' + '/' + $store.state.productAskCreateData.orp_count + '개' }}</div>
+                        <div class="inquiry_required">{{ $store.state.productAskCreateData.orpDate }}</div>
                     </div>        
                 </div>
             </div>
         </div>
 
         <form id="qnaProductForm">
+            <input type="hidden" name="orp_id" :value="$store.state.productAskCreateData.id">
             <div class="inquiry_padding_top">문의내용</div>
             <div class="inquiry_padding_top">
                 <textarea name="qnp_content" placeholder="개인정보(주민번호, 연락처, 주소, 계좌번호, 카드번호 등)가 포함되지 않도록 유의해주세요."></textarea>
