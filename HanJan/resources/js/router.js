@@ -8,7 +8,6 @@ import ConfirmCompnent from '../components/ConfirmComponent.vue';
 import DetailedCompnent from '../components/DetailedComponent.vue';
 import ExchangeCompnent from '../components/ExchangeComponent.vue';
 import InfoComponent from '../components/InfoComponent.vue';
-import ListTakjuComponent from '../components/ListComponent.vue';
 import OrderComponent from '../components/OrderComponent.vue';
 import OrderCompleteComponent from '../components/OrderCompleteComponent.vue';
 import RegistComponent from '../components/RegistComponent.vue';
@@ -23,6 +22,7 @@ import QnaOnebyOneDetailComponent from '../components/QnaOnebyOneDetailComponent
 import NoticeListComponent from '../components/NoticeListComponent.vue';
 import NoticeComponent from '../components/NoticeComponent.vue';
 import store from './store';
+import ListComponent from '../components/ListComponent.vue';
 
 const routes = [
     {
@@ -98,14 +98,14 @@ const routes = [
         beforeEnter: (to, from, next) => {
             chkAuth(to, from, next)
             console.log(to.query.id);
-            store.dispatch('getQnaProductDetailData', to.query.id);
+            store.dispatch('getQnaOneByOneDetailData', to.query.id);
 
             next();
         }, 
     },
     {
         path: '/list',
-        component: ListTakjuComponent,
+        component: ListComponent,
         beforeEnter: (to, from, next) => {
             console.log(to.query.type);
             store.commit('setCurrentImage', to.query.type);
@@ -184,11 +184,11 @@ const router = createRouter({
     // 뒤로가기 했을때는 스크롤 위치 저장, 그 외는 최상단으로
     scrollBehavior(to, from, savedPosition) {
         if (savedPosition) {
-          return savedPosition
+            return savedPosition
         } else {
-          return { top: 0 }
+            return { top: 0 }
         }
-      },
+    },
     history: createWebHistory(),
     routes,
 });
