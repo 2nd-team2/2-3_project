@@ -64,6 +64,9 @@ main {
 .user_update_btn {
     margin-left: 15px;
 }
+.order_list_button {
+    display: flex;
+}
 .black_button {
     height: 35px;
     width: 150px;
