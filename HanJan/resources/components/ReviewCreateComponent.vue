@@ -34,7 +34,7 @@
         <form id="reviewCreateForm">
             <div class="reviewC_padding_top">상세리뷰</div>
             <input type="hidden" name="re_id" :value="$store.state.reviewToUpdate.re_id">
-            
+            <!-- TODO  -->
             <!-- infoToReview를 받아오면 아래 re_id 와 p_id 같이 넘기고 컨트롤러 저장할떄 p_id 받아서 저장 -->
             <!-- <input type="hidden" name="re_id" :value="$store.state.infoToReview.re_id"> -->
             <!-- <input type="hidden" name="p_id" :value="$store.state.infoToReview.p_id"> -->

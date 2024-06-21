@@ -15,6 +15,9 @@ const store = createStore({
             reviewToUpdate: localStorage.getItem('reviewToUpdate') ? JSON.parse(localStorage.getItem('reviewToUpdate')) : null,
             // 전체 선택 여부
             allChecked: false,
+            // 장바구니 데이터 > 주문 페이지로 넘기기
+            // bagsToOrder: [],
+            bagsToOrder: localStorage.getItem('bagsToOrder') ? JSON.parse(localStorage.getItem('bagsToOrder')) : null,
             
             // ----------------------- 보원 끝 ---------------------------
             // ----------------------- 성환 시작 -------------------------
@@ -70,24 +73,6 @@ const store = createStore({
         bagsSetProductData(state, data) {
             state.bagsProductData = data;
         },
-        // 선택된 상품 삭제 처리
-        deleteSelectedItems(state, selectedIds) {
-            state.bagsProductData = state.bagsProductData.filter(item => !selectedIds.includes(item.ba_id));
-        },
-
-
-
-        // 전체 상품 삭제 처리
-        deleteAllItems(state) {
-            state.bagsProductData = [];
-        },
-        // 전체 선택 여부 변경
-        toggleAllChecked(state) {
-            state.allChecked = !state.allChecked;
-        },
-
-
-
         // state.리뷰에 추가 될 리스트
         reviewSetData(state, data) {
             state.reviewData = data;
@@ -97,7 +82,24 @@ const store = createStore({
             state.reviewToUpdate = data;
             localStorage.setItem('reviewToUpdate', JSON.stringify(data));
         },
+        // state.주문에 추가 될 리스트
+        bagsToOrder(state, data) {
+            state.bagsToOrder = data;
+            localStorage.setItem('bagsToOrder', JSON.stringify(data));
+        },
 
+        // // 선택된 상품 삭제 처리
+        // deleteSelectedItems(state, selectedIds) {
+        //     state.bagsProductData = state.bagsProductData.filter(item => !selectedIds.includes(item.ba_id));
+        // },
+        // // 전체 상품 삭제 처리
+        // deleteAllItems(state) {
+        //     state.bagsProductData = [];
+        // },
+        // 전체 선택 여부 변경
+        // toggleAllChecked(state) {
+        //     state.allChecked = !state.allChecked;
+        // },
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
         // 인증 플래그 저장
@@ -282,9 +284,10 @@ const store = createStore({
         },
 
         /**
-         * Bags(장바구니)테이블에서 선택된 상품만 삭제 처리
+         * 장바구니 페이지에서 선택된 상품만 삭제 처리
          * 
          * @param {*} context
+         * @param {*} data
         */
         bagsSelectDelete(context, data) {
             const url = '/api/bagsSelectDelete/'
@@ -302,6 +305,51 @@ const store = createStore({
             });
         },
 
+        /**
+         * 장바구니 페이지에서 선택된 상품만 주문 페이지로 정보 전달
+         * 
+         * @param {*} context
+         * @param {*} data
+        */
+        bagsToOrder(context, data) {
+            const url = '/api/bagsToOrder';
+            
+            axios.post(url, data)
+            .then(response => {
+                console.log(response.data); // TODO : 삭제
+
+                context.commit('bagsToOrder', response.data.data); 
+                router.push('/order')
+            })
+            .catch(error => {
+                alert('결제하기에 실패했습니다.(' + error.response.data.code + ')' )
+            });
+        },
+
+
+
+
+
+        /**
+         * order(주문) 페이지에서 결제하기 처리
+         * 실제 결제하기 기능은 없고 데이터 저장처리만 수행
+         * 
+         * @param {*} context
+        */
+        orderComplete(context) {
+            const url = '/api/orderComplete';
+            const data = new FormData(document.querySelector('#orderComplete'));
+
+            axios.post(url, data)
+            .then(response => {
+                console.log('주문')
+
+                router.push('/ordercomplete');
+            })
+            .catch(error => {
+                alert('결제에 실패하였습니다.(' + error.response.data.code + ')' )
+            });
+        },
 
 
         
@@ -409,28 +457,6 @@ const store = createStore({
                 alert('리뷰 수정에 실패하였습니다.(' + error.response.data.code + ')' )
             });
         }, 
-        
-
-        /**
-         * order(주문) 페이지에서 결제하기 처리
-         * 실제 결제하기 기능은 없고 데이터 저장처리만 수행
-         * 
-         * @param {*} context
-        */
-        orderComplete(context) {
-            const url = '/api/orderComplete';
-            const data = new FormData(document.querySelector('#orderComplete'));
-
-            axios.post(url, data)
-            .then(response => {
-                console.log('주문')
-
-                router.push('/ordercomplete');
-            })
-            .catch(error => {
-                alert('결제에 실패하였습니다.(' + error.response.data.code + ')' )
-            });
-        },
               
         
         // ----------------------- 보원 끝 ---------------------------

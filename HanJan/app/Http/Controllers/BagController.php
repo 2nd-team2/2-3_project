@@ -107,7 +107,7 @@ class BagController extends Controller
     }
 
 
-    // Bags(장바구니 테이블에서) 체크된 상품 삭제처리
+    // Bags(장바구니 테이블에서) 체크된 상품 삭제 처리
     public function bagsSelectDelete(Request $request) {
 
         $baIds = $request->input('ba_id');
@@ -118,17 +118,41 @@ class BagController extends Controller
         foreach($baIds as $ba_id) {
             
             Bag::destroy($ba_id);
-            
-            $responseData = [
-                'code' => '0'
-                ,'msg' => '장바구니 상품 선택 삭제 완료'
-                ,'data' => $ba_id
-            ];
 
-            return response()->json($responseData);
+        };
+
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '장바구니 상품 선택 삭제 완료'
+            ,'data' => $ba_id
+        ];
+
+        return response()->json($responseData);
+    }
+
+
+    // 장바구니 데이터 > 주문 페이지로 전달 처리
+    public function bagsToOrder(Request $request) {
+        Log::debug($request);
+
+        $baIds = $request->input('ba_id');
+        // $baCounts = $request->input('ba_count');
+        // $pIDs = $request->input('p_id');
+
+        foreach($baIds as $ba_id) {
+            // 장바구니에서 정보 가져오기
+            // 
+
         };
 
 
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '장바구니 상품 주문 페이지로 전달 완료'
+            ,'data' => $request
+        ];
+
+        return response()->json($responseData);
     }
     
 

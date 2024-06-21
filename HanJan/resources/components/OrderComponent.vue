@@ -67,6 +67,7 @@
                 <input type="hidden" name ="or_sum" value="1"> <!-- 일단 1로 고정해둠 -->
 
             </div>
+            <!-- <input type="hidden" :value="$store.state."> -->
             <button type="button" @click="$store.dispatch('orderComplete')">결제하기</button>
         </form>
     </main>
@@ -75,6 +76,12 @@
 <script setup>
 import { ref } from 'vue';
 import { useStore } from 'vuex';
+
+
+
+
+
+
 
 const store = useStore();
 
