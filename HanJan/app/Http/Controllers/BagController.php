@@ -31,34 +31,20 @@ class BagController extends Controller
         return response()->json($responseData, 200);
     }
 
-    // Bags(장바구니)테이블에서 휴지통 버튼 눌렀을때 삭제 처리
-    public function bagsDelete($ba_id) {
-
-        Bag::destroy($ba_id);
-        
-        $responseData = [
-            'code' => '0'
-            ,'msg' => '장바구니 상품 삭제 완료'
-            ,'data' => $ba_id
-        ];
-
-        return response()->json($responseData);
-    }
-
     // 장바구니 수량 감소한 데이터 저장
     public function bagsCountMinus($ba_id) {
 
         $productDate = Bag::where('ba_id','=', $ba_id)->first();
-
+        
         // 조회된 데이터가 있는지 확인
         if($productDate) {
             $productDate->ba_count -= 1;
 
             // TODO : update_at 생성하면주석해제하기
             // $productDate->updated_at = now();
-
+            
             $productDate->save();
-
+            
             $responseData = [
                 'code' => '0'
                 ,'msg' => '장바구니 수량 감소 완료'
@@ -82,13 +68,13 @@ class BagController extends Controller
 
         // 조회된 데이터가 있는지 확인
         if($productDate) {
-
+            
             $productDate->ba_count += 1;
             // TODO : update_at 컬럼 생성하면 주석 해제하기
             // $productDate->updated_at = now();
-
+            
             $productDate->save();
-
+            
             $responseData = [
                 'code' => '0'
                 ,'msg' => '장바구니 수량 증가 완료'
@@ -106,6 +92,44 @@ class BagController extends Controller
         return response()->json($responseData);
     }
 
+    // Bags(장바구니)테이블에서 휴지통 버튼 눌렀을때 삭제 처리
+    public function bagsDelete($ba_id) {
+    
+        Bag::destroy($ba_id);
+        
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '장바구니 상품 삭제 완료'
+            ,'data' => $ba_id
+        ];
+    
+        return response()->json($responseData);
+    }
 
+
+    // Bags(장바구니 테이블에서) 체크된 상품 삭제처리
+    public function bagsSelectDelete(Request $request) {
+
+        $baIds = $request->input('ba_id');
+        // $baCounts = $request->input('ba_count');
+
+        Log::debug($request); // TODO : 삭제
+
+        foreach($baIds as $ba_id) {
+            
+            Bag::destroy($ba_id);
+            
+            $responseData = [
+                'code' => '0'
+                ,'msg' => '장바구니 상품 선택 삭제 완료'
+                ,'data' => $ba_id
+            ];
+
+            return response()->json($responseData);
+        };
+
+
+    }
+    
 
 }

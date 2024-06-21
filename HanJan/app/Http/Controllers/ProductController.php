@@ -138,14 +138,14 @@ class ProductController extends Controller
         // 상세리스트 데이터 불러오기
         public function list(Request $request) {
             $productQuery = Product::select('products.price','products.img', 'products.name', 'products.id')
-                            ->orderBy('products.created_at', 'DESC')
-                            ->limit(20);
+                            ->orderBy('products.created_at', 'DESC');
+                            // ->paginate(20);
 
             if($request->type != '99') {
                 $productQuery->where('products.type', $request->type);
             }
             
-            $productData = $productQuery->get();
+            $productData = $productQuery->paginate(20);
 
             Log::debug($productData);
             

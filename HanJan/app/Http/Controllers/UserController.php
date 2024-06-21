@@ -7,6 +7,7 @@ use App\Exceptions\MyValidateException;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -73,10 +74,11 @@ class UserController extends Controller
                 'msg' => '로그인 성공',
                 'data' => $userInfo
             ];
-            return response()->json($responseData, 200)->cookie('auth', '1', 120, null, null, false, false);
+            return response()->json($responseData, 200)->cookie('auth', '1', 600, null, null, false, false);
         }
+
+        // 로그아웃
         public function logout() {
-            // 로그아웃
             Auth::logout(Auth::user());
             Session::invalidate(); // 기본 세션 파기하고 새로운 세션 생성
             Session::regenerateToken(); // CSRF 토큰 재발급
@@ -87,8 +89,10 @@ class UserController extends Controller
             ];
             return response()->json($responseData, 200)
                             ->cookie('auth', '1', -1, null, null, false, false);
+                            // ->withCookie(Cookie::forget('auth'));
     
         }
+
         // 회원가입
         public function regist(Request $request) {
             // 리퀘스트 데이터 획득
@@ -157,7 +161,6 @@ class UserController extends Controller
         // 유저 정보 수정
         public function userUpdate(Request $request) {
             
-            // 유저정보 획득
             $userInfo = Auth::user();
 
             // 비밀번호와 비밀번호 확인이 일치하는지 확인
@@ -184,7 +187,7 @@ class UserController extends Controller
         }
 
         // 유저 탈퇴
-        public function userDelete(Request $request) {
+        public function userDelete() {
 
             // 유저정보 획득
             $userInfo = Auth::user();

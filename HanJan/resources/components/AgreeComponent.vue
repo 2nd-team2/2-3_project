@@ -44,6 +44,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- 모달창 -->
                             <textarea name="" id="second_modal_text" readonly>11가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사
                             </textarea>
                         </label>
@@ -56,8 +57,8 @@
                     </div>
                 </div>
                 <div class="buttons twobuttons">
-                    <button type="reset" class="info_item_btn form_btn" @click="$router.back()">취소</button>
-                    <button type="submit" class="info_item_btn form_btn" @click="$router.push('/regist')" :disabled="!allAgreed">회원가입</button>
+                    <button type="button" class="info_item_btn form_btn" @click="$router.push('/')">취소</button>
+                    <button type="submit" class="info_item_btn form_btn" @click=Submit>회원가입</button>
                 </div>
             </form>
         </div>
@@ -68,6 +69,7 @@
 <script setup>
 // 모달창
 import { ref, onMounted } from 'vue';
+import router from '../js/router';
 
 const showModal = ref(false);
 const modalContent = ref('');
@@ -125,7 +127,16 @@ function toggleAllCheckbox() {
     }
 }
 
-
+function Submit() {
+    if (!agree3Checked.value) {
+        alert('필수 약관에 모두 동의해주세요.');
+        const form = document.querySelector('#regist_form');
+        form.reset();
+    } else {
+        // 여기에서 회원가입 처리를 합니다.
+        router.push('/regist');
+    }
+}
 </script>
 
 <style scoped src="../css/agree.css">
