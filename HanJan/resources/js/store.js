@@ -24,9 +24,9 @@ const store = createStore({
             // 주문 목록
             infoData:[],
             // 1:1 문의 목록
-            askSetData: localStorage.getItem('askSetData') ? JSON.parse(localStorage.getItem('askSetData')) : {current_page: '1'},
+            askSetData:[],
             // 상품 문의 목록
-            productAskData: localStorage.getItem('productAskData') ? JSON.parse(localStorage.getItem('productAskData')) : {current_page: '1'},
+            productAskData:[],
             // ----------------------- 성환 끝 ---------------------------
             // ----------------------- 민서 시작 -------------------------
             // 상품 정보
@@ -54,9 +54,9 @@ const store = createStore({
             // 공지사항 디테일 정보
             noticeDetail: {},
             // 상품문의 디테일
-            qnaProductDetailData: {},
+            qnaProductDetailData: [],
             // 1 : 1 문의 디테일
-            qnaOneByOneDetailData: {},
+            qnaOneByOneDetailData: [],
             // 주문 목록
             productAskCreateData:{},
             // ----------------------- 호경 끝 ---------------------------
@@ -113,14 +113,12 @@ const store = createStore({
             state.infoData = data;
         },
         // 상품문의목록
-        setProductAskSetData(state, data) {
+        productAskSetData(state, data) {
             state.productAskData = data;
-            localStorage.setItem('productAskData', JSON.stringify(data))
         },
         // 1:1문의 목록
-        setAskSetData(state, data) {
+        askSetData(state, data) {
             state.askSetData = data;
-            localStorage.setItem('askSetData', JSON.stringify(data))
         },
         // 마이페이지에서 리뷰작성 넘어갈때 데이터 전달
         infoReviewCreate(state, data) {
@@ -585,12 +583,11 @@ const store = createStore({
         },
 
         // 상품 문의목록 불러오기
-        getProductAskData(context, page) {
-            const param = page == 1 ? '' : '?page=' + page;
-            const url = '/api/productAsk' + param;
+        productAskData(context) {
+            const url = '/api/productAsk';
             axios.get(url)
             .then(responseData => {
-                context.commit('setProductAskSetData', responseData.data.data);
+                context.commit('productAskSetData', responseData.data.data);
              })
              .catch(error => {
                  alert('문의목록 불러오기 실패.(' + error.responseData.data.code + ')' )
@@ -614,16 +611,14 @@ const store = createStore({
         },
 
         // 1:1 문의목록 불러오기
-        getAskData(context, page) {
-            const param = page == 1 ? '' : '?page=' + page;
-            const url = '/api/askData' + param;
-
+        askData(context) {
+            const url = '/api/askData';
             axios.get(url)
             .then(responseData => {
-                context.commit('setAskSetData', responseData.data.data);
+                context.commit('askSetData', responseData.data.data);
              })
              .catch(error => {
-                 alert('1:1문의목록 불러오기 실패.(' + error.responseData.data.code + ')' )
+                 alert('문의목록 불러오기 실패.(' + error.responseData.data.code + ')' )
              });
          }, 
         
@@ -700,16 +695,14 @@ const store = createStore({
          * 
          * @param {*} context
          */
-        getList(context, query) {
-            const param = query.page == 1 ? '' : '&page=' + query.page;
-            const url = '/api/list?type=' + query.type + param;
+        getList(context, type, page) {
+            console.log('실행됨?')
+            const param = page == 1 ? '' : '?page=' + page;
+            const url = '/api/list?type=' + type+ '&'+ '?page=' + param;
 
             axios.get(url)
             .then(response => {
                 console.log(response.data);
-
-                //type 추가
-                response.data.data.type = query.type;
 
                 // 데이터베이스->서버를 통해 받은 데이터를 listData 저장
                 context.commit('listInfoData', response.data.data);
@@ -954,7 +947,7 @@ const store = createStore({
                 }
                 
                 console.log(response.data); // TODO
-                router.replace('/info');
+                router.replace('/qnaonebyonedetail');
             })
             .catch(error => {
                 console.log(error.response); // TODO
