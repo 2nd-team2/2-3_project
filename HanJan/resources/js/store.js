@@ -120,7 +120,7 @@ const store = createStore({
         askSetData(state, data) {
             state.askSetData = data;
         },
-        // 리뷰관리에서 수정 페이지로 넘어갈때 데이터 전달
+        // 마이페이지에서 리뷰작성 넘어갈때 데이터 전달
         infoReviewCreate(state, data) {
             state.reviewToUpdate = data;
             localStorage.setItem('reviewToUpdate', JSON.stringify(data));
@@ -279,6 +279,27 @@ const store = createStore({
 
         },
 
+        /**
+         * Bags(장바구니)테이블에서 선택된 상품만 삭제 처리
+         * 
+         * @param {*} context
+        */
+        bagsSelectDelete(context, data) {
+            const url = '/api/bagsSelectDelete/'
+            // const data = new FormData(document.querySelector('#bagsProductData'));
+
+            console.log(data);
+
+            axios.post(url, data)
+            .then(response => {
+                console.log(response.data.data); // TODO : 삭제
+                store.dispatch('bagsGetProductData');
+            })
+            .catch(error => {
+                alert('장바구니 선택 삭제에 실패했습니다.(' + error.response.data.code + ')' )
+            });
+        },
+
 
 
         
@@ -430,8 +451,8 @@ const store = createStore({
                 router.replace('/');
             })
             .catch(responseData => {
-                console.log(responseData);
                 alert('로그인 실패');
+                form.reset();
             });
         },
         // 로그아웃
@@ -500,16 +521,21 @@ const store = createStore({
         userDelete(context) {
             const url = '/api/userDelete';
             const data = new FormData(document.querySelector('#update_form'));
-            axios.delete(url, data)
-            .then(responseData => {
-                localStorage.clear();
-                context.commit('setAuthFlg', false);
-                context.commit('setUserInfo', null);
-                router.replace('/');
+            if (confirm('정말 탈퇴 하시겠습니까?')) {
+                axios.delete(url, data)
+                .then(responseData => {
+                    localStorage.clear();
+                    context.commit('setAuthFlg', false);
+                    context.commit('setUserInfo', null);
+                    router.replace('/');
+                    console.log(responseData);
             })
-            .catch(error => {
-                console.log(error.responseData.data.code);
+                .catch(error => {
+                    console.log(error.responseData.data.code);
             });
+            } else {
+                console.log('confirm false');
+            }
         },
 
         // 수정 전 비밀번호 재확인
@@ -630,7 +656,6 @@ const store = createStore({
 
         /**
          * 마이페이지에서 리뷰작성 이동
-         * 
          * @param {*} context
          * @param {*} item
         */

@@ -13,10 +13,10 @@
         <form id="bagsProductData">
             <div v-if="$store.state.bagsProductData && $store.state.bagsProductData.length > 0">
                 <div v-for="(item, key) in $store.state.bagsProductData" :key="key" class="bag_goods_item bag_grid bag_padding_bottom">
-                    <!-- click 이벤트를 먼저 하고 난뒤에 수량을 변경할 경우 -->
-                    <input type="checkbox" @click="check(item)" v-model="item.checked" name="product_chk[]" :value="item.ba_id">
+
+                    <input type="checkbox" @click="check(item)" v-model="item.checked" name="ba_id[]" :value="item.ba_id">
                     
-                    <img class="bag_goods_img" src="/img/best.png">
+                    <img class="bag_goods_img" :src="item.img">
     
                     <div class="reviewC_item_grid">
                         <div class="bag_goods_title bag_padding_bottom"> {{ item.name }}</div>
@@ -27,7 +27,7 @@
     
                         <div class="bag_count">
                             <button type="button" @click="decInt(item)" :disabled="item.ba_count <= 1" class="bag_count_minus">-</button>
-                            <input type="number" v-model="item.ba_count" name="count" @change="validateCount(item)" class="quantity-input">
+                            <input type="number" v-model="item.ba_count" name="ba_count[]" @change="validateCount(item)" class="quantity-input">
                             <button type="button" @click="incInt(item)" :disabled="item.ba_count >= item.count" class="bag_count_plus">+</button>
                         </div>
     
@@ -51,29 +51,29 @@
             <div class="bag_margin_top bag_margin_bottom bag_total_border bag_total_grid">
                 <div></div>
                 <div class="bag_price_grid">
-                    <div> 총 0 개의 상품금액</div>
-                    <div class="bag_yellow bag_flex_end"> 0원</div>
+                    <div> 총 {{ totalPrice.count }} 개의 상품금액</div>
+                    <div class="bag_yellow bag_flex_end"> {{ totalPrice.total }}원</div>
                 </div>
                 <img src="/img/plus.png">
                 <div>
                     <div>배송비</div>
-                    <div class="bag_yellow bag_flex_end"> 0원</div>
+                    <div class="bag_yellow bag_flex_end"> {{ deliveryPrice }}원</div>
                 </div>
                 <img src="/img/equal.png">
                 <div>
                     <div>합계</div>
-                    <div class="bag_yellow bag_flex_end">0원</div>
+                    <div class="bag_yellow bag_flex_end"> {{ deliveryPrice + totalPrice.total }}원</div>
                 </div>
             </div>
 
             <div class="bag_margin_top bag_btn_grid">
                 <div>
-                    <button @click="selectAll" type="button" class="bag_cancel bag_border_none bag_margin_right">전체 선택</button>
-                    <!-- <button @click="selectAll" v-if="!checkAll" type="button" class="bag_cancel bag_border_none bag_margin_right">전체 선택</button> -->
-                    <!-- <button @click="selectAll" v-else type="button" class="bag_cancel bag_border_none bag_margin_right">전체 해제</button> -->
-                    <button @click="selectDelete" type="button" class="bag_cancel bag_border_none">선택 삭제</button>
-                    <!-- <button @click="selectDelete" v-if="!checkAll" type="button" class="bag_cancel bag_border_none">선택 삭제</button>
-                    <button @click="selectDelete" v-else type="button" class="bag_cancel bag_border_none">전체 삭제</button> -->
+                    <button @click="toggleSelectAll" type="button" class="bag_cancel bag_border_none bag_margin_right">
+                        {{ allSelected ? '전체 해제' : '전체 선택' }}
+                    </button>
+                    <button @click="bagsSelectDelete" type="button" class="bag_cancel bag_border_none bag_margin_right">
+                        {{ allSelected ? '전체 삭제' : '선택 삭제' }}
+                    </button>
                 </div>
 
                 <div class="bag_flex_end">
@@ -94,8 +94,79 @@
 </template>
 
 <script setup>
-import { onBeforeMount, ref, watch } from 'vue';
+import { onBeforeMount, computed, ref } from 'vue';
 import { useStore } from 'vuex';
+
+
+// 전체 선택/해제 기능
+const allSelected = computed({
+    // getter
+    get() {
+        return store.state.bagsProductData.length > 0 &&
+                store.state.bagsProductData.every(item => {
+                return item.checked;
+            });
+    },
+    // setter
+    set(value) {
+        store.state.bagsProductData.forEach(item => {
+            return item.checked = value;
+        });
+    }
+});
+// 전체 선택/해제 버튼 및 전체/선책 삭제 클릭 핸들러
+const toggleSelectAll = () => {
+    allSelected.value = !allSelected.value;
+}
+
+// 체크된 상품의 ba_id와 ba_count만 가져오기
+const bagsSelectDelete = () => {
+    const selectedItems = store.state.bagsProductData.filter(item => item.checked);
+    const Data = new FormData();
+
+    selectedItems.forEach(item => {
+    Data.append('ba_id[]', item.ba_id);
+    Data.append('ba_count[]', item.ba_count);
+    });
+
+    // 삭제 처리
+    store.dispatch('bagsSelectDelete', Data);
+}
+
+
+
+
+
+
+
+// 배송비 (TODO : 일정 금액 이상일 경우 무료 + 각 상품 마다 배송비 저장할 컬럼 만들기(products 테이블) )
+const deliveryPrice = ref(0);
+
+// 체크된 항목들만 필터링 > (선택된 상품의 총 합계와 수량을 리턴해줌)
+const totalPrice = computed(() => {
+    const checkedItem = store.state.bagsProductData.filter(item => item.checked);
+    
+    // console.log(checkedItem); // TODO : 삭제
+
+    let count = checkedItem.length;
+    let total = 0;
+
+    checkedItem.forEach(item => {
+        total += (item.price * item.ba_count);
+    })
+
+    return {count, total};
+});
+
+
+
+
+
+
+
+
+
+
 
 const store = useStore();
 // 게시글 습득 관련
@@ -111,30 +182,17 @@ onBeforeMount(() => {
 // 수량 감소 버튼
 const decInt = (item) => {
     item.ba_count--;
-
+    
+    // DB에 저장해서 새로고침해도 수정한 값을 저장
     store.dispatch('bagsCountMinus', item.ba_id);
 };
 // 수량 증가 버튼
 const incInt = (item) => {
     item.ba_count++;
 
+    // DB에 저장해서 새로고침해도 수정한 값을 저장
     store.dispatch('bagsCountPlus', item.ba_id);
 };
-
-
-// 전체 선택(전체 해제) 버튼
-//     +) 전체 삭제, 선택 삭제 버튼 설정도 같이 진행
-const checkAll = ref(false);
-
-const selectAll = () => {
-    checkAll.value = !checkAll.value;
-
-    store.state.bagsProductData.forEach(item => {
-        item.checked = checkAll.value;
-    });
-
-}
-
 
 // 수량 최대 최소 고정
 const validateCount = (item) => {
@@ -148,22 +206,39 @@ const validateCount = (item) => {
         item.ba_count = item.count;
         alert('남은 수량까지 선택할 수 있습니다. ( 남은 수량 : ' + item.count + ')')
     }
+
+    // DB에 저장해서 새로고침해도 수정한 값을 저장
+    // store.dispatch('bagsCountChange', item.ba_count);
 };
 
 
 
-// 체크 했을때 상품의 가격 데이터를 들고옴
-const check = () => {
-    const flg = store.state.bagsProductData.every(item => {
-        return item.checked;
-    });
-    console.log(flg);
-    if(!flg) {
-        checkAll.value = true;
-    } else {
-        checkAll.value = false;
-    }
-}
+
+// // 전체 선택(전체 해제) 버튼
+// //     +) 전체 삭제, 선택 삭제 버튼 설정도 같이 진행
+// const checkAll = ref(false);
+
+// const selectAll = () => {
+//     checkAll.value = !checkAll.value;
+
+//     store.state.bagsProductData.forEach(item => {
+//         item.checked = checkAll.value;
+//     });
+
+// }
+
+// // 체크가 모두 되었을때 전체 선택으로 인식
+// const check = () => {
+//     const flg = store.state.bagsProductData.every(item => {
+//         return item.checked;
+//     });
+//     console.log(flg);
+//     if(!flg) {
+//         checkAll.value = true;
+//     } else {
+//         checkAll.value = false;
+//     }
+// }
 
 </script>
 
