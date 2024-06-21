@@ -24,9 +24,9 @@ const store = createStore({
             // 주문 목록
             infoData:[],
             // 1:1 문의 목록
-            askSetData:[],
+            askSetData: localStorage.getItem('askSetData') ? JSON.parse(localStorage.getItem('askSetData')) : {current_page: '1'},
             // 상품 문의 목록
-            productAskData:[],
+            productAskData: localStorage.getItem('productAskData') ? JSON.parse(localStorage.getItem('productAskData')) : {current_page: '1'},
             // ----------------------- 성환 끝 ---------------------------
             // ----------------------- 민서 시작 -------------------------
             // 상품 정보
@@ -54,9 +54,9 @@ const store = createStore({
             // 공지사항 디테일 정보
             noticeDetail: {},
             // 상품문의 디테일
-            qnaProductDetailData: [],
+            qnaProductDetailData: {},
             // 1 : 1 문의 디테일
-            qnaOneByOneDetailData: [],
+            qnaOneByOneDetailData: {},
             // 주문 목록
             productAskCreateData:{},
             // ----------------------- 호경 끝 ---------------------------
@@ -113,12 +113,14 @@ const store = createStore({
             state.infoData = data;
         },
         // 상품문의목록
-        productAskSetData(state, data) {
+        setProductAskSetData(state, data) {
             state.productAskData = data;
+            localStorage.setItem('productAskData', JSON.stringify(data))
         },
         // 1:1문의 목록
-        askSetData(state, data) {
+        setAskSetData(state, data) {
             state.askSetData = data;
+            localStorage.setItem('askSetData', JSON.stringify(data))
         },
         // 리뷰관리에서 수정 페이지로 넘어갈때 데이터 전달
         infoReviewCreate(state, data) {
@@ -555,11 +557,12 @@ const store = createStore({
         },
 
         // 상품 문의목록 불러오기
-        productAskData(context) {
-            const url = '/api/productAsk';
+        getProductAskData(context, page) {
+            const param = page == 1 ? '' : '?page=' + page;
+            const url = '/api/productAsk' + param;
             axios.get(url)
             .then(responseData => {
-                context.commit('productAskSetData', responseData.data.data);
+                context.commit('setProductAskSetData', responseData.data.data);
              })
              .catch(error => {
                  alert('문의목록 불러오기 실패.(' + error.responseData.data.code + ')' )
@@ -583,14 +586,16 @@ const store = createStore({
         },
 
         // 1:1 문의목록 불러오기
-        askData(context) {
-            const url = '/api/askData';
+        getAskData(context, page) {
+            const param = page == 1 ? '' : '?page=' + page;
+            const url = '/api/askData' + param;
+
             axios.get(url)
             .then(responseData => {
-                context.commit('askSetData', responseData.data.data);
+                context.commit('setAskSetData', responseData.data.data);
              })
              .catch(error => {
-                 alert('문의목록 불러오기 실패.(' + error.responseData.data.code + ')' )
+                 alert('1:1문의목록 불러오기 실패.(' + error.responseData.data.code + ')' )
              });
          }, 
         
@@ -920,7 +925,7 @@ const store = createStore({
                 }
                 
                 console.log(response.data); // TODO
-                router.replace('/qnaonebyonedetail');
+                router.replace('/info');
             })
             .catch(error => {
                 console.log(error.response); // TODO

@@ -53,7 +53,7 @@
                 <div class="inquiry_list_header">
                     <h1>상품문의 내역</h1>
                 </div>
-                <div class="inquiry_list_main" v-for="(item, key) in $store.state.productAskData" :key="key" v-if="$store.state.productAskData && $store.state.productAskData.length > 0">
+                <div class="inquiry_list_main" v-for="(item, key) in $store.state.productAskData.data" :key="key" v-if="$store.state.productAskData.data && $store.state.productAskData.data.length > 0">
                     <!-- <div>{{ item }}</div> -->
                     <div class="inquiry_item" >
                         <div class="inquiry_item_left_list_text">
@@ -76,14 +76,18 @@
                         상품문의 내역이 없습니다.
                     </h2>
                 </div>
+                <!-- 페이지네이션 -->
                 <div class="list_num_item">
-                    <span class="before">〈 이전</span>
-                    <span class="num_none">1</span>
-                    <span class="num_none">2</span>
-                    <span class="num">3</span>
-                    <span class="num_none">4</span>
-                    <span class="num_none">5</span>
-                    <span class="next">다음 〉</span>
+                    <a href="#" class="before" @click.prevent="productPrevPage()">〈 이전</a>
+                    <a
+                        v-for="productpage in productsPages"
+                        :key="productpage"
+                        href="#"
+                        :class="{'num': productpage === $store.state.productAskData.current_page, 'num_none': productpage !== $store.state.productAskData.current_page}"
+                        @click.prevent="productGoToPage(page)"
+                        >{{ productpage }}
+                    </a>
+                    <a href="#" class="next" @click.prevent="productNextPage()">다음 〉</a>
                 </div>
                 <div class="inquiry_list_header">
                     <h1>1:1문의 내역</h1>
@@ -91,7 +95,7 @@
                         1:1 문의하기
                     </router-link>
                 </div>
-                <div class="inquiry_list_main" v-for="(item, key) in $store.state.askSetData" :key="key" v-if="$store.state.askSetData && $store.state.askSetData.length > 0">
+                <div class="inquiry_list_main" v-for="(item, key) in $store.state.askSetData.data" :key="key" v-if="$store.state.askSetData.data && $store.state.askSetData.data.length > 0">
                     <!-- <div>{{ item }}</div> -->
                     <div class="inquiry_item">
                         <div class="inquiry_item_left_list_text">
@@ -115,14 +119,18 @@
                         1:1문의 내역이 없습니다.
                     </h2>
                 </div>
+                <!-- 페이지네이션 -->
                 <div class="list_num_item">
-                    <span class="before">〈 이전</span>
-                    <span class="num_none">1</span>
-                    <span class="num_none">2</span>
-                    <span class="num">3</span>
-                    <span class="num_none">4</span>
-                    <span class="num_none">5</span>
-                    <span class="next">다음 〉</span>
+                    <a href="#" class="before" @click.prevent="oneByOnePrevPage()">〈 이전</a>
+                    <a
+                        v-for="oneByOnepage in oneByOnePages"
+                        :key="oneByOnepage"
+                        href="#"
+                        :class="{'num': oneByOnepage === $store.state.askSetData.current_page, 'num_none': oneByOnepage !== $store.state.askSetData.current_page}"
+                        @click.prevent="oneByOneGoToPage(page)"
+                        >{{ oneByOnepage }}
+                    </a>
+                    <a href="#" class="next" @click.prevent="oneByOneNextPage()">다음 〉</a>
                 </div>
             </div>
         </div>
@@ -134,16 +142,25 @@
 </template>
 
 <script setup>
-    import { onBeforeMount } from 'vue';
+    import { onBeforeMount ,computed } from 'vue';
     import { useStore } from 'vuex';
     import router from '../js/router';
+
     const store = useStore();
 
     // 초기 데이터
     onBeforeMount(() => {
         store.dispatch('infoData');
-        store.dispatch('productAskData');
-        store.dispatch('askData');
+
+        // 상품문의 내역 데이터
+        if(store.state.productAskData.current_page == 1) {
+            store.dispatch('getProductAskData', 1);
+        }
+
+        // 1:1 문의 내역 데이터
+        if(store.state.askSetData.current_page == 1) {
+            store.dispatch('getAskData', 1);
+        }
     })
 
     // 리뷰 작성하기 페이지로 정보 넘기기
@@ -166,6 +183,100 @@
     function askProduct(item) {
         store.commit('setProductAskCreateData', item);
         router.push('/qnaproductcreate');
+    }
+
+    // 상품문의 페이지네이션
+
+    // 게시물 데이터 가져오기
+    const products = computed(() => store.state.askSetData)
+    // 페이지 번호 배열 계산
+    const productsPages = computed(() => {
+        const pageArray = [];
+        // 페이지네이션 3개
+        const maxPagesToShow = 5;
+
+        let startPage = products.value.current_page - 2;
+        if(startPage < 1) {
+            startPage = 1;
+        }
+        const endPage = startPage + maxPagesToShow - 1;
+
+        // 시작페이지 구하기
+        const pagingStart = startPage <= (products.value.last_page - maxPagesToShow + 1) || ((products.value.last_page - maxPagesToShow + 1) < 1) ? startPage : (products.value.last_page - maxPagesToShow + 1);
+        
+        // 마지막 페이지 구하기
+        const pagingEnd = endPage > products.value.last_page ? products.value.last_page : endPage;
+
+        for (let i = pagingStart; i <= pagingEnd; i++) {
+            pageArray.push(i)
+        }
+        return pageArray
+    })
+
+    // 특정 페이지로 이동
+    function productGoToPage(page) {
+        store.dispatch('getProductAskData', page);
+    }
+
+    // 이전 페이지로 이동
+    function productPrevPage() {
+        if (products.value.current_page > 1) {
+            productGoToPage(products.value.current_page - 1);
+        }
+    }
+
+    // 다음 페이지로 이동
+    function productNextPage() {
+        if (products.value.current_page < products.value.last_page) {
+            productGoToPage(products.value.current_page + 1);
+        }
+    }
+
+    // 1:1문의 페이지네이션
+
+    // 게시물 데이터 가져오기
+    const oneByOne = computed(() => store.state.askSetData)
+    // 페이지 번호 배열 계산
+    const oneByOnePages = computed(() => {
+        const pageArray = [];
+        // 페이지네이션 3개
+        const maxPagesToShow = 3;
+
+        let startPage = oneByOne.value.current_page - 2;
+        if(startPage < 1) {
+            startPage = 1;
+        }
+        const endPage = startPage + maxPagesToShow - 1;
+
+        // 시작페이지 구하기
+        const pagingStart = startPage <= (oneByOne.value.last_page - maxPagesToShow + 1) || ((oneByOne.value.last_page - maxPagesToShow + 1) < 1) ? startPage : (oneByOne.value.last_page - maxPagesToShow + 1);
+        
+        // 마지막 페이지 구하기
+        const pagingEnd = endPage > oneByOne.value.last_page ? oneByOne.value.last_page : endPage;
+
+        for (let i = pagingStart; i <= pagingEnd; i++) {
+            pageArray.push(i)
+        }
+        return pageArray
+    })
+
+    // 특정 페이지로 이동
+    function oneByOneGoToPage(page) {
+        store.dispatch('getAskData', page);
+    }
+
+    // 이전 페이지로 이동
+    function oneByOnePrevPage() {
+        if (oneByOne.value.current_page > 1) {
+            oneByOneGoToPage(oneByOne.value.current_page - 1);
+        }
+    }
+
+    // 다음 페이지로 이동
+    function oneByOneNextPage() {
+        if (oneByOne.value.current_page < oneByOne.value.last_page) {
+            oneByOneGoToPage(oneByOne.value.current_page + 1);
+        }
     }
 </script>
 

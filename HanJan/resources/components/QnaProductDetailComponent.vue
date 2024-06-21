@@ -8,7 +8,7 @@
                 <img class="inquiry_goods_img" :src="$store.state.qnaProductDetailData.img">
                 <div class="inquiry_item_grid">
                     <div class="inquiry_goods_title">
-                        {{ $store.state.qnaProductDetailData.name + ' ' + $store.state.qnaProductDetailData.ml + 'ml' + ' ' +  $store.state.qnaProductDetailData.orp_count + '개' }}
+                        {{ $store.state.qnaProductDetailData.name + ' ' + $store.state.qnaProductDetailData.ml + 'ml' + ' / '  +  $store.state.qnaProductDetailData.orp_count + '개' }}
                     </div>
                     <div class="inquiry_required">{{ $store.state.qnaProductDetailData.complete }}</div>
                 </div>        

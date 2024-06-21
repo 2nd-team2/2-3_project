@@ -127,5 +127,5 @@ Route::middleware('auth')->post('/api/qnaproductcreate', [QnaController::class, 
 // 상품문의내역 데이터 불러오기
 Route::middleware('auth')->get('/api/qnaonebyonedetail/{id}', [QnaController::class, 'qnaOnebyOneDetailIndex']);
 // 1:1문의 작성하기
-Route::middleware('auth')->post('/api/qnaonebyone', [QnaController::class, 'qnaOnebyOneCreate']);
+Route::middleware('auth')->post('/api/qnaonebyonecreate', [QnaController::class, 'qnaOnebyOneCreate']);
 // ----------------------- 호경 끝 ---------------------------
