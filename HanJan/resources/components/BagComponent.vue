@@ -5,7 +5,7 @@
                 <span>장바구니</span>
                 <span class="bag_Sequence"><span class="bag_yellow">01장바구니</span>> 02정보입력 > 03결제완료</span>
             </div>
-            <router-link to="/list?type=99" class="bag_cancel">
+            <router-link to="/list?type=99&page=1" class="bag_cancel">
                 계속 쇼핑하기
             </router-link>
         </h2>

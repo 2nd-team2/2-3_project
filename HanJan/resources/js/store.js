@@ -669,14 +669,16 @@ const store = createStore({
          * 
          * @param {*} context
          */
-        getList(context, type, page) {
-            console.log('실행됨?')
-            const param = page == 1 ? '' : '?page=' + page;
-            const url = '/api/list?type=' + type+ '&'+ '?page=' + param;
+        getList(context, query) {
+            const param = query.page == 1 ? '' : '&page=' + query.page;
+            const url = '/api/list?type=' + query.type + param;
 
             axios.get(url)
             .then(response => {
                 console.log(response.data);
+
+                //type 추가
+                response.data.data.type = query.type;
 
                 // 데이터베이스->서버를 통해 받은 데이터를 listData 저장
                 context.commit('listInfoData', response.data.data);

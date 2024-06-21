@@ -2,7 +2,7 @@
     <main>
         <h2 class="review_title reviewC_title_grid">
             <span>리뷰작성</span>
-            <router-link to="/list?type=99" class="reviewC_cancel">
+            <router-link to="/list?type=99&page=1" class="reviewC_cancel">
                 계속 쇼핑하기
             </router-link >
         </h2>

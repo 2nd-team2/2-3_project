@@ -107,9 +107,9 @@ const routes = [
         path: '/list',
         component: ListComponent,
         beforeEnter: (to, from, next) => {
-            console.log(to.query.type);
+            console.log(to.query);
             store.commit('setCurrentImage', to.query.type);
-            store.dispatch('getList', to.query.type);
+            store.dispatch('getList', to.query);
 
             next();
         }, 

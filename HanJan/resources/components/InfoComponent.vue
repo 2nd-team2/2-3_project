@@ -5,7 +5,7 @@
                 <div class="order_list_header">
                     <h1>주문목록</h1>
                     <div class="order_list_button">
-                        <router-link to="/list?type=99" class="keep_shoping_btn black_button">계속 쇼핑하기</router-link>
+                        <router-link to="/list?type=99&page=1" class="keep_shoping_btn black_button">계속 쇼핑하기</router-link>
                         <router-link to="/review" class="shoping_btn review_manage_btn black_button">리뷰관리</router-link>
                         <router-link to="/confirm" class="user_update_btn black_button">회원정보 수정</router-link>
                     </div>
