@@ -280,11 +280,10 @@ li{
 .list_num_item {
     margin: 100px auto;
     width: 50%;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    display: flex;
     justify-items: center;
     align-items: center;
-    
+    justify-content: center;
 }
 .list_num_item > a {
     padding: 0rem 1rem;

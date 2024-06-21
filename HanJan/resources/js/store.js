@@ -22,7 +22,7 @@ const store = createStore({
             authFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
             userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
             // 주문 목록
-            infoData:[],
+            infoData: localStorage.getItem('infoData') ? JSON.parse(localStorage.getItem('infoData')) : {current_page: '1'},
             // 1:1 문의 목록
             askSetData: localStorage.getItem('askSetData') ? JSON.parse(localStorage.getItem('askSetData')) : {current_page: '1'},
             // 상품 문의 목록
@@ -58,7 +58,7 @@ const store = createStore({
             // 1 : 1 문의 디테일
             qnaOneByOneDetailData: {},
             // 주문 목록
-            productAskCreateData:{},
+            productAskCreateData: localStorage.getItem('productAskCreateData') ? JSON.parse(localStorage.getItem('productAskCreateData')) : null,
             // ----------------------- 호경 끝 ---------------------------
         }
 
@@ -111,6 +111,7 @@ const store = createStore({
         // 마이페이지 주문목록
         infoSetData(state, data) {
             state.infoData = data;
+            localStorage.setItem('infoData', JSON.stringify(data))
         },
         // 상품문의목록
         setProductAskSetData(state, data) {
@@ -198,6 +199,7 @@ const store = createStore({
         // 상품 문의 작성 게시글 정보
         setProductAskCreateData(state, data) {
             state.productAskCreateData = data;
+            localStorage.setItem('productAskCreateData', JSON.stringify(data))
         },
         // ----------------------- 호경 끝 ---------------------------
     },actions: {
@@ -555,8 +557,9 @@ const store = createStore({
         },
 
         // 마이페이지에서 주문목록 불러오기
-        infoData(context) {
-            const url = '/api/info';
+        getInfoData(context, page) {
+            const param = page == 1 ? '' : '?page=' + page;
+            const url = '/api/info' + param;
             axios.get(url)
             .then(responseData => {
                 context.commit('infoSetData', responseData.data.data);
