@@ -39,8 +39,7 @@ class ProductController extends Controller
                             ->orderBy('orderproducts.created_at','DESC')
                             ->orderBy('orderproducts.orp_id','DESC')
                             ->distinct()
-                            ->limit(3)
-                            ->get();
+                            ->paginate(3);
 
             $responseData = [
                 'code' => '0'
@@ -238,11 +237,13 @@ class ProductController extends Controller
                 // 겨울
                 $season = '3'; 
             } else if($nowMonth <= 5) {
-                // 
+                // 봄
                 $season = '0';
             } else if($nowMonth <= 8) {
+                // 여름
                 $season = '1';
             } else {
+                // 가을
                 $season = '2';
             }
             $noticeData = Product::select('products.*')

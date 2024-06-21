@@ -1,44 +1,44 @@
 <template>
     <main>
-            <div class="detailed_haeder">
-                <img :src="store.state.productDetail.img">
-                <div class="detailed_haeder_item">
-                    <p class="detailed_haeder_title">{{ store.state.productDetail.name }}</p>
-                    <p>판매가격 :</p>
-                    <p class="detailed_haeder_price">{{ store.state.productDetail.price }}원</p>
-                    <div class="detailed_haeder_review">
-                        <img src="/img/detailed_star.png">
-                        <p>{{ store.state.productDetail.star_avg }}</p>
-                        <p class="detailed_review">리뷰{{ store.state.productDetail.total_star }}</p>
-                    </div>
-                    <p id="app">수량</p>
-                    <div class="detailed_quantity" >
-                        <button @click="count--" :disabled="count === 1" class="detailed_haeder_minus" type="button">-</button>
-                        <input type="number" id="quantityDisplay" class="detailed_haeder_quantity" v-model="count"  min="0">
-                        <button @click="count++" :disabled="count >= $store.state.productDetail.count " class="detailed_haeder_plus" type="button">+</button>
-                    </div>
-                    <div>
-                        <p>총 상품가격</p>
-                        <input type="number" class="detailed_haeder_num" :value="$store.state.productDetail.price*count">원
-                    </div>
-                    <div class="detailed_haeder_btn">
-                        <router-link to="/bag">
-                            <!-- 수량만 장바구니에 저장 -->
-                            <form id="bagForm"> 
-                                <input type="hidden" name="ba_count" :value="count">
-                                <input type="hidden" name="p_id" :value="$store.state.productDetail.id">
-                                <!-- p_id & conut-->
-                                <button @click="$store.dispatch('detailedToCount')" type="button" @mouseover="openIconBag" @mouseleave="closeIconBag"  class="detailed_haeder_bag_a">
-                                    <img src="/img/bag.png" class="detailed_haeder_bag_w" id="b_detailed">
-                                    <img src="/img/bag_b.png" class="detailed_haeder_bag_b" id="bk_detailed">
-                                    <div class="detailed_haeder_bag">장바구니</div>
-                                </button>
-                            </form>
-                        </router-link>
-                        <button type="button" class="detailed_haeder_bay" @click="$store.dispatch('detailedUpdate', $store.state.productDetail)">구매하기</button>
-                    </div>
+        <div class="detailed_haeder">
+            <img :src="store.state.productDetail.img">
+            <div class="detailed_haeder_item">
+                <p class="detailed_haeder_title">{{ store.state.productDetail.name }}</p>
+                <p>판매가격 :</p>
+                <p class="detailed_haeder_price">{{ store.state.productDetail.price }}원</p>
+                <div class="detailed_haeder_review">
+                    <img src="/img/detailed_star.png">
+                    <p>{{ store.state.productDetail.star_avg }}</p>
+                    <p class="detailed_review">리뷰{{ store.state.productDetail.total_star }}</p>
+                </div>
+                <p id="app">수량</p>
+                <div class="detailed_quantity" >
+                    <button @click="count--" :disabled="count === 1" class="detailed_haeder_minus" type="button">-</button>
+                    <input type="number" id="quantityDisplay" class="detailed_haeder_quantity" v-model="count"  min="0">
+                    <button @click="count++" :disabled="count >= $store.state.productDetail.count " class="detailed_haeder_plus" type="button">+</button>
+                </div>
+                <div>
+                    <p>총 상품가격</p>
+                    <input type="number" class="detailed_haeder_num" :value="$store.state.productDetail.price*count" readonly >원
+                </div>
+                <div class="detailed_haeder_btn">
+                    <router-link to="/bag">
+                        <!-- 수량만 장바구니에 저장 -->
+                        <form id="bagForm"> 
+                            <input type="hidden" name="ba_count" :value="count">
+                            <input type="hidden" name="p_id" :value="$store.state.productDetail.id">
+                            <!-- p_id & conut-->
+                            <button @click="$store.dispatch('detailedToCount')" type="button" @mouseover="openIconBag" @mouseleave="closeIconBag"  class="detailed_haeder_bag_a">
+                                <img src="/img/bag.png" class="detailed_haeder_bag_w" id="b_detailed">
+                                <img src="/img/bag_b.png" class="detailed_haeder_bag_b" id="bk_detailed">
+                                <div class="detailed_haeder_bag">장바구니</div>
+                            </button>
+                        </form>
+                    </router-link>
+                    <button type="button" class="detailed_haeder_bay" @click="$store.dispatch('detailedUpdate', $store.state.productDetail)">구매하기</button>
                 </div>
             </div>
+        </div>
     <div class="detailed_content">
         <img :src="$store.state.productDetail.info">
     </div>

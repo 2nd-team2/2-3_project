@@ -85,10 +85,10 @@ hr {
 
 /* ------------- 목록번호 ------------- */
 .list_num_item {
-    width: 70%;
-    margin: 6rem auto 0;
+    margin: 100px auto;
+    width: 50%;
     display: flex;
-    /* text-align: center; */
+    justify-items: center;
     align-items: center;
     justify-content: center;
 }

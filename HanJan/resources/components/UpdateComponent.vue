@@ -33,11 +33,13 @@
                     </div>
                 </div>
                 <hr>
-                <div class="info_item_box vital">
+                <div class="info_item_box">
                     <label class="info_item_label" for="name">이름</label>
                     <div class="info_item_input">
-                        <p class="info_item_err_msg">{{ nameError }}</p>
-                        <input type="text" name="name" id="name" @input="chkName">
+                        <p class="info_item_err_msg"></p>
+                        <span class="bold_span">
+                          {{ $store.state.userInfo.name }}
+                        </span>
                     </div>
                 </div>
                 <hr>
@@ -45,7 +47,7 @@
                     <label class="info_item_label" for="phone">휴대전화번호</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg">{{ phoneError }}</p>
-                        <input type="text" name="tel" id="phone" @input="chkPhone">
+                        <input placeholder="숫자만 입력해주세요" type="text" name="tel" id="phone" @input="chkPhone">
                     </div>
                 </div>
                 <hr>
@@ -88,13 +90,13 @@ const phone = ref('');
 const address = ref('');
 const detailAddress = ref('');
 const postcode = ref('');
-const name = ref('');
+// const name = ref('');
 
 const passwordError = ref('');
 const passwordChkError = ref('');
 const phoneError = ref('');
 const addressError = ref('');
-const nameError = ref('');
+// const nameError = ref('');
 
 function chkPassword(e) {
   if (e.target.value.length < 8) {
@@ -112,14 +114,14 @@ function chkPasswordChk() {
   }
 }
 
-function chkName(e) {
-  const namePattern = /^[가-힣a-zA-Z]+$/;
-  if (!namePattern.test(e.target.value)) {
-    nameError.value = '이름은 영어 대소문자와 한글로만 사용 가능합니다.';
-  } else {
-    nameError.value = '';
-  }
-}
+// function chkName(e) {
+//   const namePattern = /^[가-힣a-zA-Z]+$/;
+//   if (!namePattern.test(e.target.value)) {
+//     nameError.value = '이름은 영어 대소문자와 한글로만 사용 가능합니다.';
+//   } else {
+//     nameError.value = '';
+//   }
+// }
 
 function chkPhone(e) {
   const phonePattern = /^\d{10,11}$/;
@@ -130,9 +132,9 @@ function chkPhone(e) {
   }
 }
 
-function chkAddress(e) {
-  if (e.target.value === '') {
-    addressError.value = '주소 형식이 맞지 않습니다.';
+function chkAddress() {
+  if (!address.value) {
+    addressError.value = '주소를 다시 확인해주세요.';
   } else {
     addressError.value = '';
   }
@@ -148,8 +150,8 @@ function validateForm() {
   chkPasswordChk({ target: { value: passwordChk.value } });
   if (passwordChkError.value) valid = false;
 
-  chkName({ target: { value: name.value } });
-  if (nameError.value) valid = false;
+  // chkName({ target: { value: name.value } });
+  // if (nameError.value) valid = false;
 
   chkPhone({ target: { value: phone.value } });
   if (phoneError.value) valid = false;

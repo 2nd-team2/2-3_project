@@ -266,6 +266,16 @@ li{
     text-align: center;
     line-height: 35px;
 }
+.qna_answer_complete {
+    background-color: #FAC91D;
+    color: rgb(0, 0, 0);
+    height: 35px;
+    width: 150px;
+    padding: 0 1rem;
+    border-radius: 20px;
+    text-align: center;
+    line-height: 35px;
+}
 .cursorBtn {
     cursor: pointer;
 }
@@ -280,11 +290,10 @@ li{
 .list_num_item {
     margin: 100px auto;
     width: 50%;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    display: flex;
     justify-items: center;
     align-items: center;
-    
+    justify-content: center;
 }
 .list_num_item > a {
     padding: 0rem 1rem;

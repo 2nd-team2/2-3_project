@@ -19,6 +19,8 @@ h1 {
     justify-content: center;
     align-items: center;
     gap: 5rem;
+    overflow: auto;
+    max-height: 100vh; 
 }
 
 .detailed_haeder > img {
@@ -77,6 +79,7 @@ input[type="number"]::-webkit-outer-spin-button {
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
     background-color: transparent;
+    cursor: pointer;
 }
 .detailed_haeder_quantity {
     border: 1px solid #5c5c5c;
@@ -94,6 +97,7 @@ input[type="number"]::-webkit-outer-spin-button {
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
     background-color: transparent;
+    cursor: pointer;
 }
 
 /* ------------- 총값 ------------- */
@@ -105,6 +109,7 @@ input[type="number"]::-webkit-outer-spin-button {
     padding: 0.5rem 1rem;
     font-weight: 600;
     margin-top: 0.5rem;
+    pointer-events: none
 }
 .detailed_haeder_btn {
     display: flex;
@@ -125,6 +130,7 @@ input[type="number"]::-webkit-outer-spin-button {
     align-items: center;
     gap: 10px;
     font-size: 1.2rem;
+    cursor: pointer;
 }
 .detailed_haeder_bag_b {
     display: none;
@@ -181,7 +187,6 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 .star-rating {
     display: flex;
-    cursor: pointer;
     align-items: center;
     line-height: 20px;
 }
