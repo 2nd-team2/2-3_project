@@ -34,7 +34,7 @@ const store = createStore({
             // 베스트 정보
             bastData: [],
             // 상품 게시물 리스트
-            listData: [],
+            listData: localStorage.getItem('listData') ? JSON.parse(localStorage.getItem('listData')) : {current_page: '1'},
             // 리뷰 게시물 리스트
             reviewDetail: [],
             // 디테일->장바구니 데이터 보내기
@@ -131,6 +131,7 @@ const store = createStore({
         // 상품리스트
         listInfoData(state, data) {
             state.listData = data;
+            localStorage.setItem('listData', JSON.stringify(data));
         },
         // 베스트리스트
         listBastData(state, data) {
@@ -668,10 +669,10 @@ const store = createStore({
          * 
          * @param {*} context
          */
-        getList(context, type) {
+        getList(context, type, page) {
+            console.log('실행됨?')
             const param = page == 1 ? '' : '?page=' + page;
-            // const url = '/api/list' + param;
-            const url = '/api/list?type=' + type;
+            const url = '/api/list?type=' + type+ '&'+ '?page=' + param;
 
             axios.get(url)
             .then(response => {

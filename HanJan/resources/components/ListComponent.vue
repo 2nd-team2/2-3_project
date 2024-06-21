@@ -35,7 +35,7 @@
             <hr>
             <div class="list_content">
                 <!-- 저장 -->
-                <div class="list_best" v-for="(item, key) in $store.state.listData" :key="key">
+                <div class="list_best" v-for="(item, key) in $store.state.listData.data" :key="key">
                     <div @click="productDetail(item.id)"> 
                         <img :src="item.img">
                         <div class="list_best_detail">
@@ -52,7 +52,7 @@
                     v-for="page in pages"
                     :key="page"
                     href="#"
-                    :class="{'num': page === $store.state.noticeData.current_page, 'num_none': page !== $store.state.noticeData.current_page}"
+                    :class="{'num': page === $store.state.listData.current_page, 'num_none': page !== $store.state.listData.current_page}"
                     @click.prevent="goToPage(page)"
                     >{{ page }}
                 </a>
@@ -75,7 +75,9 @@
     const store = useStore();
     
     onBeforeMount(() => {
-        // store.dispatch('getList');
+        // if(store.state.listData.current_page == 1) {
+        //     store.dispatch('getList', 1);
+        // }
         store.dispatch('productBastDetail');
     });
     
@@ -89,13 +91,17 @@
     onBeforeRouteUpdate((to, from) => {
         console.log(to.query.type);
         store.commit('setCurrentImage', to.query.type);
-        store.dispatch('getList', to.query.type);
+        // store.dispatch('getList', to.query.type);
+        if(store.state.listData.current_page == 1) {
+            store.dispatch('getList', to.query.type);
+        }
     });
 
     // 페이지네이션
 
     // 게시물 데이터 가져오기
-    const posts = computed(() => store.state.noticeData)
+    const posts = computed(() => store.state.listData);
+    console.log('listData:',posts);
 
     // 페이지 번호 배열 계산
     const pages = computed(() => {
@@ -123,7 +129,7 @@
 
     // 특정 페이지로 이동
     function goToPage(page) {
-        store.dispatch('getNoticeData', page);
+        store.dispatch('getList', page);
     }
 
     // 이전 페이지로 이동
