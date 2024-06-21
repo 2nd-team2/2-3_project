@@ -58,8 +58,8 @@ main {
     grid-template-columns: 1fr 0.3fr;
     border: 1px solid black;
     border-radius: 15px;
-    padding: 25px 30px 10px 30px;
-    height: 200px;
+    padding: 30px;
+    height: 170px;
 }
 .user_update_btn {
     margin-left: 15px;
@@ -123,6 +123,7 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: flex-end;
 }
 .order_date {
     grid-column: 1 / 3;
@@ -142,7 +143,6 @@ main {
     cursor: pointer;
 }
 .inquiry_delete {
-    margin-top: 10%;
     margin-left: 80%;
     height: 30px;
     width: 30px;
@@ -179,9 +179,14 @@ main {
     font-size: 1.3em;
 }
 .inquiry_name {
-    grid-column: 2 / 3;
+    grid-column: 2 / 4;
     grid-row: 1 / 2;
     font-size: 1.3em;
+    text-overflow: ellipsis;
+    display: -webkit-box; /* Flexbox를 사용하여 박스 모델로 표시 */
+    -webkit-box-orient: vertical; /* 수직 방향으로 박스 설정 */
+    -webkit-line-clamp: 3; /* 수직 방향으로 박스 설정 */
+    overflow: hidden;
 }
 .order_price {
     grid-column: 2 / 3;
