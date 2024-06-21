@@ -16,18 +16,18 @@
                 <div @click="closeNavMini" class="cancel" id="cancel"><img src="/img/cancel.png" class="cancel_img"></div>
                 <ul class="nav" id="nav">
                     <li class="nav_box nav_item1">
-                        <router-link to="/list?type=99" @mouseover="openMiniNav" @mouseleave="closeMiniNav" class="nav_font">
+                        <router-link to="/list?type=99&page=1" @mouseover="openMiniNav" @mouseleave="closeMiniNav" class="nav_font">
                             전체 메뉴 <span class="plus"> + </span>
                             <div class="nav_mini display_none" id="nav_mini">
                                 <ul class="nav_mini_title">
                                     <li class="nav_mini_item1">
-                                        <router-link to="/list?type=0" class="nav_mini_font" @click="closeNavMini">탁주</router-link>
+                                        <router-link to="/list?type=0&page=1" class="nav_mini_font" @click="closeNavMini">탁주</router-link>
                                     </li>
                                     <li class="nav_mini_item2">
-                                        <router-link to="/list?type=1" class="nav_mini_font" @click="closeNavMini">과실주</router-link>
+                                        <router-link to="/list?type=1&page=1" class="nav_mini_font" @click="closeNavMini">과실주</router-link>
                                     </li>
                                     <li class="nav_mini_item3">
-                                        <router-link to="/list?type=2" class="nav_mini_font" @click="closeNavMini">증류주</router-link>
+                                        <router-link to="/list?type=2&page=1" class="nav_mini_font" @click="closeNavMini">증류주</router-link>
                                     </li>
                                 </ul>
                             </div>

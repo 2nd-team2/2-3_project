@@ -147,14 +147,15 @@ class ProductController extends Controller
             
             $productData = $productQuery->paginate(20);
 
-            Log::debug($productData);
+            Log::debug('리퀘스트 data', $request->all());
+            Log::debug('결과', $productData->toArray());
             
             $responseData = [
                     'code' => '0'
                     ,'msg' => '초기 상품값 획득 완료'
                     ,'data' => $productData
             ];
-            Log::debug($responseData);
+            // Log::debug($responseData);
             
             return response()->json($responseData, 200);
         }

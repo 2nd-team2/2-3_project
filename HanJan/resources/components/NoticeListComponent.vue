@@ -54,7 +54,6 @@
 
     // 게시물 데이터 가져오기
     const posts = computed(() => store.state.noticeData)
-
     // 페이지 번호 배열 계산
     const pages = computed(() => {
         const pageArray = [];
@@ -68,7 +67,7 @@
         const endPage = startPage + maxPagesToShow - 1;
 
         // 시작페이지 구하기
-        const pagingStart = startPage <= (posts.value.last_page - maxPagesToShow + 1) ? startPage : (posts.value.last_page - maxPagesToShow + 1);
+        const pagingStart = startPage <= (posts.value.last_page - maxPagesToShow + 1) || ((posts.value.last_page - maxPagesToShow + 1) < 1) ? startPage : (posts.value.last_page - maxPagesToShow + 1);
         
         // 마지막 페이지 구하기
         const pagingEnd = endPage > posts.value.last_page ? posts.value.last_page : endPage;

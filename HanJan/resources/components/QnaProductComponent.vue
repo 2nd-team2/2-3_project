@@ -9,7 +9,7 @@
                 <div class="inquiry_goods_grid">
                     <img class="inquiry_goods_img" :src="$store.state.productAskCreateData.img">
                     <div class="inquiry_item_grid">
-                        <div class="inquiry_goods_title">{{ $store.state.productAskCreateData.name + ' ' + $store.state.productAskCreateData.ml + 'ml' + '/' + $store.state.productAskCreateData.orp_count + '개' }}</div>
+                        <div class="inquiry_goods_title">{{ $store.state.productAskCreateData.name + ' ' + $store.state.productAskCreateData.ml + 'ml' + ' / ' + $store.state.productAskCreateData.orp_count + '개' }}</div>
                         <div class="inquiry_required">{{ $store.state.productAskCreateData.orpDate }}</div>
                     </div>        
                 </div>

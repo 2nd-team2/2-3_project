@@ -3,7 +3,7 @@
         <div>
             주문이 완료 되었습니다.
         </div>
-        <router-link to="/list?type=99" class="bag_cancel">
+        <router-link to="/list?type=99&page=1" class="bag_cancel">
             계속 쇼핑하기
         </router-link>
     </main>

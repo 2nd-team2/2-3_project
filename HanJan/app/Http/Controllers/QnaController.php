@@ -125,8 +125,7 @@ class QnaController extends Controller
                         ->where('qnaproducts.deleted_at', '=', null)
                         ->orderBy('qnaproducts.created_at','DESC')
                         ->orderBy('qnaproducts.qnp_id','DESC')
-                        ->limit(3)
-                        ->get();
+                        ->paginate(3);
 
         $responseData = [
             'code' => '0'
@@ -159,8 +158,7 @@ class QnaController extends Controller
                         ->where('qnas.deleted_at', '=', null)
                         ->orderBy('qnas.created_at','DESC')
                         ->orderBy('qnas.qn_id','DESC')
-                        ->limit(3)
-                        ->get();
+                        ->paginate(3);
 
         $responseData = [
             'code' => '0'
