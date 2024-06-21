@@ -272,6 +272,27 @@ const store = createStore({
 
         },
 
+        /**
+         * Bags(장바구니)테이블에서 선택된 상품만 삭제 처리
+         * 
+         * @param {*} context
+        */
+        bagsSelectDelete(context, data) {
+            const url = '/api/bagsSelectDelete/'
+            // const data = new FormData(document.querySelector('#bagsProductData'));
+
+            console.log(data);
+
+            axios.post(url, data)
+            .then(response => {
+                console.log(response.data.data); // TODO : 삭제
+                store.dispatch('bagsGetProductData');
+            })
+            .catch(error => {
+                alert('장바구니 선택 삭제에 실패했습니다.(' + error.response.data.code + ')' )
+            });
+        },
+
 
 
         
