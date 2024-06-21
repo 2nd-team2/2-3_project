@@ -42,10 +42,9 @@ Route::middleware('auth')->post('/api/bagsCountMinus/{ba_id}', [BagController::c
 Route::middleware('auth')->post('/api/bagsCountPlus/{ba_id}', [BagController::class, 'bagsCountPlus']);
 // 장바구니 데이터 삭제
 Route::middleware('auth')->delete('/api/bagsDelete/{ba_id}', [BagController::class, 'bagsDelete']);
-// // 장바구니 데이터 전체 삭제
-// Route::middleware('auth')->delete('/api/deleteAll', [BagController::class, 'deleteAll']);
 // // 장바구니 데이터 선택 삭제
-// Route::middleware('auth')->delete('/api/deleteSelect', [BagController::class, 'deleteSelect']);
+Route::middleware('auth')->post('/api/bagsSelectDelete', [BagController::class, 'bagsSelectDelete']);
+
 
 // 주문 데이터 저장
 Route::middleware('auth')->post('/api/orderComplete', [OrderController::class, 'orderComplete']);

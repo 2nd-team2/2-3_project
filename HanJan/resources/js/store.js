@@ -34,7 +34,7 @@ const store = createStore({
             // 베스트 정보
             bastData: [],
             // 상품 게시물 리스트
-            listData: [],
+            listData: localStorage.getItem('listData') ? JSON.parse(localStorage.getItem('listData')) : {current_page: '1'},
             // 리뷰 게시물 리스트
             reviewDetail: [],
             // 디테일->장바구니 데이터 보내기
@@ -131,6 +131,7 @@ const store = createStore({
         // 상품리스트
         listInfoData(state, data) {
             state.listData = data;
+            localStorage.setItem('listData', JSON.stringify(data));
         },
         // 베스트리스트
         listBastData(state, data) {
@@ -276,6 +277,27 @@ const store = createStore({
                 console.log('confirm false');
             }
 
+        },
+
+        /**
+         * Bags(장바구니)테이블에서 선택된 상품만 삭제 처리
+         * 
+         * @param {*} context
+        */
+        bagsSelectDelete(context, data) {
+            const url = '/api/bagsSelectDelete/'
+            // const data = new FormData(document.querySelector('#bagsProductData'));
+
+            console.log(data);
+
+            axios.post(url, data)
+            .then(response => {
+                console.log(response.data.data); // TODO : 삭제
+                store.dispatch('bagsGetProductData');
+            })
+            .catch(error => {
+                alert('장바구니 선택 삭제에 실패했습니다.(' + error.response.data.code + ')' )
+            });
         },
 
 
@@ -672,10 +694,10 @@ const store = createStore({
          * 
          * @param {*} context
          */
-        getList(context, type) {
+        getList(context, type, page) {
+            console.log('실행됨?')
             const param = page == 1 ? '' : '?page=' + page;
-            // const url = '/api/list' + param;
-            const url = '/api/list?type=' + type;
+            const url = '/api/list?type=' + type+ '&'+ '?page=' + param;
 
             axios.get(url)
             .then(response => {
