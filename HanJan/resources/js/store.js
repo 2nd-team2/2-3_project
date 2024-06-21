@@ -27,9 +27,9 @@ const store = createStore({
             // 주문 목록
             infoData: localStorage.getItem('infoData') ? JSON.parse(localStorage.getItem('infoData')) : {current_page: '1'},
             // 1:1 문의 목록
-            askSetData:[],
+            askSetData: localStorage.getItem('noticeData') ? JSON.parse(localStorage.getItem('noticeData')) : {current_page: '1'},
             // 상품 문의 목록
-            productAskData:[],
+            productAskData: localStorage.getItem('noticeData') ? JSON.parse(localStorage.getItem('noticeData')) : {current_page: '1'},
             // ----------------------- 성환 끝 ---------------------------
             // ----------------------- 민서 시작 -------------------------
             // 상품 정보
@@ -118,10 +118,12 @@ const store = createStore({
         // 상품문의목록
         productAskSetData(state, data) {
             state.productAskData = data;
+            localStorage.setItem('productAskData', JSON.stringify(data))
         },
         // 1:1문의 목록
         askSetData(state, data) {
             state.askSetData = data;
+            localStorage.setItem('askSetData', JSON.stringify(data))
         },
         // 마이페이지에서 리뷰작성 넘어갈때 데이터 전달
         infoReviewCreate(state, data) {
@@ -612,8 +614,9 @@ const store = createStore({
         },
 
         // 상품 문의목록 불러오기
-        productAskData(context) {
-            const url = '/api/productAsk';
+        getProductAskData(context, page) {
+            const param = page == 1 ? '' : '?page=' + page;
+            const url = '/api/productAsk' + param;
             axios.get(url)
             .then(responseData => {
                 context.commit('productAskSetData', responseData.data.data);
@@ -640,8 +643,9 @@ const store = createStore({
         },
 
         // 1:1 문의목록 불러오기
-        askData(context) {
-            const url = '/api/askData';
+        getAskData(context, page) {
+            const param = page == 1 ? '' : '?page=' + page;
+            const url = '/api/askData' + param;
             axios.get(url)
             .then(responseData => {
                 context.commit('askSetData', responseData.data.data);

@@ -125,7 +125,7 @@ main {
 
 /* 페이지네이션 */
 .list_num_item {
-    margin: 100px auto;
+    margin: 80px auto;
     width: 50%;
     display: flex;
     justify-items: center;
@@ -134,6 +134,7 @@ main {
 }
 .list_num_item > a {
     padding: 0rem 1rem;
+    margin: 0 0.5rem;
     color: #000;
     font-size: 1rem;
     font-weight: 500;
@@ -141,7 +142,7 @@ main {
 .num {
     background-color: #FAC91D;
     border-radius: 50%;
-    width: 40px;
+    width: 39px;
     height: 40px;
     text-align: center;
     line-height: 40px;
