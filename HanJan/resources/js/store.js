@@ -422,9 +422,9 @@ const store = createStore({
                 context.commit('setAuthFlg', true);
                 router.replace('/');
             })
-            .catch(error => {
-                console.log(error);
-                alert('로그인에 실패 (' + error.responseData.data.code + ')');
+            .catch(responseData => {
+                console.log(responseData);
+                alert('로그인 실패');
             });
         },
         // 로그아웃
