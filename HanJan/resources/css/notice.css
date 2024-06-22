@@ -69,19 +69,20 @@ main {
 }
 
 .move_notice_list {
-    margin: 5px 0;
+    margin: 5px 0 5px auto;
     padding: 0 1rem;
     grid-column: 3 / 4;
     grid-row: 1 / 2;
     background-color: black;
-    border-radius: 15px;
+    border-radius: 20px;
     border: none;
     color: white;
     cursor: pointer;
-    height: 30px;
+    height: 35px;
+    width: 150px;
     font-size: 1rem;
     font-weight: 300;
-    line-height: 30px;
+    line-height: 35px;
     text-align: center;
 }
 

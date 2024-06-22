@@ -97,13 +97,13 @@
     <!-- 날씨 추천 술 -->
     <div class="weather_alcohol">
         <h1 class="weather_alcohol_title">당신의 시원한 여름이 여기에</h1>
-        <div v-for="(season, index) in $store.state.seasonData.slice(0, 8)" :key="index">
-            <div :class="{weather_alcohol_box: index % 2 === 0, weather_alcohol_box2: index % 2 === 1}">
+        <div v-for="(season, index) in seasonLimit" :key="index">
+            <div @click="productDetail(season.id)" :class="{weather_alcohol_box: index % 2 === 0, weather_alcohol_box2: index % 2 === 1}">
                 <img v-if="index % 2 === 0" :src="season.img" class="weather_alcohol_img">
-                <h1 class="weather_alcohol_num">0{{ index + 1 }}</h1>
+                <h1 class="weather_alcohol_num">{{ '0' + (index + 1) }}</h1>
                 <h1 class="weather_alcohol_name">{{ season.name }}</h1>
                 <div class="weather_alcohol_type">{{ season.type + ' ' + season.ml + 'ml'}}</div>
-                <div @click="productDetail(season.id)" class="weather_alcohol_a">바로가기</div>
+                <div class="weather_alcohol_a">바로가기</div>
                 <img v-if="index % 2 === 1" :src="season.img" class="weather_alcohol_img">
             </div>
         </div>
@@ -112,7 +112,7 @@
     <!-- 리뷰 -->
     <div class="review_container">
         <h1 class="review">한잔 리뷰</h1>
-        <div class="review_box" v-for="review in $store.state.reviewListData">
+        <div class="review_box" v-for="review in reviewLimit">
             <img :src="review.img" class="goods_img">
             <p class="review_content">{{ review.re_content }}</p>
             <div @click="productDetail(review.id)" class="review_a">
@@ -148,7 +148,7 @@
     import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
     // 공지사항 
-    import { onBeforeMount } from 'vue';
+    import { onBeforeMount, ref, computed, onMounted } from 'vue';
     import { useStore } from 'vuex';
     import router from '../js/router';
 
@@ -170,16 +170,47 @@
         if(store.state.seasonData.length < 1) {
             store.dispatch('getSeasonData');
         }
+        
     })
 
+    // 공지사항 디테일 페이지 이동
     function noticeDetail(id) {
         router.push('/notice?id=' + id);
     }
 
-    // 
+    // 상품 디테일 페이지 이동
     function productDetail(id) {
         router.push('/detailed?id='+ id);
     }
+
+    // 모바일 버전 스크린 크기에 따른 데이터 갯수
+    // 화면 크기에 따라 데이터를 제한하기 위한 reactive 변수
+    const windowWidth = ref(window.innerWidth);
+
+    // 화면 크기 변경을 감지하는 함수
+    const updateWindowWidth = () => {
+        windowWidth.value = window.innerWidth;
+    };
+
+    // 화면 크기에 따라 표시할 데이터를 계산하는 computed 속성
+    // 계절 별 추천
+    const seasonLimit = computed(() => {
+        const data = store.state.seasonData;
+        return windowWidth.value <= 770 ? data.slice(0, 6) : data;
+    });
+
+    // 리뷰
+    const reviewLimit = computed(() => {
+        const data = store.state.reviewListData;
+        return windowWidth.value <= 770 ? data.slice(0, 3) : data;
+    });
+
+    // 컴포넌트가 마운트될 때 resize 이벤트 리스너를 추가
+    onMounted(() => {
+        window.addEventListener('resize', updateWindowWidth);
+    });
+
+    
 
 </script>
 
