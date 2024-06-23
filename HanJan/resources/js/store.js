@@ -260,6 +260,25 @@ const store = createStore({
             });
         },
 
+
+        /**
+         * 장바구니에 수량 증가한 데이터 저장
+         * 
+         * @param {*} context
+         * @param {*} 
+         */
+        // bagsCountChange(context, ) {
+        //     const url = '/api/bagsCountPlus/' + ;
+
+        //     axios.post(url)
+        //     .then(response => {
+        //         console.log(response.data.data);
+        //     })
+        //     .catch(error => {
+        //         alert('수량 감소에 실패했습니다.(' + error.response.data.code + ')' )
+        //     });
+        // },
+
         
         /**
          * 장바구니에서 휴지통 버튼 클릭시 목록에서 삭제
