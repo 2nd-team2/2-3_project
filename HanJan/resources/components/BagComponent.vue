@@ -191,13 +191,14 @@ const bagsSelectDelete = () => {
             
             chkSelectItems.forEach(item => {
                 data.append('ba_id[]', item.ba_id);
-                data.append('ba_count[]', item.ba_count);
+                data.append('ba_count[]', item.ba_count); // TODO : 경량화할때 확인 해보고 삭제하기
             });
-    
+            console.log(data);
+     
             // 삭제 처리
             store.dispatch('bagsSelectDelete', data);
         } else {
-            console.log('confirm false');
+            console.log('confirm false'); // TODO : 삭제
         }
     }
 
@@ -205,27 +206,84 @@ const bagsSelectDelete = () => {
 }
 
 // 체크 상품이 있을 경우만 order 페이지로 넘어가기
-// 넘길때 필요 정보 같이 넘기기
 const bagsToOrder = () => {
     const chkOrderItems = store.state.bagsProductData.filter(item => item.checked);
 
     if (chkOrderItems.length <= 0) {
-        alert('구매할 상품을 선택해주세요.')
+        alert('구매할 상품을 선택해주세요.');
     } else {
-        const data = new FormData();
+        console.log('****체크된 상품*****');
+        console.log(chkOrderItems);
 
-        chkOrderItems.forEach(item => {
-            data.append('p_id[]', item.p_id);
-            data.append('ba_id[]', item.ba_id);
-            data.append('ba_count[]', item.ba_count);
-        });
-        
-        console.log(data);
+        // 로컬에 저장하고 싶은 데이터 가공 처리
+        const orderItems = chkOrderItems.map(item => ({
+            p_id: item.p_id
+            ,ba_id: item.ba_id
+            ,ba_count: item.ba_count
+            // TODO : 장바구니 deleted_at도 같이 보내기 (so) 데이터 받아올때 장바구니 delete_at는 별칭 줘서 따로 가져오기)
+            // ,bagDel: item.bagDel
+            ,price: item.price
+        }));
 
-        store.dispatch('bagsToOrder', data);
+        console.log('****주문 아이템*****');
+        console.log(orderItems);
+
+        store.dispatch('bagsToOrder', orderItems);
     }
-
 }
+
+
+
+
+
+
+// // 폼데이터를 로컬에 저장하기 위해 데이터 변환 헬퍼함수 만들기
+// const formDataToObject = (formData) => {
+//     const obj = {};
+//     formData.forEach((value, key) => {
+//         // 동일한 키에 대한 여러 값을 처리 (즉, 배열)
+//         if (obj[key]) {
+//             if (!Array.isArray(obj[key])) {
+//                 obj[key] = [obj[key]];
+//             }
+//             obj[key].push(value);
+//         } else {
+//             obj[key] = value;
+//         }
+//     });
+//     return obj;
+// }
+// // 넘길때 필요 정보 같이 넘기기
+// const bagsToOrder = () => {
+//     const chkOrderItems = store.state.bagsProductData.filter(item => item.checked);
+
+//     if (chkOrderItems.length <= 0) {
+//         alert('구매할 상품을 선택해주세요.')
+//     } else {
+//         console.log('****체크된 상품*****');
+//         console.log(chkOrderItems); // TODO : 삭제
+
+//         const data = new FormData();
+
+//         chkOrderItems.forEach(item => {
+//             data.append('p_id[]', item.p_id); // TODO : 경량화할때 확인 해보고 삭제하기
+//             data.append('ba_id[]', item.ba_id); 
+//             data.append('ba_count[]', item.ba_count); // TODO : 경량화할때 확인 해보고 삭제하기
+//         });
+        
+//         console.log('****forEach 돌린 폼데이터*****');
+//         console.log(data); // TODO : 삭제
+        
+//         // FormData를 일반 객체롤 변환
+//         const bagsToOrder = formDataToObject(data);
+        
+//         console.log('****폼데이터 변환*****');
+//         console.log(data); // TODO : 삭제
+
+//         store.dispatch('bagsToOrder', bagsToOrder);
+//     }
+
+// }
 
 
 

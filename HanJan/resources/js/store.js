@@ -293,9 +293,10 @@ const store = createStore({
         */
         bagsSelectDelete(context, data) {
             const url = '/api/bagsSelectDelete/'
+            // 선택된 데이터만 들고 와야되기 때문에 vue에서 먼저 처리후 데이터 넘겨줌
             // const data = new FormData(document.querySelector('#bagsProductData'));
 
-            console.log(data);
+            console.log(data); // TODO : 삭제
 
             axios.post(url, data)
             .then(response => {
@@ -314,19 +315,33 @@ const store = createStore({
          * @param {*} data
         */
         bagsToOrder(context, data) {
-            const url = '/api/bagsToOrder';
             
-            axios.post(url, data)
-            .then(response => {
-                console.log(response.data); // TODO : 삭제
+            const bagsToOrder = data;
 
-                context.commit('bagsToOrder', response.data.data); 
-                router.push('/order')
-            })
-            .catch(error => {
-                alert('결제하기에 실패했습니다.(' + error.response.data.code + ')' )
-            });
+            console.log('*********스토어에서 받은 데이터*************');
+            console.log(bagsToOrder);
+
+
+            context.commit('bagsToOrder', bagsToOrder);
+            localStorage.setItem('bagsToOrder', JSON.stringify(bagsToOrder));
+
+            router.push('/order');
         },
+        // bagsToOrder(context, data) {
+
+            
+            // const detailedUpdateData = item;
+            // const data = new FormData(document.querySelector('#bagForm'));
+            // // FormData 담고있는 [key, value] 배열들을 객체로 변환
+            // const formDataObject = Object.fromEntries(data.entries());
+            // // detailedUpdateData와 formDataObject를 병합하여 detailedData 객체 생성
+            // const detailedData = { ...detailedUpdateData, ...formDataObject };
+
+            // context.commit('setdetailedUpdate', detailedData);
+            // localStorage.setItem('detailedUpdate', JSON.stringify(detailedData));
+
+            // router.push('/order');
+        // },
 
 
 
@@ -334,7 +349,7 @@ const store = createStore({
 
         /**
          * order(주문) 페이지에서 결제하기 처리
-         * 실제 결제하기 기능은 없고 데이터 저장처리만 수행
+         * 실제 결제하기 기능은 없고 orders테이블에 데이터 저장처리만 수행
          * 
          * @param {*} context
         */
@@ -344,8 +359,25 @@ const store = createStore({
 
             axios.post(url, data)
             .then(response => {
-                console.log('주문')
+                console.log('주문');
 
+
+                
+
+                // TODO : orderproducts 테이블에 데이터 저장하는 처리도 하기
+                store.dispatch('orderProductComlete');
+
+                // TODO : 장바구니 deleted_at 삭제하는 처리도하기
+                store.dispatch('bagsCompleteDelete');
+
+
+
+
+
+
+
+
+                // 주문완료 페이지로 이동
                 router.push('/ordercomplete');
             })
             .catch(error => {

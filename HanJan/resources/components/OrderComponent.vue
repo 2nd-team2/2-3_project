@@ -1,6 +1,8 @@
 <template>
     <main>
+        <div>{{ $store.state.bagsToOrder }}</div> <!-- TODO 삭제 -->
         <form id="orderComplete" @submit.prevent="validateForm">
+            <div></div>
             <div class="header">
                 <div class="header_top">
                     <ul class="header_step">
@@ -29,9 +31,11 @@
                     </div>
                 </div>
             </div>
+
             <div class="main">
                 <div class="main_top">
                     <h2>받는 사람정보</h2>
+            
                 </div>
                 <div class="main_bottom">
                     <div class="main_bottom_text">
@@ -48,7 +52,6 @@
                         <p class="info_item_err_msg">{{ getTelError }}</p>
                         <input type="text" name="or_get_tel" id="or_get_tel" @input="getChkTel" v-model="getTel">
                     </div>
-
                     <div class="">
                         <label class="" for="address">주소</label>
                         <div class="">
@@ -62,23 +65,56 @@
                     </div>
                 </div>
 
-                <!-- 주문 데이터 다들고 와서 보내기 >> 주문테이블, 주문상품 테이블에 데이터 저장을 위해서-->
-                 <!-- orderProduct : or_id, p_id, orp_count -->
-                <input type="hidden" name ="or_sum" value="1"> <!-- 일단 1로 고정해둠 -->
-
+                <div>
+                    <!-- 주문 데이터 다들고 와서 보내기 >> 주문테이블, 주문상품 테이블에 데이터 저장을 위해서-->
+                    <!-- orderProduct : or_id, p_id, orp_count -->
+                    <input type="hidden" name ="or_sum" value="1"> <!-- 일단 1로 고정해둠 -->
+                    <div class="bag_margin_top bag_margin_bottom bag_total_border bag_total_grid">
+                        <div></div>
+                        <div class="bag_price_grid">
+                            <!-- {{ $store.state.detailedUpdate }} -->
+                            <div> 총 {{ totalPrice.count }} 개의 상품금액</div>
+                            <div class="bag_yellow bag_flex_end"> {{ totalPrice.total }}원</div>
+                        </div>
+                        <img src="/img/plus.png">
+                        <div>
+                            <div>배송비</div>
+                            <div class="bag_yellow bag_flex_end"> {{ deliveryPrice }}원</div>
+                        </div>
+                        <img src="/img/equal.png">
+                        <div>
+                            <div>합계</div>
+                            <div class="bag_yellow bag_flex_end"> {{ totalPrice.total + deliveryPrice }}원</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <input type="hidden" name="or_sum" :value="totalPrice.total + deliveryPrice">
+                <button type="button" @click="$store.dispatch('orderComplete')">결제하기</button>
             </div>
-            <!-- <input type="hidden" :value="$store.state."> -->
-            <button type="button" @click="$store.dispatch('orderComplete')">결제하기</button>
         </form>
     </main>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 
+// 배송비 (TODO : 일정 금액 이상일 경우 무료 + 각 상품 마다 배송비 저장할 컬럼 만들기(products 테이블) )
+const deliveryPrice = ref(0);
+// 체크된 항목들만 필터링 > (선택된 상품의 총 합계와 수량을 리턴해줌)
+const totalPrice = computed(() => {
+    const Items = store.state.bagsToOrder;
 
+    let count = Items.length;
+    let total = 0;
 
+    Items.forEach(item => {
+        total += (item.price * item.ba_count);
+    })
+
+    return {count, total};
+});
 
 
 

@@ -131,29 +131,31 @@ class BagController extends Controller
     }
 
 
-    // 장바구니 데이터 > 주문 페이지로 전달 처리
-    public function bagsToOrder(Request $request) {
-        Log::debug($request);
+    // // 장바구니 데이터 > 주문 페이지로 전달 처리
+    // public function bagsToOrder(Request $request) {
+    //     Log::debug($request); // TODO : 삭제
 
-        $baIds = $request->input('ba_id');
-        // $baCounts = $request->input('ba_count');
-        // $pIDs = $request->input('p_id');
+    //     $baIds = $request->input('ba_id');
+    //     // $baCounts = $request->input('ba_count');
+    //     // $pIDs = $request->input('p_id');
 
-        foreach($baIds as $ba_id) {
-            // 장바구니에서 정보 가져오기
-            // 
+    //     foreach($baIds as $ba_id) {
+    //         // 장바구니에서 정보 가져오기
+    //         $requestData =  Bag::select('bags.*','products.*')
+    //                                 ->join('products', 'bags.p_id', '=','products.id')
+    //                                 ->where('bags.u_id', '=', Auth::id())
+    //                                 ->get();
+    //     };
 
-        };
 
+    //     $responseData = [
+    //         'code' => '0'
+    //         ,'msg' => '장바구니 상품 주문 페이지로 전달 완료'
+    //         ,'data' => $request
+    //     ];
 
-        $responseData = [
-            'code' => '0'
-            ,'msg' => '장바구니 상품 주문 페이지로 전달 완료'
-            ,'data' => $request
-        ];
-
-        return response()->json($responseData);
-    }
+    //     return response()->json($responseData);
+    // }
     
 
 }

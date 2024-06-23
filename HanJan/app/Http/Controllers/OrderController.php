@@ -62,17 +62,20 @@ class OrderController extends Controller
         $orderData['or_get_det_addr'] = $request->or_get_det_addr;
         $orderData['or_sum'] = $request->or_sum;
 
-
         // 작성 처리
-        // $orderCreate = Order::create($orderData);
+        $orderCreate = Order::create($orderData);
 
         // 레스폰스 데이터 생성
-        // $responseData = [
-        //     'code' => '0'
-        //     ,'msg' => '주문 완료'
-        //     ,'data' => $orderCreate
-        // ];
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '주문 완료'
+            ,'data' => $orderCreate
+        ];
 
-        // return response()->json($responseData, 200);
+        return response()->json($responseData, 200);
     }
+
+
+    // 주문 상품 테이블 작성 
+    
 }
