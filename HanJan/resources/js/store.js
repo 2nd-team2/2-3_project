@@ -652,13 +652,13 @@ const store = createStore({
          }, 
 
         //  주문목록 삭제
-        orderItemDelete(context, itemId) {
-            const url = '/api/orderProductDelete/' + itemId;
-            axios.delete(url)
+        orderItemDelete(context, orp_id) {
+            const url = '/api/orderProductDelete/' + orp_id;
             if (confirm('확인을 누르면 구매한 상품이 삭제됩니다.')) {
                 axios.delete(url)
                 .then(responseData => {
-                    context.dispatch('infoData');
+                    console.log(responseData.data);
+                    context.dispatch('getInfoData', context.state.infoData.current_page);
                 })
                 .catch(error => {
                     alert('삭제에 실패했습니다.(' + error.response.data.code + ')' )
@@ -687,7 +687,7 @@ const store = createStore({
             if (confirm('확인을 누르면 작성한 상품 문의가 삭제됩니다.')) {
                 axios.delete(url)
                 .then(responseData => {
-                    context.dispatch('productAskData');
+                    context.dispatch('getProductAskData', context.state.productAskData.current_page);
                 })
                 .catch(error => {
                     alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
@@ -716,7 +716,7 @@ const store = createStore({
             if (confirm('확인을 누르면 작성한 1:1 문의가 삭제됩니다.')) {
                 axios.delete(url)
                 .then(responseData => {
-                    context.dispatch('askData');
+                    context.dispatch('getAskData', context.state.askSetData.current_page);
                 })
                 .catch(error => {
                     alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
@@ -728,12 +728,12 @@ const store = createStore({
         },
 
         // 구매확정
-        completeBtn(context, id) {
-            const url = '/api/complete/' + id;
+        completeBtn(context, orp_id) {
+            const url = '/api/complete/' + orp_id;
             if (confirm('확인을 누르면 구매가 확정됩니다.')) {
                 axios.post(url)
                 .then(responseData => {
-                    context.dispatch('infoData');
+                    context.dispatch('getInfoData', context.state.infoData.current_page);
                 })
                 .catch(error => {
                     alert('실패했습니다.(' + error.responseData.data.code + ')' )
@@ -753,8 +753,6 @@ const store = createStore({
 
             context.commit('reviewToUpdate', infoReviewCreateData);
             localStorage.setItem('reviewToUpdate', JSON.stringify(infoReviewCreateData));
-
-            router.replace('/reviewcreate');
         },
             
         // ----------------------- 성환 끝 ---------------------------
@@ -838,7 +836,7 @@ const store = createStore({
             })
             .catch(error => {
                 console.log(error.response.data); // TODO
-                alert('리뷰데이터 불러오기 실패했습니다.(' + error.response.data.code + ')');
+                alert('디테일 리뷰데이터 불러오기 실패했습니다.(' + error.response.data.code + ')');
             });
         },
 
@@ -859,7 +857,7 @@ const store = createStore({
             })
             .catch(error => {
                 console.log(error.response.data); // TODO
-                alert('리뷰데이터 불러오기 실패했습니다.(' + error.response.data.code + ')');
+                alert('디테일->장바구니 리뷰데이터 불러오기 실패했습니다.(' + error.response.data.code + ')');
             });
         },
 
@@ -1037,7 +1035,7 @@ const store = createStore({
                 }
                 
                 console.log(response.data); // TODO
-                router.replace('/qnaonebyonedetail');
+                router.replace('/info');
             })
             .catch(error => {
                 console.log(error.response); // TODO
