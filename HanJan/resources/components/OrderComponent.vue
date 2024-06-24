@@ -90,7 +90,9 @@
                 </div>
                 
                 <input type="hidden" name="or_sum" :value="totalPrice.total + deliveryPrice">
-                <button type="button" @click="$store.dispatch('orderComplete')">결제하기</button>
+                <input type="hidden" name="p_id" :value="$store.state.bagsToOrder.p_id">  
+                <input type="hidden" name="orp_count" :value="$store.state.bagsToOrder.ba_count">
+                <button type="button" @click="$store.dispatch('orderComplete', store.state.bagsToOrder)">결제하기</button>
             </div>
         </form>
     </main>
@@ -99,6 +101,9 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
+
+const store = useStore();
+
 
 // 배송비 (TODO : 일정 금액 이상일 경우 무료 + 각 상품 마다 배송비 저장할 컬럼 만들기(products 테이블) )
 const deliveryPrice = ref(0);
@@ -118,8 +123,6 @@ const totalPrice = computed(() => {
 
 
 
-
-const store = useStore();
 
 // 실시간 유효성 체크
 const buyName = ref(store.state.userInfo.name);
