@@ -30,6 +30,7 @@ main {
 }
 .bag_yellow {
     color: #FAC91D;
+    margin-left: 10px;
 }
 .bag_border_none {
     border: none;
@@ -62,12 +63,16 @@ main {
     text-decoration: none;
     font-size: 1rem;
     font-weight: 300;
-    height: 30px;
-    line-height: 30px;
+    height: 35px;
+    width: 150px;
+    line-height: 35px;
+    text-align: center;
     padding: 0 1rem;
+    margin-top: 6px;
     background-color: black;
     color: white;
-    border-radius: 15px;
+    border-radius: 20px;
+    cursor: pointer;
 }
 .bag_cancel:hover {
     background-color: #FAC91D;

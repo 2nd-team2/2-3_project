@@ -13,9 +13,13 @@
                 </div>
                 <p id="app">수량</p>
                 <div class="detailed_quantity" >
-                    <button @click="count--" :disabled="count === 1" class="detailed_haeder_minus" type="button">-</button>
+                    <!-- <button @click="count--" :disabled="count === 1" class="detailed_haeder_minus" type="button">-</button>
                     <input type="number" id="quantityDisplay" class="detailed_haeder_quantity" v-model="count"  min="0">
-                    <button @click="count++" :disabled="count >= $store.state.productDetail.count " class="detailed_haeder_plus" type="button">+</button>
+                    <button @click="count++" :disabled="count >= $store.state.productDetail.count " class="detailed_haeder_plus" type="button">+</button> -->
+                    <button type="button" @click="decInt()" :disabled="count <= 1" class="detailed_haeder_minus">-</button>
+                    <input type="number" v-model="count" @change="validateCount()" class="detailed_haeder_quantity">
+                    <button type="button" @click="incInt()" :disabled="count >= $store.state.productDetail.count" class="detailed_haeder_plus">+</button>
+
                 </div>
                 <div>
                     <p>총 상품가격</p>
@@ -48,17 +52,19 @@
         <div class="detailed_footer">
             <p class="detailed_footer_name">{{ item.user_name }}</p>
             <p class="detailed_footer_title">{{ item.name }}</p>
-            <div class="review_goods_info_grid_star">
-                <!-- 별점 초기 값은 date 들고오기 -->
-                <!-- 수정 -->
-                <div class="star-rating">
-                    <span class="star" v-for="star in 5" :key="star" :class="{ checked: star <= item.re_star }">
-                        &#9733;
-                    </span>
-                    <!-- <span>{{ item.re_star }}</span> -->
-                </div>                    
-            </div>                   
-            <p class="detailed_footer_date">{{ item.updated_at }}</p>
+            <div class="detailed_footer_right">
+                <div class="review_goods_info_grid_star">
+                    <!-- 별점 초기 값은 date 들고오기 -->
+                    <!-- 수정 -->
+                    <div class="star-rating">
+                        <span class="star" v-for="star in 5" :key="star" :class="{ checked: star <= item.re_star }">
+                            &#9733;
+                        </span>
+                        <!-- <span>{{ item.re_star }}</span> -->
+                    </div>                    
+                </div>                   
+                <p class="detailed_footer_date">{{ item.updated_at }}</p>
+            </div>
         </div>
         <p class="detailed_footer_content">{{ item.re_content }}</p>
     </div>
@@ -76,16 +82,16 @@
     const store = useStore();
     const count = ref(1);
 
-    watch(count, () => {
-        console.log(count.value, store.state.productDetail.count);
-        if (count.value > store.state.productDetail.count) {
-            // 물량 수 넘어가지 못하게
-            count.value = 1;
-        }if(0 == count.value ) {
-            // 0으로 못 넘어간다
-            count.value = 1;
-        }
-    });
+    // watch(count, () => {
+    //     console.log(count.value, store.state.productDetail.count);
+    //     if (count.value > store.state.productDetail.count) {
+    //         // 물량 수 넘어가지 못하게
+    //         count.value = 1;
+    //     }if(0 == count.value ) {
+    //         // 0으로 못 넘어간다
+    //         count.value = 1;
+    //     }
+    // });
 
     // 아이콘 호버시 색 변환
     function openIconBag() {
@@ -102,6 +108,28 @@
         g_iconbag.classList.add('detailed_haeder_bag_b');
         b_iconbag.style.display = 'block';
     }
+
+    // 수량 감소 버튼
+    const decInt = () => {
+        count.value--;
+    };
+    // 수량 증가 버튼
+    const incInt = () => {
+        count.value++;
+    };
+    // 수량 최대 최소 고정
+    const validateCount = () => {
+        // 1보다 작으면 1로 고정
+        if ( count.value < 1) {
+            count.value = 1;
+            alert('최소 수량은 1개 입니다.')
+        }
+        // 최대 수량보다 많을시 최대수량으로 고정
+        else if (count.value > store.state.productDetail.count) {
+            count.value = store.state.productDetail.count;
+            alert('남은 수량까지 선택할 수 있습니다. ( 남은 수량 : ' + store.state.productDetail.count + ')')
+        } 
+    };
 
     // onBeforeMount(() => {
     //     store.dispatch('setProductReviewData');

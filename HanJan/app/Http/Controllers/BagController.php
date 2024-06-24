@@ -70,6 +70,7 @@ class BagController extends Controller
         if($productDate) {
             
             $productDate->ba_count += 1;
+
             // TODO : update_at 컬럼 생성하면 주석 해제하기
             // $productDate->updated_at = now();
             
@@ -91,6 +92,39 @@ class BagController extends Controller
 
         return response()->json($responseData);
     }
+    // 장바구니 수량 입력한 데이터 저장
+    public function bagsCountChange($ba_id, Request $request) {
+        
+        $productDate = Bag::where('ba_id','=', $ba_id)->first();
+        $baCountData = $request->ba_count;
+        
+        // 조회된 데이터가 있는지 확인
+        if($productDate) {
+            
+            $productDate->ba_count = $baCountData;
+
+            // TODO : update_at 컬럼 생성하면 주석 해제하기
+            // $productDate->updated_at = now();
+            
+            $productDate->save();
+            
+            $responseData = [
+                'code' => '0'
+                ,'msg' => '장바구니 수량 입력 완료'
+                ,'data' => $ba_id
+            ];
+
+        } else {
+            $responseData = [
+                'code' => '0'
+                ,'msg' => '장바구니 상품을 찾을 수 없습니다.'
+                ,'data' => $ba_id
+            ];
+        }
+
+        return response()->json($responseData);
+    }
+
 
     // Bags(장바구니)테이블에서 휴지통 버튼 눌렀을때 삭제 처리
     public function bagsDelete($ba_id) {

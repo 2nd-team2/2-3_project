@@ -17,7 +17,9 @@ const store = createStore({
             allChecked: false,
             // 장바구니 데이터 > 주문 페이지로 넘기기
             // bagsToOrder: [],
-            bagsToOrder: localStorage.getItem('bagsToOrder') ? JSON.parse(localStorage.getItem('bagsToOrder')) : null,
+            orderProductData: localStorage.getItem('orderProductData') ? JSON.parse(localStorage.getItem('orderProductData')) : null,
+            // 결제하기 > 주문 번호 저장
+            orderId : [],
             
             // ----------------------- 보원 끝 ---------------------------
             // ----------------------- 성환 시작 -------------------------
@@ -83,9 +85,12 @@ const store = createStore({
             localStorage.setItem('reviewToUpdate', JSON.stringify(data));
         },
         // state.주문에 추가 될 리스트
-        bagsToOrder(state, data) {
-            state.bagsToOrder = data;
-            localStorage.setItem('bagsToOrder', JSON.stringify(data));
+        orderProductData(state, data) {
+            state.orderProductData = data;
+            localStorage.setItem('orderProductData', JSON.stringify(data));
+        },
+        orderId(state, data) {
+            state.orderId = data;
         },
 
         // // 선택된 상품 삭제 처리
@@ -260,24 +265,25 @@ const store = createStore({
             });
         },
 
-
         /**
-         * 장바구니에 수량 증가한 데이터 저장
+         * 장바구니에 수량 입력 데이터 저장
          * 
          * @param {*} context
-         * @param {*} 
+         * @param {*} $item
          */
-        // bagsCountChange(context, ) {
-        //     const url = '/api/bagsCountPlus/' + ;
+        bagsCountChange(context, $item) {
+            const url = '/api/bagsCountChange/' + $item.ba_id;
+            // const item = $item.ba_count;
+            const item = $item
 
-        //     axios.post(url)
-        //     .then(response => {
-        //         console.log(response.data.data);
-        //     })
-        //     .catch(error => {
-        //         alert('수량 감소에 실패했습니다.(' + error.response.data.code + ')' )
-        //     });
-        // },
+            axios.post(url, item)
+            .then(response => {
+                console.log(response.data.data);
+            })
+            .catch(error => {
+                alert('수량 입력에 실패했습니다.(' + error.response.data.code + ')' )
+            });
+        },
 
         
         /**
@@ -315,8 +321,6 @@ const store = createStore({
             // 선택된 데이터만 들고 와야되기 때문에 vue에서 먼저 처리후 데이터 넘겨줌
             // const data = new FormData(document.querySelector('#bagsProductData'));
 
-            console.log(data); // TODO : 삭제
-
             axios.post(url, data)
             .then(response => {
                 console.log(response.data.data); // TODO : 삭제
@@ -335,14 +339,10 @@ const store = createStore({
         */
         bagsToOrder(context, data) {
             
-            const bagsToOrder = data;
+            const orderProductData = data;
 
-            console.log('*********스토어에서 받은 데이터*************');
-            console.log(bagsToOrder);
-
-
-            context.commit('bagsToOrder', bagsToOrder);
-            localStorage.setItem('bagsToOrder', JSON.stringify(bagsToOrder));
+            context.commit('orderProductData', orderProductData);
+            localStorage.setItem('orderProductData', JSON.stringify(orderProductData));
 
             router.push('/order');
         },
@@ -364,46 +364,51 @@ const store = createStore({
 
 
 
-
-
         /**
          * order(주문) 페이지에서 결제하기 처리
-         * 실제 결제하기 기능은 없고 orders테이블에 데이터 저장처리만 수행
+         * 실제 결제하기 기능은 없고 orders테이블에 주문 데이터 저장처리만 수행
          * 
          * @param {*} context
+         * @param {*} store.state.bagsToOrder
         */
-        orderComplete(context) {
+        orderComplete(context, bagsToOrder) {
             const url = '/api/orderComplete';
             const data = new FormData(document.querySelector('#orderComplete'));
 
             axios.post(url, data)
             .then(response => {
-                console.log('주문');
+                console.log('주문 테이블 완료');
 
+                // orders테이블에 주문 상품 데이터 저장 처리
+                const url = '/api/orderProductComlete/' + response.data.data.or_id;
+    
+                axios.post(url, bagsToOrder)
+                .then(response => {
+                    console.log('주문상품 테이블 완료');
 
-                
+                    // 주문 완료 시 장바구니 deleted_at 수정 처리
+                    const url = '/api/bagsCompleteDelete';
 
-                // TODO : orderproducts 테이블에 데이터 저장하는 처리도 하기
-                store.dispatch('orderProductComlete');
+                    axios.post(url, bagsToOrder)
+                    .then(response => {
+                        console.log('주문 완료 > 장바구니 삭제')
+                        // 주문완료 페이지로 이동
+                        router.push('/ordercomplete');
+                    })
+                    .catch(error => {
+                        alert('결제에 실패하였습니다.-장바구니삭제(' + error.response.data.code + ')' )
+                    });
 
-                // TODO : 장바구니 deleted_at 삭제하는 처리도하기
-                store.dispatch('bagsCompleteDelete');
+                })
+                .catch(error => {
+                    alert('결제에 실패하였습니다.-주문 상품(' + error.response.data.code + ')' )
+                });
 
-
-
-
-
-
-
-
-                // 주문완료 페이지로 이동
-                router.push('/ordercomplete');
             })
             .catch(error => {
-                alert('결제에 실패하였습니다.(' + error.response.data.code + ')' )
+                alert('결제에 실패하였습니다.-주문(' + error.response.data.code + ')' )
             });
         },
-
 
         
         /**
@@ -857,8 +862,10 @@ const store = createStore({
                 constext.commit('detailedCountData', response.data.data);
             })
             .catch(error => {
-                console.log(error.response.data); // TODO
-                alert('디테일->장바구니 리뷰데이터 불러오기 실패했습니다.(' + error.response.data.code + ')');
+                console.log(error.response); // TODO
+                if(error.response.status !== 401) {
+                    alert('디테일->장바구니 수량 데이터 불러오기 실패했습니다.(' + error.response.data.code + ')');
+                }
             });
         },
 

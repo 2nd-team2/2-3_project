@@ -40,6 +40,9 @@ Route::middleware('auth')->get('/api/bagsProduct', [BagController::class, 'bagsI
 Route::middleware('auth')->post('/api/bagsCountMinus/{ba_id}', [BagController::class, 'bagsCountMinus']);
 // 장바구니 수량 증가한 데이터 저장
 Route::middleware('auth')->post('/api/bagsCountPlus/{ba_id}', [BagController::class, 'bagsCountPlus']);
+// 장바구니 수량 입력한 데이터 저장
+Route::middleware('auth')->post('/api/bagsCountChange/{ba_id}', [BagController::class, 'bagsCountChange']);
+
 // 장바구니 데이터 삭제
 Route::middleware('auth')->delete('/api/bagsDelete/{ba_id}', [BagController::class, 'bagsDelete']);
 // 장바구니 데이터 선택 삭제
@@ -48,8 +51,10 @@ Route::middleware('auth')->post('/api/bagsSelectDelete', [BagController::class, 
 Route::middleware('auth')->post('/api/bagsToOrder', [BagController::class, 'bagsToOrder']);
 
 
-// 주문 데이터 저장
+// 결제하기 데이터 저장(주문, 주문상품, 장바구니삭제)
 Route::middleware('auth')->post('/api/orderComplete', [OrderController::class, 'orderComplete']);
+Route::middleware('auth')->post('/api/orderProductComlete/{or_id}', [OrderController::class, 'orderProductComlete']);
+Route::middleware('auth')->post('/api/bagsCompleteDelete', [OrderController::class, 'bagsCompleteDelete']);
 
 
 
@@ -106,7 +111,7 @@ Route::get('/api/listBast', [ProductController::class, 'listBast']);
 // 리뷰 데이터 불러오기
 Route::get('/api/reviewdetailed/{id}', [ProductController::class, 'detailedReview']);
 // 수량 데이터 보내기(디테일->장바구니)
-Route::post('/api/detailedToCount', [ProductController::class, 'detailedToCount']);
+Route::middleware('auth')->post('/api/detailedToCount', [ProductController::class, 'detailedToCount']);
 // 상세리스트 데이터 불러오기
 Route::get('/api/list', [ProductController::class, 'list']);
 // ----------------------- 민서 끝 ---------------------------

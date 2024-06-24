@@ -211,7 +211,7 @@ class ProductController extends Controller
             
             // 작성 처리
             $createData['u_id'] = Auth::id();
-            $createData['ba_id'] = 1;
+            $createData['ba_id'] = $request->ba_id;
             $createData['p_id'] = $request->p_id;
             $createData['ba_count'] = $request->ba_count;
 

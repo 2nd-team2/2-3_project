@@ -9,7 +9,7 @@
                 </div>
                 <div class="inputGroup2">
                     <img src="/img/drunkOtter.png" class="face">
-                    <input type="password" name="password" id="password" class="login_input" placeholder="비밀번호">
+                    <input type="password" name="password" id="password" class="login_input" placeholder="비밀번호" autocomplete="off">
                 </div>
                 <button type="button" class="loginBtn" @click="login">로그인</button>
                 <button type="button" class="registBtn" @click="$router.push('agree')">회원가입</button>

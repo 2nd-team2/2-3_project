@@ -3,7 +3,7 @@
         <h2 class="bag_title bag_title_grid">
             <div>
                 <span>장바구니</span>
-                <span class="bag_Sequence"><span class="bag_yellow">01장바구니</span>> 02정보입력 > 03결제완료</span>
+                <span class="bag_Sequence"><span class="bag_yellow">01장바구니</span> > 02정보입력 > 03결제완료</span>
             </div>
             <router-link to="/list?type=99&page=1" class="bag_cancel">
                 계속 쇼핑하기
@@ -135,7 +135,7 @@ const validateCount = (item) => {
     // TODO
     // DB에 저장해서 새로고침 해도 직접 입력한 값을 저장
     else {
-        // store.dispatch('bagsCountChange', item.ba_count);
+        store.dispatch('bagsCountChange', item);
     }
 };
 
@@ -212,21 +212,14 @@ const bagsToOrder = () => {
     if (chkOrderItems.length <= 0) {
         alert('구매할 상품을 선택해주세요.');
     } else {
-        console.log('****체크된 상품*****');
-        console.log(chkOrderItems);
 
         // 로컬에 저장하고 싶은 데이터 가공 처리
         const orderItems = chkOrderItems.map(item => ({
             p_id: item.p_id
             ,ba_id: item.ba_id
             ,ba_count: item.ba_count
-            // TODO : 장바구니 deleted_at도 같이 보내기 (so) 데이터 받아올때 장바구니 delete_at는 별칭 줘서 따로 가져오기)
-            // ,bagDel: item.bagDel
             ,price: item.price
         }));
-
-        console.log('****주문 아이템*****');
-        console.log(orderItems);
 
         store.dispatch('bagsToOrder', orderItems);
     }

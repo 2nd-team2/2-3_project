@@ -24,19 +24,28 @@ main {
 }
 .order_list_header {
     display: flex;
-    padding-top: 15px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid #c5c5c5;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #5c5c5c;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 10px;
 }
+
+.order_list_header > h2 {
+    font-size: 1.8rem;
+}
+
 .inquiry_list_header {
     display: flex;
     padding-top: 15px;
-    padding-bottom: 5px;
-    border-top: 1px solid #c5c5c5;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #5c5c5c;
     justify-content: space-between;
-    margin-top: 40px;
+    align-items: center;
+}
+
+.inquiry_list_header > h2 {
+    font-size: 1.8rem;
 }
 .order_list_main {
     margin-top: 40px;
@@ -177,6 +186,7 @@ main {
     grid-column: 2 / 3;
     grid-row: 2 / 3;
     font-size: 1.3em;
+    padding-left: 5px;
 }
 .inquiry_name {
     grid-column: 2 / 4;
@@ -193,6 +203,7 @@ main {
     grid-row: 3 / 4;
     font-weight: 800;
     margin-bottom: 30px;
+    padding-left: 5px;
 }
 .inquiry_date {
     grid-column: 2 / 3;
@@ -204,7 +215,7 @@ main {
     cursor: pointer;
     border: 1px solid gray;
     padding: 15px 5px;
-    margin: 5px 0;
+    margin: 5px;
     text-decoration: none;
     color: black;
     border-radius: 5px;
@@ -231,6 +242,7 @@ li{
 } */
 .title_span {
     font-weight: 900;
+    padding-left: 10px;
 }
 
 .list_num_item {
