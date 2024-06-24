@@ -20,7 +20,7 @@
                                 <span class="yellow_span" v-if="item.co_flg === '1'">{{ item.completeOn }}</span>
                             </div>
                             <button class="order_delete" @click="$store.dispatch('orderItemDelete', item.orp_id)" v-if="item.co_flg === '1'"></button>
-                            <img class="order_img" :src="item.img"></img>
+                            <img class="order_img" :src="item.img">
                             <p class="order_name">{{ item.name + ' ' + item.ml +'ml' }}</p>
                             <p class="order_price">{{ '금액 : ' + item.price + '원 / ' + item.orp_count + '개' }}</p>
                             <button class="button_a" @click="$store.dispatch('completeBtn', item.orp_id)" v-if="item.co_flg === '0' || item.co_flg === null">구매확정</button>
