@@ -66,7 +66,6 @@ class ProductController extends Controller
 
         // 구매확정
         public function complete($orp_id) {
-            Log::debug('구매확정 ID : '. $orp_id);
             $completeCreate = Complete::updateOrCreate(['orp_id' => $orp_id], ['co_flg' => '1', 'created_at' => Carbon::now()]);
             $responseData = [
                 'code' => '0'
