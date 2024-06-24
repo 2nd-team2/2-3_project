@@ -30,7 +30,7 @@ class ProductController extends Controller
 
         // 마이페이지 주문목록
         public function infoData() {
-            $infoData = Orderproduct::select('orderproducts.*', 'orderproducts.created_at as orpDate','users.id','products.*','products.id as itemId', 'completes.*', 'completes.created_at as completeOn')
+            $infoData = Orderproduct::select('orderproducts.*', 'orderproducts.created_at as orpDate','users.id','products.*', 'completes.*', 'completes.created_at as completeOn')
                             ->join('users','orderproducts.or_id','=','users.id')
                             ->leftJoin('completes', 'orderproducts.orp_id', '=', 'completes.orp_id')
                             ->leftJoin('products','orderproducts.p_id','=','products.id')
@@ -51,23 +51,23 @@ class ProductController extends Controller
         }
 
         // 주문목록 삭제
-        public function orderProductDelete($itemId) {
+        public function orderProductDelete($orp_id) {
 
-            Orderproduct::destroy($itemId);
+            $result = Orderproduct::destroy($orp_id);
 
             $responseData = [
                 'code' => '0'
                 ,'msg' => '삭제 완료'
-                ,'data' => $itemId
+                ,'data' => $result
             ];
             
             return response()->json($responseData);
         }
 
         // 구매확정
-        public function complete($id) {
-            
-            $completeCreate = Complete::updateOrCreate(['orp_id' => $id], ['co_flg' => '1', 'created_at' => Carbon::now()]);
+        public function complete($orp_id) {
+            Log::debug('구매확정 ID : '. $orp_id);
+            $completeCreate = Complete::updateOrCreate(['orp_id' => $orp_id], ['co_flg' => '1', 'created_at' => Carbon::now()]);
             $responseData = [
                 'code' => '0'
                 ,'msg' => '구매확정'
