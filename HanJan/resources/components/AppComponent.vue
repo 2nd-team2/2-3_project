@@ -268,7 +268,7 @@ import Cookies from 'js-cookie';
             showModal.value = false; 
             const modal = document.querySelector('.modal');
             modal.style.display = 'none';
-            document.body.style.overflow = 'scroll';
+            document.body.style.overflowY = 'scroll';
             document.body.style.height = '';
         }
     })

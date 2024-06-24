@@ -834,7 +834,7 @@ const store = createStore({
             })
             .catch(error => {
                 console.log(error.response.data); // TODO
-                alert('리뷰데이터 불러오기 실패했습니다.(' + error.response.data.code + ')');
+                alert('디테일 리뷰데이터 불러오기 실패했습니다.(' + error.response.data.code + ')');
             });
         },
 
@@ -855,7 +855,7 @@ const store = createStore({
             })
             .catch(error => {
                 console.log(error.response.data); // TODO
-                alert('리뷰데이터 불러오기 실패했습니다.(' + error.response.data.code + ')');
+                alert('디테일->장바구니 리뷰데이터 불러오기 실패했습니다.(' + error.response.data.code + ')');
             });
         },
 
@@ -1033,7 +1033,7 @@ const store = createStore({
                 }
                 
                 console.log(response.data); // TODO
-                router.replace('/qnaonebyonedetail');
+                router.replace('/info');
             })
             .catch(error => {
                 console.log(error.response); // TODO
