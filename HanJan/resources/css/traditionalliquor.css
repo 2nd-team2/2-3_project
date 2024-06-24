@@ -16,12 +16,11 @@ main {
     gap: 20px;
     margin-top: 30px;
     justify-items: center;
-    align-items: center;
+    align-items: start;
 }
 
 .tl_type_img {
     width: 80%;
-    height: 80%;
     grid-column: 1 / 3;
 }
 
