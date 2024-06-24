@@ -874,15 +874,23 @@ const store = createStore({
             const detailedUpdateData = item;
             const data = new FormData(document.querySelector('#bagForm'));
 
-            console.log('**********1**********');
-            // FormData 담고있는 [key, value] 배열들을 객체로 변환
+            // FormData를 객체로 변환
             const formDataObject = Object.fromEntries(data.entries());
-            console.log('**********2**********');
 
-            
-            // detailedUpdateData와 formDataObject를 병합하여 detailedData 객체 생성
-            const detailedData = { ...detailedUpdateData, ...formDataObject };
+            // 숫자로 변환할 필드의 키를 배열로 지정
+            const numericFields = ['ba_count', 'p_id']; // 예시로 필요에 따라 필드 추가
 
+            // 숫자 타입으로 변환된 객체 생성
+            const detailedData = { ...detailedUpdateData }; // detailedUpdateData는 이미 있는 객체로 가정
+
+            // FormDataObject의 각 항목을 순회하면서 숫자 타입으로 변환
+            for (let key in formDataObject) {
+                if (numericFields.includes(key)) {
+                    detailedData[key] = Number(formDataObject[key]); // 숫자로 변환하여 저장
+                } else {
+                    detailedData[key] = formDataObject[key]; // 숫자로 변환할 필요 없는 경우 그대로 저장
+                }
+            } 
             context.commit('setdetailedUpdate', detailedData);
             localStorage.setItem('orderProductData', JSON.stringify(detailedData));
 
