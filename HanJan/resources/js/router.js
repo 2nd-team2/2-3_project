@@ -108,7 +108,9 @@ const routes = [
         component: ListComponent,
         beforeEnter: (to, from, next) => {
             console.log(to.query);
+            // 베스트 상품
             store.commit('setCurrentImage', to.query.type);
+            // 리스트 상품
             store.dispatch('getList', to.query);
 
             next();
