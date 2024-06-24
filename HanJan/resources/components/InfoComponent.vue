@@ -27,7 +27,7 @@
                         </div>
                         <div class="item_right">
                             <button @click="askProduct(item)" class="button_a">상품문의하기</button> 
-                            <button @click="exchange(item)" class="button_a" v-if="item.co_flg === '1'">교환, 반품 신청</button>
+                            <button @click="exchange(item.orp_id)" class="button_a" v-if="item.co_flg === '1'">교환, 반품 신청</button>
                             <button @click="infoReviewCreate(item)" type="button" class="button_a" v-if="item.co_flg === '1'">리뷰 작성하기</button>
                         </div>
                     </div>

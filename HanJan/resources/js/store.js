@@ -19,7 +19,7 @@ const store = createStore({
             // bagsToOrder: [],
             orderProductData: localStorage.getItem('orderProductData') ? JSON.parse(localStorage.getItem('orderProductData')) : null,
             // 결제하기 > 주문 번호 저장
-            orderId : [],
+            exchangeProduct : [],
             
             // ----------------------- 보원 끝 ---------------------------
             // ----------------------- 성환 시작 -------------------------
@@ -89,8 +89,8 @@ const store = createStore({
             state.orderProductData = data;
             localStorage.setItem('orderProductData', JSON.stringify(data));
         },
-        orderId(state, data) {
-            state.orderId = data;
+        exchangeProduct(state, data) {
+            state.exchangeProduct = data;
         },
 
         // // 선택된 상품 삭제 처리
@@ -515,6 +515,52 @@ const store = createStore({
                 alert('리뷰 수정에 실패하였습니다.(' + error.response.data.code + ')' )
             });
         }, 
+
+
+        /**
+         * 교환 및 반품 페이지 초기값 획득
+         * 
+         * @param {*} context 
+         */
+        exchangeProduct(context, id) {
+            const url = '/api/exchangeProduct/' + id;
+            
+            axios.get(url)
+            .then(response => {
+                console.log(response.data); // TODO
+                context.commit('exchangeProduct', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert('교환 및 반품 데이터 습득에 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
+
+        /**
+         * 교환 및 반품 처리
+         * 
+         * @param {*} context 
+         */
+        exchage(context) {
+            const url = '/api/exchage';
+            const data = new FormData(document.querySelector('#exchage'));
+            
+            if (confirm('확인을 누르면 교환 및 반품 신청이 완료 됩니다.')) {
+                axios.post(url, data)
+                .then(response => {
+                    console.log(response.data); // TODO 
+                    alert('교환 및 반품이 완료 되었습니다.')
+
+                    router.push('/info');
+                })
+                .catch(error => {
+                    console.log(error.response); // TODO
+                    alert('교환 및 반품에 실패했습니다.(' + error.response.data.code + ')');
+                });
+            }
+        },
+
+        
               
         
         // ----------------------- 보원 끝 ---------------------------

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BagController;
+use App\Http\Controllers\ExchangeController;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
@@ -50,13 +51,10 @@ Route::middleware('auth')->post('/api/bagsSelectDelete', [BagController::class, 
 // 장바구니 데이터 > 주문 페이지로 넘기기
 Route::middleware('auth')->post('/api/bagsToOrder', [BagController::class, 'bagsToOrder']);
 
-
 // 결제하기 데이터 저장(주문, 주문상품, 장바구니삭제)
 Route::middleware('auth')->post('/api/orderComplete', [OrderController::class, 'orderComplete']);
 Route::middleware('auth')->post('/api/orderProductComlete/{or_id}', [OrderController::class, 'orderProductComlete']);
 Route::middleware('auth')->post('/api/bagsCompleteDelete', [OrderController::class, 'bagsCompleteDelete']);
-
-
 
 // 리뷰 초기 데이터 불러오기
 Route::middleware('auth')->get('/api/review', [ReviewController::class, 'reviewIndex']);
@@ -66,6 +64,10 @@ Route::middleware('auth')->post('/api/reviewCreateSubmit', [ReviewController::cl
 Route::middleware('auth')->post('/api/reviewUpdateSubmit', [ReviewController::class, 'reviewUpdateSubmit']);
 // 리뷰 데이터 삭제
 Route::middleware('auth')->delete('/api/reviewDelete/{re_id}', [ReviewController::class, 'reviewDelete']);
+
+// 교환 및 반품 초기 데이터 불러오기
+Route::middleware('auth')->get('/api/exchangeProduct/{id}', [ExchangeController::class, 'exchangeProduct']);
+Route::middleware('auth')->post('/api/exchage', [ExchangeController::class, 'exchage']);
 
 
 // ----------------------- 보원 끝 ---------------------------

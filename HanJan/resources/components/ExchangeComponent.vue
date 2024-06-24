@@ -1,5 +1,5 @@
 <template>
-
+    <div>{{ $store.state.exchangeProduct}}</div>
     <main>
         <form id="exchage" @submit.prevent="validateForm">
             <div>
@@ -7,13 +7,13 @@
                     교환 및 반품 신청
                 </h2>
                 <div class="ex_goods_item ex_grid">
-                    <div class="ex_order_at">2024-06-02 주문 / 구매확정 <span class="ex_yellow">06-07</span></div>
+                    <div class="ex_order_at"> {{ $store.state.exchangeProduct.orpCre }} 주문 / 구매확정 <span class="ex_yellow"> {{ $store.state.exchangeProduct.comCre }}</span></div>
                     <div class="ex_goods_grid">
-                        <img class="ex_goods_img" src="/img/best.png">
+                        <img class="ex_goods_img" :src="$store.state.exchangeProduct.img">
                         <div>
-                            <div class="ex_goods_title ex_padding_bottom">한잔 꿈의 대화 13도 375ml</div>
+                            <div class="ex_goods_title ex_padding_bottom">{{ $store.state.exchangeProduct.name + ' ' +$store.state.exchangeProduct.ml + 'ml' }}</div>
                             <div class="ex_padding_bottom">
-                                <div class="ex_font">금액: 24,000원 / 1개</div>
+                                <div class="ex_font">금액: {{ $store.state.exchangeProduct.price }}원 / {{ $store.state.exchangeProduct.orpCount }}개</div>
                             </div>
                         </div>
                     </div>
@@ -29,17 +29,17 @@
                 <div class="ex_padding_bottom">
                     <!-- <div class="ex_content">단순변심</div>
                     <hr> -->
-                    <input type="radio" name="simple" id="simple1">
-                    <label for="simple1">상품이 마음에 들지 않음</label>
+                    <input type="radio" name="ex_reason" id="ex_reason1" value="1">
+                    <label for="ex_reason1">상품이 마음에 들지 않음</label>
                     <br>
-                    <input type="radio" name="simple" id="simple2">
-                    <label for="simple2">다른 상품이 배송됨</label>
+                    <input type="radio" name="ex_reason" id="ex_reason2" value="2">
+                    <label for="ex_reason2">다른 상품이 배송됨</label>
                     <br>
-                    <input type="radio" name="simple" id="simple3">
-                    <label for="simple3">상품의 구성품 / 부속품이 들어있지 않음</label>
+                    <input type="radio" name="ex_reason" id="ex_reason3" value="3">
+                    <label for="ex_reason3">상품의 구성품 / 부속품이 들어있지 않음</label>
                     <br>
-                    <input type="radio" name="simple" id="simple4">
-                    <label for="simple4">상품이 파손/결함 되어 배송됨</label>
+                    <input type="radio" name="ex_reason" id="ex_reason4" value="4">
+                    <label for="ex_reason4">상품이 파손/결함 되어 배송됨</label>
                 </div>
                 <!-- <div class="ex_padding_bottom ex_padding_top">
                     <div class="ex_content">배송문제</div>
@@ -65,7 +65,6 @@
                     회수 정보
                 </h2>
 
-
                 <div class="">
                     <div class="">
                         <span>이름</span>
@@ -86,10 +85,10 @@
                         <label class="" for="address">주소</label>
                         <div class="">
                             <p class="">{{ addressError }}</p>
-                            <input type="text"  name="or_get_addr" id="address" @input="chkAddress" readonly @click="kakaoPostcode" class="" v-model="address" >
-                            <input type="text" readonly v-model="postcode" class="" name="or_get_post">
+                            <input type="text"  name="ex_addr" id="address" @input="chkAddress" readonly @click="kakaoPostcode" class="" v-model="address" >
+                            <input type="text" readonly v-model="postcode" class="" name="ex_post">
                             <label class="" for="address">상세주소</label>
-                            <input type="text" class="" name="or_get_det_addr" id="address_detail" v-model="detailAddress" >
+                            <input type="text" class="" name="ex_det_addr" id="address_detail" v-model="detailAddress" >
                             <button type="button" class="" @click="kakaoPostcode" id="postcode">주소검색</button>
                         </div>
                     </div>
@@ -101,23 +100,24 @@
                 <div></div>
                 <div>
                     <div> 총 상품금액</div>
-                    <div class="ex_yellow ex_flex_end"> 0원</div>
+                    <div class="ex_yellow ex_flex_end"> {{ $store.state.exchangeProduct.price * $store.state.exchangeProduct.orpCount }}원</div>
                 </div>
                 <img src="/img/plus.png">
                 <div>
                     <div>배송비</div>
-                    <div class="ex_yellow ex_flex_end"> 0원</div>
+                    <div class="ex_yellow ex_flex_end"> {{ deliveryPrice }}원</div>
                 </div>
                 <img src="/img/equal.png">
                 <div>
                     <div>합계</div>
-                    <div class="ex_yellow ex_flex_end">0원</div>
+                    <div class="ex_yellow ex_flex_end"> {{ $store.state.exchangeProduct.price * $store.state.exchangeProduct.orpCount + deliveryPrice }}원</div>
                 </div>
             </div>
+            <input type="hidden" name="p_id" :value="$store.state.exchangeProduct.id">
             <div class="ex_margin_top ex_flex_end">
                 <div>
-                    <button @click="" type="button" class="ex_cancel ex_cancel_padding">취소</button>
-                    <button @click="$store.dispatch('')" type="button" class="ex_cancel ex_border_none">신청</button>
+                    <button @click="$router.push('/info')" type="button" class="ex_cancel ex_cancel_padding">취소</button>
+                    <button @click="$store.dispatch('exchage')" type="button" class="ex_cancel ex_border_none">신청</button>
                 </div>
             </div>
         </form>
@@ -126,20 +126,13 @@
 </template>
 
 <script setup>
-import { onBeforeMount, ref } from 'vue';
+import { ref } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
 
-// 받아오는 id를 통해서 상품 정보 획득
-onBeforeMount(() => {
-    store.dispatch('')
-})
-
-
-
-
-
+// 배송비 (TODO : 일정 금액 이상일 경우 무료 + 각 상품 마다 배송비 저장할 컬럼 만들기(products 테이블) )
+const deliveryPrice = ref(0);
 
 
 // 실시간 유효성 체크

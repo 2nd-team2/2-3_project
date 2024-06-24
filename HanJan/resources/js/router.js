@@ -65,6 +65,13 @@ const routes = [
     {
         path: '/exchange',
         component: ExchangeCompnent,
+        beforeEnter: (to, from, next) => {
+            chkAuth(to, from, next)
+            console.log(to.query.id);
+            store.dispatch('exchangeProduct', to.query.id);
+
+            next();
+        }, 
     },
     {
         path: '/info',
