@@ -17,7 +17,7 @@ const store = createStore({
             allChecked: false,
             // 장바구니 데이터 > 주문 페이지로 넘기기
             // bagsToOrder: [],
-            bagsToOrder: localStorage.getItem('bagsToOrder') ? JSON.parse(localStorage.getItem('bagsToOrder')) : null,
+            orderProductData: localStorage.getItem('orderProductData') ? JSON.parse(localStorage.getItem('orderProductData')) : null,
             // 결제하기 > 주문 번호 저장
             orderId : [],
             
@@ -85,9 +85,9 @@ const store = createStore({
             localStorage.setItem('reviewToUpdate', JSON.stringify(data));
         },
         // state.주문에 추가 될 리스트
-        bagsToOrder(state, data) {
-            state.bagsToOrder = data;
-            localStorage.setItem('bagsToOrder', JSON.stringify(data));
+        orderProductData(state, data) {
+            state.orderProductData = data;
+            localStorage.setItem('orderProductData', JSON.stringify(data));
         },
         orderId(state, data) {
             state.orderId = data;
@@ -265,24 +265,25 @@ const store = createStore({
             });
         },
 
-
         /**
          * 장바구니에 수량 입력 데이터 저장
          * 
          * @param {*} context
-         * @param {*} 
+         * @param {*} $item
          */
-        // bagsCountChange(context, ) {
-        //     const url = '/api/bagsCountPlus/' + ;
+        bagsCountChange(context, $item) {
+            const url = '/api/bagsCountChange/' + $item.ba_id;
+            // const item = $item.ba_count;
+            const item = $item
 
-        //     axios.post(url)
-        //     .then(response => {
-        //         console.log(response.data.data);
-        //     })
-        //     .catch(error => {
-        //         alert('수량 감소에 실패했습니다.(' + error.response.data.code + ')' )
-        //     });
-        // },
+            axios.post(url, item)
+            .then(response => {
+                console.log(response.data.data);
+            })
+            .catch(error => {
+                alert('수량 입력에 실패했습니다.(' + error.response.data.code + ')' )
+            });
+        },
 
         
         /**
@@ -338,10 +339,10 @@ const store = createStore({
         */
         bagsToOrder(context, data) {
             
-            const bagsToOrder = data;
+            const orderProductData = data;
 
-            context.commit('bagsToOrder', bagsToOrder);
-            localStorage.setItem('bagsToOrder', JSON.stringify(bagsToOrder));
+            context.commit('orderProductData', orderProductData);
+            localStorage.setItem('orderProductData', JSON.stringify(orderProductData));
 
             router.push('/order');
         },

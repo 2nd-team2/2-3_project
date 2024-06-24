@@ -135,7 +135,7 @@ const validateCount = (item) => {
     // TODO
     // DB에 저장해서 새로고침 해도 직접 입력한 값을 저장
     else {
-        // store.dispatch('bagsCountChange', item.ba_count);
+        store.dispatch('bagsCountChange', item);
     }
 };
 
@@ -212,8 +212,6 @@ const bagsToOrder = () => {
     if (chkOrderItems.length <= 0) {
         alert('구매할 상품을 선택해주세요.');
     } else {
-        console.log('****체크된 상품*****');
-        console.log(chkOrderItems);
 
         // 로컬에 저장하고 싶은 데이터 가공 처리
         const orderItems = chkOrderItems.map(item => ({
@@ -222,9 +220,6 @@ const bagsToOrder = () => {
             ,ba_count: item.ba_count
             ,price: item.price
         }));
-
-        console.log('****주문 아이템*****');
-        console.log(orderItems);
 
         store.dispatch('bagsToOrder', orderItems);
     }

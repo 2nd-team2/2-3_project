@@ -40,6 +40,9 @@ Route::middleware('auth')->get('/api/bagsProduct', [BagController::class, 'bagsI
 Route::middleware('auth')->post('/api/bagsCountMinus/{ba_id}', [BagController::class, 'bagsCountMinus']);
 // 장바구니 수량 증가한 데이터 저장
 Route::middleware('auth')->post('/api/bagsCountPlus/{ba_id}', [BagController::class, 'bagsCountPlus']);
+// 장바구니 수량 입력한 데이터 저장
+Route::middleware('auth')->post('/api/bagsCountChange/{ba_id}', [BagController::class, 'bagsCountChange']);
+
 // 장바구니 데이터 삭제
 Route::middleware('auth')->delete('/api/bagsDelete/{ba_id}', [BagController::class, 'bagsDelete']);
 // 장바구니 데이터 선택 삭제
