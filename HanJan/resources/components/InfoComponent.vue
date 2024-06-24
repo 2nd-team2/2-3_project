@@ -14,6 +14,7 @@
                     
                     <div class="order_item" v-for="(item, key) in $store.state.infoData" :key="key" v-if="$store.state.infoData && $store.state.infoData.length > 0">
                         <!-- <div>{{ item }}</div> -->
+                        <!-- <div>{{ item }}</div> -->
                         <div class="item_left_list_text">
                             <div class="order_date">
                                 <span class="title_span">{{ item.orpDate }}</span>
