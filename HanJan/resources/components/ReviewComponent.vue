@@ -4,7 +4,7 @@
             리뷰관리
         </h2>
 
-        <div class="review_goods_item" v-for="(item, key) in $store.state.reviewData" :key="key">
+        <div class="review_goods_item" v-for="(item, key) in $store.state.reviewData.data" :key="key" v-if="$store.state.reviewData.data && $store.state.reviewData.data.length > 0">
             <div class="review_grid">
 
                 <img class="review_goods_img" :src="item.img">
@@ -35,17 +35,27 @@
                 </form>
             </div>
         </div>
-        <!-- TODO : 리뷰 관리 페이지네이션 -->
-        <div class="pagination">
-            <button class="prev"><span> 〈 </span>이전</button>
-            <div class="page-numbers"></div>
-            <button class="next">다음<span> 〉 </span></button>
+        <div v-else>
+            <div>작성한 리뷰가 없습니다.</div>
+        </div>
+        <!-- 페이지네이션 -->
+        <div class="list_num_item">
+            <a href="#" class="before" @click.prevent="reviewPrevPage()">〈 이전</a>
+            <a
+                v-for="reviewPage in reviewPages"
+                :key="reviewPage"
+                href="#"
+                :class="{'num': reviewPage === $store.state.reviewData.current_page, 'num_none': reviewPage !== $store.state.reviewData.current_page}"
+                @click.prevent="reviewGoToPage(reviewPage)"
+                >{{ reviewPage }}
+            </a>
+            <a href="#" class="next" @click.prevent="reviewNextPage()">다음 〉</a>
         </div>
     </main>
 </template>
 
 <script setup>
-import { onBeforeMount } from 'vue';
+import { onBeforeMount, computed } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
@@ -54,7 +64,13 @@ const store = useStore();
 // 리뷰 초기 데이터 가져오기
 onBeforeMount(() => {
     // TODO: 이미 데이터가 있으면 onBeforeMount 요청 안하게 수정하기
-    store.dispatch('reviewGet')
+
+    // 리뷰 데이터 획득
+    store.dispatch('reviewGet', 1)
+
+    // if(store.state.reviewData.current_page == 1) {
+    //     store.dispatch('reviewGet', 1);
+    // }
 
 })
 
@@ -68,6 +84,51 @@ const reviewDelete = (re_id) => {
     store.dispatch('reviewDelete', re_id)
 }
 
+
+// 리뷰 페이지네이션
+
+// 페이지 번호 배열 계산
+const reviewPages = computed(() => {
+    const pageArray = [];
+    // 페이지네이션 3개
+    const maxPagesToShow = 5;
+
+    let startPage = store.state.reviewData.current_page - 2;
+    if(startPage < 1) {
+        startPage = 1;
+    }
+    const endPage = startPage + maxPagesToShow - 1;
+
+    // 시작페이지 구하기
+    const pagingStart = startPage <= (store.state.reviewData.last_page - maxPagesToShow + 1) || ((store.state.reviewData.last_page - maxPagesToShow + 1) < 1) ? startPage : (store.state.reviewData.last_page - maxPagesToShow + 1);
+    
+    // 마지막 페이지 구하기
+    const pagingEnd = endPage > store.state.reviewData.last_page ? store.state.reviewData.last_page : endPage;
+
+    for (let i = pagingStart; i <= pagingEnd; i++) {
+        pageArray.push(i)
+    }
+    return pageArray
+})
+
+// 특정 페이지로 이동
+function reviewGoToPage(page) {
+    store.dispatch('reviewGet', page);
+}
+
+// 이전 페이지로 이동
+function reviewPrevPage() {
+    if (store.state.reviewData.current_page > 1) {
+        reviewGoToPage(store.state.reviewData.current_page - 1);
+    }
+}
+
+// 다음 페이지로 이동
+function reviewNextPage() {
+    if (store.state.reviewData.current_page < store.state.reviewData.last_page) {
+        reviewGoToPage(store.state.reviewData.current_page + 1);
+    }
+}
 
 </script>
 

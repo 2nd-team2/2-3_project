@@ -22,8 +22,7 @@ class ReviewController extends Controller
                         ->where('reviews.deleted_at', '=', null)
                         ->orderBy('reviews.created_at','DESC')
                         ->orderBy('reviews.re_id','DESC')
-                        // ->limit(3) // TODO : 페이지네이션 할때 수정하기
-                        ->get();
+                        ->paginate(3);
 
         $responseData = [
             'code' => '0'

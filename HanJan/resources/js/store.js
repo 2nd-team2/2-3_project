@@ -9,7 +9,8 @@ const store = createStore({
             // 장바구니 리스트
             bagsProductData: [],
             // 리뷰 리스트
-            reviewData: [],
+            // reviewData: [],
+            reviewData: localStorage.getItem('reviewData') ? JSON.parse(localStorage.getItem('reviewData')) : {current_page: '1'},
             // 리뷰관리 > 리뷰수정으로 데이터 넘기기(로컬스토리지에 저장하기 - 새로고침 누를시 없어지는 걸 방지)
             // reviewUpdateData :[],
             reviewToUpdate: localStorage.getItem('reviewToUpdate') ? JSON.parse(localStorage.getItem('reviewToUpdate')) : null,
@@ -80,6 +81,7 @@ const store = createStore({
         // state.리뷰에 추가 될 리스트
         reviewSetData(state, data) {
             state.reviewData = data;
+            localStorage.setItem('reviewData', JSON.stringify(data));
         },
         // 리뷰관리에서 수정 페이지로 넘어갈때 데이터 전달
         reviewToUpdate(state, data) {
@@ -95,18 +97,6 @@ const store = createStore({
             state.exchangeProduct = data;
         },
 
-        // // 선택된 상품 삭제 처리
-        // deleteSelectedItems(state, selectedIds) {
-        //     state.bagsProductData = state.bagsProductData.filter(item => !selectedIds.includes(item.ba_id));
-        // },
-        // // 전체 상품 삭제 처리
-        // deleteAllItems(state) {
-        //     state.bagsProductData = [];
-        // },
-        // 전체 선택 여부 변경
-        // toggleAllChecked(state) {
-        //     state.allChecked = !state.allChecked;
-        // },
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
         // 인증 플래그 저장
@@ -395,18 +385,15 @@ const store = createStore({
             });
         },
 
-
-
-
-
-
         /**
          * 리뷰관리에 최초 게시글 획득
          * 
          * @param {*} context
+         * @param {*} page
         */
-        reviewGet(context) {
-            const url = '/api/review';
+        reviewGet(context, page) {
+            const param = page == 1 ? '' : '?page=' + page;
+            const url = '/api/review' + param;
             
             axios.get(url)
             .then(response => {
@@ -417,13 +404,7 @@ const store = createStore({
                 alert('리뷰 획득에 실패하였습니다.(' + error.response.data.code + ')' )
             });
         },  
-        
-        
 
-
-
-
-        
         /**
          * 리뷰관리에서 리뷰 수정페이지로 이동
          * 
