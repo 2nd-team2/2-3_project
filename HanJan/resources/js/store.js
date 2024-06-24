@@ -131,10 +131,10 @@ const store = createStore({
             localStorage.setItem('askSetData', JSON.stringify(data))
         },
         // 마이페이지에서 리뷰작성 넘어갈때 데이터 전달
-        infoReviewCreate(state, data) {
-            state.reviewToUpdate = data;
-            localStorage.setItem('reviewToUpdate', JSON.stringify(data));
-        },
+        // infoReviewCreate(state, data) {
+        //     state.reviewToUpdate = data;
+        //     localStorage.setItem('reviewToUpdate', JSON.stringify(data));
+        // },
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------
         
@@ -749,12 +749,12 @@ const store = createStore({
          * @param {*} context
          * @param {*} item
         */
-        infoReviewCreate(context, item) {
-            const infoReviewCreateData = item;
+        // infoReviewCreate(context, item) {
+        //     const infoReviewCreateData = item;
 
-            context.commit('reviewToUpdate', infoReviewCreateData);
-            localStorage.setItem('reviewToUpdate', JSON.stringify(infoReviewCreateData));
-        },
+        //     context.commit('reviewToUpdate', infoReviewCreateData);
+        //     localStorage.setItem('reviewToUpdate', JSON.stringify(infoReviewCreateData));
+        // },
             
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------

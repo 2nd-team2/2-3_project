@@ -176,7 +176,7 @@
 
     // 리뷰 작성하기 페이지로 정보 넘기기
     function infoReviewCreate(item) {
-        store.commit('setProductAskCreateData', item);
+        store.commit('reviewToUpdate', item);
         router.push('/reviewcreate');
     }
 
