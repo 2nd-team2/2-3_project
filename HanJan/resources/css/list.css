@@ -12,7 +12,7 @@ hr {
     height: 30rem;
     background-repeat: no-repeat;
     background-position: center;
-    background-size: contain;
+    background-size: cover;
 }
 
 /* ------------- 메뉴 ------------- */
@@ -44,6 +44,7 @@ hr {
     width: 70%;
     margin: 0 auto;
     gap: 2rem;
+    cursor: pointer;
 }
 .list_best_title {
     margin-top: 6rem;
@@ -140,8 +141,8 @@ hr {
     .list_num_item {
         width: 90%;
         margin: 3rem auto 0;
-        flex-direction: column;
         align-items: center;
+        gap: 1rem;
     }
     
     .list_num_item > a {
@@ -169,7 +170,7 @@ hr {
 /* 더 큰 화면에서는 넓은 이미지와 메뉴 간격을 늘려서 보기 좋게 */
 @media (min-width: 1200px) {
     .list_main_img {
-        height: 50rem;
+        height: 30rem;
     }
     
     .list_menu {

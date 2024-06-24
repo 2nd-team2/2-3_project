@@ -857,8 +857,10 @@ const store = createStore({
                 constext.commit('detailedCountData', response.data.data);
             })
             .catch(error => {
-                console.log(error.response.data); // TODO
-                alert('디테일->장바구니 리뷰데이터 불러오기 실패했습니다.(' + error.response.data.code + ')');
+                console.log(error.response); // TODO
+                if(error.response.status !== 401) {
+                    alert('디테일->장바구니 수량 데이터 불러오기 실패했습니다.(' + error.response.data.code + ')');
+                }
             });
         },
 

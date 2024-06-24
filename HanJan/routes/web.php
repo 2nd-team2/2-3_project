@@ -111,7 +111,7 @@ Route::get('/api/listBast', [ProductController::class, 'listBast']);
 // 리뷰 데이터 불러오기
 Route::get('/api/reviewdetailed/{id}', [ProductController::class, 'detailedReview']);
 // 수량 데이터 보내기(디테일->장바구니)
-Route::post('/api/detailedToCount', [ProductController::class, 'detailedToCount']);
+Route::middleware('auth')->post('/api/detailedToCount', [ProductController::class, 'detailedToCount']);
 // 상세리스트 데이터 불러오기
 Route::get('/api/list', [ProductController::class, 'list']);
 // ----------------------- 민서 끝 ---------------------------
