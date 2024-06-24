@@ -48,8 +48,10 @@ Route::middleware('auth')->post('/api/bagsSelectDelete', [BagController::class, 
 Route::middleware('auth')->post('/api/bagsToOrder', [BagController::class, 'bagsToOrder']);
 
 
-// 주문 데이터 저장
+// 결제하기 데이터 저장(주문, 주문상품, 장바구니삭제)
 Route::middleware('auth')->post('/api/orderComplete', [OrderController::class, 'orderComplete']);
+Route::middleware('auth')->post('/api/orderProductComlete/{or_id}', [OrderController::class, 'orderProductComlete']);
+Route::middleware('auth')->post('/api/bagsCompleteDelete', [OrderController::class, 'bagsCompleteDelete']);
 
 
 

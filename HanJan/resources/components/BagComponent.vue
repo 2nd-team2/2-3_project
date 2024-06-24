@@ -220,8 +220,6 @@ const bagsToOrder = () => {
             p_id: item.p_id
             ,ba_id: item.ba_id
             ,ba_count: item.ba_count
-            // TODO : 장바구니 deleted_at도 같이 보내기 (so) 데이터 받아올때 장바구니 delete_at는 별칭 줘서 따로 가져오기)
-            // ,bagDel: item.bagDel
             ,price: item.price
         }));
 

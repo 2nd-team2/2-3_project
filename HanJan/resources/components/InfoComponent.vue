@@ -11,9 +11,7 @@
                     </div>
                 </div>
                 <div class="order_list_main">
-                    
                     <div class="order_item" v-for="(item, key) in $store.state.infoData.data" :key="key" v-if="$store.state.infoData.data && $store.state.infoData.data.length > 0">
-                        <!-- <div>{{ item }}</div> -->
                         <!-- <div>{{ item }}</div> -->
                         <div class="item_left_list_text">
                             <div class="order_date">
@@ -21,16 +19,15 @@
                                 <span class="title_span" v-if="item.co_flg === '1'"> / 구매확정 : </span>
                                 <span class="yellow_span" v-if="item.co_flg === '1'">{{ item.completeOn }}</span>
                             </div>
-                            <button class="order_delete" @click="$store.dispatch('orderItemDelete', item.itemId)" v-if="item.co_flg === '1'"></button>
+                            <button class="order_delete" @click="$store.dispatch('orderItemDelete', item.orp_id)" v-if="item.co_flg === '1'"></button>
                             <img class="order_img" :src="item.img"></img>
                             <p class="order_name">{{ item.name + ' ' + item.ml +'ml' }}</p>
                             <p class="order_price">{{ '금액 : ' + item.price + '원 / ' + item.orp_count + '개' }}</p>
-                            <button class="button_a" @click="$store.dispatch('completeBtn', item.id)" v-if="item.co_flg === '0' || item.co_flg === null">구매확정</button>
+                            <button class="button_a" @click="$store.dispatch('completeBtn', item.orp_id)" v-if="item.co_flg === '0' || item.co_flg === null">구매확정</button>
                         </div>
                         <div class="item_right">
                             <button @click="askProduct(item)" class="button_a" v-if="item.co_flg === '0' || item.co_flg === null">상품문의하기</button> 
                             <button @click="exchange(item)" class="button_a" v-if="item.co_flg === '0' || item.co_flg === null">교환, 반품 신청</button>
-                            
                             <button @click="infoReviewCreate(item)" type="button" class="button_a" v-if="item.co_flg === '1'">리뷰 작성하기</button>
                         </div>
                     </div>
@@ -183,9 +180,6 @@
         router.push('/reviewcreate');
     }
 
-    // const infoReviewCreate = (item) => {
-    //     store.dispatch('infoReviewCreate', item);
-    // }
     // 교환반품 이동
     const exchange = (orp_id) => {
         router.push('/exchange?id=' + orp_id);
