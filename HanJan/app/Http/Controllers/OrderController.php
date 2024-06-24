@@ -6,6 +6,7 @@ use App\Exceptions\MyValidateException;
 use App\Models\Bag;
 use App\Models\Order;
 use App\Models\Orderproduct;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -117,9 +118,24 @@ class OrderController extends Controller
         foreach ( $orderDeleteProducts as $bagProductData) {
 
             $ba_id = $bagProductData['ba_id'];
+            $p_id = $bagProductData['p_id'];
+            $ba_count = $bagProductData['ba_count'];
 
-            Bag::destroy($ba_id);
-            $deletedBags[] = $ba_id;
+
+            $bag = Bag::find($ba_id);
+            if ($bag) {
+                $bag->delete(); // 소프트 삭제
+                $deletedBags[] = $ba_id;
+            }
+    
+            // Products 테이블에서 ba_count 빼기
+            $product = Product::find($p_id);
+            if ($product) {
+                // 현재 ba_count를 가져온 후 빼고 저장
+                $currentCount = $product->count;
+                $product->count = $currentCount - $ba_count;
+                $product->save();
+            }
 
         }
 

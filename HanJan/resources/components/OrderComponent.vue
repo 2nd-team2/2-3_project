@@ -66,13 +66,10 @@
                 </div>
 
                 <div>
-                    <!-- 주문 데이터 다들고 와서 보내기 >> 주문테이블, 주문상품 테이블에 데이터 저장을 위해서-->
-                    <!-- orderProduct : or_id, p_id, orp_count -->
-                    <input type="hidden" name ="or_sum" value="1"> <!-- 일단 1로 고정해둠 -->
+                    <input type="hidden" name ="or_sum" value="1">
                     <div class="bag_margin_top bag_margin_bottom bag_total_border bag_total_grid">
                         <div></div>
                         <div class="bag_price_grid">
-                            <!-- {{ $store.state.detailedUpdate }} -->
                             <div> 총 {{ totalPrice.count }} 개의 상품금액</div>
                             <div class="bag_yellow bag_flex_end"> {{ totalPrice.total }}원</div>
                         </div>
