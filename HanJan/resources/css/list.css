@@ -85,16 +85,16 @@ hr {
 
 /* ------------- 목록번호 ------------- */
 .list_num_item {
-    width: 70%;
-    margin: 6rem auto 0;
+    margin: 80px auto;
+    width: 50%;
     display: flex;
-    /* text-align: center; */
+    justify-items: center;
     align-items: center;
     justify-content: center;
 }
 .list_num_item > a {
-    margin-left: 1rem;
     padding: 0rem 1rem;
+    margin: 0 0.5rem;
     color: #000;
     font-size: 1rem;
     font-weight: 500;
@@ -102,7 +102,7 @@ hr {
 .num {
     background-color: #FAC91D;
     border-radius: 50%;
-    width: 40px;
+    width: 39px;
     height: 40px;
     text-align: center;
     line-height: 40px;
@@ -110,7 +110,7 @@ hr {
 .num_none:hover {
     background-color: #FAC91D;
     border-radius: 50%;
-    width: 40px;
+    width: 41px;
     height: 40px;
     text-align: center;
     line-height: 40px;

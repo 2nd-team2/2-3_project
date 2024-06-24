@@ -15,9 +15,6 @@ const store = createStore({
             reviewToUpdate: localStorage.getItem('reviewToUpdate') ? JSON.parse(localStorage.getItem('reviewToUpdate')) : null,
             // 전체 선택 여부
             allChecked: false,
-            // 장바구니 데이터 > 주문 페이지로 넘기기
-            // bagsToOrder: [],
-            bagsToOrder: localStorage.getItem('bagsToOrder') ? JSON.parse(localStorage.getItem('bagsToOrder')) : null,
             
             // ----------------------- 보원 끝 ---------------------------
             // ----------------------- 성환 시작 -------------------------
@@ -25,11 +22,11 @@ const store = createStore({
             authFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
             userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
             // 주문 목록
-            infoData: localStorage.getItem('infoData') ? JSON.parse(localStorage.getItem('infoData')) : {current_page: '1'},
+            infoData:[],
             // 1:1 문의 목록
-            askSetData: localStorage.getItem('noticeData') ? JSON.parse(localStorage.getItem('noticeData')) : {current_page: '1'},
+            askSetData:[],
             // 상품 문의 목록
-            productAskData: localStorage.getItem('noticeData') ? JSON.parse(localStorage.getItem('noticeData')) : {current_page: '1'},
+            productAskData:[],
             // ----------------------- 성환 끝 ---------------------------
             // ----------------------- 민서 시작 -------------------------
             // 상품 정보
@@ -61,7 +58,7 @@ const store = createStore({
             // 1 : 1 문의 디테일
             qnaOneByOneDetailData: [],
             // 주문 목록
-            productAskCreateData: localStorage.getItem('productAskCreateData') ? JSON.parse(localStorage.getItem('productAskCreateData')) : null,
+            productAskCreateData:{},
             // ----------------------- 호경 끝 ---------------------------
         }
 
@@ -73,6 +70,24 @@ const store = createStore({
         bagsSetProductData(state, data) {
             state.bagsProductData = data;
         },
+        // 선택된 상품 삭제 처리
+        deleteSelectedItems(state, selectedIds) {
+            state.bagsProductData = state.bagsProductData.filter(item => !selectedIds.includes(item.ba_id));
+        },
+
+
+
+        // 전체 상품 삭제 처리
+        deleteAllItems(state) {
+            state.bagsProductData = [];
+        },
+        // 전체 선택 여부 변경
+        toggleAllChecked(state) {
+            state.allChecked = !state.allChecked;
+        },
+
+
+
         // state.리뷰에 추가 될 리스트
         reviewSetData(state, data) {
             state.reviewData = data;
@@ -82,24 +97,7 @@ const store = createStore({
             state.reviewToUpdate = data;
             localStorage.setItem('reviewToUpdate', JSON.stringify(data));
         },
-        // state.주문에 추가 될 리스트
-        bagsToOrder(state, data) {
-            state.bagsToOrder = data;
-            localStorage.setItem('bagsToOrder', JSON.stringify(data));
-        },
 
-        // // 선택된 상품 삭제 처리
-        // deleteSelectedItems(state, selectedIds) {
-        //     state.bagsProductData = state.bagsProductData.filter(item => !selectedIds.includes(item.ba_id));
-        // },
-        // // 전체 상품 삭제 처리
-        // deleteAllItems(state) {
-        //     state.bagsProductData = [];
-        // },
-        // 전체 선택 여부 변경
-        // toggleAllChecked(state) {
-        //     state.allChecked = !state.allChecked;
-        // },
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
         // 인증 플래그 저장
@@ -113,17 +111,14 @@ const store = createStore({
         // 마이페이지 주문목록
         infoSetData(state, data) {
             state.infoData = data;
-            localStorage.setItem('infoData', JSON.stringify(data))
         },
         // 상품문의목록
         productAskSetData(state, data) {
             state.productAskData = data;
-            localStorage.setItem('productAskData', JSON.stringify(data))
         },
         // 1:1문의 목록
         askSetData(state, data) {
             state.askSetData = data;
-            localStorage.setItem('askSetData', JSON.stringify(data))
         },
         // 마이페이지에서 리뷰작성 넘어갈때 데이터 전달
         infoReviewCreate(state, data) {
@@ -201,7 +196,6 @@ const store = createStore({
         // 상품 문의 작성 게시글 정보
         setProductAskCreateData(state, data) {
             state.productAskCreateData = data;
-            localStorage.setItem('productAskCreateData', JSON.stringify(data))
         },
         // ----------------------- 호경 끝 ---------------------------
     },actions: {
@@ -260,25 +254,6 @@ const store = createStore({
             });
         },
 
-
-        /**
-         * 장바구니에 수량 증가한 데이터 저장
-         * 
-         * @param {*} context
-         * @param {*} 
-         */
-        // bagsCountChange(context, ) {
-        //     const url = '/api/bagsCountPlus/' + ;
-
-        //     axios.post(url)
-        //     .then(response => {
-        //         console.log(response.data.data);
-        //     })
-        //     .catch(error => {
-        //         alert('수량 감소에 실패했습니다.(' + error.response.data.code + ')' )
-        //     });
-        // },
-
         
         /**
          * 장바구니에서 휴지통 버튼 클릭시 목록에서 삭제
@@ -305,17 +280,15 @@ const store = createStore({
         },
 
         /**
-         * 장바구니 페이지에서 선택된 상품만 삭제 처리
+         * Bags(장바구니)테이블에서 선택된 상품만 삭제 처리
          * 
          * @param {*} context
-         * @param {*} data
         */
         bagsSelectDelete(context, data) {
             const url = '/api/bagsSelectDelete/'
-            // 선택된 데이터만 들고 와야되기 때문에 vue에서 먼저 처리후 데이터 넘겨줌
             // const data = new FormData(document.querySelector('#bagsProductData'));
 
-            console.log(data); // TODO : 삭제
+            console.log(data);
 
             axios.post(url, data)
             .then(response => {
@@ -327,82 +300,6 @@ const store = createStore({
             });
         },
 
-        /**
-         * 장바구니 페이지에서 선택된 상품만 주문 페이지로 정보 전달
-         * 
-         * @param {*} context
-         * @param {*} data
-        */
-        bagsToOrder(context, data) {
-            
-            const bagsToOrder = data;
-
-            console.log('*********스토어에서 받은 데이터*************');
-            console.log(bagsToOrder);
-
-
-            context.commit('bagsToOrder', bagsToOrder);
-            localStorage.setItem('bagsToOrder', JSON.stringify(bagsToOrder));
-
-            router.push('/order');
-        },
-        // bagsToOrder(context, data) {
-
-            
-            // const detailedUpdateData = item;
-            // const data = new FormData(document.querySelector('#bagForm'));
-            // // FormData 담고있는 [key, value] 배열들을 객체로 변환
-            // const formDataObject = Object.fromEntries(data.entries());
-            // // detailedUpdateData와 formDataObject를 병합하여 detailedData 객체 생성
-            // const detailedData = { ...detailedUpdateData, ...formDataObject };
-
-            // context.commit('setdetailedUpdate', detailedData);
-            // localStorage.setItem('detailedUpdate', JSON.stringify(detailedData));
-
-            // router.push('/order');
-        // },
-
-
-
-
-
-        /**
-         * order(주문) 페이지에서 결제하기 처리
-         * 실제 결제하기 기능은 없고 orders테이블에 데이터 저장처리만 수행
-         * 
-         * @param {*} context
-        */
-        orderComplete(context) {
-            const url = '/api/orderComplete';
-            const data = new FormData(document.querySelector('#orderComplete'));
-
-            axios.post(url, data)
-            .then(response => {
-                console.log('주문');
-
-
-                
-
-                // TODO : orderproducts 테이블에 데이터 저장하는 처리도 하기
-                store.dispatch('orderProductComlete');
-
-                // TODO : 장바구니 deleted_at 삭제하는 처리도하기
-                store.dispatch('bagsCompleteDelete');
-
-
-
-
-
-
-
-
-                // 주문완료 페이지로 이동
-                router.push('/ordercomplete');
-            })
-            .catch(error => {
-                alert('결제에 실패하였습니다.(' + error.response.data.code + ')' )
-            });
-        },
 
 
         
@@ -510,6 +407,28 @@ const store = createStore({
                 alert('리뷰 수정에 실패하였습니다.(' + error.response.data.code + ')' )
             });
         }, 
+        
+
+        /**
+         * order(주문) 페이지에서 결제하기 처리
+         * 실제 결제하기 기능은 없고 데이터 저장처리만 수행
+         * 
+         * @param {*} context
+        */
+        orderComplete(context) {
+            const url = '/api/orderComplete';
+            const data = new FormData(document.querySelector('#orderComplete'));
+
+            axios.post(url, data)
+            .then(response => {
+                console.log('주문')
+
+                router.push('/ordercomplete');
+            })
+            .catch(error => {
+                alert('결제에 실패하였습니다.(' + error.response.data.code + ')' )
+            });
+        },
               
         
         // ----------------------- 보원 끝 ---------------------------
@@ -635,9 +554,8 @@ const store = createStore({
         },
 
         // 마이페이지에서 주문목록 불러오기
-        getInfoData(context, page) {
-            const param = page == 1 ? '' : '?page=' + page;
-            const url = '/api/info' + param;
+        infoData(context) {
+            const url = '/api/info';
             axios.get(url)
             .then(responseData => {
                 context.commit('infoSetData', responseData.data.data);
@@ -665,9 +583,8 @@ const store = createStore({
         },
 
         // 상품 문의목록 불러오기
-        getProductAskData(context, page) {
-            const param = page == 1 ? '' : '?page=' + page;
-            const url = '/api/productAsk' + param;
+        productAskData(context) {
+            const url = '/api/productAsk';
             axios.get(url)
             .then(responseData => {
                 context.commit('productAskSetData', responseData.data.data);
@@ -694,9 +611,8 @@ const store = createStore({
         },
 
         // 1:1 문의목록 불러오기
-        getAskData(context, page) {
-            const param = page == 1 ? '' : '?page=' + page;
-            const url = '/api/askData' + param;
+        askData(context) {
+            const url = '/api/askData';
             axios.get(url)
             .then(responseData => {
                 context.commit('askSetData', responseData.data.data);
@@ -779,16 +695,14 @@ const store = createStore({
          * 
          * @param {*} context
          */
-        getList(context, query) {
-            const param = query.page == 1 ? '' : '&page=' + query.page;
-            const url = '/api/list?type=' + query.type + param;
+        getList(context, type, page) {
+            console.log('실행됨?')
+            const param = page == 1 ? '' : '?page=' + page;
+            const url = '/api/list?type=' + type+ '&'+ '?page=' + param;
 
             axios.get(url)
             .then(response => {
                 console.log(response.data);
-
-                //type 추가
-                response.data.data.type = query.type;
 
                 // 데이터베이스->서버를 통해 받은 데이터를 listData 저장
                 context.commit('listInfoData', response.data.data);
