@@ -3,7 +3,7 @@
         <div class="container">
             <div class="order_list">
                 <div class="order_list_header">
-                    <h1>주문목록</h1>
+                    <h2>주문목록</h2>
                     <div class="order_list_button">
                         <router-link to="/list?type=99&page=1" class="keep_shoping_btn black_button">계속 쇼핑하기</router-link>
                         <router-link to="/review" class="shoping_btn review_manage_btn black_button">리뷰관리</router-link>
@@ -11,9 +11,7 @@
                     </div>
                 </div>
                 <div class="order_list_main">
-                    
                     <div class="order_item" v-for="(item, key) in $store.state.infoData.data" :key="key" v-if="$store.state.infoData.data && $store.state.infoData.data.length > 0">
-                        <!-- <div>{{ item }}</div> -->
                         <!-- <div>{{ item }}</div> -->
                         <div class="item_left_list_text">
                             <div class="order_date">
@@ -21,16 +19,15 @@
                                 <span class="title_span" v-if="item.co_flg === '1'"> / 구매확정 : </span>
                                 <span class="yellow_span" v-if="item.co_flg === '1'">{{ item.completeOn }}</span>
                             </div>
-                            <button class="order_delete" @click="$store.dispatch('orderItemDelete', item.itemId)" v-if="item.co_flg === '1'"></button>
+                            <button class="order_delete" @click="$store.dispatch('orderItemDelete', item.orp_id)" v-if="item.co_flg === '1'"></button>
                             <img class="order_img" :src="item.img"></img>
                             <p class="order_name">{{ item.name + ' ' + item.ml +'ml' }}</p>
                             <p class="order_price">{{ '금액 : ' + item.price + '원 / ' + item.orp_count + '개' }}</p>
-                            <button class="button_a" @click="$store.dispatch('completeBtn', item.id)" v-if="item.co_flg === '0' || item.co_flg === null">구매확정</button>
+                            <button class="button_a" @click="$store.dispatch('completeBtn', item.orp_id)" v-if="item.co_flg === '0' || item.co_flg === null">구매확정</button>
                         </div>
                         <div class="item_right">
                             <button @click="askProduct(item)" class="button_a" v-if="item.co_flg === '0' || item.co_flg === null">상품문의하기</button> 
                             <button @click="exchange(item)" class="button_a" v-if="item.co_flg === '0' || item.co_flg === null">교환, 반품 신청</button>
-                            
                             <button @click="infoReviewCreate(item)" type="button" class="button_a" v-if="item.co_flg === '1'">리뷰 작성하기</button>
                         </div>
                     </div>
@@ -56,7 +53,7 @@
             </div>
             <div class="inquiry_list">
                 <div class="inquiry_list_header">
-                    <h1>상품문의 내역</h1>
+                    <h2>상품문의 내역</h2>
                 </div>
                 <div class="inquiry_list_main" v-for="(item, key) in $store.state.productAskData.data" :key="key" v-if="$store.state.productAskData.data && $store.state.productAskData.data.length > 0">
                     <!-- <div>{{ item }}</div> -->
@@ -95,7 +92,7 @@
                     <a href="#" class="next" @click.prevent="productNextPage()">다음 〉</a>
                 </div>
                 <div class="inquiry_list_header">
-                    <h1>1:1문의 내역</h1>
+                    <h2>1:1문의 내역</h2>
                     <router-link to="/qnaonebyonecreate" class="keep_shoping_btn black_button">
                         1:1 문의하기
                     </router-link>
@@ -183,9 +180,6 @@
         router.push('/reviewcreate');
     }
 
-    // const infoReviewCreate = (item) => {
-    //     store.dispatch('infoReviewCreate', item);
-    // }
     // 교환반품 이동
     const exchange = (orp_id) => {
         router.push('/exchange?id=' + orp_id);

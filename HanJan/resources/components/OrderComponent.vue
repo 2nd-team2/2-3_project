@@ -66,13 +66,10 @@
                 </div>
 
                 <div>
-                    <!-- 주문 데이터 다들고 와서 보내기 >> 주문테이블, 주문상품 테이블에 데이터 저장을 위해서-->
-                    <!-- orderProduct : or_id, p_id, orp_count -->
-                    <input type="hidden" name ="or_sum" value="1"> <!-- 일단 1로 고정해둠 -->
+                    <input type="hidden" name ="or_sum" value="1">
                     <div class="bag_margin_top bag_margin_bottom bag_total_border bag_total_grid">
                         <div></div>
                         <div class="bag_price_grid">
-                            <!-- {{ $store.state.detailedUpdate }} -->
                             <div> 총 {{ totalPrice.count }} 개의 상품금액</div>
                             <div class="bag_yellow bag_flex_end"> {{ totalPrice.total }}원</div>
                         </div>
@@ -90,7 +87,9 @@
                 </div>
                 
                 <input type="hidden" name="or_sum" :value="totalPrice.total + deliveryPrice">
-                <button type="button" @click="$store.dispatch('orderComplete')">결제하기</button>
+                <input type="hidden" name="p_id" :value="$store.state.bagsToOrder.p_id">  
+                <input type="hidden" name="orp_count" :value="$store.state.bagsToOrder.ba_count">
+                <button type="button" @click="$store.dispatch('orderComplete', store.state.bagsToOrder)">결제하기</button>
             </div>
         </form>
     </main>
@@ -99,6 +98,9 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
+
+const store = useStore();
+
 
 // 배송비 (TODO : 일정 금액 이상일 경우 무료 + 각 상품 마다 배송비 저장할 컬럼 만들기(products 테이블) )
 const deliveryPrice = ref(0);
@@ -118,8 +120,6 @@ const totalPrice = computed(() => {
 
 
 
-
-const store = useStore();
 
 // 실시간 유효성 체크
 const buyName = ref(store.state.userInfo.name);

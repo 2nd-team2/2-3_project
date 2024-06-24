@@ -18,6 +18,8 @@ const store = createStore({
             // 장바구니 데이터 > 주문 페이지로 넘기기
             // bagsToOrder: [],
             bagsToOrder: localStorage.getItem('bagsToOrder') ? JSON.parse(localStorage.getItem('bagsToOrder')) : null,
+            // 결제하기 > 주문 번호 저장
+            orderId : [],
             
             // ----------------------- 보원 끝 ---------------------------
             // ----------------------- 성환 시작 -------------------------
@@ -86,6 +88,9 @@ const store = createStore({
         bagsToOrder(state, data) {
             state.bagsToOrder = data;
             localStorage.setItem('bagsToOrder', JSON.stringify(data));
+        },
+        orderId(state, data) {
+            state.orderId = data;
         },
 
         // // 선택된 상품 삭제 처리
@@ -262,7 +267,7 @@ const store = createStore({
 
 
         /**
-         * 장바구니에 수량 증가한 데이터 저장
+         * 장바구니에 수량 입력 데이터 저장
          * 
          * @param {*} context
          * @param {*} 
@@ -315,8 +320,6 @@ const store = createStore({
             // 선택된 데이터만 들고 와야되기 때문에 vue에서 먼저 처리후 데이터 넘겨줌
             // const data = new FormData(document.querySelector('#bagsProductData'));
 
-            console.log(data); // TODO : 삭제
-
             axios.post(url, data)
             .then(response => {
                 console.log(response.data.data); // TODO : 삭제
@@ -336,10 +339,6 @@ const store = createStore({
         bagsToOrder(context, data) {
             
             const bagsToOrder = data;
-
-            console.log('*********스토어에서 받은 데이터*************');
-            console.log(bagsToOrder);
-
 
             context.commit('bagsToOrder', bagsToOrder);
             localStorage.setItem('bagsToOrder', JSON.stringify(bagsToOrder));
@@ -364,46 +363,51 @@ const store = createStore({
 
 
 
-
-
         /**
          * order(주문) 페이지에서 결제하기 처리
-         * 실제 결제하기 기능은 없고 orders테이블에 데이터 저장처리만 수행
+         * 실제 결제하기 기능은 없고 orders테이블에 주문 데이터 저장처리만 수행
          * 
          * @param {*} context
+         * @param {*} store.state.bagsToOrder
         */
-        orderComplete(context) {
+        orderComplete(context, bagsToOrder) {
             const url = '/api/orderComplete';
             const data = new FormData(document.querySelector('#orderComplete'));
 
             axios.post(url, data)
             .then(response => {
-                console.log('주문');
+                console.log('주문 테이블 완료');
 
+                // orders테이블에 주문 상품 데이터 저장 처리
+                const url = '/api/orderProductComlete/' + response.data.data.or_id;
+    
+                axios.post(url, bagsToOrder)
+                .then(response => {
+                    console.log('주문상품 테이블 완료');
 
-                
+                    // 주문 완료 시 장바구니 deleted_at 수정 처리
+                    const url = '/api/bagsCompleteDelete';
 
-                // TODO : orderproducts 테이블에 데이터 저장하는 처리도 하기
-                store.dispatch('orderProductComlete');
+                    axios.post(url, bagsToOrder)
+                    .then(response => {
+                        console.log('주문 완료 > 장바구니 삭제')
+                        // 주문완료 페이지로 이동
+                        router.push('/ordercomplete');
+                    })
+                    .catch(error => {
+                        alert('결제에 실패하였습니다.-장바구니삭제(' + error.response.data.code + ')' )
+                    });
 
-                // TODO : 장바구니 deleted_at 삭제하는 처리도하기
-                store.dispatch('bagsCompleteDelete');
+                })
+                .catch(error => {
+                    alert('결제에 실패하였습니다.-주문 상품(' + error.response.data.code + ')' )
+                });
 
-
-
-
-
-
-
-
-                // 주문완료 페이지로 이동
-                router.push('/ordercomplete');
             })
             .catch(error => {
-                alert('결제에 실패하였습니다.(' + error.response.data.code + ')' )
+                alert('결제에 실패하였습니다.-주문(' + error.response.data.code + ')' )
             });
         },
-
 
         
         /**
@@ -648,13 +652,13 @@ const store = createStore({
          }, 
 
         //  주문목록 삭제
-        orderItemDelete(context, itemId) {
-            const url = '/api/orderProductDelete/' + itemId;
-            axios.delete(url)
+        orderItemDelete(context, orp_id) {
+            const url = '/api/orderProductDelete/' + orp_id;
             if (confirm('확인을 누르면 구매한 상품이 삭제됩니다.')) {
                 axios.delete(url)
                 .then(responseData => {
-                    context.dispatch('infoData');
+                    console.log(responseData.data);
+                    context.dispatch('getInfoData', context.state.infoData.current_page);
                 })
                 .catch(error => {
                     alert('삭제에 실패했습니다.(' + error.response.data.code + ')' )
@@ -683,7 +687,7 @@ const store = createStore({
             if (confirm('확인을 누르면 작성한 상품 문의가 삭제됩니다.')) {
                 axios.delete(url)
                 .then(responseData => {
-                    context.dispatch('productAskData');
+                    context.dispatch('getProductAskData', context.state.productAskData.current_page);
                 })
                 .catch(error => {
                     alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
@@ -712,7 +716,7 @@ const store = createStore({
             if (confirm('확인을 누르면 작성한 1:1 문의가 삭제됩니다.')) {
                 axios.delete(url)
                 .then(responseData => {
-                    context.dispatch('askData');
+                    context.dispatch('getAskData', context.state.askSetData.current_page);
                 })
                 .catch(error => {
                     alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
@@ -724,12 +728,12 @@ const store = createStore({
         },
 
         // 구매확정
-        completeBtn(context, id) {
-            const url = '/api/complete/' + id;
+        completeBtn(context, orp_id) {
+            const url = '/api/complete/' + orp_id;
             if (confirm('확인을 누르면 구매가 확정됩니다.')) {
                 axios.post(url)
                 .then(responseData => {
-                    context.dispatch('infoData');
+                    context.dispatch('getInfoData', context.state.infoData.current_page);
                 })
                 .catch(error => {
                     alert('실패했습니다.(' + error.responseData.data.code + ')' )
@@ -749,8 +753,6 @@ const store = createStore({
 
             context.commit('reviewToUpdate', infoReviewCreateData);
             localStorage.setItem('reviewToUpdate', JSON.stringify(infoReviewCreateData));
-
-            router.replace('/reviewcreate');
         },
             
         // ----------------------- 성환 끝 ---------------------------
