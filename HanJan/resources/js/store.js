@@ -50,6 +50,8 @@ const store = createStore({
             // detailedUpdate: localStorage.getItem('detailedUpdate') ? JSON.parse(localStorage.getItem('detailedUpdate')) : null,
             // ----------------------- 민서 끝 ---------------------------
             // ----------------------- 호경 시작 -------------------------
+            // 계절
+            season: '',
             // 계절 추천 리스트
             seasonData: [],
             // 리뷰 게시물 리스트
@@ -170,6 +172,10 @@ const store = createStore({
         },
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
+        // 계절 
+        setSeason(state, data) {
+            state.season = data;
+        },
         // 계절 추천 리스트
         setSeasonListData(state, data) {
             state.seasonData = data;
@@ -961,6 +967,7 @@ const store = createStore({
             .then(response => {
                 console.log(response.data); // TODO
                 context.commit('setSeasonListData', response.data.data);
+                context.commit('setSeason', response.data.season);
             })
             .catch(error => {
                 console.log(error.response); // TODO

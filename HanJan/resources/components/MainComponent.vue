@@ -96,7 +96,7 @@
 
     <!-- 날씨 추천 술 -->
     <div class="weather_alcohol">
-        <h1 class="weather_alcohol_title">{{ $store.state.seasonData[0].season}}</h1>
+        <h1 class="weather_alcohol_title">{{ $store.state.season }}</h1>
         <div v-for="(season, index) in seasonLimit" :key="index">
             <div @click="productDetail(season.id)" :class="{weather_alcohol_box: index % 2 === 0, weather_alcohol_box2: index % 2 === 1}">
                 <img v-if="index % 2 === 0" :src="season.img" class="weather_alcohol_img">

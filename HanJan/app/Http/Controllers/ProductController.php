@@ -66,7 +66,6 @@ class ProductController extends Controller
 
         // 구매확정
         public function complete($orp_id) {
-            Log::debug('구매확정 ID : '. $orp_id);
             $completeCreate = Complete::updateOrCreate(['orp_id' => $orp_id], ['co_flg' => '1', 'created_at' => Carbon::now()]);
             $responseData = [
                 'code' => '0'
@@ -255,9 +254,22 @@ class ProductController extends Controller
                 'code' => '0'
                 ,'msg' => '리뷰 획득 완료'
                 ,'data' => $noticeData->toArray()
+                ,'season' => $this->getSeasonKorean($season)
             ];
 
             return response()->json($responseData, 200);
+        }
+
+        public function getSeasonKorean($value) {
+            if ($value == '0') {
+                return '당신의 향긋한 봄이 여기에';
+            } else if($value == '1') {
+                return '당신의 시원한 여름이 여기에';
+            } else if($value == '2') {
+                return '당신의 선선한 가을이 여기에';
+            } else {
+                return '당신의 포근한 겨울이 여기에';
+            }
         }
         // ----------------------- 호경 끝 ---------------------------
 }

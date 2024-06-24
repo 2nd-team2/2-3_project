@@ -6,6 +6,10 @@
     font-optical-sizing: auto;
     font-weight: weight;
     font-style: normal;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
 main {
     width: 70%;
@@ -64,10 +68,10 @@ main {
 .inquiry_item {
     margin: 20px 0;
     display: grid;
-    grid-template-columns: 1fr 0.3fr;
+    grid-template-columns: 1fr 0.2fr;
     border: 1px solid black;
     border-radius: 15px;
-    padding: 30px;
+    padding: 25px;
     height: 170px;
 }
 .user_update_btn {
