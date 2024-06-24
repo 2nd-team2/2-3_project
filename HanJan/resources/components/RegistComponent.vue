@@ -46,7 +46,7 @@
                     <label class="info_item_label" for="name">이름</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg">{{ nameError }}</p>
-                        <input type="text" name="name" id="name" @input="chkName">
+                        <input type="text" name="name" id="name" v-model="name" @input="chkName">
                     </div>
                 </div>
                 <hr>
@@ -54,7 +54,7 @@
                     <label class="info_item_label" for="phone">휴대전화번호</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg">{{ phoneError }}</p>
-                        <input placeholder="숫자만 입력해주세요" type="text" name="tel" id="tel" @input="chkPhone">
+                        <input placeholder="-를 제외한 숫자만 입력해주세요" type="text" name="tel" id="tel" v-model="phone" @input="chkPhone">
                     </div>
                 </div>
                 <hr>
@@ -74,7 +74,7 @@
                     <label class="info_item_label" for="birth">생년월일</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg">{{ birthError }}</p>
-                        <input type="date" name="birth" id="birth" @input="chkBirth">
+                        <input type="date" name="birth" id="birth" v-model="birth" @input="chkBirth">
                     </div>
                 </div>
                 <hr>
@@ -92,7 +92,7 @@ import { ref } from 'vue';
 import axios from 'axios';
 
 // 실시간 유효성 체크
-const email = ref('');
+const emailText = ref('');
 const password = ref('');
 const passwordChk = ref('');
 const phone = ref('');
@@ -122,8 +122,8 @@ function chkEmail(e) {
 
 function chkPassword(e) {
   if (e.target.value.length < 1) { 
-  // if (e.target.value.length < 8) { // TODO : 배포
-    passwordError.value = '비밀번호가 형식에 맞지 않습니다.';
+  // if (e.target.value.length < 8 || e.target.value.length > 20) { // TODO : 배포
+    passwordError.value = '비밀번호는 8 ~ 20자 사이로 설정 해주세요.';
   } else {
     passwordError.value = '';
   }
@@ -149,7 +149,7 @@ function chkName(e) {
 function chkPhone(e) {
   const phonePattern = /^\d{10,11}$/;
   if (!phonePattern.test(e.target.value)) {
-    phoneError.value = '전화번호 형식이 맞지 않습니다.';
+    phoneError.value = '전화번호는 숫자 10,11자로 설정 해주세요.';
   } else {
     phoneError.value = '';
   }
@@ -164,11 +164,11 @@ function chkAddress(e) {
 }
 
 function chkBirth(e) {
-  const birthDate = new Date(e.target.value);
+  const birth = new Date(e.target.value);
   const today = new Date();
-  let age = today.getFullYear() - birthDate.getFullYear();
-  const monthDifference = today.getMonth() - birthDate.getMonth();
-  if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+  let age = today.getFullYear() - birth.getFullYear();
+  const monthDifference = today.getMonth() - birth.getMonth();
+  if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birth.getDate())) {
     age--;
   }
   if (age < 19) {
@@ -248,6 +248,8 @@ function kakaoPostcode() {
             postcode.value = data.zonecode;
             // 주소 필드에 삽입
             address.value = addr;
+            // 에러 메시지 초기화
+            addressError.value = '';
             // 커서를 상세주소 필드로 이동한다.
             document.querySelector('#address_detail').focus();
         }
