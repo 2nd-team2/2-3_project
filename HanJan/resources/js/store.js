@@ -131,10 +131,10 @@ const store = createStore({
             localStorage.setItem('askSetData', JSON.stringify(data))
         },
         // 마이페이지에서 리뷰작성 넘어갈때 데이터 전달
-        infoReviewCreate(state, data) {
-            state.reviewToUpdate = data;
-            localStorage.setItem('reviewToUpdate', JSON.stringify(data));
-        },
+        // infoReviewCreate(state, data) {
+        //     state.reviewToUpdate = data;
+        //     localStorage.setItem('reviewToUpdate', JSON.stringify(data));
+        // },
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------
         
@@ -576,18 +576,23 @@ const store = createStore({
 
         // 이메일 중복체크
         chkEmailOn(context, emailText) {
+            if (!emailText) {
+                alert('이메일을 입력해 주세요.');
+                return;
+            }
             const url = '/api/regist/' + emailText;
             axios.get(url)
             .then(responseData => {
-                if (responseData.data.exists) {
+                if (responseData.data.code === '2') {
                     alert('이미 사용 중인 이메일입니다.');
+                } else if(responseData.data.code === '1') {
+                    alert('유효하지 않은 이메일입니다. ');
                 } else {
                     alert('사용 가능한 이메일입니다.');
                 }
             })
             .catch(error => {
-                console.error('이메일 확인 중 오류 발생:', error);
-                emailError.value = '이메일 중복 확인 중 오류가 발생했습니다.';
+                error.value = '이메일 중복 확인 중 오류가 발생했습니다.';
             });
         },
 
@@ -749,12 +754,12 @@ const store = createStore({
          * @param {*} context
          * @param {*} item
         */
-        infoReviewCreate(context, item) {
-            const infoReviewCreateData = item;
+        // infoReviewCreate(context, item) {
+        //     const infoReviewCreateData = item;
 
-            context.commit('reviewToUpdate', infoReviewCreateData);
-            localStorage.setItem('reviewToUpdate', JSON.stringify(infoReviewCreateData));
-        },
+        //     context.commit('reviewToUpdate', infoReviewCreateData);
+        //     localStorage.setItem('reviewToUpdate', JSON.stringify(infoReviewCreateData));
+        // },
             
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------

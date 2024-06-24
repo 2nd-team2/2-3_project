@@ -47,11 +47,9 @@
 <script setup>
 import { onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
-
 
 const store = useStore();
-const router = useRouter();
+
 
 // 리뷰 초기 데이터 가져오기
 onBeforeMount(() => {
