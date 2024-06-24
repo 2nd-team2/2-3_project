@@ -47,7 +47,7 @@ const store = createStore({
             // 리스트페이지 메인 이미지
             currentImage: '',
             // 상세페이지 에서 주문페이지으로 데이터 넘기기(로컬스토리지에 저장하기 - 새로고침 누를시 없어지는 걸 방지)
-            detailedUpdate: localStorage.getItem('detailedUpdate') ? JSON.parse(localStorage.getItem('detailedUpdate')) : null,
+            // detailedUpdate: localStorage.getItem('detailedUpdate') ? JSON.parse(localStorage.getItem('detailedUpdate')) : null,
             // ----------------------- 민서 끝 ---------------------------
             // ----------------------- 호경 시작 -------------------------
             // 계절 추천 리스트
@@ -165,8 +165,8 @@ const store = createStore({
         },
          // 상세페이지에서 주문페이지로 넘어갈때 데이터 전달
         setdetailedUpdate(state, data) {
-            state.detailedUpdate = data;
-            localStorage.setItem('detailedUpdate', JSON.stringify(data));
+            state.orderProductData = data;
+            localStorage.setItem('orderProductData', JSON.stringify(data));
         },
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
@@ -878,13 +878,18 @@ const store = createStore({
         detailedUpdate(context, item) {
             const detailedUpdateData = item;
             const data = new FormData(document.querySelector('#bagForm'));
+
+            console.log('**********1**********');
             // FormData 담고있는 [key, value] 배열들을 객체로 변환
             const formDataObject = Object.fromEntries(data.entries());
+            console.log('**********2**********');
+
+            
             // detailedUpdateData와 formDataObject를 병합하여 detailedData 객체 생성
             const detailedData = { ...detailedUpdateData, ...formDataObject };
 
             context.commit('setdetailedUpdate', detailedData);
-            localStorage.setItem('detailedUpdate', JSON.stringify(detailedData));
+            localStorage.setItem('orderProductData', JSON.stringify(detailedData));
 
             router.replace('/order');
         },
