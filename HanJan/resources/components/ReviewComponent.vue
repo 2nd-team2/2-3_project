@@ -10,7 +10,7 @@
                 <img class="review_goods_img" :src="item.img">
 
                 <div class="review_goods_info">
-                    <div class="review_goods_title"> {{ item.name +' / '+ item.ml +'ml /' + '1' +'개'}}</div>
+                    <div class="review_goods_title"> {{ item.name +' '+ item.ml +'ml /' + item.orp_count +'개'}}</div>
                     <div class="review_goods_info_grid_star">
                         <div class="star-rating">
                             <span class="star" v-for="star in 5" :key="star" :class="{ checked: star <= item.re_star }">
@@ -35,7 +35,7 @@
                 </form>
             </div>
         </div>
-        <!-- TODO : 리뷰 관리는 더보기로 제안해보기 -->
+        <!-- TODO : 리뷰 관리 페이지네이션 -->
         <div class="pagination">
             <button class="prev"><span> 〈 </span>이전</button>
             <div class="page-numbers"></div>
