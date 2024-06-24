@@ -7,17 +7,14 @@
             </router-link >
         </h2>
         <div>test : {{ $store.state.reviewToUpdate }}</div>
-        <div>test2 : {{ $store.state.productAskCreateData }}</div>
-        <!-- 내 술잔 페이지에서 > 리뷰로 데이터 넘기는 방법 고민해보기 : 리뷰페이지에서 리뷰 수정이랑 동일하게 할건지 -->
-        <!-- reviewToUpdate 대신 infoToReview 로 만들어서 사용하기 >> <div>test : {{ $store.state.infoToReview }}</div> -->
         <div>
             <div class="reviewC_padding_top">이 상품의 품질에 대해서 얼마나 만족하시나요?</div>
             <div class="review_goods_item reviewC_grid">
                 <div class="reviewC_order_at">2024-06-02 주문 / 구매확정 <span class="reviewC_yellow">06-07</span></div>
                 <div class="reviewC_goods_grid">
-                    <img class="review_goods_img" :src="$store.state.productAskCreateData.img">
+                    <img class="review_goods_img" :src="$store.state.reviewToUpdate.img">
                     <div class="reviewC_item_grid">
-                        <div class="review_goods_title">{{ $store.state.productAskCreateData.name +' / '+ $store.state.productAskCreateData.ml +'ml /' + '1' +'개'}}</div>
+                        <div class="review_goods_title">{{ $store.state.reviewToUpdate.name +' / '+ $store.state.reviewToUpdate.ml +'ml /' + '1' +'개'}}</div>
                         <div class="reviewC_required"><span class="reviewC_required_red">*</span>(필수)</div>
                         <div class="star-rating">
                             <span class="star" v-for="star in 5" :key="star" :class="{ checked: star <= selectedStar }" @click="selectStar(star)">
@@ -34,7 +31,7 @@
 
         <form id="reviewCreateForm">
             <div class="reviewC_padding_top">상세리뷰</div>
-            <input type="hidden" name="p_id" :value="$store.state.productAskCreateData.p_id">
+            <input type="hidden" name="p_id" :value="$store.state.reviewToUpdate.p_id">
             <!-- TODO  -->
             <!-- infoToReview를 받아오면 아래 re_id 와 p_id 같이 넘기고 컨트롤러 저장할떄 p_id 받아서 저장 -->
             <!-- <input type="hidden" name="re_id" :value="$store.state.infoToReview.re_id"> -->

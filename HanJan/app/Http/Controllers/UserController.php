@@ -142,16 +142,22 @@ class UserController extends Controller
         // 이메일 중복체크
         public function registEmailChk($emailText)
         {
+            // 이메일 중복 확인
+            $userInfo = User::where('email', $emailText)->first();
+
+            // 기본 응답 데이터
             $responseData = [
                 'code' => '0',
                 'msg' => '중복체크',
-                'exists' => false
             ];
 
-            $userInfo = User::where('email', $emailText)->first();
-
-            if($userInfo) {
-                $responseData['exists'] = true;
+            // 이메일이 유효하지 않은 형식일 경우
+            if (!filter_var($emailText, FILTER_VALIDATE_EMAIL)) {
+                $responseData['code'] = '1';
+            } else if($userInfo) {
+                $responseData['code'] = '2';
+            } else {
+                $responseData['code'] = '3';
             }
             
             return response()->json($responseData, 200);

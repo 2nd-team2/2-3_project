@@ -47,7 +47,7 @@
                     <label class="info_item_label" for="phone">휴대전화번호</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg">{{ phoneError }}</p>
-                        <input placeholder="숫자만 입력해주세요" type="text" name="tel" id="phone" @input="chkPhone">
+                        <input placeholder="-를 제외한 숫자만 입력해주세요" type="text" name="tel" v-model="phone" id="phone" @input="chkPhone">
                     </div>
                 </div>
                 <hr>
@@ -99,8 +99,8 @@ const addressError = ref('');
 // const nameError = ref('');
 
 function chkPassword(e) {
-  if (e.target.value.length < 8) {
-    passwordError.value = '비밀번호가 형식에 맞지 않습니다.';
+    if (e.target.value.length < 8 || e.target.value.length > 20) {
+    passwordError.value = '비밀번호는 8 ~ 20자 사이로 설정 해주세요.';
   } else {
     passwordError.value = '';
   }
@@ -124,9 +124,9 @@ function chkPasswordChk() {
 // }
 
 function chkPhone(e) {
-  const phonePattern = /^\d{10,11}$/;
-  if (!phonePattern.test(e.target.value)) {
-    phoneError.value = '전화번호 형식에 맞지 않습니다.';
+  const phone = /^\d{10,11}$/;
+  if (!phone.test(e.target.value)) {
+    phoneError.value = '전화번호는 숫자 10,11자로 설정 해주세요.';
   } else {
     phoneError.value = '';
   }
@@ -213,6 +213,8 @@ function kakaoPostcode() {
             postcode.value = data.zonecode;
             // 주소 필드에 삽입
             address.value = addr;
+            // 에러 메시지 초기화
+            addressError.value = '';
             // 커서를 상세주소 필드로 이동한다.
             document.querySelector('#address_detail').focus();
         }

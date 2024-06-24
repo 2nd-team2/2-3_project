@@ -47,7 +47,7 @@ const store = createStore({
             // 리스트페이지 메인 이미지
             currentImage: '',
             // 상세페이지 에서 주문페이지으로 데이터 넘기기(로컬스토리지에 저장하기 - 새로고침 누를시 없어지는 걸 방지)
-            detailedUpdate: localStorage.getItem('detailedUpdate') ? JSON.parse(localStorage.getItem('detailedUpdate')) : null,
+            // detailedUpdate: localStorage.getItem('detailedUpdate') ? JSON.parse(localStorage.getItem('detailedUpdate')) : null,
             // ----------------------- 민서 끝 ---------------------------
             // ----------------------- 호경 시작 -------------------------
             // 계절
@@ -133,10 +133,10 @@ const store = createStore({
             localStorage.setItem('askSetData', JSON.stringify(data))
         },
         // 마이페이지에서 리뷰작성 넘어갈때 데이터 전달
-        infoReviewCreate(state, data) {
-            state.reviewToUpdate = data;
-            localStorage.setItem('reviewToUpdate', JSON.stringify(data));
-        },
+        // infoReviewCreate(state, data) {
+        //     state.reviewToUpdate = data;
+        //     localStorage.setItem('reviewToUpdate', JSON.stringify(data));
+        // },
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------
         
@@ -167,8 +167,8 @@ const store = createStore({
         },
          // 상세페이지에서 주문페이지로 넘어갈때 데이터 전달
         setdetailedUpdate(state, data) {
-            state.detailedUpdate = data;
-            localStorage.setItem('detailedUpdate', JSON.stringify(data));
+            state.orderProductData = data;
+            localStorage.setItem('orderProductData', JSON.stringify(data));
         },
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
@@ -582,18 +582,23 @@ const store = createStore({
 
         // 이메일 중복체크
         chkEmailOn(context, emailText) {
+            if (!emailText) {
+                alert('이메일을 입력해 주세요.');
+                return;
+            }
             const url = '/api/regist/' + emailText;
             axios.get(url)
             .then(responseData => {
-                if (responseData.data.exists) {
+                if (responseData.data.code === '2') {
                     alert('이미 사용 중인 이메일입니다.');
+                } else if(responseData.data.code === '1') {
+                    alert('유효하지 않은 이메일입니다. ');
                 } else {
                     alert('사용 가능한 이메일입니다.');
                 }
             })
             .catch(error => {
-                console.error('이메일 확인 중 오류 발생:', error);
-                emailError.value = '이메일 중복 확인 중 오류가 발생했습니다.';
+                error.value = '이메일 중복 확인 중 오류가 발생했습니다.';
             });
         },
 
@@ -755,12 +760,12 @@ const store = createStore({
          * @param {*} context
          * @param {*} item
         */
-        infoReviewCreate(context, item) {
-            const infoReviewCreateData = item;
+        // infoReviewCreate(context, item) {
+        //     const infoReviewCreateData = item;
 
-            context.commit('reviewToUpdate', infoReviewCreateData);
-            localStorage.setItem('reviewToUpdate', JSON.stringify(infoReviewCreateData));
-        },
+        //     context.commit('reviewToUpdate', infoReviewCreateData);
+        //     localStorage.setItem('reviewToUpdate', JSON.stringify(infoReviewCreateData));
+        // },
             
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------
@@ -879,13 +884,26 @@ const store = createStore({
         detailedUpdate(context, item) {
             const detailedUpdateData = item;
             const data = new FormData(document.querySelector('#bagForm'));
-            // FormData 담고있는 [key, value] 배열들을 객체로 변환
-            const formDataObject = Object.fromEntries(data.entries());
-            // detailedUpdateData와 formDataObject를 병합하여 detailedData 객체 생성
-            const detailedData = { ...detailedUpdateData, ...formDataObject };
 
+            // FormData를 객체로 변환
+            const formDataObject = Object.fromEntries(data.entries());
+
+            // 숫자로 변환할 필드의 키를 배열로 지정
+            const numericFields = ['ba_count', 'p_id']; // 예시로 필요에 따라 필드 추가
+
+            // 숫자 타입으로 변환된 객체 생성
+            const detailedData = { ...detailedUpdateData }; // detailedUpdateData는 이미 있는 객체로 가정
+
+            // FormDataObject의 각 항목을 순회하면서 숫자 타입으로 변환
+            for (let key in formDataObject) {
+                if (numericFields.includes(key)) {
+                    detailedData[key] = Number(formDataObject[key]); // 숫자로 변환하여 저장
+                } else {
+                    detailedData[key] = formDataObject[key]; // 숫자로 변환할 필요 없는 경우 그대로 저장
+                }
+            } 
             context.commit('setdetailedUpdate', detailedData);
-            localStorage.setItem('detailedUpdate', JSON.stringify(detailedData));
+            localStorage.setItem('orderProductData', JSON.stringify(detailedData));
 
             router.replace('/order');
         },

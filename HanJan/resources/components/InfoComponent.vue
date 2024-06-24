@@ -26,8 +26,8 @@
                             <button class="button_a" @click="$store.dispatch('completeBtn', item.orp_id)" v-if="item.co_flg === '0' || item.co_flg === null">구매확정</button>
                         </div>
                         <div class="item_right">
-                            <button @click="askProduct(item)" class="button_a" v-if="item.co_flg === '0' || item.co_flg === null">상품문의하기</button> 
-                            <button @click="exchange(item)" class="button_a" v-if="item.co_flg === '0' || item.co_flg === null">교환, 반품 신청</button>
+                            <button @click="askProduct(item)" class="button_a">상품문의하기</button> 
+                            <button @click="exchange(item.orp_id)" class="button_a" v-if="item.co_flg === '1'">교환, 반품 신청</button>
                             <button @click="infoReviewCreate(item)" type="button" class="button_a" v-if="item.co_flg === '1'">리뷰 작성하기</button>
                         </div>
                     </div>
@@ -111,7 +111,7 @@
                         </div>
                         <div class="inquiry_item_right_list">
                             <button type="submit" class="inquiry_delete" @click="$store.dispatch('askDelete', item.qn_id)"></button>
-                            <div class="in_progress qna_answer" v-if="item.qn_answer">답변완료</div>
+                            <div class="in_progress qna_answer_complete" v-if="item.qn_answer">답변완료</div>
                             <div class="in_progress qna_answer" v-else>답변진행중</div>
                         </div>
                     </div>
@@ -176,7 +176,7 @@
 
     // 리뷰 작성하기 페이지로 정보 넘기기
     function infoReviewCreate(item) {
-        store.commit('setProductAskCreateData', item);
+        store.commit('reviewToUpdate', item);
         router.push('/reviewcreate');
     }
 
