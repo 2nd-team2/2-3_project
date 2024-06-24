@@ -1,6 +1,6 @@
 <template>
     <main>
-        <div>{{ $store.state.bagsToOrder }}</div> <!-- TODO 삭제 -->
+        <div>{{ $store.state.orderProductData }}</div> <!-- TODO 삭제 -->
         <form id="orderComplete" @submit.prevent="validateForm">
             <div></div>
             <div class="header">
@@ -87,9 +87,9 @@
                 </div>
                 
                 <input type="hidden" name="or_sum" :value="totalPrice.total + deliveryPrice">
-                <input type="hidden" name="p_id" :value="$store.state.bagsToOrder.p_id">  
-                <input type="hidden" name="orp_count" :value="$store.state.bagsToOrder.ba_count">
-                <button type="button" @click="$store.dispatch('orderComplete', store.state.bagsToOrder)">결제하기</button>
+                <input type="hidden" name="p_id" :value="$store.state.orderProductData.p_id">  
+                <input type="hidden" name="orp_count" :value="$store.state.orderProductData.ba_count">
+                <button type="button" @click="$store.dispatch('orderComplete', store.state.orderProductData)">결제하기</button>
             </div>
         </form>
     </main>
@@ -106,15 +106,19 @@ const store = useStore();
 const deliveryPrice = ref(0);
 // 체크된 항목들만 필터링 > (선택된 상품의 총 합계와 수량을 리턴해줌)
 const totalPrice = computed(() => {
-    const Items = store.state.bagsToOrder;
+    const Items = store.state.orderProductData;
 
     let count = Items.length;
     let total = 0;
-
-    Items.forEach(item => {
-        total += (item.price * item.ba_count);
-    })
-
+    
+    if(count > 1){
+        Items.forEach(item => {
+            total += (item.price * item.ba_count);
+        })
+    }
+    else {
+        total += (Items.price * Items.ba_count);
+    }
     return {count, total};
 });
 

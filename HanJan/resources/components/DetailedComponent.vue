@@ -1,6 +1,7 @@
 <template>
     <main>
         <div class="detailed_haeder">
+            {{ store.state.productDetail }}
             <img :src="store.state.productDetail.img">
             <div class="detailed_haeder_item">
                 <p class="detailed_haeder_title">{{ store.state.productDetail.name }}</p>
