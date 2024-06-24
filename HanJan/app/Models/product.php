@@ -42,4 +42,15 @@ class Product extends Model
     public function getTypeAttribute($value) {
         return $value == '0' ? '탁주' : ($value == '1' ? '과일주' : '증류주');
     }
+    public function getSeasonAttribute($value) {
+        if ($value == '0') {
+            return '당신의 향긋한 봄이 여기에';
+        } else if($value == '1') {
+            return '당신의 시원한 여름이 여기에';
+        } else if($value == '2') {
+            return '당신의 선선한 가을이 여기에';
+        } else {
+            return '당신의 포근한 겨울이 여기에';
+        }
+    }
 }

@@ -3,7 +3,7 @@
         <div class="container">
             <div class="order_list">
                 <div class="order_list_header">
-                    <h1>주문목록</h1>
+                    <h2>주문목록</h2>
                     <div class="order_list_button">
                         <router-link to="/list?type=99&page=1" class="keep_shoping_btn black_button">계속 쇼핑하기</router-link>
                         <router-link to="/review" class="shoping_btn review_manage_btn black_button">리뷰관리</router-link>
@@ -53,7 +53,7 @@
             </div>
             <div class="inquiry_list">
                 <div class="inquiry_list_header">
-                    <h1>상품문의 내역</h1>
+                    <h2>상품문의 내역</h2>
                 </div>
                 <div class="inquiry_list_main" v-for="(item, key) in $store.state.productAskData.data" :key="key" v-if="$store.state.productAskData.data && $store.state.productAskData.data.length > 0">
                     <!-- <div>{{ item }}</div> -->
@@ -92,7 +92,7 @@
                     <a href="#" class="next" @click.prevent="productNextPage()">다음 〉</a>
                 </div>
                 <div class="inquiry_list_header">
-                    <h1>1:1문의 내역</h1>
+                    <h2>1:1문의 내역</h2>
                     <router-link to="/qnaonebyonecreate" class="keep_shoping_btn black_button">
                         1:1 문의하기
                     </router-link>
