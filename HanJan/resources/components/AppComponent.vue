@@ -42,13 +42,13 @@
                     <li class="nav_item5">
                         <div @mouseover="openIconLogin" @mouseleave="closeIconLogin" @click="closeNavMini" class="nav_font">
                             <div v-if="!$store.state.authFlg" @click="$router.push('/login')" class="nav_user_box">
-                                <img src="/img/login.png" class="nav_icon" id="b_iconuser">
-                                <img src="/img/goldlogin.png" class="nav_icon_hover" id="g_iconuser">
+                                <img src="/img/login.png" class="nav_icon_login" id="b_iconuser">
+                                <img src="/img/goldlogin.png" class="nav_icon_hover nav_icon_login_hover" id="g_iconuser">
                                 <div class="nav_user">로그인</div>
                             </div>
                             <div v-else class="nav_user_box" @click="$store.dispatch('logout')">
-                                <img src="/img/logout.png" class="nav_icon" id="b_iconuser">
-                                <img src="/img/goldlogout.png" class="nav_icon_hover" id="g_iconuser">
+                                <img src="/img/logout.png" class="nav_icon_logout" id="b_iconuser">
+                                <img src="/img/goldlogout.png" class="nav_icon_hover nav_icon_logout_hover" id="g_iconuser">
                                 <div class="nav_user">로그아웃</div>
                             </div>
                         </div>
@@ -57,13 +57,13 @@
                     <li class="nav_item6">
                         <div @mouseover="openIconRegist" @mouseleave="closeIconRegist" @click="closeNavMini" class="nav_font">
                             <div v-if="!$store.state.authFlg" @click="$router.push('/agree')" class="nav_user_box">
-                                <img src="/img/regist.png" class="nav_icon" id="b_iconregist">
-                                <img src="/img/goldregist.png" class="nav_icon_hover" id="g_iconregist">
+                                <img src="/img/regist.png" class="nav_icon_regist" id="b_iconregist">
+                                <img src="/img/goldregist.png" class="nav_icon_hover nav_icon_regist_hover" id="g_iconregist">
                                 <div class="nav_user">회원가입</div>
                             </div>
                             <router-link to="/info" v-else class="nav_user_box">
-                                <img src="/img/profile.png" class="nav_icon" id="b_iconregist">
-                                <img src="/img/goldprofile.png" class="nav_icon_hover" id="g_iconregist">
+                                <img src="/img/profile.png" class="nav_icon_my" id="b_iconregist">
+                                <img src="/img/goldprofile.png" class="nav_icon_hover nav_icon_my_hover" id="g_iconregist">
                                 <div class="nav_user">내 술잔</div>
                             </router-link>
                         </div>
@@ -72,8 +72,8 @@
                     <li class="nav_item7">
                         <router-link to="/bag" @mouseover="openIconBag" @mouseleave="closeIconBag" @click="closeNavMini" class="nav_font">
                             <div class="nav_user_box">
-                                <img src="/img/bag.png" class="nav_icon" id="b_iconbag">
-                                <img src="/img/goldbag.png" class="nav_icon_hover" id="g_iconbag">
+                                <img src="/img/bag.png" class="nav_icon_bag" id="b_iconbag">
+                                <img src="/img/goldbag.png" class="nav_icon_hover nav_icon_bag_hover" id="g_iconbag">
                                 <div class="nav_user">장바구니</div>
                             </div>
                         </router-link>
@@ -90,19 +90,19 @@
         <div class="footer_team">
             <div class="footer_team_member">
                 <p class="team_member_name">권성환</p>
-                <p>감사합니다</p>
+                <p>#감사합니다</p>
             </div>
             <div class="footer_team_member">
                 <p class="team_member_name">서보원</p>
-                <p>간단한 소개</p>
+                <p>#간단한 소개</p>
             </div>
             <div class="footer_team_member">
                 <p class="team_member_name">유호경</p>
-                <p>간단한 소개</p>
+                <p>#될때_까지 #않이 #외않되</p>
             </div>
             <div class="footer_team_member">
                 <p class="team_member_name">권민서</p>
-                <p>수고많으셨습니다</p>
+                <p>#수고많으셨습니다</p>
             </div>
         </div>
         <div class="footer_line"></div>

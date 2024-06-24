@@ -54,52 +54,80 @@ class ReviewController extends Controller
     }
 
     // 리뷰 작성
-    // 리뷰작성 페이지에서 버튼 눌렀을 때 reviews(리뷰) 테이블에서 데이터 저장
+    // // 리뷰작성 페이지에서 버튼 눌렀을 때 reviews(리뷰) 테이블에서 데이터 저장
+    // public function reviewCreateSubmit(Request $request) {
+
+    //     // 리퀘스트 데이터 받기
+    //     $requestData = [
+    //         're_id' => $request->re_id
+    //         ,'re_content' => $request->re_content
+    //         ,'re_star' => $request->re_star
+    //     ];
+
+    //     // 데이터 유효성 검사
+    //     $validator = Validator::make(
+    //         $requestData
+    //         , [
+    //             're_star' => ['required', 'regex:/^[1-5]{1}$/']
+    //             ,'re_content' => ['nullable', 'max: 200','regex:/^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
+    //         ]
+    //     );
+
+    //     // 유효성 검사 실패 체크
+    //     if($validator->fails()) {
+    //         Log::debug('유효성 검사 실패', $validator->errors()->toArray());
+    //         throw new MyValidateException('E01');
+    //     }
+
+    //     // 데이터 생성
+    //     $createData = $request->only('re_content','re_star');
+
+        
+    //     // 작성 처리
+    //     $createData['u_id'] = Auth::id();
+    //     $createData['p_id'] = 1; // TODO: $request->p_id; store에서 넘겨 받은 p_id 작성하기 
+    //     $createData['re_content'] = $request->re_content;
+    //     $createData['re_star'] = $request->re_star;
+
+
+    //     // 작성 처리
+    //     $reviewCreate = Review::create($createData);
+
+    //     // 레스폰스 데이터 생성
+    //     $responseData = [
+    //         'code' => '0'
+    //         ,'msg' => '리뷰 작성 완료'
+    //         ,'data' => $reviewCreate
+    //     ];
+
+    //     return response()->json($responseData, 200);
+    // }
     public function reviewCreateSubmit(Request $request) {
-
-        // 리퀘스트 데이터 받기
-        $requestData = [
-            're_id' => $request->re_id
-            ,'re_content' => $request->re_content
-            ,'re_star' => $request->re_star
-        ];
-
-        // 데이터 유효성 검사
         $validator = Validator::make(
-            $requestData
+            $request->only('re_star', 're_content')
             , [
-                're_star' => ['required', 'regex:/^[1-5]{1}$/']
-                ,'re_content' => ['nullable', 'max: 200','regex:/^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
+                // 're_star' => ['required', 'regex:/^[1-5]{1}$/']
+                're_content' => ['nullable', 'max: 200','regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
             ]
         );
-
         // 유효성 검사 실패 체크
         if($validator->fails()) {
             Log::debug('유효성 검사 실패', $validator->errors()->toArray());
             throw new MyValidateException('E01');
         }
 
-        // 데이터 생성
-        $createData = $request->only('re_content','re_star');
+        $reviewCreateData = new Review();
+        $reviewCreateData->re_content = $request->re_content;
+        $reviewCreateData->p_id = $request->p_id;
+        $reviewCreateData->u_id = Auth::id();
+        $reviewCreateData->save();
 
-        
-        // 작성 처리
-        $createData['u_id'] = Auth::id();
-        $createData['p_id'] = 1; // TODO: $request->p_id; store에서 넘겨 받은 p_id 작성하기 
-        $createData['re_content'] = $request->re_content;
-        $createData['re_star'] = $request->re_star;
-
-
-        // 작성 처리
-        $reviewCreate = Review::create($createData);
-
-        // 레스폰스 데이터 생성
+        // 레스폰스 처리
         $responseData = [
             'code' => '0'
-            ,'msg' => '리뷰 작성 완료'
-            ,'data' => $reviewCreate
+            ,'msg' => '글 작성 완료'
+            ,'data' => $reviewCreateData->toArray()
         ];
-
         return response()->json($responseData, 200);
     }
 
@@ -156,8 +184,8 @@ class ReviewController extends Controller
     public function reviewMainIndex() {
         $noticeData = Review::select('reviews.*', 'products.*')
                             ->join('products','reviews.p_id','=','products.id')
-                            ->orderBy('reviews.re_star', 'DESC')
                             ->orderBy('reviews.created_at', 'DESC')
+                            ->orderBy('reviews.re_star', 'DESC')
                             ->limit(4)
                             ->get();
         $responseData = [

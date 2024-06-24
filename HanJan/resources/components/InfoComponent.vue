@@ -12,7 +12,7 @@
                 </div>
                 <div class="order_list_main">
                     
-                    <div class="order_item" v-for="(item, key) in $store.state.infoData" :key="key" v-if="$store.state.infoData && $store.state.infoData.length > 0">
+                    <div class="order_item" v-for="(item, key) in $store.state.infoData.data" :key="key" v-if="$store.state.infoData.data && $store.state.infoData.data.length > 0">
                         <!-- <div>{{ item }}</div> -->
                         <!-- <div>{{ item }}</div> -->
                         <div class="item_left_list_text">
@@ -28,10 +28,10 @@
                             <button class="button_a" @click="$store.dispatch('completeBtn', item.id)" v-if="item.co_flg === '0' || item.co_flg === null">구매확정</button>
                         </div>
                         <div class="item_right">
-                            <button @click="askProduct(item)" class="button_a">상품문의하기</button> 
-                            <button @click="exchange(item.orp_id)" class="button_a" v-if="item.co_flg === '1'">교환, 반품 신청</button>
+                            <button @click="askProduct(item)" class="button_a" v-if="item.co_flg === '0' || item.co_flg === null">상품문의하기</button> 
+                            <button @click="exchange(item)" class="button_a" v-if="item.co_flg === '0' || item.co_flg === null">교환, 반품 신청</button>
                             
-                            <button @click="infoReviewCreate(item)" class="button_a" v-if="item.co_flg === '1'">리뷰 작성하기</button>
+                            <button @click="infoReviewCreate(item)" type="button" class="button_a" v-if="item.co_flg === '1'">리뷰 작성하기</button>
                         </div>
                     </div>
                     <div v-else>
@@ -39,14 +39,18 @@
                             주문 상품이 없습니다.
                         </h2>
                     </div>
+                    <!-- 페이지네이션 -->
                     <div class="list_num_item">
-                        <span class="before">〈 이전</span>
-                        <span class="num_none">1</span>
-                        <span class="num_none">2</span>
-                        <span class="num">3</span>
-                        <span class="num_none">4</span>
-                        <span class="num_none">5</span>
-                        <span class="next">다음 〉</span>
+                        <a href="#" class="before" @click.prevent="prevPage()">〈 이전</a>
+                        <a
+                            v-for="page in pages"
+                            :key="page"
+                            href="#"
+                            :class="{'num': page === $store.state.infoData.current_page, 'num_none': page !== $store.state.infoData.current_page}"
+                            @click.prevent="goToPage(page)"
+                            >{{ page }}
+                        </a>
+                        <a href="#" class="next" @click.prevent="nextPage()">다음 〉</a>
                     </div>
                 </div>
             </div>
@@ -85,7 +89,7 @@
                         :key="productpage"
                         href="#"
                         :class="{'num': productpage === $store.state.productAskData.current_page, 'num_none': productpage !== $store.state.productAskData.current_page}"
-                        @click.prevent="productGoToPage(page)"
+                        @click.prevent="productGoToPage(productpage)"
                         >{{ productpage }}
                     </a>
                     <a href="#" class="next" @click.prevent="productNextPage()">다음 〉</a>
@@ -128,7 +132,7 @@
                         :key="oneByOnepage"
                         href="#"
                         :class="{'num': oneByOnepage === $store.state.askSetData.current_page, 'num_none': oneByOnepage !== $store.state.askSetData.current_page}"
-                        @click.prevent="oneByOneGoToPage(page)"
+                        @click.prevent="oneByOneGoToPage(oneByOnepage)"
                         >{{ oneByOnepage }}
                     </a>
                     <a href="#" class="next" @click.prevent="oneByOneNextPage()">다음 〉</a>
@@ -151,7 +155,10 @@
 
     // 초기 데이터
     onBeforeMount(() => {
-        store.dispatch('infoData');
+        // 상품문의 내역 데이터
+        if(store.state.infoData.current_page == 1) {
+            store.dispatch('getInfoData', 1);
+        }
 
         // 상품문의 내역 데이터
         if(store.state.productAskData.current_page == 1) {
@@ -164,10 +171,21 @@
         }
     })
 
-    // 리뷰 작성하기 페이지로 정보 넘기기
-    const infoReviewCreate = (item) => {
-        store.dispatch('infoReviewCreate', item);
+    // 상품문의 하는 페이지 이동
+    function askProduct(item) {
+        store.commit('setProductAskCreateData', item);
+        router.push('/qnaproductcreate');
     }
+
+    // 리뷰 작성하기 페이지로 정보 넘기기
+    function infoReviewCreate(item) {
+        store.commit('setProductAskCreateData', item);
+        router.push('/reviewcreate');
+    }
+
+    // const infoReviewCreate = (item) => {
+    //     store.dispatch('infoReviewCreate', item);
+    // }
     // 교환반품 이동
     const exchange = (orp_id) => {
         router.push('/exchange?id=' + orp_id);
@@ -180,33 +198,72 @@
     function qnaOneByOneDetail(id) {
         router.push('/qnaonebyonedetail?id=' + id);
     }
-    // 상품문의 하는 페이지 이동
-    function askProduct(item) {
-        store.commit('setProductAskCreateData', item);
-        router.push('/qnaproductcreate');
-    }
 
-    // 상품문의 페이지네이션
-
-    // 게시물 데이터 가져오기
-    const products = computed(() => store.state.askSetData)
+    // 주문 목록 페이지네이션
     // 페이지 번호 배열 계산
-    const productsPages = computed(() => {
+    const pages = computed(() => {
         const pageArray = [];
-        // 페이지네이션 3개
+        // 페이지네이션 5개
         const maxPagesToShow = 5;
 
-        let startPage = products.value.current_page - 2;
+        let startPage = store.state.infoData.current_page - 2;
         if(startPage < 1) {
             startPage = 1;
         }
         const endPage = startPage + maxPagesToShow - 1;
 
         // 시작페이지 구하기
-        const pagingStart = startPage <= (products.value.last_page - maxPagesToShow + 1) || ((products.value.last_page - maxPagesToShow + 1) < 1) ? startPage : (products.value.last_page - maxPagesToShow + 1);
+        const pagingStart = startPage <= (store.state.infoData.last_page - maxPagesToShow + 1) || ((store.state.infoData.last_page - maxPagesToShow + 1) < 1) ? startPage : (store.state.infoData.last_page - maxPagesToShow + 1);
         
         // 마지막 페이지 구하기
-        const pagingEnd = endPage > products.value.last_page ? products.value.last_page : endPage;
+        const pagingEnd = endPage > store.state.infoData.last_page ? store.state.infoData.last_page : endPage;
+
+        for (let i = pagingStart; i <= pagingEnd; i++) {
+            pageArray.push(i)
+        }
+        return pageArray
+    })
+
+    // 특정 페이지로 이동
+    function goToPage(page) {
+        store.dispatch('getInfoData', page);
+    }
+
+    // 이전 페이지로 이동
+    function prevPage() {
+        if (store.state.infoData.current_page > 1) {
+            goToPage(store.state.infoData.current_page - 1);
+        }
+    }
+
+    // 다음 페이지로 이동
+    function nextPage() {
+        if (store.state.infoData.current_page < store.state.infoData.last_page) {
+            goToPage(store.state.infoData.current_page + 1);
+        }
+    }
+
+    // 상품문의 페이지네이션
+
+    // 게시물 데이터 가져오기
+    // const products = computed(() => store.state.askSetData)
+    // 페이지 번호 배열 계산
+    const productsPages = computed(() => {
+        const pageArray = [];
+        // 페이지네이션 3개
+        const maxPagesToShow = 5;
+
+        let startPage = store.state.productAskData.current_page - 2;
+        if(startPage < 1) {
+            startPage = 1;
+        }
+        const endPage = startPage + maxPagesToShow - 1;
+
+        // 시작페이지 구하기
+        const pagingStart = startPage <= (store.state.productAskData.last_page - maxPagesToShow + 1) || ((store.state.productAskData.last_page - maxPagesToShow + 1) < 1) ? startPage : (store.state.productAskData.last_page - maxPagesToShow + 1);
+        
+        // 마지막 페이지 구하기
+        const pagingEnd = endPage > store.state.productAskData.last_page ? store.state.productAskData.last_page : endPage;
 
         for (let i = pagingStart; i <= pagingEnd; i++) {
             pageArray.push(i)
@@ -221,39 +278,39 @@
 
     // 이전 페이지로 이동
     function productPrevPage() {
-        if (products.value.current_page > 1) {
-            productGoToPage(products.value.current_page - 1);
+        if (store.state.productAskData.current_page > 1) {
+            productGoToPage(store.state.productAskData.current_page - 1);
         }
     }
 
     // 다음 페이지로 이동
     function productNextPage() {
-        if (products.value.current_page < products.value.last_page) {
-            productGoToPage(products.value.current_page + 1);
+        if (store.state.productAskData.current_page < store.state.productAskData.last_page) {
+            productGoToPage(store.state.productAskData.current_page + 1);
         }
     }
 
     // 1:1문의 페이지네이션
 
     // 게시물 데이터 가져오기
-    const oneByOne = computed(() => store.state.askSetData)
+    // const oneByOne = computed(() => store.state.askSetData)
     // 페이지 번호 배열 계산
     const oneByOnePages = computed(() => {
         const pageArray = [];
         // 페이지네이션 3개
-        const maxPagesToShow = 3;
+        const maxPagesToShow = 5;
 
-        let startPage = oneByOne.value.current_page - 2;
+        let startPage = store.state.askSetData.current_page - 2;
         if(startPage < 1) {
             startPage = 1;
         }
         const endPage = startPage + maxPagesToShow - 1;
 
         // 시작페이지 구하기
-        const pagingStart = startPage <= (oneByOne.value.last_page - maxPagesToShow + 1) || ((oneByOne.value.last_page - maxPagesToShow + 1) < 1) ? startPage : (oneByOne.value.last_page - maxPagesToShow + 1);
+        const pagingStart = startPage <= (store.state.askSetData.last_page - maxPagesToShow + 1) || ((store.state.askSetData.last_page - maxPagesToShow + 1) < 1) ? startPage : (store.state.askSetData.last_page - maxPagesToShow + 1);
         
         // 마지막 페이지 구하기
-        const pagingEnd = endPage > oneByOne.value.last_page ? oneByOne.value.last_page : endPage;
+        const pagingEnd = endPage > store.state.askSetData.last_page ? store.state.askSetData.last_page : endPage;
 
         for (let i = pagingStart; i <= pagingEnd; i++) {
             pageArray.push(i)
@@ -268,15 +325,15 @@
 
     // 이전 페이지로 이동
     function oneByOnePrevPage() {
-        if (oneByOne.value.current_page > 1) {
-            oneByOneGoToPage(oneByOne.value.current_page - 1);
+        if (store.state.askSetData.current_page > 1) {
+            oneByOneGoToPage(store.state.askSetData.current_page - 1);
         }
     }
 
     // 다음 페이지로 이동
     function oneByOneNextPage() {
-        if (oneByOne.value.current_page < oneByOne.value.last_page) {
-            oneByOneGoToPage(oneByOne.value.current_page + 1);
+        if (store.state.askSetData.current_page < store.state.askSetData.last_page) {
+            oneByOneGoToPage(store.state.askSetData.current_page + 1);
         }
     }
 </script>

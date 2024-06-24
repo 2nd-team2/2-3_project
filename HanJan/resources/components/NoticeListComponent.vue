@@ -51,26 +51,23 @@
     }
 
     // 페이지네이션
-
-    // 게시물 데이터 가져오기
-    const posts = computed(() => store.state.noticeData)
     // 페이지 번호 배열 계산
     const pages = computed(() => {
         const pageArray = [];
         // 페이지네이션 5개
         const maxPagesToShow = 5;
 
-        let startPage = posts.value.current_page - 2;
+        let startPage = store.state.noticeData.current_page - 2;
         if(startPage < 1) {
             startPage = 1;
         }
         const endPage = startPage + maxPagesToShow - 1;
 
         // 시작페이지 구하기
-        const pagingStart = startPage <= (posts.value.last_page - maxPagesToShow + 1) || ((posts.value.last_page - maxPagesToShow + 1) < 1) ? startPage : (posts.value.last_page - maxPagesToShow + 1);
+        const pagingStart = startPage <= (store.state.noticeData.last_page - maxPagesToShow + 1) || ((store.state.noticeData.last_page - maxPagesToShow + 1) < 1) ? startPage : (store.state.noticeData.last_page - maxPagesToShow + 1);
         
         // 마지막 페이지 구하기
-        const pagingEnd = endPage > posts.value.last_page ? posts.value.last_page : endPage;
+        const pagingEnd = endPage > store.state.noticeData.last_page ? store.state.noticeData.last_page : endPage;
 
         for (let i = pagingStart; i <= pagingEnd; i++) {
             pageArray.push(i)
@@ -85,15 +82,15 @@
 
     // 이전 페이지로 이동
     function prevPage() {
-        if (posts.value.current_page > 1) {
-            goToPage(posts.value.current_page - 1);
+        if (store.state.noticeData.current_page > 1) {
+            goToPage(store.state.noticeData.current_page - 1);
         }
     }
 
     // 다음 페이지로 이동
     function nextPage() {
-        if (posts.value.current_page < posts.value.last_page) {
-            goToPage(posts.value.current_page + 1);
+        if (store.state.noticeData.current_page < store.state.noticeData.last_page) {
+            goToPage(store.state.noticeData.current_page + 1);
         }
     }
 </script>
