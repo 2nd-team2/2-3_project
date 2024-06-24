@@ -1,7 +1,10 @@
 <template>
     <main>
-        <h2 class="review_title">
-            리뷰관리
+        <h2 class="review_title reviewC_title_grid">
+            <span>리뷰관리</span>
+            <router-link to="/info" class="reviewC_cancel">
+                돌아가기
+            </router-link >
         </h2>
 
         <div class="review_goods_item" v-for="(item, key) in $store.state.reviewData.data" :key="key" v-if="$store.state.reviewData.data && $store.state.reviewData.data.length > 0">
