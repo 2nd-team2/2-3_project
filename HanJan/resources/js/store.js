@@ -30,9 +30,9 @@ const store = createStore({
             // 주문 목록
             infoData: localStorage.getItem('infoData') ? JSON.parse(localStorage.getItem('infoData')) : {current_page: '1'},
             // 1:1 문의 목록
-            askSetData: localStorage.getItem('noticeData') ? JSON.parse(localStorage.getItem('noticeData')) : {current_page: '1'},
+            askSetData: localStorage.getItem('askSetData') ? JSON.parse(localStorage.getItem('askSetData')) : {current_page: '1'},
             // 상품 문의 목록
-            productAskData: localStorage.getItem('noticeData') ? JSON.parse(localStorage.getItem('noticeData')) : {current_page: '1'},
+            productAskData: localStorage.getItem('productAskData') ? JSON.parse(localStorage.getItem('productAskData')) : {current_page: '1'},
             // ----------------------- 성환 끝 ---------------------------
             // ----------------------- 민서 시작 -------------------------
             // 상품 정보
