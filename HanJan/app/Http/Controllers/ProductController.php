@@ -39,7 +39,7 @@ class ProductController extends Controller
                             ,'completes.created_at as completeOn'
                             ,'exchanges.ex_flg')
                             ->join('users','orderproducts.or_id','=','users.id')
-                            ->join('exchanges','exchanges.p_id','=','products.id')
+                            ->leftJoin('exchanges','orderproducts.orp_id','=','exchanges.orp_id')
                             ->leftJoin('completes', 'orderproducts.orp_id', '=', 'completes.orp_id')
                             ->leftJoin('products','orderproducts.p_id','=','products.id')
                             ->where('orderproducts.or_id', '=', Auth::id())

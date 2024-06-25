@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Exceptions\MyValidateException;
 use App\Models\Exchange;
 use App\Models\Orderproduct;
-use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -15,20 +14,21 @@ class ExchangeController extends Controller
 {
     public function exchangeProduct($id) {
 
-        $exchangeData = Product::select(
-            'products.*'
-            ,'orderproducts.orp_count as orpCount'
-            ,'orderproducts.created_at as orpCre'
-            ,'completes.created_at as comCre' )
-            ->join('orderproducts','products.id','=','orderproducts.p_id')
-            ->join('completes', 'orderproducts.orp_id', '=', 'completes.orp_id')
-            ->where('products.id','=', $id)
-            ->first();
+        $exchangeData = Orderproduct::select(
+                        'orderproducts.orp_id as orpId'
+                        ,'orderproducts.orp_count as orpCount'
+                        ,'orderproducts.created_at as orpCre'
+                        ,'completes.created_at as comCre'
+                        ,'products.*')
+                        ->join('products','orderproducts.p_id','=','products.id')
+                        ->join('completes', 'orderproducts.orp_id', '=', 'completes.orp_id')
+                        ->where('products.id','=', $id)
+                        ->first();
 
-            $responseData = [
-                'code' => '0'
-                ,'msg' => '초기 장바구니 상품 획득 완료'
-                ,'data' => $exchangeData->toArray()
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '초기 장바구니 상품 획득 완료'
+            ,'data' => $exchangeData->toArray()
         ];
         
         return response()->json($responseData, 200);
@@ -67,7 +67,7 @@ class ExchangeController extends Controller
         
         // 작성 데이터 입력 처리
         $exchangData['u_id'] = Auth::id();
-        $exchangData['p_id'] = $request->p_id;
+        $exchangData['orp_id'] = $request->orpId;
         $exchangData['ex_addr'] = $request->ex_addr; 
         $exchangData['ex_det_addr'] = $request->ex_det_addr;
         $exchangData['ex_post'] = $request->ex_post;

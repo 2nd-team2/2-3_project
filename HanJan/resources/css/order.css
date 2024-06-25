@@ -4,36 +4,51 @@
     box-sizing: border-box;
 }
 main {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex-shrink: 0;
     width: 70%;
     margin: 3rem auto;
 }
-.header {
-    width: 80%;
-    padding: 100px 0;
+
+input {
+    padding: 5px;
 }
-.main {
-    width: 80%;
-}
+
 .header_top {
-    padding-bottom: 20px;
+    padding-bottom: 10px;
     width: 100%;
     border-bottom: 1px solid #5c5c5c;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
+
+.header_step > h2 {
+    font-size: 1.8rem;
+    margin-right: 10px;
+}
+
+.header_step > li {
+    margin: 10px;
+}
+
 .main_top {
-    padding-bottom: 20px;
-    width: 80%;
+    padding-bottom: 10px;
     border-bottom: 1px solid #5c5c5c;
 }
+
 .header_step {
     display: flex;
     list-style: none;
     flex-direction: row;
 }
+
+.li_yellow {
+    color: #FAC91D;
+}
+
+.main_top > h2 {
+    font-size: 1.8rem;
+}
+
 .header_bottom {
     display: grid;
     grid-template-columns: 0.2fr 1fr;
@@ -41,9 +56,32 @@ main {
     width: 50%;
     margin: 50px auto;
 }
+
+.header_btn {
+    height: 35px;
+    width: 150px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 35px;
+    text-align: center;
+}
+
+.header_btn:hover {
+    background-color: #FAC91D;
+    color: black;
+}
+
+.header_btn_margin {
+    margin-right: 15px;
+}
+
 .main_bottom {
     display: grid;
-    grid-template-columns: 0.2fr 1fr;
+    grid-template-columns: 0.4fr 1fr 1fr;
     gap: 10px;
     width: 50%;
     margin: 50px auto;
@@ -52,29 +90,144 @@ main {
 .header_bottom input {
     width: 100%;
 }
+
 .header_bottom span {
     text-align: left;
 }
-.main_bottom input {
-    width: 100%;
-}
-.main_bottom span {
-    text-align: left;
-}
-.detail_address {
-    grid-column: 2 / 3;
-}
-.detail_address_left {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-.test1{
-    grid-column: 1 / 2;
-}
-.detail_address_right {
-    grid-column: 2 / 3;
-}
-.test3 {
-    grid-column: 1 / 3;
+
+.main_bottom_name {
+    grid-row: 2 / 3;
 }
 
+.main_bottom_input1 {
+    width: 100%;
+    grid-column: 2 / 4;
+    grid-row: 2 / 3;
+}
+
+.main_bottom_tell {
+    grid-row: 4 / 5;
+}
+
+.main_bottom_input2 {
+    width: 100%;
+    grid-column: 2 / 4;
+    grid-row: 4 / 5;
+}
+
+.info_item_err_msg1 {
+    grid-column: 2 / 4;
+    grid-row: 1 / 2;
+}
+
+.info_item_err_msg2 {
+    grid-column: 2 / 4;
+    grid-row: 3 / 4;
+}
+
+.info_item_err_msg3 {
+    grid-column: 2 / 4;
+    grid-row: 5 / 6 ;
+}
+
+.main_bottom_adds {
+    grid-row: 6 / 7;
+}
+
+.main_bottom_input3 {
+    width: 100%;
+    grid-column: 2 / 4;
+    grid-row: 6 / 7;
+}
+.main_bottom_input4 {
+    width: 100%;
+    grid-column: 2 / 3;
+    grid-row: 7 / 8;
+}
+.main_bottom_btn {
+    grid-column: 3 / 4;
+    grid-row: 7 / 8;
+    height: 35px;
+    width: 100px;
+    background-color: black;
+    color: white;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    line-height: 35px;
+    text-align: center;
+}
+
+.main_bottom_btn:hover {
+    color: black;
+    background-color: #FAC91D;  
+}
+.main_bottom_de_adds {
+    grid-column: 2 / 4;
+    grid-row: 8 / 9;
+}
+.main_bottom_input5 {
+    width: 100%;
+    grid-column: 2 / 4;
+    grid-row: 9 / 10;
+}
+
+.bag_total_grid {
+    display: grid;
+    grid-template-columns: 6fr 3fr 1fr 2fr 1fr 2fr;
+    align-items: center;
+    justify-items: center;
+    height: 8rem;
+}
+
+.bag_total_border {
+    border: 1px solid #5c5c5c;
+}
+
+.bag_margin_top {
+    margin-top: 20px;
+}
+.bag_margin_bottom {
+    margin-bottom: 10px;
+}
+.bag_margin_right {
+    margin-right: 10px;
+}
+.bag_yellow {
+    color: #FAC91D;
+    margin-left: 10px;
+}
+.bag_border_none {
+    border: none;
+}
+.bag_flex_end{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.total_text_right {
+    text-align: right;
+}
+
+.btn_com_box {
+    margin-top: 30px;
+    text-align: right;
+}
+
+.btn_ord_com {
+    height: 35px;
+    width: 150px;
+    background-color: black;
+    color: white;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 35px;
+    text-align: center;
+}
+
+.btn_ord_com:hover {
+    color: black;
+    background-color: #FAC91D;
+}
