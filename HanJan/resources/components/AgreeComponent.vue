@@ -75,6 +75,7 @@
                             <span class="middle_span">개인정보 수집 및 이용 </span>
                             <button type="button" id="second_btn_modal" class="text_btn">전체보기 ></button>
                             <!-- 모달창 -->
+                            <transition name="fade">
                             <div class="agree_box modal_overlay" id="modal" v-show="showModal">
                                 <div class="modal_window">
                                     <div class="close_area" @click="modalOff"></div>
@@ -83,6 +84,7 @@
                                     </div>
                                 </div>
                             </div>
+                            </transition>
                             <!-- 모달창 -->
                             <textarea name="" id="second_modal_text" readonly>회사는 회원의 개인정보를 다음의 목적으로 수집 및 이용합니다.
 
@@ -93,7 +95,7 @@
                             </textarea>
                         </label>
                     </div>
-                    <div class="agree_item">
+                    <div class="agree_item" v-show="!showModal">
                         <label for="selectall" class="chk_box">
                             <input type="checkbox" v-model="agree3Checked" id="selectall" @click="toggleAllCheckbox" class="selectall" @change="checkAllAgreements" > 술마켓의 모든 약관을 확인하고 전체 동의합니다.
                             <span class="gray_span">(전체동의, 선택항목도 포함됩니다.)</span>

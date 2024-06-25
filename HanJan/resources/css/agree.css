@@ -135,7 +135,7 @@ textarea {
     width: 60%;
     max-width: 60%;
     height: 50%;
-    max-height: 50%;
+    max-height: 70%;
 }
 
 .title {
@@ -167,13 +167,41 @@ textarea {
     margin-bottom: 3px;
     margin-left: 5px;
     position: absolute;
-    top: -6px;
+    top: -11px;
     right: 0;
 }
 .text_btn:hover {
     background-color: #FAC91D;
     color: black;
 }
+
+/* 모달 페이드 */
+.fade-enter-from {
+    /* 시작시 효과 */
+    opacity: 0;
+  }
+  
+  .fade-enter-active {
+    /* 전체 단계에서 적용될 부분*/
+    transition: all 0.5s;
+  }
+  
+  .fade-enter-to {
+    /* 끝나는 효과 */
+    opacity: 1;
+  }
+
+  .fade-leave-from {
+    opacity: 1;
+  }
+  
+  .fade-leave-active {
+    transition: all 0.5s;
+  }
+  
+  .fade-leave-to {
+    opacity: 0;
+  }
 
 /* 웹버전 */
 @media screen and (min-width: 1201px) {
