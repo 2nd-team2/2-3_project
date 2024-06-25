@@ -77,7 +77,7 @@
                             <!-- 모달창 -->
                             <div class="agree_box modal_overlay" id="modal" v-show="showModal">
                                 <div class="modal_window">
-                                    <div class="close_area" @click="modalOff">x</div>
+                                    <div class="close_area" @click="modalOff"></div>
                                     <div class="content">
                                         <p>{{ modalContent }}</p>
                                     </div>

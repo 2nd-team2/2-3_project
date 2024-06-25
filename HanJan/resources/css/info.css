@@ -340,3 +340,95 @@ li{
     text-align: center;
     line-height: 40px;
 }
+
+
+/* 태블릿버전 */
+@media screen and (min-width: 771px) and (max-width: 1200px) {
+    main {
+        width: 90%;
+        margin: 2rem auto;
+    }
+
+    .order_list_main, .inquiry_list_main {
+        margin-top: 30px;
+    }
+
+    .order_item, .inquiry_item {
+        padding: 15px;
+    }
+
+    .order_list_button {
+        flex-direction: column;
+    }
+
+    .item_right {
+        width: 300px;
+    }
+
+    .list_num_item {
+        width: 70%;
+    }
+}
+
+/* 모바일 버전 */
+@media screen and (max-width: 770px) {
+    main {
+        width: 100%;
+        margin: 1rem auto;
+    }
+
+    .order_list_header, .inquiry_list_header {
+        align-items: flex-start;
+    }
+
+    .order_list_header > h2, .inquiry_list_header > h2 {
+        font-size: 1.5rem;
+    }
+
+    .order_list_button, .item_right {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .order_list_main, .inquiry_list_main {
+        margin-top: 20px;
+    }
+
+    .order_item, .inquiry_item {
+        padding: 10px;
+        grid-template-columns: 1fr;
+    }
+
+    .order_delete, .inquiry_delete {
+        margin-left: auto;
+        margin-right: 0;
+    }
+
+    .order_img, .inquiry_img {
+        width: 100%;
+        height: auto;
+    }
+
+    .item_left_list_text, .inquiry_item_left_list_text {
+        grid-template-columns: 1fr;
+    }
+
+    .order_name, .order_price, .inquiry_name, .inquiry_date {
+        grid-column: 1 / -1;
+    }
+
+    .list_num_item {
+        width: 90%;
+        flex-direction: column;
+        margin: 1rem auto;
+    }
+
+    .list_num_item > a {
+        padding: 0.5rem;
+        margin: 0.25rem;
+        width: auto;
+        height: auto;
+        line-height: normal;
+    }
+}
+

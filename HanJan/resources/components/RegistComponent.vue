@@ -21,7 +21,7 @@
                     <label class="info_item_label" for="email">이메일</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg error">{{ emailError }}</p>
-                        <input type="email" name="email" id="email" @input="chkEmail" v-model="emailText">
+                        <input class="input_width" type="email" name="email" id="email" @input="chkEmail" v-model="emailText">
                     </div>
                     <button type="button" class="info_item_btn form_btn email_chk_btn" @click="$store.dispatch('chkEmailOn', emailText)">이메일 중복확인</button>
                 </div>
@@ -30,7 +30,7 @@
                     <label class="info_item_label" for="password">비밀번호</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg">{{ passwordError }}</p>
-                        <input type="password" v-model="password" name="password" id="password" @input="chkPassword">
+                        <input class="input_width" type="password" v-model="password" name="password" id="password" @input="chkPassword">
                     </div>
                 </div>
                 <hr>
@@ -38,7 +38,7 @@
                     <label class="info_item_label" for="password_chk">비밀번호 확인</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg">{{ passwordChkError }}</p>
-                        <input type="password" v-model="passwordChk" name="password_chk" id="password_chk" @input="chkPasswordChk">
+                        <input class="input_width" type="password" v-model="passwordChk" name="password_chk" id="password_chk" @input="chkPasswordChk">
                     </div>
                 </div>
                 <hr>
@@ -46,7 +46,7 @@
                     <label class="info_item_label" for="name">이름</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg">{{ nameError }}</p>
-                        <input type="text" name="name" id="name" v-model="name" @input="chkName">
+                        <input class="input_width" type="text" name="name" id="name" v-model="name" @input="chkName">
                     </div>
                 </div>
                 <hr>
@@ -54,7 +54,7 @@
                     <label class="info_item_label" for="phone">휴대전화번호</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg">{{ phoneError }}</p>
-                        <input placeholder="-를 제외한 숫자만 입력해주세요" type="text" name="tel" id="tel" v-model="phone" @input="chkPhone">
+                        <input class="input_width" placeholder="-를 제외한 숫자만 입력해주세요" type="text" name="tel" id="tel" v-model="phone" @input="chkPhone">
                     </div>
                 </div>
                 <hr>
@@ -62,10 +62,10 @@
                     <label class="info_item_label address_text" for="address">주소</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg">{{ addressError }}</p>
-                        <input type="text" name="addr" id="address" class="top_input" v-model="address" @input="chkAddress" readonly @click="kakaoPostcode">
-                        <input type="text" readonly v-model="postcode" class="postcode" name="post">
+                        <input class="input_width top_input" type="text" name="addr" id="address" v-model="address" @input="chkAddress" readonly @click="kakaoPostcode">
+                        <input class="postcode" type="text" readonly v-model="postcode" name="post">
                         <label class="address_detail_label" for="address">상세주소</label>
-                        <input type="text" class="address_detail" name="det_addr" id="address_detail" v-model="detailAddress">
+                        <input class="input_width address_detail" type="text" name="det_addr" id="address_detail" v-model="detailAddress">
                         <button type="button" class="info_item_btn form_btn_address" @click="kakaoPostcode" id="postcode">주소검색</button>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                     <label class="info_item_label" for="birth">생년월일</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg">{{ birthError }}</p>
-                        <input type="date" name="birth" id="birth" v-model="birth" @input="chkBirth">
+                        <input class="input_width" type="date" name="birth" id="birth" v-model="birth" @input="chkBirth">
                     </div>
                 </div>
                 <hr>
