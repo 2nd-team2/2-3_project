@@ -94,7 +94,7 @@
             </div>
             <div class="footer_team_member">
                 <p class="team_member_name">서보원</p>
-                <p>#간단한 소개</p>
+                <p>#하..분명 됐었는데..?</p>
             </div>
             <div class="footer_team_member">
                 <p class="team_member_name">유호경</p>
