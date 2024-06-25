@@ -48,17 +48,17 @@
             <div class="bag_margin_top bag_margin_bottom bag_total_border bag_total_grid">
                 <div></div>
                 <div class="bag_price_grid">
-                    <div> 총 {{ totalPrice.count }} 개의 상품금액</div>
+                    <div class="total_text_right"> 총 {{ totalPrice.count }} 개의 상품금액</div>
                     <div class="bag_yellow bag_flex_end"> {{ totalPrice.total }}원</div>
                 </div>
                 <img src="/img/plus.png">
                 <div>
-                    <div>배송비</div>
+                    <div class="total_text_right">배송비</div>
                     <div class="bag_yellow bag_flex_end"> {{ deliveryPrice }}원</div>
                 </div>
                 <img src="/img/equal.png">
                 <div>
-                    <div>합계</div>
+                    <div class="total_text_right">합계</div>
                     <div class="bag_yellow bag_flex_end"> {{ deliveryPrice + totalPrice.total }}원</div>
                 </div>
             </div>

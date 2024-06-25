@@ -190,11 +190,19 @@ function chkAuth(to, from, next) {
 };
 
 const router = createRouter({
-    // 뒤로가기 했을때는 스크롤 위치 저장, 그 외는 최상단으로
     scrollBehavior(to, from, savedPosition) {
         if (savedPosition) {
             return savedPosition
-        } else {
+        } else if (to.path === '/list' && to.query.page !== undefined) {
+            // 페이지 번호를 숫자로 변환
+            const pageNumber = parseInt(to.query.page);
+            if (!isNaN(pageNumber) && pageNumber > 0) {
+                // 새로고침 시 뷰포트 높이의 60% 위치로 스크롤
+                const viewportHeight = window.innerHeight;
+                return pageNumber === 1 ? { top: 0 } : { top: viewportHeight * 0.6 };
+            }
+        } 
+        else {
             return { top: 0 }
         }
     },

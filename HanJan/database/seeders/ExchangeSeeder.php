@@ -17,7 +17,7 @@ class ExchangeSeeder extends Seeder
     {
         $data = [
             'u_id' => 1
-            ,'p_id' => 1
+            ,'orp_id' => 1
             ,'ex_addr' => '대구'
             ,'ex_det_addr' => '중구'
             ,'ex_post' => 1

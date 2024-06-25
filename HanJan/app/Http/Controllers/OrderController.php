@@ -88,7 +88,7 @@ class OrderController extends Controller
             $orderProductData = [
                 'u_id' => Auth::id()
                 ,'or_id' => $or_id
-                ,'p_id' => $orderProduct['p_id']
+                ,'orp_id' => $orderProduct['p_id']
                 ,'orp_count' => $orderProduct['ba_count']
             ];
             // 작성처리
