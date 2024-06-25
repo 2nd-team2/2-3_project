@@ -6,10 +6,11 @@ const store = createStore({
     state() {
         return {
             // ----------------------- 보원 시작 -------------------------
-            // 장바구니 상품 담을 리스트
+            // 장바구니 리스트
             bagsProductData: [],
-            // 리뷰 담을 리스트
-            reviewData: [],
+            // 리뷰 리스트
+            // reviewData: [],
+            reviewData: localStorage.getItem('reviewData') ? JSON.parse(localStorage.getItem('reviewData')) : {current_page: '1'},
             // 리뷰관리 > 리뷰수정으로 데이터 넘기기(로컬스토리지에 저장하기 - 새로고침 누를시 없어지는 걸 방지)
             // reviewUpdateData :[],
             reviewToUpdate: localStorage.getItem('reviewToUpdate') ? JSON.parse(localStorage.getItem('reviewToUpdate')) : null,
@@ -80,6 +81,7 @@ const store = createStore({
         // state.리뷰에 추가 될 리스트
         reviewSetData(state, data) {
             state.reviewData = data;
+            localStorage.setItem('reviewData', JSON.stringify(data));
         },
         // 리뷰관리에서 수정 페이지로 넘어갈때 데이터 전달
         reviewToUpdate(state, data) {
@@ -95,18 +97,6 @@ const store = createStore({
             state.exchangeProduct = data;
         },
 
-        // // 선택된 상품 삭제 처리
-        // deleteSelectedItems(state, selectedIds) {
-        //     state.bagsProductData = state.bagsProductData.filter(item => !selectedIds.includes(item.ba_id));
-        // },
-        // // 전체 상품 삭제 처리
-        // deleteAllItems(state) {
-        //     state.bagsProductData = [];
-        // },
-        // 전체 선택 여부 변경
-        // toggleAllChecked(state) {
-        //     state.allChecked = !state.allChecked;
-        // },
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
         // 인증 플래그 저장
@@ -270,7 +260,6 @@ const store = createStore({
                 alert('수량 감소에 실패했습니다.(' + error.response.data.code + ')' )
             });
         },
-
         /**
          * 장바구니에 수량 입력 데이터 저장
          * 
@@ -291,7 +280,6 @@ const store = createStore({
             });
         },
 
-        
         /**
          * 장바구니에서 휴지통 버튼 클릭시 목록에서 삭제
          * 
@@ -352,27 +340,10 @@ const store = createStore({
 
             router.push('/order');
         },
-        // bagsToOrder(context, data) {
-
-            
-            // const detailedUpdateData = item;
-            // const data = new FormData(document.querySelector('#bagForm'));
-            // // FormData 담고있는 [key, value] 배열들을 객체로 변환
-            // const formDataObject = Object.fromEntries(data.entries());
-            // // detailedUpdateData와 formDataObject를 병합하여 detailedData 객체 생성
-            // const detailedData = { ...detailedUpdateData, ...formDataObject };
-
-            // context.commit('setdetailedUpdate', detailedData);
-            // localStorage.setItem('detailedUpdate', JSON.stringify(detailedData));
-
-            // router.push('/order');
-        // },
-
-
 
         /**
          * order(주문) 페이지에서 결제하기 처리
-         * 실제 결제하기 기능은 없고 orders테이블에 주문 데이터 저장처리만 수행
+         * 실제 결제하기 기능은 없고 각 테이블에 데이터 처리만 수행
          * 
          * @param {*} context
          * @param {*} store.state.bagsToOrder
@@ -404,26 +375,25 @@ const store = createStore({
                     .catch(error => {
                         alert('결제에 실패하였습니다.-장바구니삭제(' + error.response.data.code + ')' )
                     });
-
                 })
                 .catch(error => {
                     alert('결제에 실패하였습니다.-주문 상품(' + error.response.data.code + ')' )
                 });
-
             })
             .catch(error => {
                 alert('결제에 실패하였습니다.-주문(' + error.response.data.code + ')' )
             });
         },
 
-        
         /**
          * 리뷰관리에 최초 게시글 획득
          * 
          * @param {*} context
+         * @param {*} page
         */
-        reviewGet(context) {
-            const url = '/api/review';
+        reviewGet(context, page) {
+            const param = page == 1 ? '' : '?page=' + page;
+            const url = '/api/review' + param;
             
             axios.get(url)
             .then(response => {
@@ -433,8 +403,8 @@ const store = createStore({
             .catch(error => {
                 alert('리뷰 획득에 실패하였습니다.(' + error.response.data.code + ')' )
             });
-        },    
-        
+        },  
+
         /**
          * 리뷰관리에서 리뷰 수정페이지로 이동
          * 
