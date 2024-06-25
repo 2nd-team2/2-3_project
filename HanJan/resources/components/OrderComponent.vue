@@ -1,18 +1,21 @@
 <template>
     <main>
-        <div>{{ $store.state.orderProductData }}</div> <!-- TODO 삭제 -->
         <form id="orderComplete" @submit.prevent="validateForm">
             <div></div>
             <div class="header">
                 <div class="header_top">
                     <ul class="header_step">
                         <h2>구매자정보</h2>
-                        <li>01 약관동의</li>
+                        <li>01 장바구니</li>
                         <li>></li>
-                        <li>02 정보입력</li>
+                        <li class="li_yellow">02 정보입력</li>
                         <li>></li>
-                        <li>03 가입완료</li>
+                        <li>03 결제완료</li>
                     </ul>
+                    <div class="header_btn_box">
+                        <button type="button" @click="$router.push('/list?type=99&page=1')" class="header_btn header_btn_margin">계속 쇼핑하기</button>
+                        <button type="button" @click="$router.push('/bag')" class="header_btn">장바구니 보기</button>
+                    </div>
                 </div>
                 <div class="header_bottom">
                     <div class="header_bottom_text">
@@ -35,63 +38,48 @@
             <div class="main">
                 <div class="main_top">
                     <h2>받는 사람정보</h2>
-            
                 </div>
                 <div class="main_bottom">
-                    <div class="main_bottom_text">
-                        <span>이름</span>
+                    <div class="main_bottom_name">이름</div>
+                    <p class="info_item_err_msg1">{{ getNameError }}</p>
+                    <input type="text" name="or_get_name" id="or_get_name" @input="getChkName" v-model="getName" class="main_bottom_input1">
+                    <div class="main_bottom_tell">휴대폰번호</div>
+                    <p class="info_item_err_msg2 ">{{ getTelError }}</p>
+                    <input type="text" name="or_get_tel" id="or_get_tel" @input="getChkTel" v-model="getTel" class="main_bottom_input2">
+                    <label class="main_bottom_adds" for="address">주소</label>
+                    <p class="info_item_err_msg3">{{ addressError }}</p>
+                    <input type="text"  name="or_get_addr" id="address" @input="chkAddress" readonly @click="kakaoPostcode" class="main_bottom_input3" v-model="address" >
+                    <input type="text" readonly v-model="postcode" class="main_bottom_input4" name="or_get_post">
+                    <label class="main_bottom_de_adds" for="address">상세주소</label>
+                    <input type="text" class="main_bottom_input5" name="or_get_det_addr" id="address_detail" v-model="detailAddress" >
+                    <button type="button" class="main_bottom_btn" @click="kakaoPostcode" id="postcode">주소검색</button>
+                </div>
+
+                <input type="hidden" name ="or_sum" value="1">
+                <div class="bag_margin_top bag_margin_bottom bag_total_border bag_total_grid">
+                    <div></div>
+                    <div class="bag_price_grid">
+                        <div class="total_text_right"> 총 {{ totalPrice.count }} 개의 상품금액</div>
+                        <div class="bag_yellow bag_flex_end"> {{ totalPrice.total }}원</div>
                     </div>
-                    <div class="main_bottom_input">
-                        <p class="info_item_err_msg">{{ getNameError }}</p>
-                        <input type="text" name="or_get_name" id="or_get_name" @input="getChkName" v-model="getName">
+                    <img src="/img/plus.png">
+                    <div>
+                        <div class="total_text_right">배송비</div>
+                        <div class="bag_yellow bag_flex_end"> {{ deliveryPrice }}원</div>
                     </div>
-                    <div class="main_bottom_text">
-                        <span>휴대폰번호</span>
-                    </div>
-                    <div class="main_bottom_input">
-                        <p class="info_item_err_msg">{{ getTelError }}</p>
-                        <input type="text" name="or_get_tel" id="or_get_tel" @input="getChkTel" v-model="getTel">
-                    </div>
-                    <div class="">
-                        <label class="" for="address">주소</label>
-                        <div class="">
-                            <p class="">{{ addressError }}</p>
-                            <input type="text"  name="or_get_addr" id="address" @input="chkAddress" readonly @click="kakaoPostcode" class="" v-model="address" >
-                            <input type="text" readonly v-model="postcode" class="" name="or_get_post">
-                            <label class="" for="address">상세주소</label>
-                            <input type="text" class="" name="or_get_det_addr" id="address_detail" v-model="detailAddress" >
-                            <button type="button" class="" @click="kakaoPostcode" id="postcode">주소검색</button>
-                        </div>
+                    <img src="/img/equal.png">
+                    <div>
+                        <div class="total_text_right">합계</div>
+                        <div class="bag_yellow bag_flex_end"> {{ totalPrice.total + deliveryPrice }}원</div>
                     </div>
                 </div>
 
-                <div>
-                    <input type="hidden" name ="or_sum" value="1">
-                    <div class="bag_margin_top bag_margin_bottom bag_total_border bag_total_grid">
-                        <div></div>
-                        <div class="bag_price_grid">
-                            <div> 총 {{ totalPrice.count }} 개의 상품금액</div>
-                            <div class="bag_yellow bag_flex_end"> {{ totalPrice.total }}원</div>
-                        </div>
-                        <img src="/img/plus.png">
-                        <div>
-                            <div>배송비</div>
-                            <div class="bag_yellow bag_flex_end"> {{ deliveryPrice }}원</div>
-                        </div>
-                        <img src="/img/equal.png">
-                        <div>
-                            <div>합계</div>
-                            <div class="bag_yellow bag_flex_end"> {{ totalPrice.total + deliveryPrice }}원</div>
-                        </div>
-                    </div>
-                </div>
-                
                 <input type="hidden" name="or_sum" :value="totalPrice.total + deliveryPrice">
                 <input type="hidden" name="orp_id" :value="$store.state.orderProductData.p_id">  
                 <input type="hidden" name="orp_count" :value="$store.state.orderProductData.ba_count">
-                <button type="button" @click="$router.push('/list?type=99&page=1')">계속 쇼핑하기</button>
-                <button type="button" @click="$router.push('/bag')">장바구니 보기</button>
-                <button type="button" @click="$store.dispatch('orderComplete', store.state.orderProductData)">결제하기</button>
+                <div class="btn_com_box">
+                    <button type="button" @click="$store.dispatch('orderComplete', store.state.orderProductData)" class="btn_ord_com">결제하기</button>
+                </div>
             </div>
         </form>
     </main>

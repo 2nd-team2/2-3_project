@@ -1,0 +1,63 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+main {
+    width: 70%;
+    margin: 3rem auto;
+}
+
+.header_top {
+    padding-bottom: 10px;
+    width: 100%;
+    border-bottom: 1px solid #5c5c5c;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header_step > h2 {
+    font-size: 1.8rem;
+    margin-right: 10px;
+}
+
+.header_step > li {
+    margin: 10px;
+}
+
+.header_step {
+    display: flex;
+    list-style: none;
+    flex-direction: row;
+}
+
+.li_yellow {
+    color: #FAC91D;
+}
+
+.ord_com {
+    display: flex;
+}
+
+.ord_com_box {
+    text-align: center;
+    margin: 100px auto;
+}
+
+.bag_cancel {
+    margin: 20px auto 0 auto;
+    height: 35px;
+    width: 150px;
+    background-color: black;
+    color: white;
+    border-radius: 20px;
+    font-size: 1rem;
+    line-height: 35px;
+    text-align: center;
+}
+
+.bag_cancel:hover {
+    color: black;
+    background-color: #FAC91D;
+}

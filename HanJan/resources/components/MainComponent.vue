@@ -117,7 +117,7 @@
             <p class="review_content">{{ review.re_content }}</p>
             <div @click="productDetail(review.id)" class="review_a">
                 <div class="goods_title">{{ review.name }}</div>
-                <div class="goods_read">자세히 보기</div>
+                <div class="goods_read">상품 보러가기</div>
             </div>
         </div>
     </div>
