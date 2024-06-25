@@ -30,8 +30,16 @@ class ProductController extends Controller
 
         // 마이페이지 주문목록
         public function infoData() {
-            $infoData = Orderproduct::select('orderproducts.*', 'orderproducts.created_at as orpDate','users.id','products.*', 'completes.*', 'completes.created_at as completeOn')
+            $infoData = Orderproduct::select(
+                            'orderproducts.*'
+                            ,'orderproducts.created_at as orpDate'
+                            ,'users.id'
+                            ,'products.*'
+                            ,'completes.*'
+                            ,'completes.created_at as completeOn'
+                            ,'exchanges.ex_flg')
                             ->join('users','orderproducts.or_id','=','users.id')
+                            ->join('exchanges','exchanges.p_id','=','products.id')
                             ->leftJoin('completes', 'orderproducts.orp_id', '=', 'completes.orp_id')
                             ->leftJoin('products','orderproducts.p_id','=','products.id')
                             ->where('orderproducts.or_id', '=', Auth::id())

@@ -32,7 +32,6 @@ class DatabaseSeeder extends Seeder
         // 복수 시더 생성 - 배열안에 작성
         $this->call([
             BagSeeder::class,
-            ExchangeSeeder::class,
             InfotlSeeder::class,
             NoticeSeeder::class,
             reviewSeeder::class,
@@ -40,6 +39,7 @@ class DatabaseSeeder extends Seeder
             
             OrderproductSeeder::class,
             CompleteSeeder::class,
+            ExchangeSeeder::class,
 
             QnaproductSeeder::class,
             QnaSeeder::class,
