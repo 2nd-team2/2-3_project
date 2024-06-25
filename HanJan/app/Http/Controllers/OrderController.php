@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\MyValidateException;
 use App\Models\Bag;
+use App\Models\Complete;
+use App\Models\Exchange;
 use App\Models\Order;
 use App\Models\Orderproduct;
 use App\Models\Product;
@@ -92,9 +94,9 @@ class OrderController extends Controller
                 ,'orp_count' => $orderProduct['ba_count']
             ];
             // 작성처리
-            $orderProductData = Orderproduct::create($orderProductData);
+            $savedOrderCreate = Orderproduct::create($orderProductData);
 
-            $savedOrderProducts[] = $savedOrderProducts;
+            $savedOrderProducts[] = $savedOrderCreate;
         }
 
         // 레스폰스 데이터 생성
@@ -108,6 +110,46 @@ class OrderController extends Controller
 
         
     }
+
+    // 구매확정, 교환 및 반품 테이블 작성
+    public function orderComEx($orp_id) {
+
+        $saveOrderComExs = [];
+
+        // 구매확정 데이터 입력
+        $completeData = [
+            'orp_id' => $orp_id
+            ,'co_flg' => '0'
+        ];
+        // 작성처리
+        $completeCreateData = Complete::create($completeData);
+        
+        // 교환 및 반품 데이터 입력
+        $exchangeData = [
+            'orp_id' => $orp_id
+            ,'u_id' => Auth::id()
+            ,'ex_flg' => '0'
+        ];
+        // 작성처리
+        $exchangeCreateData = Exchange::create($exchangeData);
+
+        // 배열 만들기
+        $saveOrderComExs[] = [
+            'complete' => $completeCreateData,
+            'exchange' => $exchangeCreateData
+        ];
+
+        // 레스폰스 데이터 생성
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '주문 완료'
+            ,'data' => $saveOrderComExs
+        ];
+
+        return response()->json($responseData, 200);
+    }
+
+
     
     // 장바구니 테이블 삭제
     public function bagsCompleteDelete(Request $request){

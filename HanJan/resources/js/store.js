@@ -349,48 +349,69 @@ const store = createStore({
          * @param {*} context
          * @param {*} store.state.orderProductData
         */
-        orderComplete(context, bagsToOrder) {
-            const url = '/api/orderComplete';
-            const data = new FormData(document.querySelector('#orderComplete'));
+        orderComplete(context, bagsToOrder) {   
+            if(confirm('확인을 누르면 결제가 진행됩니다.')) {
+                // 1. orders테이블에 주문 데이터 저장 처리
+                const url = '/api/orderComplete';
+                const data = new FormData(document.querySelector('#orderComplete'));
 
-            axios.post(url, data)
-            .then(response => {
-                console.log('주문 테이블 완료');
-
-                // orders테이블에 주문 상품 데이터 저장 처리
-                const url = '/api/orderProductComlete/' + response.data.data.or_id;
-    
-                axios.post(url, bagsToOrder)
+                axios.post(url, data)
                 .then(response => {
-                    console.log('주문상품 테이블 완료');
+                    console.log('주문 테이블 완료');
 
-                    // TODO : 장바구니와 바로구매에서 올때 상황에 맞게
-                    // if(조건) {
-                        // 장바구니에서 구매 완료시
-                        // 주문 완료 시 장바구니 deleted_at 수정 처리
-                        const url = '/api/bagsCompleteDelete';
+                    // 2. orderproducts테이블에 주문 상품 데이터 저장 처리
+                    const url = '/api/orderProductComlete/' + response.data.data.or_id;
+        
+                    axios.post(url, bagsToOrder)
+                    .then(response => {
+                        console.log('주문상품 테이블 완료');
 
-                        axios.post(url, bagsToOrder)
-                        .then(response => {
-                            console.log('주문 완료 > 장바구니 삭제')
-                            // 주문완료 페이지로 이동
-                            router.push('/ordercomplete');
+                        response.data.data.forEach(item => {
+                            // 3. 구매확정(completes) 테이블 생성 (co_flg === 0 으로 초기데이터 생성)
+                            // 4. 교환 및 반품(exchanges) 테이블 생성 (ex_flg === 0 으로 초기데이터 생성)
+                            const multiUrl = '/api/orderComEx/' + item.orp_id;
+
+                            axios.post(multiUrl)
+                            .then(response => {
+                                console.log('구매확정, 교환 및 반품 테이블 완료')
+    
+                                // TODO :
+                                // 5. 장바구니에서 삭제 (장바구니 페이지에서 주문할 경우에만 적용)
+                                // if(조건) {
+                                    // 장바구니에서 구매 완료시
+                                    // 주문 완료 시 장바구니 deleted_at 수정 처리
+                                    const url = '/api/bagsCompleteDelete';
+            
+                                    axios.post(url, bagsToOrder)
+                                    .then(response => {
+                                        console.log('주문 완료 > 장바구니 삭제')
+                                        // 주문완료 페이지로 이동
+                                        router.push('/ordercomplete');
+                                    })
+                                    .catch(error => {
+                                        alert('결제에 실패하였습니다.-장바구니삭제(' + error.response.data.code + ')' )
+                                    });
+                                // } else {
+                                //     // 바로구매에서 구매 완료시
+                                //     router.push('/ordercomplete');
+                                // }
+    
+                            })
+                            .catch(error => {
+                                alert('결제에 실패하였습니다.-구매확정, 교환 및 반품(' + error.response.data.code + ')' )
+                            });
                         })
-                        .catch(error => {
-                            alert('결제에 실패하였습니다.-장바구니삭제(' + error.response.data.code + ')' )
-                        });
-                    // } else {
-                    //     // 바로구매에서 구매 완료시
-                    //     router.push('/ordercomplete');
-                    // }
+                    })
+                    .catch(error => {
+                        alert('결제에 실패하였습니다.-주문 상품(' + error.response.data.code + ')' )
+                    });
                 })
                 .catch(error => {
-                    alert('결제에 실패하였습니다.-주문 상품(' + error.response.data.code + ')' )
+                    alert('결제에 실패하였습니다.-주문(' + error.response.data.code + ')' )
                 });
-            })
-            .catch(error => {
-                alert('결제에 실패하였습니다.-주문(' + error.response.data.code + ')' )
-            });
+            } else {
+                console.log('confirm false');
+            }
         },
 
         /**

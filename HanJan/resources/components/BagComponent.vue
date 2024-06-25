@@ -158,7 +158,7 @@ const toggleSelectAll = () => {
 }
 
 // 배송비 (TODO : 일정 금액 이상일 경우 무료 + 각 상품 마다 배송비 저장할 컬럼 만들기(products 테이블) )
-const deliveryPrice = ref(3000);
+const deliveryPrice = ref(0);
 
 // 체크된 항목들만 필터링 > (선택된 상품의 총 합계와 수량을 리턴해줌)
 const totalPrice = computed(() => {
@@ -168,6 +168,8 @@ const totalPrice = computed(() => {
 
     let count = chkTotalItems.length;
     let total = 0;
+
+    console.log(deliveryPrice);
 
     chkTotalItems.forEach(item => {
         total += (item.price * item.ba_count);
