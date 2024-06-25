@@ -33,19 +33,16 @@ class ProductController extends Controller
             $infoData = Orderproduct::select(
                             'orderproducts.*'
                             ,'orderproducts.created_at as orpDate'
-                            ,'users.id'
                             ,'products.*'
                             ,'completes.*'
                             ,'completes.created_at as completeOn'
                             ,'exchanges.ex_flg'
                             ,'orders.*')
                             ->join('orders','orderproducts.or_id','=','orders.or_id')
+                            ->join('products','orderproducts.p_id','=','products.id')
                             ->leftJoin('exchanges','orderproducts.orp_id','=','exchanges.orp_id')
                             ->leftJoin('completes', 'orderproducts.orp_id', '=', 'completes.orp_id')
-                            ->leftJoin('products','orderproducts.p_id','=','products.id')
-                            ->leftJoin('users','orders.u_id','=','users.id')
-                            ->where('users.id', '=', Auth::id())
-                            ->where('orderproducts.deleted_at', '=', null)
+                            ->where('orders.u_id', '=', Auth::id())
                             ->orderBy('orderproducts.created_at','DESC')
                             ->orderBy('orderproducts.orp_id','DESC')
                             ->distinct()
