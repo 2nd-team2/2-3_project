@@ -11,7 +11,6 @@
                     </div>
                 </div>
                 <div class="order_list_main">
-                    <div>{{ $store.state.infoData.data }}</div>
                     <div class="order_item" v-for="(item, key) in $store.state.infoData.data" :key="key" v-if="$store.state.infoData.data && $store.state.infoData.data.length > 0">
                         <!-- <div>{{ item }}</div> -->
                         <div class="item_left_list_text">
@@ -28,8 +27,11 @@
                         </div>
                         <div class="item_right">
                             <button @click="askProduct(item)" class="button_a">상품문의하기</button>
-                            <div v-if="item">
-                                <button @click="exchange(item.orp_id)" class="button_a" v-if="item.co_flg === '1'">교환, 반품 신청</button>
+                            <div v-if="item.co_flg === '1'">
+                                <button @click="exchange(item.orp_id)" class="button_a" v-if="true">교환, 반품 신청</button>
+                                <button class="button_a" v-else-if="item.ex_flg === '1'">교환, 반품 신청 완료</button>
+                                <button class="button_a" v-else-if="item.ex_flg === '2'">상품 회수중</button>
+                                <button class="button_a" v-else-if="item.ex_flg === '3'">교환, 반품 처리 완료</button>
                             </div>
                             <button @click="infoReviewCreate(item)" type="button" class="button_a" v-if="item.co_flg === '1'">리뷰 작성하기</button>
                         </div>

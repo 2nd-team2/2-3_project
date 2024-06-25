@@ -15,7 +15,7 @@ class Exchange extends Model
 
     protected $fillable = [
         'u_id',
-        'p_id',
+        'orp_id',
         'ex_addr',
         'ex_det_addr',
         'ex_post',

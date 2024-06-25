@@ -113,7 +113,7 @@
                     <div class="ex_yellow ex_flex_end"> {{ $store.state.exchangeProduct.price * $store.state.exchangeProduct.orpCount + deliveryPrice }}원</div>
                 </div>
             </div>
-            <input type="hidden" name="p_id" :value="$store.state.exchangeProduct.id">
+            <input type="hidden" name="orp_id" :value="$store.state.exchangeProduct.orpId">
             <div class="ex_margin_top ex_flex_end">
                 <div>
                     <button @click="$router.push('/info')" type="button" class="ex_cancel ex_cancel_padding">취소</button>

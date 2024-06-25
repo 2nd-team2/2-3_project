@@ -87,7 +87,7 @@
                 </div>
                 
                 <input type="hidden" name="or_sum" :value="totalPrice.total + deliveryPrice">
-                <input type="hidden" name="p_id" :value="$store.state.orderProductData.p_id">  
+                <input type="hidden" name="orp_id" :value="$store.state.orderProductData.p_id">  
                 <input type="hidden" name="orp_count" :value="$store.state.orderProductData.ba_count">
                 <button type="button" @click="$router.push('/list?type=99&page=1')">계속 쇼핑하기</button>
                 <button type="button" @click="$router.push('/bag')">장바구니 보기</button>

@@ -44,7 +44,15 @@ const routes = [
     {
         path: '/bag',
         component: BagComponent,
-        beforeEnter: chkAuth,
+        beforeEnter: (to, from, next) => {
+            // 인증 체크
+            chkAuth(to, from, () => {
+                // 인증 체크가 완료된 후에 실행될 코드
+                // 이전 경로 저장
+                Vue.prototype.$previousPath = from.path;
+                next();
+            });
+        }
     },
     {
         path: '/confirm',
