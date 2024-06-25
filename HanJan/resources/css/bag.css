@@ -11,7 +11,42 @@
 main {
     width: 70%;
     margin: 3rem auto;
-} 
+}
+
+/* 제목 */
+.header_top {
+    padding-bottom: 10px;
+    width: 100%;
+    border-bottom: 1px solid #5c5c5c;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header_step > h2 {
+    font-size: 1.8rem;
+    margin-right: 10px;
+}
+
+.header_step > li {
+    margin: 10px;
+}
+
+.header_step {
+    display: flex;
+    list-style: none;
+    flex-direction: row;
+}
+
+.li_yellow {
+    color: #FAC91D;
+}
+
+.bag_box {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
 
 .bag_padding_top {
     padding-top: 10px;
@@ -40,18 +75,6 @@ main {
     justify-content: flex-end;
 }
 
-
-/* 제목 */
-.bag_title{
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #5c5c5c;
-}
-.bag_title_grid {
-    display: flex;
-    justify-content: space-between;
-}
 .bag_Sequence {
     font-size: 1rem;
     font-weight: 400;
@@ -62,7 +85,6 @@ main {
 .bag_cancel {
     text-decoration: none;
     font-size: 1rem;
-    font-weight: 300;
     height: 35px;
     width: 150px;
     line-height: 35px;
@@ -84,7 +106,7 @@ main {
 .bag_goods_item {
     border: 1px solid #5c5c5c;
     border-radius: 20px;
-    margin: 40px 0;
+    margin: 20px 0;
     display: flex;
     align-items: center;
 }
@@ -97,11 +119,16 @@ main {
     padding: 20px;
 }
 
+.checkbox {
+    grid-column: 1 / 2;
+}
+
 /* 상품이미지 */
 .bag_goods_img {
-    width: 70%;
+    width: 90%;
     height: 90%;
     place-items: center; /* Grid 컨테이너 내부의 모든 항목을 중앙에 정렬 */
+    grid-column: 2 / 3;
 }
 
 
@@ -119,13 +146,13 @@ main {
 }
 
 /* 휴지통 위치 조절 */
-.bag_delete_flex {
+/* .bag_delete_flex {
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-}
+} */
 
 /* 휴지통 이미지 */
 .bag_delete {
@@ -137,10 +164,19 @@ main {
     width: 30px;
     border: none;
     cursor: pointer;
+    grid-column: 4 / 5;
+    margin: 0 25px 185px;
+}
+
+.reviewC_item_grid {
+    display: grid;
+    grid-template-rows: 0.8fr 0.4fr 0.4fr 0.2fr 0.2fr;
+    grid-column: 3 / 4;
+    align-items: center;
 }
 
 /* 수량 증가 감소 버튼 */
-.bag_count {
+/* .bag_count {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -168,6 +204,49 @@ main {
     width: 50px;
     text-align: center;
     border: none;
+} */
+
+/* 수량 증가 감소 버튼 */
+.bag_count {
+    display: flex;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.bag_count_minus {
+    border: 1px solid #5c5c5c;
+    height: 40px;
+    width: 3rem;
+    border-right: none;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    background-color: transparent;
+    cursor: pointer;
+}
+.quantity-input {
+    border: 1px solid #5c5c5c;
+    height: 40px;
+    width: 3rem;
+    text-align: center;
+    line-height: 40px;
+    border-right: none;
+}
+
+.bag_count_plus {
+    border: 1px solid #5c5c5c;
+    height: 40px;
+    width: 3rem;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.bag_total_box {
+    position: fixed;
+    right: 286px;
 }
 
 
@@ -219,16 +298,71 @@ main {
 /* 합계금액 그리드 */
 .bag_total_grid {
     display: grid;
-    grid-template-columns: 6fr 3fr 1fr 2fr 1fr 2fr;
+    grid-template-columns: 2fr 5fr 1fr 3fr;
     align-items: center;
-    justify-items: center;
+    justify-items: end;
     height: 8rem;
+    padding-right: 10px;
+    width: 26rem;
+}
+
+.bag_price_grid {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    margin-right: 10px;
+}
+
+.plus_icon {
+    grid-column: 3 / 4;
+    grid-row: 1 / 2;
+}
+
+.bag_total_item1 {
+    grid-column: 4 / 5;
+    grid-row: 1 / 2;
+}
+
+.equal_icon{
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+}
+
+.bag_total_item2 {
+    grid-column: 4 / 5;
+    grid-row: 2 / 3;
 }
 
 /* 전체삭제, 결제하기 버튼 그리드 */
 .bag_btn_grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    border-top: 1px solid #5c5c5c;
+    padding-top: 20px;
+}
+
+.checkbox {
+    display: inline-block;
+    padding: 5px;
+    cursor: pointer;
+    border: 1px solid black;
+    border-radius: 100%;
+    height: 25px;
+    width: 25px;
+}
+
+input[type="checkbox"] {
+    display: none;
+}
+
+
+input[type="checkbox"]:checked + .checkbox {
+    background-image: url('/img/checked.png');
+    background-size: contain;
+}
+
+.checked_icon {
+    height: 25px;
+    width: 25px;
 }
 
 /* --------------------- move top --------------------- */

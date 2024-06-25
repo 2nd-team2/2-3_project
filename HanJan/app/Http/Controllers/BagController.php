@@ -19,7 +19,7 @@ class BagController extends Controller
                         ->where('bags.deleted_at', '=', null)
                         ->orderBy('bags.created_at','DESC')
                         ->orderBy('bags.ba_id','DESC')
-                        ->limit(3) // TODO : 배포시 limit 삭제
+                        // ->limit(3) // TODO : 배포시 limit 삭제
                         ->get();
     
         $responseData = [

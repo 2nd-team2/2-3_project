@@ -33,7 +33,7 @@
                 </div>
             </div>
             <hr>
-            <div class="list_content">
+            <div class="list_content" id="stop">
                 <!-- 저장 -->
                 <div class="list_best" v-for="(item, key) in $store.state.listData.data" :key="key">
                     <div @click="productDetail(item.id)"> 
@@ -53,8 +53,8 @@
                     :key="page"
                     href="#"
                     :class="{'num': page === $store.state.listData.current_page, 'num_none': page !== $store.state.listData.current_page}"
-                    @click.prevent="goToPage(page)"
-                    >{{ page }}
+                    @click.prevent="goToPage(page)">
+                    {{ page }}
                 </a>
                 <a href="#" class="next" @click.prevent="nextPage()">다음 〉</a>
             </div>
@@ -120,7 +120,6 @@
         for (let i = pagingStart; i <= pagingEnd; i++) {
             pageArray.push(i)
         }
-        console.log('페이지네이션', pageArray);
         return pageArray
     })
 
@@ -143,7 +142,6 @@
             goToPage(store.state.listData.current_page + 1);
         }
     }
-
 </script>
 
 <style scoped src="../css/list.css">
