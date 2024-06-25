@@ -157,16 +157,18 @@ main {
     cursor: not-allowed;
 } */
 
-/* 페이지 네이션 */
+/* 페이지네이션 */
 .list_num_item {
-    width: 70%;
-    margin: 6rem auto;
-    text-align: center;
+    margin: 80px auto;
+    width: 50%;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
 }
-.list_num_item > span {
-    margin-left: 1rem;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
+.list_num_item > a {
+    padding: 0rem 1rem;
+    margin: 0 0.5rem;
     color: #000;
     font-size: 1rem;
     font-weight: 500;
@@ -182,7 +184,7 @@ main {
 .num_none:hover {
     background-color: #FAC91D;
     border-radius: 50%;
-    width: 40px;
+    width: 41px;
     height: 40px;
     text-align: center;
     line-height: 40px;

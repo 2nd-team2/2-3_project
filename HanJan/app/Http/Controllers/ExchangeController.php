@@ -72,7 +72,7 @@ class ExchangeController extends Controller
         $exchangData['ex_det_addr'] = $request->ex_det_addr;
         $exchangData['ex_post'] = $request->ex_post;
         $exchangData['ex_reason'] = (int)$request->ex_reason;
-        $exchangData['ex_flg'] = 1;
+        $exchangData['ex_flg'] = '1';
 
 
         // 작성 저장 처리

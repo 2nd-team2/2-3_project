@@ -1,68 +1,65 @@
 <template>
     <main>
-        <h2 class="bag_title bag_title_grid">
-            <div>
-                <span>장바구니</span>
-                <span class="bag_Sequence"><span class="bag_yellow">01장바구니</span> > 02정보입력 > 03결제완료</span>
-            </div>
+        <div class="header_top">
+            <ul class="header_step">
+                <h2>장바구니</h2>
+                <li class="li_yellow">01 장바구니</li>
+                <li>></li>
+                <li>02 정보입력</li>
+                <li>></li>
+                <li>03 결제완료</li>
+            </ul>
             <router-link to="/list?type=99&page=1" class="bag_cancel">
                 계속 쇼핑하기
             </router-link>
-        </h2>
+        </div>
             
         <form id="bagsProductData">
-            <div v-if="$store.state.bagsProductData && $store.state.bagsProductData.length > 0">
-                <div v-for="(item, key) in $store.state.bagsProductData" :key="key" class="bag_goods_item bag_grid bag_padding_bottom">
-                    <input type="hidden" :value="item.p_id">
-                    <input type="checkbox" @click="check(item)" v-model="item.checked" name="ba_id[]" :value="item.ba_id">
-                    
-                    <img class="bag_goods_img" :src="item.img">    
-                    <div class="reviewC_item_grid">
-                        <div class="bag_goods_title bag_padding_bottom"> {{ item.name }}</div>
-                        <div class="bag_padding_bottom">
+            <div class="bag_box">
+                <div v-if="$store.state.bagsProductData && $store.state.bagsProductData.length > 0">
+                    <div v-for="(item, key) in $store.state.bagsProductData" :key="key" class="bag_goods_item bag_grid bag_padding_bottom">
+                        <input type="hidden" :value="item.p_id">
+                        <input type="checkbox" @click="check(item)" :id="item.p_id" v-model="item.checked" name="ba_id[]" :value="item.ba_id" class="checkbox_input">
+                        <label :for="item.p_id" class="checkbox"></label>
+                        <img class="bag_goods_img" :src="item.img">    
+                        <div class="reviewC_item_grid">
+                            <div class="bag_goods_title bag_padding_bottom"> {{ item.name }}</div>
                             <div>배송비 : 착불</div>
                             <div class="bag_font">금액: {{ item.price }}원</div>
-                        </div>    
-                        <div class="bag_count">
-                            <button type="button" @click="decInt(item)" :disabled="item.ba_count <= 1" class="bag_count_minus">-</button>
-                            <input type="number" v-model="item.ba_count" name="ba_count[]" @change="validateCount(item)" class="quantity-input">
-                            <button type="button" @click="incInt(item)" :disabled="item.ba_count >= item.count" class="bag_count_plus">+</button>
-                        </div>    
-                        <div>
-                            <p>총 상품가격 : {{ item.price * item.ba_count }}원 </p>
+                            <div class="bag_count">
+                                <button type="button" @click="decInt(item)" :disabled="item.ba_count <= 1" class="bag_count_minus">-</button>
+                                <input type="number" v-model="item.ba_count" name="ba_count[]" @change="validateCount(item)" class="quantity-input">
+                                <button type="button" @click="incInt(item)" :disabled="item.ba_count >= item.count" class="bag_count_plus">+</button>
+                            </div>    
+                            <div>총 상품가격 : {{ item.price * item.ba_count }}원</div>
                         </div>
-                    </div>
-    
-                    <div class="bag_delete_flex">
                         <button @click="$store.dispatch('bagsDelete', item.ba_id)" class="bag_delete" type="submit"></button>
                     </div>
                 </div>
-            </div>
-            <div v-else>
-                장바구니에 상품이 없습니다.
-            </div>
-
-            <hr>
-
-            <!-- TODO: CSS 수정 > 스크롤 내려도 옆에 계속 보이게 하다가 일정 높이 도착하면 멈추게 하기 -->
-            <div class="bag_margin_top bag_margin_bottom bag_total_border bag_total_grid">
-                <div></div>
-                <div class="bag_price_grid">
-                    <div class="total_text_right"> 총 {{ totalPrice.count }} 개의 상품금액</div>
-                    <div class="bag_yellow bag_flex_end"> {{ totalPrice.total }}원</div>
+                <div v-else>
+                    장바구니에 상품이 없습니다.
                 </div>
-                <img src="/img/plus.png">
-                <div>
-                    <div class="total_text_right">배송비</div>
-                    <div class="bag_yellow bag_flex_end"> {{ deliveryPrice }}원</div>
-                </div>
-                <img src="/img/equal.png">
-                <div>
-                    <div class="total_text_right">합계</div>
-                    <div class="bag_yellow bag_flex_end"> {{ deliveryPrice + totalPrice.total }}원</div>
+    
+                <!-- TODO: CSS 수정 > 스크롤 내려도 옆에 계속 보이게 하다가 일정 높이 도착하면 멈추게 하기 -->
+                <div class="bag_total_box">
+                    <div class="bag_margin_top bag_margin_bottom bag_total_border bag_total_grid">
+                        <div class="bag_price_grid">
+                            <div class="total_text_right"> 총 {{ totalPrice.count }} 개의 상품금액</div>
+                            <div class="bag_yellow bag_flex_end"> {{ totalPrice.total }}원</div>
+                        </div>
+                        <img src="/img/plus.png" class="plus_icon">
+                        <div class="bag_total_item1">
+                            <div class="total_text_right">배송비</div>
+                            <div class="bag_yellow bag_flex_end"> {{ deliveryPrice }}원</div>
+                        </div>
+                        <img src="/img/equal.png" class="equal_icon">
+                        <div class="bag_total_item2">
+                            <div class="total_text_right">합계</div>
+                            <div class="bag_yellow bag_flex_end"> {{ deliveryPrice + totalPrice.total }}원</div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
             <div class="bag_margin_top bag_btn_grid">
                 <div>
                     <button @click="toggleSelectAll" type="button" class="bag_cancel bag_border_none bag_margin_right">
@@ -161,7 +158,7 @@ const toggleSelectAll = () => {
 }
 
 // 배송비 (TODO : 일정 금액 이상일 경우 무료 + 각 상품 마다 배송비 저장할 컬럼 만들기(products 테이블) )
-const deliveryPrice = ref(0);
+const deliveryPrice = ref(3000);
 
 // 체크된 항목들만 필터링 > (선택된 상품의 총 합계와 수량을 리턴해줌)
 const totalPrice = computed(() => {

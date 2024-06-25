@@ -135,6 +135,7 @@ const store = createStore({
             state.listData = data;
             localStorage.setItem('listData', JSON.stringify(data));
         },
+        
         // 베스트리스트
         listBastData(state, data) {
             state.bastData = data;
@@ -363,7 +364,8 @@ const store = createStore({
                 .then(response => {
                     console.log('주문상품 테이블 완료');
 
-                    if(조건) {
+                    // TODO : 장바구니와 바로구매에서 올때 상황에 맞게
+                    // if(조건) {
                         // 장바구니에서 구매 완료시
                         // 주문 완료 시 장바구니 deleted_at 수정 처리
                         const url = '/api/bagsCompleteDelete';
@@ -377,10 +379,10 @@ const store = createStore({
                         .catch(error => {
                             alert('결제에 실패하였습니다.-장바구니삭제(' + error.response.data.code + ')' )
                         });
-                    } else {
-                        // 바로구매에서 구매 완료시
-                        router.push('/ordercomplete');
-                    }
+                    // } else {
+                    //     // 바로구매에서 구매 완료시
+                    //     router.push('/ordercomplete');
+                    // }
                 })
                 .catch(error => {
                     alert('결제에 실패하였습니다.-주문 상품(' + error.response.data.code + ')' )
@@ -879,22 +881,31 @@ const store = createStore({
         //  * 
         //  * @param {*} constext 
         //  */
-        detailedToCount(constext) {
-            const url = '/api/detailedToCount';
+        detailedUpdate(context, item) {
+            const detailedUpdateData = item;
             const data = new FormData(document.querySelector('#bagForm'));
+            // 배열로 수정!!******************************************************
+            // FormData를 객체로 변환
+            const formDataObject = Object.fromEntries(data.entries());
 
-            axios.post(url, data)
-            .then(response => {
-                console.log('수량데이터', response.data); // TODO
-                // 데이터베이스->서버를 통해 받은 데이터를 CountData 저장
-                constext.commit('detailedCountData', response.data.data);
-            })
-            .catch(error => {
-                console.log(error.response); // TODO
-                if(error.response.status !== 401) {
-                    alert('디테일->장바구니 수량 데이터 불러오기 실패했습니다.(' + error.response.data.code + ')');
+            // 숫자로 변환할 필드의 키를 배열로 지정
+            const numericFields = ['ba_count', 'p_id']; // 예시로 필요에 따라 필드 추가
+
+            // 숫자 타입으로 변환된 객체 생성
+            const detailedData = { ...detailedUpdateData }; // detailedUpdateData는 이미 있는 객체로 가정
+
+            // FormDataObject의 각 항목을 순회하면서 숫자 타입으로 변환
+            for (let key in formDataObject) {
+                if (numericFields.includes(key)) {
+                    detailedData[key] = Number(formDataObject[key]); // 숫자로 변환하여 저장
+                } else {
+                    detailedData[key] = formDataObject[key]; // 숫자로 변환할 필요 없는 경우 그대로 저장
                 }
-            });
+            } 
+            context.commit('setdetailedUpdate', detailedData);
+            localStorage.setItem('orderProductData', JSON.stringify(detailedData));
+
+            router.replace('/order');
         },
 
         /**
