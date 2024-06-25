@@ -363,36 +363,24 @@ const store = createStore({
                 .then(response => {
                     console.log('주문상품 테이블 완료');
 
-                    // 장바구니에서 페이지가 이동한 경우에만 처리
-                    if (context === 'fromCart') {
-                        const deleteUrl = '/api/bagsCompleteDelete';
+                    if(조건) {
+                        // 장바구니에서 구매 완료시
+                        // 주문 완료 시 장바구니 deleted_at 수정 처리
+                        const url = '/api/bagsCompleteDelete';
 
-                        axios.post(deleteUrl, bagsToOrder)
+                        axios.post(url, bagsToOrder)
                         .then(response => {
-                            console.log('주문 완료 > 장바구니 삭제');
+                            console.log('주문 완료 > 장바구니 삭제')
                             // 주문완료 페이지로 이동
                             router.push('/ordercomplete');
                         })
                         .catch(error => {
-                            alert('결제에 실패하였습니다.-장바구니삭제(' + error.response.data.code + ')');
+                            alert('결제에 실패하였습니다.-장바구니삭제(' + error.response.data.code + ')' )
                         });
                     } else {
-                        // 다른 경우에는 주문완료 페이지로 바로 이동
+                        // 바로구매에서 구매 완료시
                         router.push('/ordercomplete');
                     }
-
-                    // // 주문 완료 시 장바구니 deleted_at 수정 처리
-                    // const url = '/api/bagsCompleteDelete';
-
-                    // axios.post(url, bagsToOrder)
-                    // .then(response => {
-                    //     console.log('주문 완료 > 장바구니 삭제')
-                    //     // 주문완료 페이지로 이동
-                    //     router.push('/ordercomplete');
-                    // })
-                    // .catch(error => {
-                    //     alert('결제에 실패하였습니다.-장바구니삭제(' + error.response.data.code + ')' )
-                    // });
                 })
                 .catch(error => {
                     alert('결제에 실패하였습니다.-주문 상품(' + error.response.data.code + ')' )
