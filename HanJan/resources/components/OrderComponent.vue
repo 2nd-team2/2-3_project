@@ -100,14 +100,19 @@ const totalPrice = computed(() => {
 
     let count = Items.length;
     let total = 0;
-     
-    if(count > 1){
-        Items.forEach(item => {
-            total += (item.price * item.ba_count);
-        })
-    }
-    else {
-        total += (Items.price * Items.ba_count);
+    
+    // 데이터가 있을 경우
+    if (count > 0) {
+        // 1개 보다 많은 경우
+        if (count > 1) {
+            Items.forEach(item => {
+                total += (item.price * item.ba_count);
+            });
+        } 
+        // 1개인 경우
+        else {
+            total += (Items[0].price * Items[0].ba_count);
+        }
     }
     return {count, total};
 });
