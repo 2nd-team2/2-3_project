@@ -28,18 +28,26 @@ class ProductController extends Controller
     // ----------------------- 보원 끝 ---------------------------
     // ----------------------- 성환 시작 -------------------------
 
-    // 마이페이지 주문목록
-    public function infoData() {
-        $infoData = Orderproduct::select('orderproducts.*', 'orderproducts.created_at as orpDate','users.id','products.*', 'completes.*', 'completes.created_at as completeOn')
-                        ->join('users','orderproducts.or_id','=','users.id')
-                        ->leftJoin('completes', 'orderproducts.orp_id', '=', 'completes.orp_id')
-                        ->leftJoin('products','orderproducts.p_id','=','products.id')
-                        ->where('orderproducts.or_id', '=', Auth::id())
-                        ->where('orderproducts.deleted_at', '=', null)
-                        ->orderBy('orderproducts.created_at','DESC')
-                        ->orderBy('orderproducts.orp_id','DESC')
-                        ->distinct()
-                        ->paginate(3);
+        // 마이페이지 주문목록
+        public function infoData() {
+            $infoData = Orderproduct::select(
+                            'orderproducts.*'
+                            ,'orderproducts.created_at as orpDate'
+                            ,'users.id'
+                            ,'products.*'
+                            ,'completes.*'
+                            ,'completes.created_at as completeOn'
+                            ,'exchanges.ex_flg')
+                            ->join('users','orderproducts.or_id','=','users.id')
+                            ->join('exchanges','exchanges.p_id','=','products.id')
+                            ->leftJoin('completes', 'orderproducts.orp_id', '=', 'completes.orp_id')
+                            ->leftJoin('products','orderproducts.p_id','=','products.id')
+                            ->where('orderproducts.or_id', '=', Auth::id())
+                            ->where('orderproducts.deleted_at', '=', null)
+                            ->orderBy('orderproducts.created_at','DESC')
+                            ->orderBy('orderproducts.orp_id','DESC')
+                            ->distinct()
+                            ->paginate(3);
 
         $responseData = [
             'code' => '0'

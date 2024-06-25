@@ -29,16 +29,16 @@
                 <div class="ex_padding_bottom">
                     <!-- <div class="ex_content">단순변심</div>
                     <hr> -->
-                    <input type="radio" name="ex_reason" id="ex_reason1" value="1">
+                    <input type="radio" name="ex_reason" id="ex_reason1" value="0">
                     <label for="ex_reason1">상품이 마음에 들지 않음</label>
                     <br>
-                    <input type="radio" name="ex_reason" id="ex_reason2" value="2">
+                    <input type="radio" name="ex_reason" id="ex_reason2" value="1">
                     <label for="ex_reason2">다른 상품이 배송됨</label>
                     <br>
-                    <input type="radio" name="ex_reason" id="ex_reason3" value="3">
+                    <input type="radio" name="ex_reason" id="ex_reason3" value="2">
                     <label for="ex_reason3">상품의 구성품 / 부속품이 들어있지 않음</label>
                     <br>
-                    <input type="radio" name="ex_reason" id="ex_reason4" value="4">
+                    <input type="radio" name="ex_reason" id="ex_reason4" value="3">
                     <label for="ex_reason4">상품이 파손/결함 되어 배송됨</label>
                 </div>
                 <!-- <div class="ex_padding_bottom ex_padding_top">
