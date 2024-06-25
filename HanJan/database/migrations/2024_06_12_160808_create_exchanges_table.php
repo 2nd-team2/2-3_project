@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('exchanges', function (Blueprint $table) {
             $table->id('ex_id');
             $table->bigInteger('u_id')->unsigned();
-            $table->bigInteger('p_id')->unsigned();
+            $table->bigInteger('orp_id')->unsigned();
             $table->string('ex_addr', 100)->comment('상품회수지');
             $table->string('ex_det_addr', 100)->comment('상품회수지상세');
             $table->integer('ex_post')->comment('상품회수지 우편번호');

@@ -25,13 +25,21 @@ class ProductController extends Controller
 {
     // ----------------------- 보원 시작 -------------------------
 
-        // ----------------------- 보원 끝 ---------------------------
-        // ----------------------- 성환 시작 -------------------------
+    // ----------------------- 보원 끝 ---------------------------
+    // ----------------------- 성환 시작 -------------------------
 
         // 마이페이지 주문목록
         public function infoData() {
-            $infoData = Orderproduct::select('orderproducts.*', 'orderproducts.created_at as orpDate','users.id','products.*', 'completes.*', 'completes.created_at as completeOn')
+            $infoData = Orderproduct::select(
+                            'orderproducts.*'
+                            ,'orderproducts.created_at as orpDate'
+                            ,'users.id'
+                            ,'products.*'
+                            ,'completes.*'
+                            ,'completes.created_at as completeOn'
+                            ,'exchanges.ex_flg')
                             ->join('users','orderproducts.or_id','=','users.id')
+                            ->join('exchanges','exchanges.p_id','=','products.id')
                             ->leftJoin('completes', 'orderproducts.orp_id', '=', 'completes.orp_id')
                             ->leftJoin('products','orderproducts.p_id','=','products.id')
                             ->where('orderproducts.or_id', '=', Auth::id())
@@ -41,235 +49,235 @@ class ProductController extends Controller
                             ->distinct()
                             ->paginate(3);
 
-            $responseData = [
-                'code' => '0'
-                ,'msg' => '주문목록 획득 완료'
-                ,'data' => $infoData->toArray()
-            ];
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '주문목록 획득 완료'
+            ,'data' => $infoData->toArray()
+        ];
+    
+        return response()->json($responseData, 200);
+    }
+
+    // 주문목록 삭제
+    public function orderProductDelete($orp_id) {
+
+        $result = Orderproduct::destroy($orp_id);
+
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '삭제 완료'
+            ,'data' => $result
+        ];
         
-            return response()->json($responseData, 200);
-        }
+        return response()->json($responseData);
+    }
 
-        // 주문목록 삭제
-        public function orderProductDelete($orp_id) {
+    // 구매확정
+    public function complete($orp_id) {
+        $completeCreate = Complete::updateOrCreate(['orp_id' => $orp_id], ['co_flg' => '1', 'created_at' => Carbon::now()]);
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '구매확정'
+            ,'data' => $completeCreate
+        ];
+    
+        return response()->json($responseData, 200);
+    }
 
-            $result = Orderproduct::destroy($orp_id);
 
-            $responseData = [
+
+    // ----------------------- 성환 끝 ---------------------------
+    // ----------------------- 민서 시작 -------------------------
+    // products(상품)테이블에서
+    // users.name AS user_name = 유저이름 별칭
+    public function value($id) {
+        // $productData = Product::select('products.id', 'products.price','products.count','products.img','products.info', 'products.name', 'SUM(reviews.re_star)')
+        //                 ->join('reviews','reviews.p_id','=', 'products.id')
+        //                 ->where('products.id', $id)
+        //                 ->first();
+                        // ->get();
+                        // 
+        $productData = Product::select('products.id', 'products.price', 'products.count', 'products.img', 'products.info', 'products.name', DB::raw('COUNT(reviews.re_id) as total_star'), DB::raw('ROUND(AVG(reviews.re_star),1) as star_avg'))
+        ->leftJoin('reviews', 'products.id', '=', 'reviews.p_id')
+        ->where('products.id', $id)
+        ->groupBy('products.id', 'products.price', 'products.count', 'products.img', 'products.info', 'products.name')
+        ->first();
+
+        Log::debug($productData);
+    
+        $responseData = [
                 'code' => '0'
-                ,'msg' => '삭제 완료'
-                ,'data' => $result
-            ];
-            
-            return response()->json($responseData);
-        }
+                ,'msg' => '초기 상품값 획득 완료'
+                ,'data' => $productData
+        ];
+        Log::debug($responseData);
+        
+        return response()->json($responseData, 200);
+    }
 
-        // 구매확정
-        public function complete($orp_id) {
-            $completeCreate = Complete::updateOrCreate(['orp_id' => $orp_id], ['co_flg' => '1', 'created_at' => Carbon::now()]);
-            $responseData = [
+    // review(리뷰)테이블에서
+    // users.name AS user_name = 유저이름 별칭
+    // 리뷰 최신순으로 가져오기
+    public function detailedReview($id) {
+        $productData = Review::select('users.name AS user_name','products.id' ,'reviews.re_star','reviews.re_content','reviews.updated_at')
+                        ->JOIN('products','reviews.p_id','=', 'products.id')
+                        ->JOIN('users','reviews.u_id','=', 'users.id')
+                        ->where('products.id', $id) // 상품 아이디 가져와 리뷰 출력
+                        ->orderBy('reviews.re_star', 'DESC')
+                        ->orderBy('reviews.created_at', 'DESC')
+                        ->limit(5)
+                        ->get();
+
+        Log::debug($productData);
+    
+        $responseData = [
                 'code' => '0'
-                ,'msg' => '구매확정'
-                ,'data' => $completeCreate
-            ];
+                ,'msg' => '초기 리뷰 획득 완료'
+                ,'data' => $productData
+        ];
+        Log::debug($responseData);
         
-            return response()->json($responseData, 200);
+        return response()->json($responseData, 200);
+    }
+
+    // products(상품)테이블에서
+    // 상세리스트 데이터 불러오기
+    public function list(Request $request) {
+        $productQuery = Product::select('products.price','products.img', 'products.name', 'products.id')
+                        ->orderBy('products.created_at', 'DESC');
+                        // ->paginate(20);
+
+        if($request->type != '99') {
+            $productQuery->where('products.type', $request->type);
         }
-
-
-
-        // ----------------------- 성환 끝 ---------------------------
-        // ----------------------- 민서 시작 -------------------------
-        // products(상품)테이블에서
-        // users.name AS user_name = 유저이름 별칭
-        public function value($id) {
-            // $productData = Product::select('products.id', 'products.price','products.count','products.img','products.info', 'products.name', 'SUM(reviews.re_star)')
-            //                 ->join('reviews','reviews.p_id','=', 'products.id')
-            //                 ->where('products.id', $id)
-            //                 ->first();
-                            // ->get();
-                            // 
-            $productData = Product::select('products.id', 'products.price', 'products.count', 'products.img', 'products.info', 'products.name', DB::raw('COUNT(reviews.re_id) as total_star'), DB::raw('ROUND(AVG(reviews.re_star),1) as star_avg'))
-            ->leftJoin('reviews', 'products.id', '=', 'reviews.p_id')
-            ->where('products.id', $id)
-            ->groupBy('products.id', 'products.price', 'products.count', 'products.img', 'products.info', 'products.name')
-            ->first();
-
-            Log::debug($productData);
         
-            $responseData = [
-                    'code' => '0'
-                    ,'msg' => '초기 상품값 획득 완료'
-                    ,'data' => $productData
-            ];
-            Log::debug($responseData);
-            
-            return response()->json($responseData, 200);
-        }
+        $productData = $productQuery->paginate(20);
 
-        // review(리뷰)테이블에서
-        // users.name AS user_name = 유저이름 별칭
-        // 리뷰 최신순으로 가져오기
-        public function detailedReview($id) {
-            $productData = Review::select('users.name AS user_name','products.id' ,'reviews.re_star','reviews.re_content','reviews.updated_at')
-                            ->JOIN('products','reviews.p_id','=', 'products.id')
-                            ->JOIN('users','reviews.u_id','=', 'users.id')
-                            ->where('products.id', $id) // 상품 아이디 가져와 리뷰 출력
-                            ->orderBy('reviews.re_star', 'DESC')
-                            ->orderBy('reviews.created_at', 'DESC')
+        Log::debug('리퀘스트 data', $request->all());
+        Log::debug('결과', $productData->toArray());
+        
+        $responseData = [
+                'code' => '0'
+                ,'msg' => '초기 상품값 획득 완료'
+                ,'data' => $productData
+        ];
+        // Log::debug($responseData);
+        
+        return response()->json($responseData, 200);
+    }
+
+    // products(상품)테이블에서
+    // 베스트 상품 출력
+    public function listBast() {
+        $productData = Product::select('products.*', 'rev.star_avg', 'rev.star_avg_round')
+                            ->join(DB::raw('(SELECT p_id, AVG(re_star) as star_avg, ROUND(AVG(re_star), 0) as star_avg_round
+                                            FROM reviews
+                                            GROUP BY p_id) as rev'), 'rev.p_id', '=', 'products.id')
+                            ->orderByDesc('rev.star_avg')
+                            ->orderByDesc('products.created_at')
                             ->limit(5)
                             ->get();
 
-            Log::debug($productData);
-        
-            $responseData = [
-                    'code' => '0'
-                    ,'msg' => '초기 리뷰 획득 완료'
-                    ,'data' => $productData
-            ];
-            Log::debug($responseData);
-            
-            return response()->json($responseData, 200);
-        }
-
-        // products(상품)테이블에서
-        // 상세리스트 데이터 불러오기
-        public function list(Request $request) {
-            $productQuery = Product::select('products.price','products.img', 'products.name', 'products.id')
-                            ->orderBy('products.created_at', 'DESC');
-                            // ->paginate(20);
-
-            if($request->type != '99') {
-                $productQuery->where('products.type', $request->type);
-            }
-            
-            $productData = $productQuery->paginate(20);
-
-            Log::debug('리퀘스트 data', $request->all());
-            Log::debug('결과', $productData->toArray());
-            
-            $responseData = [
-                    'code' => '0'
-                    ,'msg' => '초기 상품값 획득 완료'
-                    ,'data' => $productData
-            ];
-            // Log::debug($responseData);
-            
-            return response()->json($responseData, 200);
-        }
-
-        // products(상품)테이블에서
-        // 베스트 상품 출력
-        public function listBast() {
-            $productData = Product::select('products.*', 'rev.star_avg', 'rev.star_avg_round')
-                                ->join(DB::raw('(SELECT p_id, AVG(re_star) as star_avg, ROUND(AVG(re_star), 0) as star_avg_round
-                                                FROM reviews
-                                                GROUP BY p_id) as rev'), 'rev.p_id', '=', 'products.id')
-                                ->orderByDesc('rev.star_avg')
-                                ->orderByDesc('products.created_at')
-                                ->limit(5)
-                                ->get();
-
-            Log::debug($productData);
-        
-            $responseData = [
-                    'code' => '0'
-                    ,'msg' => '초기 상품값 획득 완료'
-                    ,'data' => $productData
-            ];
-            Log::debug($responseData);
-            
-            return response()->json($responseData, 200);
-        }
-
-        // 디테일->장바구니 데이터 보내기
-            public function detailedToCount(Request $request) {
-            // 리퀘스트 데이터 받기
-            $requestData = [
-                'p_id' => $request->p_id
-                ,'ba_count' => $request->ba_count
-            ];
-            Log::debug('장바구니 리퀘스트 데이터', $request->all());
-            // 데이터 유효성 검사
-            $validator = Validator::make(
-                $requestData
-                , [
-                    'p_id' => ['required', 'regex:/^[0-9]+$/']
-                    ,'ba_count' => ['required', 'regex:/^[0-9]+$/']
-                ]
-            );
-
-            // 유효성 검사 실패 체크
-            if($validator->fails()) {
-                Log::debug('유효성 검사 실패', $validator->errors()->toArray());
-                throw new MyValidateException('E01');
-            }
-
-            // 데이터 생성
-            $createData = $request->only('p_id','ba_count');
-            
-            // 작성 처리
-            $createData['u_id'] = Auth::id();
-            $createData['ba_id'] = $request->ba_id;
-            $createData['p_id'] = $request->p_id;
-            $createData['ba_count'] = $request->ba_count;
-
-            // 작성 처리
-            $bagItem = Bag::create($createData);
-
-            // 레스폰스 데이터 생성
-            $responseData = [
+        Log::debug($productData);
+    
+        $responseData = [
                 'code' => '0'
-                ,'msg' => '장바구니 추가 완료'
-                ,'data' => $bagItem
-            ];
+                ,'msg' => '초기 상품값 획득 완료'
+                ,'data' => $productData
+        ];
+        Log::debug($responseData);
+        
+        return response()->json($responseData, 200);
+    }
 
-            return response()->json($responseData, 200);
-        }
-        // ----------------------- 민서 끝 ---------------------------
-        // ----------------------- 호경 시작 -------------------------
-        // 메인 페이지에서 계절별 추천 출력
-        public function seasonSelect() {
-            $nowMonth = date('n', strtotime(now()));
-            $season = '';
-            if ($nowMonth == 12 || $nowMonth == 1 || $nowMonth == 2 ) {
-                // 겨울
-                $season = '3'; 
-            } else if($nowMonth <= 5) {
-                // 봄
-                $season = '0';
-            } else if($nowMonth <= 8) {
-                // 여름
-                $season = '1';
-            } else {
-                // 가을
-                $season = '2';
-            }
-            $noticeData = Product::select('products.*')
-                                ->where('products.season', '=', $season)
-                                ->orderby('products.created_at', 'DESC')
-                                ->limit(8)
-                                ->get();
-            $responseData = [
-                'code' => '0'
-                ,'msg' => '리뷰 획득 완료'
-                ,'data' => $noticeData->toArray()
-                ,'season' => $this->getSeasonKorean($season)
-            ];
+    // 디테일->장바구니 데이터 보내기
+        public function detailedToCount(Request $request) {
+        // 리퀘스트 데이터 받기
+        $requestData = [
+            'p_id' => $request->p_id
+            ,'ba_count' => $request->ba_count
+        ];
+        Log::debug('장바구니 리퀘스트 데이터', $request->all());
+        // 데이터 유효성 검사
+        $validator = Validator::make(
+            $requestData
+            , [
+                'p_id' => ['required', 'regex:/^[0-9]+$/']
+                ,'ba_count' => ['required', 'regex:/^[0-9]+$/']
+            ]
+        );
 
-            return response()->json($responseData, 200);
+        // 유효성 검사 실패 체크
+        if($validator->fails()) {
+            Log::debug('유효성 검사 실패', $validator->errors()->toArray());
+            throw new MyValidateException('E01');
         }
 
-        public function getSeasonKorean($value) {
-            if ($value == '0') {
-                return '당신의 향긋한 봄이 여기에';
-            } else if($value == '1') {
-                return '당신의 시원한 여름이 여기에';
-            } else if($value == '2') {
-                return '당신의 선선한 가을이 여기에';
-            } else {
-                return '당신의 포근한 겨울이 여기에';
-            }
+        // 데이터 생성
+        $createData = $request->only('p_id','ba_count');
+        
+        // 작성 처리
+        $createData['u_id'] = Auth::id();
+        $createData['ba_id'] = $request->ba_id;
+        $createData['p_id'] = $request->p_id;
+        $createData['ba_count'] = $request->ba_count;
+
+        // 작성 처리
+        $bagItem = Bag::create($createData);
+
+        // 레스폰스 데이터 생성
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '장바구니 추가 완료'
+            ,'data' => $bagItem
+        ];
+
+        return response()->json($responseData, 200);
+    }
+    // ----------------------- 민서 끝 ---------------------------
+    // ----------------------- 호경 시작 -------------------------
+    // 메인 페이지에서 계절별 추천 출력
+    public function seasonSelect() {
+        $nowMonth = date('n', strtotime(now()));
+        $season = '';
+        if ($nowMonth == 12 || $nowMonth == 1 || $nowMonth == 2 ) {
+            // 겨울
+            $season = '3'; 
+        } else if($nowMonth <= 5) {
+            // 봄
+            $season = '0';
+        } else if($nowMonth <= 8) {
+            // 여름
+            $season = '1';
+        } else {
+            // 가을
+            $season = '2';
         }
-        // ----------------------- 호경 끝 ---------------------------
+        $noticeData = Product::select('products.*')
+                            ->where('products.season', '=', $season)
+                            ->orderby('products.created_at', 'DESC')
+                            ->limit(8)
+                            ->get();
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '리뷰 획득 완료'
+            ,'data' => $noticeData->toArray()
+            ,'season' => $this->getSeasonKorean($season)
+        ];
+
+        return response()->json($responseData, 200);
+    }
+
+    public function getSeasonKorean($value) {
+        if ($value == '0') {
+            return '당신의 향긋한 봄이 여기에';
+        } else if($value == '1') {
+            return '당신의 시원한 여름이 여기에';
+        } else if($value == '2') {
+            return '당신의 선선한 가을이 여기에';
+        } else {
+            return '당신의 포근한 겨울이 여기에';
+        }
+    }
+    // ----------------------- 호경 끝 ---------------------------
 }

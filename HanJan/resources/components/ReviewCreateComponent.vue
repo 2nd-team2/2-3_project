@@ -2,8 +2,8 @@
     <main>
         <h2 class="review_title reviewC_title_grid">
             <span>리뷰작성</span>
-            <router-link to="/list?type=99&page=1" class="reviewC_cancel">
-                계속 쇼핑하기
+            <router-link to="/info" class="reviewC_cancel">
+                돌아가기
             </router-link >
         </h2>
         <div>test : {{ $store.state.reviewToUpdate }}</div>
