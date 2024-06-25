@@ -363,7 +363,8 @@ const store = createStore({
                 .then(response => {
                     console.log('주문상품 테이블 완료');
 
-                    if(조건) {
+                    // TODO : 장바구니와 바로구매에서 올때 상황에 맞게
+                    // if(조건) {
                         // 장바구니에서 구매 완료시
                         // 주문 완료 시 장바구니 deleted_at 수정 처리
                         const url = '/api/bagsCompleteDelete';
@@ -377,10 +378,10 @@ const store = createStore({
                         .catch(error => {
                             alert('결제에 실패하였습니다.-장바구니삭제(' + error.response.data.code + ')' )
                         });
-                    } else {
-                        // 바로구매에서 구매 완료시
-                        router.push('/ordercomplete');
-                    }
+                    // } else {
+                    //     // 바로구매에서 구매 완료시
+                    //     router.push('/ordercomplete');
+                    // }
                 })
                 .catch(error => {
                     alert('결제에 실패하였습니다.-주문 상품(' + error.response.data.code + ')' )
