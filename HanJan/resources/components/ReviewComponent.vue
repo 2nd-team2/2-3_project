@@ -20,6 +20,7 @@
                                 &#9733;
                             </span>
                             <span>{{ item.re_star }}</span>
+
                         </div>                  
                     </div>
                     <div>
@@ -28,21 +29,20 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="vertical-hr"></div>
-
-                <!-- TODO : 수정하기 > 수정하는 페이지 및 a 태그 -->
-                <form action="" class="review_goods_info_grid_btn">
+                <div class="review_goods_info_grid_btn">
                     <button @click="reviewUpdate(item)" button="button" class="review_btn">수정하기</button>
                     <button @click="reviewDelete(item.re_id)" button="button" class="review_btn">삭제하기</button>
-                </form>
+                </div>
             </div>
         </div>
         <div v-else>
-            <div>작성한 리뷰가 없습니다.</div>
+            <h2 class="review_none_item_center">
+                작성한 리뷰가 없습니다.
+            </h2>
         </div>
         <!-- 페이지네이션 -->
-        <div class="list_num_item">
+        <div class="list_num_item" v-if="$store.state.reviewData.data && $store.state.reviewData.data.length > 0">
             <a href="#" class="before" @click.prevent="reviewPrevPage()">〈 이전</a>
             <a
                 v-for="reviewPage in reviewPages"

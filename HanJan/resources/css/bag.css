@@ -195,36 +195,6 @@ main {
     align-items: center;
 }
 
-/* 수량 증가 감소 버튼 */
-/* .bag_count {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid black;
-    width: 100px;
-    border-radius: 5px;
-}
-.bag_count_minus {
-    padding: 0 10px;
-    cursor: pointer;
-}
-.bag_count_minus:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-}
-.bag_count_plus {
-    padding: 0 10px;
-    cursor: pointer;
-}
-.bag_count_plus:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-}
-.quantity-input {
-    width: 50px;
-    text-align: center;
-    border: none;
-} */
 
 /* 수량 증가 감소 버튼 */
 .bag_count {
@@ -388,6 +358,13 @@ input[type="checkbox"]:checked + .checkbox {
 .bag_hr {
     border-top: 1px solid #5c5c5c;
 }
+
+/* 상품 데이터 없을 경우 출력 문자 중앙정렬 */
+.bag_none_item_center{
+    padding: 50px;
+    text-align: center;
+}
+
 
 /* --------------------- move top --------------------- */
 .move_top_img {

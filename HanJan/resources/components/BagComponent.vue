@@ -37,11 +37,13 @@
                     </div>
                 </div>
                 <div v-else>
-                    장바구니에 상품이 없습니다.
+                    <h2 class="bag_none_item_center">
+                        장바구니에 상품이 없습니다.
+                    </h2>
                 </div>
     
                 <!-- TODO: CSS 수정 > 스크롤 내려도 옆에 계속 보이게 하다가 일정 높이 도착하면 멈추게 하기 -->
-                <div class="bag_total_box">
+                <div class="bag_total_box" v-if="$store.state.bagsProductData && $store.state.bagsProductData.length > 0">
                     <div class="bag_margin_top bag_margin_bottom bag_total_border bag_total_grid">
                         <div class="bag_price_grid">
                             <div class="total_text_right"> 총 {{ totalPrice.count }} 개의 상품금액</div>

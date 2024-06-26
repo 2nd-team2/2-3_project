@@ -1,5 +1,4 @@
 <template>
-    <div>{{ $store.state.exchangeProduct}}</div>
     <main>
         <form id="exchage" @submit.prevent="validateForm">
             <div>
