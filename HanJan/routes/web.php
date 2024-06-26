@@ -55,6 +55,8 @@ Route::middleware('auth')->post('/api/bagsToOrder', [BagController::class, 'bags
 Route::middleware('auth')->post('/api/orderComplete', [OrderController::class, 'orderComplete']);
 Route::middleware('auth')->post('/api/orderProductComlete/{or_id}', [OrderController::class, 'orderProductComlete']);
 Route::middleware('auth')->post('/api/bagsCompleteDelete', [OrderController::class, 'bagsCompleteDelete']);
+// 결제하기 데이터 저장(구매확정, 교환 및 반품 테이블 생성)
+Route::middleware('auth')->post('/api/orderComEx/{orp_id}', [OrderController::class, 'orderComEx']);
 
 // 리뷰 초기 데이터 불러오기
 Route::middleware('auth')->get('/api/review', [ReviewController::class, 'reviewIndex']);

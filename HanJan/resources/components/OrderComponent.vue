@@ -78,7 +78,7 @@
                 <input type="hidden" name="orp_id" :value="$store.state.orderProductData.p_id">  
                 <input type="hidden" name="orp_count" :value="$store.state.orderProductData.ba_count">
                 <div class="btn_com_box">
-                    <button type="button" @click="$store.dispatch('orderComplete', store.state.orderProductData)" class="btn_ord_com">결제하기</button>
+                    <button type="button" @click="$store.dispatch('orderComplete', $store.state.orderProductData)" class="btn_ord_com">결제하기</button>
                 </div>
             </div>
         </form>
@@ -148,16 +148,16 @@ function buyChkName(e) {
 function buyChkTel(e) {
   const telPattern = /^\d{10,11}$/;
   if (!telPattern.test(e.target.value)) {
-    buyTelError.value = '전화번호 형식이 맞지 않습니다.';
+    buyTelError.value = '전화번호는 숫자 10,11자로 설정 해주세요.';
   } else {
     buyTelError.value = '';
   }
 }
 
-function getChkName(e) {
+function getChkName(eve) {
   const namePattern = /^[가-힣a-zA-Z\s]+$/;
   
-  if (!namePattern.test(event.target.value)) {
+  if (!namePattern.test(e.target.value)) {
     getNameError.value = '이름은 영어 대소문자와 한글로만 사용 가능합니다.';
   } else {
     getNameError.value = '';
@@ -165,8 +165,8 @@ function getChkName(e) {
 }
 function getChkTel(e) {
   const telPattern = /^\d{10,11}$/;
-  if (!telPattern.test(event.target.value)) {
-    getTelError.value = '전화번호 형식이 맞지 않습니다.';
+  if (!telPattern.test(e.target.value)) {
+    getTelError.value = '전화번호는 숫자 10,11자로 설정 해주세요.';
   } else {
     getTelError.value = '';
   }
@@ -243,8 +243,6 @@ function kakaoPostcode() {
         }
     }).open();
 }
-
-
 
 
 </script>
