@@ -37,7 +37,7 @@
                         </div>
                     </div>
                     <div v-else>
-                        <h2>
+                        <h2 class="h2_center">
                             주문 상품이 없습니다.
                         </h2>
                     </div>
@@ -79,7 +79,7 @@
                     </div>
                 </div>
                 <div v-else>
-                    <h2>
+                    <h2 class="h2_center">
                         상품문의 내역이 없습니다.
                     </h2>
                 </div>
@@ -122,7 +122,7 @@
                     </div>
                 </div>
                 <div v-else>
-                    <h2>
+                    <h2 class="h2_center">
                         1:1문의 내역이 없습니다.
                     </h2>
                 </div>
