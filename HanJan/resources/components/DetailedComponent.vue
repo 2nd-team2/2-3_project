@@ -26,7 +26,6 @@
                     <input type="number" class="detailed_haeder_num" :value="$store.state.productDetail.price*count" readonly >원
                 </div>
                 <div class="detailed_haeder_btn">
-                    <router-link to="/bag">
                         <!-- 수량만 장바구니에 저장 -->
                         <form id="bagForm"> 
                             <input type="hidden" name="ba_count" :value="count">
@@ -38,7 +37,6 @@
                                 <div class="detailed_haeder_bag">장바구니</div>
                             </button>
                         </form>
-                    </router-link>
                     <button type="button" class="detailed_haeder_bay" @click="$store.dispatch('detailedUpdate', $store.state.productDetail)">구매하기</button>
                 </div>
             </div>
