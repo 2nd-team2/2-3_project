@@ -18,7 +18,7 @@ class QnaSeeder extends Seeder
         $data = [
             'u_id' => 1
             ,'qn_content' => '문의내용'
-            ,'qn_answer' => '문의답변'
+            // ,'qn_answer' => '문의답변'
         ];
         Qna::create($data);
     }

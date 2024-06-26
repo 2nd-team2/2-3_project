@@ -210,4 +210,18 @@ const router = createRouter({
     routes,
 });
 
+const restrictedPaths = ['/login', '/agree', '/regist']; 
+
+router.beforeEach((to, from, next) => {
+    const isAuthenticated = store.state.authFlg;
+    if (isAuthenticated && restrictedPaths.includes(to.path)) {
+        alert('이미 로그인한 상태입니다.');
+        next(false);
+        router.back(); 
+    } else {
+        next();
+    }
+});
+
+
 export default router;

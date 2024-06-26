@@ -18,7 +18,8 @@ return new class extends Migration
             $table->bigInteger('or_id')->unsigned();
             $table->bigInteger('p_id')->unsigned();
             $table->bigInteger('orp_count')->comment('주문수량');
-            $table->timestamp('created_at')->useCurrent();
+            // $table->timestamp('created_at')->useCurrent();
+            $table->timestamps();
             $table->softDeletes(); 
         });
     }

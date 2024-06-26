@@ -18,8 +18,8 @@
                     </div>
                     <hr>
                     <div class="agree_item">
-                        <label for="agree" class="chk_box">
-                            <input type="checkbox" v-model="agree1Checked" @change="checkAllAgreements">
+                        <label for="agree1" class="chk_box">
+                            <input id="agree1" type="checkbox" v-model="agree1Checked" @change="checkAllAgreements">
                             <span class="red_span">(필수)</span>
                             <span class="middle_span">이용약관 </span>
                             <button type="button" id="first_btn_modal" class="text_btn">전체보기 ></button>
@@ -69,8 +69,8 @@
                         </label>
                     </div>
                     <div class="agree_item">
-                        <label for="agree" class="chk_box">
-                            <input type="checkbox" v-model="agree2Checked" @change="checkAllAgreements">
+                        <label for="agree2" class="chk_box">
+                            <input id="agree2" type="checkbox" v-model="agree2Checked" @change="checkAllAgreements">
                             <span class="red_span">(필수)</span>
                             <span class="middle_span">개인정보 수집 및 이용 </span>
                             <button type="button" id="second_btn_modal" class="text_btn">전체보기 ></button>

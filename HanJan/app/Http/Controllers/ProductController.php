@@ -97,7 +97,8 @@ class ProductController extends Controller
                         // ->get();
                         // 
         $productData = Product::select('products.id', 'products.price', 'products.count', 'products.img', 'products.info', 'products.name', DB::raw('COUNT(reviews.re_id) as total_star'), DB::raw('ROUND(AVG(reviews.re_star),1) as star_avg'))
-        ->leftJoin('reviews', 'products.id', '=', 'reviews.orp_id')
+        ->JOIN('orderproducts','products.id','=', 'orderproducts.p_id')
+        ->JOIN('reviews','reviews.orp_id','=', 'orderproducts.orp_id')
         ->where('products.id', $id)
         ->groupBy('products.id', 'products.price', 'products.count', 'products.img', 'products.info', 'products.name')
         ->first();

@@ -23,8 +23,10 @@ class ProductFactory extends Factory
             ,'price' => $this->faker->numberBetween(10, 50)*1000
             ,'count' => $this->faker->numberBetween(10, 200)
             ,'ml' => $this->faker->numberBetween(250, 1000)
-            ,'img' => '/img/best.png'
-            ,'info' => '/img/bag.png'
+            ,'img' => '/img/liquor.jpg'
+            ,'info' => '/img/liquor.jpg'
+            ,'type' => $this->faker->numberBetween(0, 2)
+            ,'season' => $this->faker->numberBetween(0, 3)
         ];
     }
 }
