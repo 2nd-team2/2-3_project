@@ -19,6 +19,7 @@ class Product extends Model
         'info',
         'type',
         'season'
+        
     ];
 
 

@@ -18,6 +18,7 @@ class Review extends Model
         're_content',
         're_star',
         're_flg',
+        
     ];
 
     
