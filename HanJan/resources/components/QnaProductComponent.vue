@@ -17,7 +17,7 @@
         </div>
 
         <form id="qnaProductForm">
-            <input type="hidden" name="orp_id" :value="$store.state.productAskCreateData.id">
+            <input type="hidden" name="orp_id" :value="$store.state.productAskCreateData.orp_id">
             <div class="inquiry_padding_top">문의내용</div>
             <div class="inquiry_padding_top">
                 <textarea name="qnp_content" placeholder="개인정보(주민번호, 연락처, 주소, 계좌번호, 카드번호 등)가 포함되지 않도록 유의해주세요."></textarea>

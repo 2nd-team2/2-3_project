@@ -73,7 +73,7 @@ class QnaController extends Controller
 
         $qnaProductCreateData = new Qnaproduct();
         $qnaProductCreateData->qnp_content = $request->qnp_content;
-        $qnaProductCreateData->orp_id = $request->orp_id; // TODO 추후 orp_id가지고 와야함
+        $qnaProductCreateData->orp_id = $request->orp_id;
         $qnaProductCreateData->u_id = Auth::id();
         $qnaProductCreateData->save();
 
