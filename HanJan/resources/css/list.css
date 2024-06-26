@@ -50,7 +50,8 @@ hr {
     margin-top: 6rem;
     font-size: 2rem;
     font-weight: 800;
-    margin: 6rem 18rem 1rem;
+    margin: 6rem 0rem 1rem;
+    margin-left: 15%;
 }
 
 .list_best {
@@ -130,14 +131,21 @@ hr {
     .list_content {
         grid-template-columns: 1fr 1fr;
         width: 90%;
+        gap: 2rem 1rem;
     }
     
     .list_best_title {
         margin: 4rem auto 1rem;
         font-size: 1.5rem;
-        text-align: center;
+        margin-left: 5%;
     }
-    
+    .list_menu {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        gap: 2rem;
+        margin-top: 4rem;
+    }
     .list_num_item {
         width: 90%;
         margin: 3rem auto 0;
@@ -147,6 +155,12 @@ hr {
     
     .list_num_item > a {
         margin: 1rem 0;
+    }
+    .list_best img {
+        width: 12rem;
+    }
+    hr {
+        width: 90%;
     }
 }
 
@@ -165,6 +179,7 @@ hr {
     .list_num_item {
         margin-top: 2rem;
     }
+
 }
 
 /* 더 큰 화면에서는 넓은 이미지와 메뉴 간격을 늘려서 보기 좋게 */

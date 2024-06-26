@@ -13,7 +13,7 @@
                 </div>
                 <button type="button" class="loginBtn" @click="login">로그인</button>
                 <button type="button" class="registBtn" @click="$router.push('agree')">회원가입</button>
-                <button type="button" class="kakaoBtn"><img src="/img/kakao_login_large_wide.png" class="kakaoBtn_img"></button>
+                <button type="button" class="kakaoBtn" @click="login_updata"><img src="/img/kakao_login_large_wide.png" class="kakaoBtn_img"></button>
                 <img class="rightPoto" src="/img/IE002927310_STD.png"></img>
             </div>
         </form>
@@ -35,11 +35,16 @@ function resetForm() {
   const form = document.querySelector('#login_form');
   form.reset();
 }
+function login_updata() {
+  alert('3차 업데이트 예정입니다 *^^*');
+}
 
 // 페이지가 로드될 때마다 폼을 초기화
 onMounted(() => {
   resetForm();
 });
+
+
 </script>
 
 <style scoped src="../css/login.css">
