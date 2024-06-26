@@ -300,6 +300,15 @@ li {
     font-size: 3rem;
 }
 
+.weather_alcohol_title_color {
+    color: #ffcd40;
+    text-shadow:
+            -0.5px -0.5px 0 #5c5c5c,  
+             0.5px -0.5px 0 #5c5c5c,
+            -0.5px  0.5px 0 #5c5c5c,
+             0.5px  0.5px 0 #5c5c5c;
+}
+
 .weather_alcohol_box {
     margin: 30px 0;
     display: grid;
