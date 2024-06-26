@@ -9,9 +9,7 @@
     <header>
         <div class="header_container">
             <div class="header_content">
-                <router-link to="/" @click="closeNavMini">
-                    <div class="logo"><img src="/img/logo.png" class="logo"></div>
-                </router-link>
+                <div @click="logoclick" class="logo"><img src="/img/logo.png" class="logo"></div>
                 <div @click="openNavMini" class="hamburger" id="hamburger"><img src="/img/hamburger.png" class="hamburger_img"></div>
                 <div @click="closeNavMini" class="cancel" id="cancel"><img src="/img/cancel.png" class="cancel_img"></div>
                 <ul class="nav" id="nav">
@@ -143,7 +141,7 @@ import Cookies from 'js-cookie';
         modal.style.display = 'none';
 
         // 스크롤 움직임 제어 css
-        document.body.style.overflow = 'scroll';
+        document.body.style.overflowY = 'scroll';
         document.body.style.height = '';
 
         showModal.value = false;
@@ -237,6 +235,27 @@ import Cookies from 'js-cookie';
             cancel.setAttribute('class', 'cancel');
             cancel.style.display = 'none'
         }
+    }
+
+    // 로고 클릭시 이벤트
+    function logoclick() {
+        const nav = document.querySelector('.nav');
+        const hamburger = document.querySelector('#hamburger');
+        const cancel = document.querySelector('#cancel');
+
+        if(window.innerWidth > 1200){
+            nav.setAttribute('id', 'nav');
+            hamburger.style.display = 'none';
+            cancel.setAttribute('class', 'cancel');
+            cancel.style.display = 'none'
+        }else if(window.innerWidth <= 1200) {
+            nav.setAttribute('id', 'nav');
+            hamburger.style.display = 'block';
+            cancel.setAttribute('class', 'cancel');
+            cancel.style.display = 'none'
+        }
+
+        window.location.href = '/';
     }
 
     // 스크린 크기 (width: 1200px) 변화에 따른 햄버거, X아이콘 조절
