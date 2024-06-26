@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id('qn_id');
             $table->bigInteger('u_id')->unsigned();
             $table->string('qn_content', 1000)->comment('문의내용');
-            $table->string('qn_answer', 1000)->comment('문의답변');
+            $table->string('qn_answer', 1000)->comment('문의답변')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

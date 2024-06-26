@@ -18,7 +18,7 @@ class Product extends Model
         'img',
         'info',
         'type',
-        'w_flg'
+        'season'
     ];
 
 
