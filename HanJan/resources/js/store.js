@@ -294,6 +294,7 @@ const store = createStore({
                 axios.delete(url)
                 .then(response => {
                     console.log(response.data); // TODO : 삭제
+                    store.dispatch('bagsGetProductData');
                 })
                 .catch(error => {
                     alert('장바구니 삭제에 실패했습니다.(' + error.response.data.code + ')' )

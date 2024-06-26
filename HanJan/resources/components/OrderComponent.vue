@@ -18,20 +18,12 @@
                     </div>
                 </div>
                 <div class="header_bottom">
-                    <div class="header_bottom_text">
-                        <span>이름</span>
-                    </div>
-                    <div class="header_bottom_input">
-                        <p class="info_item_err_msg">{{ buyNameError }}</p>
-                        <input type="text" name="or_buy_name" id="or_buy_name" @input="buyChkName" v-model="buyName">
-                    </div>
-                    <div class="header_bottom_text">
-                        <span>휴대폰번호</span>
-                    </div>
-                    <div class="header_bottom_input">
-                        <p class="info_item_err_msg">{{ buyTelError }}</p>
-                        <input type="text" name="or_buy_tel" id="or_buy_tel" @input="buyChkTel" v-model="buyTel">
-                    </div>
+                    <p class="info_item_err_msg_name">{{ buyNameError }}</p>
+                    <div class="header_bottom_name">이름</div>
+                    <input type="text" name="or_buy_name" id="or_buy_name" @input="buyChkName" v-model="buyName" class="header_bottom_name_input">
+                    <p class="info_item_err_msg_tel">{{ buyTelError }}</p>
+                    <div class="header_bottom_tel">휴대폰번호</div>
+                    <input type="text" name="or_buy_tel" id="or_buy_tel" @input="buyChkTel" v-model="buyTel" class="header_bottom_tel_input">
                 </div>
             </div>
 
@@ -154,7 +146,7 @@ function buyChkTel(e) {
   }
 }
 
-function getChkName(eve) {
+function getChkName(e) {
   const namePattern = /^[가-힣a-zA-Z\s]+$/;
   
   if (!namePattern.test(e.target.value)) {
