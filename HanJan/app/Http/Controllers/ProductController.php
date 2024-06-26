@@ -101,6 +101,7 @@ class ProductController extends Controller
                         ->leftJoin('reviews','reviews.orp_id','=', 'orderproducts.orp_id')
                         ->where('products.id', $id)
                         ->groupBy('products.id', 'products.price', 'products.count', 'products.img', 'products.info', 'products.name')
+                        ->distinct()
                         ->first();
 
         Log::debug($productData);
@@ -178,10 +179,22 @@ class ProductController extends Controller
     // products(상품)테이블에서
     // 베스트 상품 출력
     public function listBast() {
+        // $productData = Product::select('products.*', 'rev.star_avg', 'rev.star_avg_round')
+        //                     ->join(DB::raw('(SELECT orp_id, AVG(re_star) as star_avg, ROUND(AVG(re_star), 0) as star_avg_round
+        //                                     FROM reviews
+        //                                     GROUP BY orp_id) as rev'), 'rev.orp_id', '=', 'products.id')
+        //                     ->orderByDesc('rev.star_avg')
+        //                     ->orderByDesc('products.created_at')
+        //                     ->limit(5)
+        //                     ->get();
         $productData = Product::select('products.*', 'rev.star_avg', 'rev.star_avg_round')
-                            ->join(DB::raw('(SELECT orp_id, AVG(re_star) as star_avg, ROUND(AVG(re_star), 0) as star_avg_round
+                            ->join(DB::raw('(SELECT orp_id, AVG(re_star) AS star_avg, ROUND(AVG(re_star), 0) AS star_avg_round
                                             FROM reviews
-                                            GROUP BY orp_id) as rev'), 'rev.orp_id', '=', 'products.id')
+                                            GROUP BY orp_id) AS rev'))
+                                    ->join('orderproducts','rev.orp_id', '=', 'orderproducts.orp_id')
+                            ->join('orderproducts', 'products.id', '=', 'orderproducts.p_id')
+                            ->whereColumn('products.id', '=', 'orderproducts.p_id')
+                            ->groupBy('products.id')
                             ->orderByDesc('rev.star_avg')
                             ->orderByDesc('products.created_at')
                             ->limit(5)
