@@ -58,6 +58,7 @@ li {
 .logo {
     width: 110px;
     height: 80px;
+    cursor: pointer;
 }
     
 .display_none {

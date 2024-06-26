@@ -2,11 +2,7 @@
     <main>
         <div class="review_title reviewC_title_grid">
             <h2>리뷰작성</h2>
-            <button type="button" class="reviewC_cancel">
-                <router-link to="/info">
-                    돌아가기
-                </router-link>
-            </button>
+            <router-link to="/info" class="reviewC_cancel">돌아가기</router-link>
         </div>
         <div>
             <div class="reviewC_padding_top">이 상품의 품질에 대해서 얼마나 만족하시나요?</div>
