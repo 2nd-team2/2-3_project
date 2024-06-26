@@ -137,6 +137,10 @@
     <a href="#" class="move_top">
         <img src="/img/up.png" class="move_top_img">
     </a>
+    <a href="http://pf.kakao.com/_xmIqpG/chat" class="">
+        <img src="/img/kakao_ch.png" class="kakao_channel">
+    </a>
+
 </template>
 
 <script setup>
