@@ -14,7 +14,7 @@ class Review extends Model
 
     protected $fillable = [
         'u_id',
-        'p_id',
+        'orp_id',
         're_content',
         're_star',
         're_flg',

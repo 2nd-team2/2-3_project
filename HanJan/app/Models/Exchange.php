@@ -20,6 +20,8 @@ class Exchange extends Model
         'ex_det_addr',
         'ex_post',
         'ex_reason',
+        'ex_flg',
+        'created_at',
     ];
 
 

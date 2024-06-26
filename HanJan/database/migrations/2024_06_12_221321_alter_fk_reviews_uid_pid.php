@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('reviews', function(Blueprint $table) {
             $table->foreign('u_id')->references('id')->on('users');
-            $table->foreign('p_id')->references('id')->on('products');
+            $table->foreign('orp_id')->references('orp_id')->on('orderproducts');
         });
     }
 
@@ -28,7 +28,7 @@ return new class extends Migration
     {
         Schema::table('reviews', function(Blueprint $table) {
             $table->dropForeign(['u_id']);
-            $table->dropForeign(['p_id']);
+            $table->dropForeign(['orp_id']);
         });
     }
 };
