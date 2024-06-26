@@ -97,7 +97,8 @@ class ProductController extends Controller
                         // ->get();
                         // 
         $productData = Product::select('products.id', 'products.price', 'products.count', 'products.img', 'products.info', 'products.name', DB::raw('COUNT(reviews.re_id) as total_star'), DB::raw('ROUND(AVG(reviews.re_star),1) as star_avg'))
-        ->leftJoin('reviews', 'products.id', '=', 'reviews.p_id')
+        ->JOIN('orderproducts','products.id','=', 'orderproducts.p_id')
+        ->JOIN('reviews','reviews.orp_id','=', 'orderproducts.orp_id')
         ->where('products.id', $id)
         ->groupBy('products.id', 'products.price', 'products.count', 'products.img', 'products.info', 'products.name')
         ->first();
@@ -118,9 +119,18 @@ class ProductController extends Controller
     // users.name AS user_name = 유저이름 별칭
     // 리뷰 최신순으로 가져오기
     public function detailedReview($id) {
+        // $productData = Review::select('users.name AS user_name','products.id' ,'reviews.re_star','reviews.re_content','reviews.updated_at')
+        //                 ->JOIN('products','reviews.orp_id','=', 'products.id')
+        //                 ->JOIN('users','reviews.u_id','=', 'users.id')
+        //                 ->where('products.id', $id) // 상품 아이디 가져와 리뷰 출력
+        //                 ->orderBy('reviews.re_star', 'DESC')
+        //                 ->orderBy('reviews.created_at', 'DESC')
+        //                 ->limit(5)
+        //                 ->get();
         $productData = Review::select('users.name AS user_name','products.id' ,'reviews.re_star','reviews.re_content','reviews.updated_at')
-                        ->JOIN('products','reviews.p_id','=', 'products.id')
                         ->JOIN('users','reviews.u_id','=', 'users.id')
+                        ->JOIN('orderproducts','reviews.orp_id','=', 'orderproducts.orp_id')
+                        ->JOIN('products','products.id','=', 'orderproducts.p_id')
                         ->where('products.id', $id) // 상품 아이디 가져와 리뷰 출력
                         ->orderBy('reviews.re_star', 'DESC')
                         ->orderBy('reviews.created_at', 'DESC')
@@ -169,9 +179,9 @@ class ProductController extends Controller
     // 베스트 상품 출력
     public function listBast() {
         $productData = Product::select('products.*', 'rev.star_avg', 'rev.star_avg_round')
-                            ->join(DB::raw('(SELECT p_id, AVG(re_star) as star_avg, ROUND(AVG(re_star), 0) as star_avg_round
+                            ->join(DB::raw('(SELECT orp_id, AVG(re_star) as star_avg, ROUND(AVG(re_star), 0) as star_avg_round
                                             FROM reviews
-                                            GROUP BY p_id) as rev'), 'rev.p_id', '=', 'products.id')
+                                            GROUP BY orp_id) as rev'), 'rev.orp_id', '=', 'products.id')
                             ->orderByDesc('rev.star_avg')
                             ->orderByDesc('products.created_at')
                             ->limit(5)
@@ -238,7 +248,7 @@ class ProductController extends Controller
     // 메인 페이지에서 계절별 추천 출력
     public function seasonSelect() {
         // 테스트 날짜 설정
-            $nowMonth = 1;
+            // $nowMonth = 1;
 
             // // Carbon을 사용하여 날짜 계산
             // Carbon::setTestNow(Carbon::create(2023, 9, 15));
@@ -249,7 +259,7 @@ class ProductController extends Controller
             // $this->seasonSelect(1);
 
         // 현재 날짜 설정 함수
-        // $nowMonth = date('n', strtotime(now()));
+        $nowMonth = date('n', strtotime(now()));
         $season = '';
         if ($nowMonth == 12 || $nowMonth == 1 || $nowMonth == 2 ) {
             // 겨울
