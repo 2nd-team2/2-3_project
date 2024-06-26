@@ -37,11 +37,13 @@
                     </div>
                 </div>
                 <div v-else>
-                    장바구니에 상품이 없습니다.
+                    <h2 class="bag_none_item_center">
+                        장바구니에 상품이 없습니다.
+                    </h2>
                 </div>
     
                 <!-- TODO: CSS 수정 > 스크롤 내려도 옆에 계속 보이게 하다가 일정 높이 도착하면 멈추게 하기 -->
-                <div class="bag_total_box">
+                <div class="bag_total_box" v-if="$store.state.bagsProductData && $store.state.bagsProductData.length > 0">
                     <div class="bag_margin_top bag_margin_bottom bag_total_border bag_total_grid">
                         <div class="bag_price_grid">
                             <div class="total_text_right"> 총 {{ totalPrice.count }} 개의 상품금액</div>
@@ -58,25 +60,22 @@
                             <div class="bag_yellow bag_flex_end"> {{ deliveryPrice + totalPrice.total }}원</div>
                         </div>
                     </div>
+                    <div class="btn_box">
+                        <button @click="toggleSelectAll" type="button" class="btn_all bag_cancel bag_border_none bag_margin_right">
+                            {{ allSelected ? '전체 해제' : '전체 선택' }}
+                        </button>
+                        <button @click="bagsSelectDelete" type="button" class="btn_delete bag_cancel bag_border_none bag_margin_right">
+                            {{ allSelected ? '전체 삭제' : '선택 삭제' }}
+                        </button>
+                        <div class="bag_flex_end">
+                            <!-- <button @click="$router.push('/order')" type="button" class="bag_cancel bag_border_none">구매하기</button> -->
+                            <!-- TODO : 가지고 있는 정보를 다 oreder 페이지로 넘기기 -->
+                            <button @click="bagsToOrder" type="button" class="bag_cancel bag_border_none">구매하기</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="bag_margin_top bag_btn_grid">
-                <div>
-                    <button @click="toggleSelectAll" type="button" class="bag_cancel bag_border_none bag_margin_right">
-                        {{ allSelected ? '전체 해제' : '전체 선택' }}
-                    </button>
-                    <button @click="bagsSelectDelete" type="button" class="bag_cancel bag_border_none bag_margin_right">
-                        {{ allSelected ? '전체 삭제' : '선택 삭제' }}
-                    </button>
-                </div>
-
-                <div class="bag_flex_end">
-                    <!-- <button @click="$router.push('/order')" type="button" class="bag_cancel bag_border_none">구매하기</button> -->
-                    <!-- TODO : 가지고 있는 정보를 다 oreder 페이지로 넘기기 -->
-                    <button @click="bagsToOrder" type="button" class="bag_cancel bag_border_none">구매하기</button>
-                </div>
-            </div>
-
+            <div class="bag_hr"></div>
         </form>
     </main>
 

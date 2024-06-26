@@ -294,6 +294,7 @@ const store = createStore({
                 axios.delete(url)
                 .then(response => {
                     console.log(response.data); // TODO : 삭제
+                    store.dispatch('bagsGetProductData');
                 })
                 .catch(error => {
                     alert('장바구니 삭제에 실패했습니다.(' + error.response.data.code + ')' )
@@ -905,16 +906,19 @@ const store = createStore({
         detailedToCount(constext) {
             const url = '/api/detailedToCount';
             const data = new FormData(document.querySelector('#bagForm'));
-
+            
             axios.post(url, data)
             .then(response => {
                 console.log('수량데이터', response.data); // TODO
                 // 데이터베이스->서버를 통해 받은 데이터를 CountData 저장
                 constext.commit('detailedCountData', response.data.data);
+                if(confirm('확인을 클릭시 장바구니로 이동 됩니다.')) {
+                    router.push('/bag');
+                }
             })
             .catch(error => {
                 console.log(error.response.data); // TODO
-                alert('리뷰데이터 불러오기 실패했습니다.(' + error.response.data.code + ')');
+                alert('장바구니 이동 실패했습니다(' + error.response.data.code + ')');
             });
         },
 

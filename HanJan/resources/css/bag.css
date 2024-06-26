@@ -44,8 +44,28 @@ main {
 
 .bag_box {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 2fr 1.2fr;
     gap: 20px;
+}
+
+.btn_box {
+    display: grid;
+    grid-template-columns: 1fr 0.5fr 1fr;
+}
+
+.btn_all {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+}
+
+.btn_delete {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+}
+
+.bag_flex_end {
+    grid-column: 3 / 4;
+    grid-row: 1 / 2;
 }
 
 .bag_padding_top {
@@ -175,36 +195,6 @@ main {
     align-items: center;
 }
 
-/* 수량 증가 감소 버튼 */
-/* .bag_count {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid black;
-    width: 100px;
-    border-radius: 5px;
-}
-.bag_count_minus {
-    padding: 0 10px;
-    cursor: pointer;
-}
-.bag_count_minus:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-}
-.bag_count_plus {
-    padding: 0 10px;
-    cursor: pointer;
-}
-.bag_count_plus:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-}
-.quantity-input {
-    width: 50px;
-    text-align: center;
-    border: none;
-} */
 
 /* 수량 증가 감소 버튼 */
 .bag_count {
@@ -303,7 +293,7 @@ main {
     justify-items: end;
     height: 8rem;
     padding-right: 10px;
-    width: 26rem;
+    width: 30rem;
 }
 
 .bag_price_grid {
@@ -364,6 +354,17 @@ input[type="checkbox"]:checked + .checkbox {
     height: 25px;
     width: 25px;
 }
+
+.bag_hr {
+    border-top: 1px solid #5c5c5c;
+}
+
+/* 상품 데이터 없을 경우 출력 문자 중앙정렬 */
+.bag_none_item_center{
+    padding: 50px;
+    text-align: center;
+}
+
 
 /* --------------------- move top --------------------- */
 .move_top_img {
