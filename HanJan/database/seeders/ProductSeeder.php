@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\product;
+use App\Models\Product;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -23,6 +23,6 @@ class ProductSeeder extends Seeder
             ,'img' => '/img/best.png'
             ,'info' => '/img/best.png'
         ];
-        product::create($data);
+        Product::create($data);
     }
 }

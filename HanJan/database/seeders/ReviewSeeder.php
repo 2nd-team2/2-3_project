@@ -17,7 +17,7 @@ class ReviewSeeder extends Seeder
     {
         $data = [
             'u_id' => 1
-            ,'p_id' => 1
+            ,'orp_id' => 1
             ,'re_content' => '리뷰제목'
         ];
         review::create($data);

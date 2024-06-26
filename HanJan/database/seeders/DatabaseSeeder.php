@@ -9,7 +9,7 @@ use App\Models\Infotl;
 use App\Models\Notice;
 use App\Models\Order;
 use App\Models\Orderproduct;
-use App\Models\product;
+use App\Models\Product;
 use App\Models\Qna;
 use App\Models\Qnaproduct;
 use App\Models\review;
@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
         
         // 팩토리를 이용하여 대량 생성
         // 모델명::factory(반복수)->create();
-        product::factory(50)->create();
+        Product::factory(50)->create();
         Bag::factory(10)->create();
         Notice::factory(5)->create();
         review::factory(10)->create();
