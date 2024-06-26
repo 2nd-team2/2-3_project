@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\review;
+use App\Models\Review;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,11 +15,11 @@ class ReviewSeeder extends Seeder
      */
     public function run()
     {
-        $data = [
-            'u_id' => 1
-            ,'orp_id' => 1
-            ,'re_content' => '리뷰제목'
-        ];
-        review::create($data);
+        // $data = [
+        //     'u_id' => 1
+        //     ,'orp_id' => 1
+        //     ,'re_content' => '리뷰제목'
+        // ];
+        // review::create($data);
     }
 }

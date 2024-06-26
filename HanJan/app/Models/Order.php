@@ -11,7 +11,7 @@ class Order extends Model
     use HasFactory, SoftDeletes;
 
     protected $primaryKey = 'or_id';
-    public $timestamps = false;
+    // public $timestamps = false;
 
     protected $fillable = [
         'u_id',

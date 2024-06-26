@@ -11,7 +11,7 @@ class Complete extends Model
     use HasFactory, SoftDeletes;
 
     protected $primaryKey = 'co_id';
-    public $timestamps = false;
+    // public $timestamps = false;
 
     protected $fillable =[
         'orp_id',

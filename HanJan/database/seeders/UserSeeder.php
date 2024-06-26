@@ -19,12 +19,12 @@ class UserSeeder extends Seeder
         $data = [
             'email' => 'a@a.com'
             ,'password' => Hash::make('a')
-            ,'name' => '관리자'
-            ,'tel' => '0103337777'
+            ,'name' => '관리자a'
+            ,'tel' => '01011111111'
             ,'addr' => '대구'
             ,'det_addr' => '중구'
             ,'post' => 1
-            ,'birth' => '2024-01-01'
+            ,'birth' => '2000-01-01'
         ];
         User::create($data);
     }

@@ -21,7 +21,7 @@ class ExchangeSeeder extends Seeder
             ,'ex_addr' => '대구'
             ,'ex_det_addr' => '중구'
             ,'ex_post' => 1
-            ,'ex_reason' => '0'
+            // ,'ex_reason' => '0'
         ];
         Exchange::create($data);
     }
