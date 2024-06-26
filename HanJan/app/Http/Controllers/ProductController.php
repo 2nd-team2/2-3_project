@@ -238,7 +238,7 @@ class ProductController extends Controller
     // 메인 페이지에서 계절별 추천 출력
     public function seasonSelect() {
         // 테스트 날짜 설정
-            $nowMonth = 1;
+            // $nowMonth = 1;
 
             // // Carbon을 사용하여 날짜 계산
             // Carbon::setTestNow(Carbon::create(2023, 9, 15));
@@ -249,7 +249,7 @@ class ProductController extends Controller
             // $this->seasonSelect(1);
 
         // 현재 날짜 설정 함수
-        // $nowMonth = date('n', strtotime(now()));
+        $nowMonth = date('n', strtotime(now()));
         $season = '';
         if ($nowMonth == 12 || $nowMonth == 1 || $nowMonth == 2 ) {
             // 겨울
