@@ -19,6 +19,9 @@ main {
 .ex_padding_bottom {
     padding-bottom: 10px;
 }
+.ex_padding_left {
+    padding-left: 10px;
+}
 .ex_margin_top {
     margin-top: 20px;
 }
@@ -104,48 +107,108 @@ main {
 
 
 /* 회수 정보 그리드 */
-.ex_exinfo_grid {
+input {
+    padding: 5px;
+}
+.main_bottom {
     display: grid;
-    grid-template-columns: 0.5fr 1fr 0.5fr;
-    margin: 5rem;
+    grid-template-columns: 0.4fr 1fr 1fr;
     gap: 10px;
+    width: 60%;
+    margin: 50px auto;
 }
-.ex_exinfo_name {
-    grid-column: 1/2;
-    grid-row: 1/2;
+
+.header_bottom input {
+    width: 100%;
 }
-#name {
-    grid-column: 2/3;
-    grid-row: 1/2;
+
+.header_bottom span {
+    text-align: left;
 }
-.ex_exinfo_tel {
-    grid-column: 1/2;
-    grid-row: 2/3;
+
+.main_bottom_name {
+    grid-row: 2 / 3;
 }
-#tel {
-    grid-column: 2/3;
-    grid-row: 2/3;
+
+.main_bottom_input1 {
+    width: 100%;
+    grid-column: 2 / 4;
+    grid-row: 2 / 3;
 }
-.ex_exinfo_address {
-    grid-column: 1/2;
-    grid-row: 3/4;
+
+.main_bottom_tell {
+    grid-row: 4 / 5;
 }
-#address {
-    grid-column: 2/3;
-    grid-row: 3/4;
+
+.main_bottom_input2 {
+    width: 100%;
+    grid-column: 2 / 4;
+    grid-row: 4 / 5;
 }
-.ex_exinfo_address_btn {
-    grid-column: 3/4;
-    grid-row: 3/4;
+
+.info_item_err_msg1 {
+    color: red;
+    grid-column: 2 / 4;
+    grid-row: 1 / 2;
+    height  : 15px;
 }
-.ex_exinfo_detail_address {
-    grid-column: 1/2;
-    grid-row: 4/5;
+
+.info_item_err_msg2 {
+    color: red;
+    grid-column: 2 / 4;
+    grid-row: 3 / 4;
+    height  : 15px;
 }
-#detail_address {
-    grid-column: 2/3;
-    grid-row: 4/5;
+
+.info_item_err_msg3 {
+    color: red;
+    grid-column: 2 / 4;
+    grid-row: 5 / 6;
+    height  : 15px;
 }
+
+.main_bottom_adds {
+    grid-row: 6 / 7;
+}
+
+.main_bottom_input3 {
+    width: 100%;
+    grid-column: 2 / 4;
+    grid-row: 6 / 7;
+}
+.main_bottom_input4 {
+    width: 100%;
+    grid-column: 2 / 3;
+    grid-row: 7 / 8;
+}
+.main_bottom_btn {
+    grid-column: 3 / 4;
+    grid-row: 7 / 8;
+    height: 35px;
+    width: 100px;
+    background-color: black;
+    color: white;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    line-height: 35px;
+    text-align: center;
+}
+
+.main_bottom_btn:hover {
+    color: black;
+    background-color: #FAC91D;  
+}
+.main_bottom_de_adds {
+    grid-column: 2 / 4;
+    grid-row: 8 / 9;
+}
+.main_bottom_input5 {
+    width: 100%;
+    grid-column: 2 / 4;
+    grid-row: 9 / 10;
+}
+
 
 
 /* 합계금액 보더 */
@@ -159,7 +222,7 @@ main {
     grid-template-columns: 6fr 3fr 1fr 2fr 1fr 2fr;
     align-items: center;
     justify-items: center;
-    height: 10rem;
+    height: 8rem;
 }
 
 /* 취소 버튼 */
@@ -184,3 +247,24 @@ main {
     padding: 2px 3rem;
     margin-right: 2rem;
 }
+
+
+
+/* 체크박스 수정 */
+/* .checkbox {
+    display: inline-block;
+    padding: 5px;
+    cursor: pointer;
+    border: 1px solid black;
+    border-radius: 100%;
+    height: 25px;
+    width: 25px;
+}
+
+input[type="checkbox"] {
+    display: none;
+}
+
+input[type="checkbox"]:checked + .checkbox {
+    background-color: #FAC91D;
+} */

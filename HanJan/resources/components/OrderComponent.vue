@@ -1,5 +1,6 @@
 <template>
     <main>
+      <div>{{ $store.state.orderProductData }}</div>
         <form id="orderComplete" @submit.prevent="validateForm">
             <div></div>
             <div class="header">
@@ -86,15 +87,19 @@ const store = useStore();
 
 // 배송비 (TODO : 일정 금액 이상일 경우 무료 + 각 상품 마다 배송비 저장할 컬럼 만들기(products 테이블) )
 const deliveryPrice = ref(0);
+
 // 체크된 항목들만 필터링 > (선택된 상품의 총 합계와 수량을 리턴해줌)
 const totalPrice = computed(() => {
     const Items = store.state.orderProductData;
 
-    let count = Items.length;
+    let count = 0;
     let total = 0;
-    
-    // 데이터가 있을 경우
-    if (count > 0) {
+
+    // 객체, 배열 판단
+    if (Array.isArray(Items)) {
+        // 장바구니페이지(구매하기) -> 주문페이지 : 배열로 넘어옴
+        count = Items.length;
+
         // 1개 보다 많은 경우
         if (count > 1) {
             Items.forEach(item => {
@@ -105,7 +110,13 @@ const totalPrice = computed(() => {
         else {
             total += (Items[0].price * Items[0].ba_count);
         }
+    } 
+    // 상세페이지(바로구매) -> 주문페이지 : 객체로 넘어옴
+    else if (Items && typeof Items === 'object') {
+        count = 1;
+        total += (Items.price * Items.ba_count);
     }
+
     return {count, total};
 });
 

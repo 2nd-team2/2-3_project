@@ -41,8 +41,7 @@
                         장바구니에 상품이 없습니다.
                     </h2>
                 </div>
-    
-                <!-- TODO: CSS 수정 > 스크롤 내려도 옆에 계속 보이게 하다가 일정 높이 도착하면 멈추게 하기 -->
+
                 <div class="bag_total_box" v-if="$store.state.bagsProductData && $store.state.bagsProductData.length > 0">
                     <div class="bag_margin_top bag_margin_bottom bag_total_border bag_total_grid">
                         <div class="bag_price_grid">
@@ -68,8 +67,6 @@
                             {{ allSelected ? '전체 삭제' : '선택 삭제' }}
                         </button>
                         <div class="bag_flex_end">
-                            <!-- <button @click="$router.push('/order')" type="button" class="bag_cancel bag_border_none">구매하기</button> -->
-                            <!-- TODO : 가지고 있는 정보를 다 oreder 페이지로 넘기기 -->
                             <button @click="bagsToOrder" type="button" class="bag_cancel bag_border_none">구매하기</button>
                         </div>
                     </div>

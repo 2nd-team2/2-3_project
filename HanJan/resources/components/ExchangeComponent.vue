@@ -18,6 +18,7 @@
                     </div>
                 </div>
             </div>
+
             <div>
                 <div>
                     <h2 class="ex_title">
@@ -25,76 +26,46 @@
                     </h2>
                     <div class="ex_padding_bottom">어떤문제가 있나요?</div>
                 </div>
-                <div class="ex_padding_bottom">
+                <div class="ex_padding_bottom ex_padding_left">
                     <!-- <div class="ex_content">단순변심</div>
                     <hr> -->
                     <input type="radio" name="ex_reason" id="ex_reason1" value="0">
-                    <label for="ex_reason1">상품이 마음에 들지 않음</label>
+                    <label for="ex_reason1" class="checkbox"> 상품이 마음에 들지 않음</label>
                     <br>
                     <input type="radio" name="ex_reason" id="ex_reason2" value="1">
-                    <label for="ex_reason2">다른 상품이 배송됨</label>
+                    <label for="ex_reason2" class="checkbox"> 다른 상품이 배송됨</label>
                     <br>
                     <input type="radio" name="ex_reason" id="ex_reason3" value="2">
-                    <label for="ex_reason3">상품의 구성품 / 부속품이 들어있지 않음</label>
+                    <label for="ex_reason3" class="checkbox"> 상품의 구성품 / 부속품이 들어있지 않음</label>
                     <br>
                     <input type="radio" name="ex_reason" id="ex_reason4" value="3">
-                    <label for="ex_reason4">상품이 파손/결함 되어 배송됨</label>
+                    <label for="ex_reason4" class="checkbox"> 상품이 파손/결함 되어 배송됨</label>
                 </div>
-                <!-- <div class="ex_padding_bottom ex_padding_top">
-                    <div class="ex_content">배송문제</div>
-                    <hr>
-                    <input type="radio" name="delivery" id="delivery">
-                    <label for="delivery">다른 상품이 배송됨</label>
-                </div>
-                <div class="ex_padding_bottom ex_padding_top">
-                    <div class="ex_content">상품문제</div>
-                    <hr>
-                    <input type="radio" name="goods" id="goods1">
-                    <label for="goods1">상품의 구성품 / 부속품이 들어있지 않음</label>
-                    <br>
-                    <input type="radio" name="goods" id="goods2">
-                    <label for="goods2">상품이 파손되어 배송됨</label>
-                    <br>
-                    <input type="radio" name="goods" id="goods3">
-                    <label for="goods3">상품 결함 / 품질에 이상이 있음</label>
-                </div> -->
             </div>
+
             <div>
                 <h2 class="ex_title ex_padding_top">
                     회수 정보
                 </h2>
-
-                <div class="">
-                    <div class="">
-                        <span>이름</span>
-                    </div>
-                    <div class="">
-                        <p class="">{{ nameError }}</p>
-                        <input type="text" name="or_get_name" id="or_get_name" @input="chkName" v-model="name">
-                    </div>
-                    <div class="">
-                        <span>휴대폰번호</span>
-                    </div>
-                    <div class="">
-                        <p class="">{{ telError }}</p>
-                        <input type="text" name="or_get_tel" id="or_get_tel" @input="chkTel" v-model="tel">
-                    </div>
-
-                    <div class="">
-                        <label class="" for="address">주소</label>
-                        <div class="">
-                            <p class="">{{ addressError }}</p>
-                            <input type="text"  name="ex_addr" id="address" @input="chkAddress" readonly @click="kakaoPostcode" class="" v-model="address" >
-                            <input type="text" readonly v-model="postcode" class="" name="ex_post">
-                            <label class="" for="address">상세주소</label>
-                            <input type="text" class="" name="ex_det_addr" id="address_detail" v-model="detailAddress" >
-                            <button type="button" class="" @click="kakaoPostcode" id="postcode">주소검색</button>
-                        </div>
-                    </div>
+                <div class="main_bottom">
+                    <div class="main_bottom_name">이름</div>
+                    <p class="info_item_err_msg1">{{ nameError }}</p>
+                    <input type="text" name="or_get_name" id="or_get_name" @input="chkName" v-model="name" class="main_bottom_input1">
+                    <div class="main_bottom_tell">휴대폰번호</div>
+                    <p class="info_item_err_msg2 ">{{ telError }}</p>
+                    <input type="text" name="or_get_tel" id="or_get_tel" @input="chkTel" v-model="tel" class="main_bottom_input2">
+                    <label class="main_bottom_adds" for="address">주소</label>
+                    <p class="info_item_err_msg3">{{ addressError }}</p>
+                    <input type="text"  name="ex_addr" id="address" @input="chkAddress" readonly @click="kakaoPostcode" class="main_bottom_input3" v-model="address" >
+                    <input type="text" readonly v-model="postcode" class="main_bottom_input4" name="ex_post">
+                    <label class="main_bottom_de_adds" for="address">상세주소</label>
+                    <input type="text" class="main_bottom_input5" name="ex_det_addr" id="address_detail" v-model="detailAddress" >
+                    <button type="button" class="main_bottom_btn" @click="kakaoPostcode" id="postcode">주소검색</button>
                 </div>
             </div>
 
             <hr>
+
             <div class="ex_margin_top ex_margin_bottom ex_total_border ex_total_grid">
                 <div></div>
                 <div>
@@ -117,7 +88,7 @@
             <input type="hidden" name="created_at" :value="$store.state.exchangeProduct.exCre">
             <div class="ex_margin_top ex_flex_end">
                 <div>
-                    <button @click="$router.push('/info')" type="button" class="ex_cancel ex_cancel_padding">취소</button>
+                    <button @click="$router.push('/info')" type="button" class="ex_cancel ex_border_none ex_cancel_padding">취소</button>
                     <button @click="$store.dispatch('exchage')" type="button" class="ex_cancel ex_border_none">신청</button>
                 </div>
             </div>
@@ -160,7 +131,7 @@ function chkName(e) {
 function chkTel(e) {
   const telPattern = /^\d{10,11}$/;
   if (!telPattern.test(e.target.value)) {
-    telError.value = '전화번호 형식이 맞지 않습니다.';
+    telError.value = '전화번호는 숫자 10,11자로 설정 해주세요.';
   } else {
     telError.value = '';
   }
