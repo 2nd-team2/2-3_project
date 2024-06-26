@@ -14,15 +14,37 @@ class ReviewController extends Controller
     public function reviewIndex() {
     // reviews(리뷰)테이블에서
     // 로그인 되어있는 아이디와 일치하는 u_id의 초기 게시글 획득
-        $reviewData = Review::select('reviews.*','users.id','products.*','orderproducts.orp_count')
-                        ->join('users','reviews.u_id','=','users.id')
-                        ->join('products','reviews.p_id','=','products.id')
-                        ->join('orderproducts','products.id','=','orderproducts.p_id')
+        // $reviewData = Review::select('reviews.*'
+        //                 // ,'users.id'
+        //                 ,'products.*'
+        //                 ,'orderproducts.*')
+        //                 // ->join('users','reviews.u_id','=','users.id')
+        //                 ->join('orderproducts','reviews.orp_id','=','orderproducts.orp_id')
+        //                 ->join('orderproducts','products.id','=','orderproducts.orp_id')
+        //                 ->where('reviews.u_id', '=', Auth::id())
+        //                 ->where('reviews.deleted_at', '=', null)
+        //                 ->orderBy('reviews.created_at','DESC')
+        //                 ->orderBy('reviews.re_id','DESC')
+        //                 ->paginate(3);
+        $reviewData = Review::select(
+                        'products.*'
+                        ,'orderproducts.*'
+                        // ,'completes.created_at as coCre'
+                        ,'reviews.*')
+                        ->join('orderproducts','reviews.orp_id','=','orderproducts.orp_id')
+                        ->join('products','products.id','=','orderproducts.p_id')
+                        // ->join('completes','completes.orp_id','=','orderproducts.orp_id')
+
                         ->where('reviews.u_id', '=', Auth::id())
                         ->where('reviews.deleted_at', '=', null)
                         ->orderBy('reviews.created_at','DESC')
                         ->orderBy('reviews.re_id','DESC')
                         ->paginate(3);
+
+
+        Log::debug('*********************************');
+        Log::debug($reviewData);
+        Log::debug('*********************************');
 
         $responseData = [
             'code' => '0'
@@ -51,6 +73,38 @@ class ReviewController extends Controller
 
     // 리뷰 작성
     // // 리뷰작성 페이지에서 버튼 눌렀을 때 reviews(리뷰) 테이블에서 데이터 저장
+    public function reviewCreateSubmit(Request $request) {
+        $validator = Validator::make(
+            $request->only('re_star', 're_content')
+            , [
+                're_star' => ['required']
+                ,'re_content' => ['nullable', 'max: 200','regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
+            ]
+        );
+        // 유효성 검사 실패 체크
+        if($validator->fails()) {
+            Log::debug('유효성 검사 실패', $validator->errors()->toArray());
+            throw new MyValidateException('E01');
+        }
+        
+        $reviewCreateData = new Review();
+        
+        $reviewCreateData->re_content = $request->re_content;
+        $reviewCreateData->re_star = $request->re_star;
+        $reviewCreateData->orp_id = $request->orp_id;
+        $reviewCreateData->u_id = Auth::id();
+        
+        $reviewCreateData->save();
+        
+        // 레스폰스 처리
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '글 작성 완료'
+            ,'data' => $reviewCreateData->toArray()
+        ];
+        return response()->json($responseData, 200);
+    }
+
     // public function reviewCreateSubmit(Request $request) {
 
     //     // 리퀘스트 데이터 받기
@@ -98,34 +152,7 @@ class ReviewController extends Controller
 
     //     return response()->json($responseData, 200);
     // }
-    public function reviewCreateSubmit(Request $request) {
-        $validator = Validator::make(
-            $request->only('re_star', 're_content')
-            , [
-                // 're_star' => ['required', 'regex:/^[1-5]{1}$/']
-                're_content' => ['nullable', 'max: 200','regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
-            ]
-        );
-        // 유효성 검사 실패 체크
-        if($validator->fails()) {
-            Log::debug('유효성 검사 실패', $validator->errors()->toArray());
-            throw new MyValidateException('E01');
-        }
 
-        $reviewCreateData = new Review();
-        $reviewCreateData->re_content = $request->re_content;
-        $reviewCreateData->p_id = $request->p_id;
-        $reviewCreateData->u_id = Auth::id();
-        $reviewCreateData->save();
-
-        // 레스폰스 처리
-        $responseData = [
-            'code' => '0'
-            ,'msg' => '글 작성 완료'
-            ,'data' => $reviewCreateData->toArray()
-        ];
-        return response()->json($responseData, 200);
-    }
 
     // 리뷰 수정
     // 리뷰수정 페이지에서 버튼 눌렀을때 reviews(리뷰) 테이블에서 데이터 수정
@@ -179,7 +206,7 @@ class ReviewController extends Controller
     // 메인 페이지에서 리뷰 출력
     public function reviewMainIndex() {
         $noticeData = Review::select('reviews.*', 'products.*')
-                            ->join('products','reviews.p_id','=','products.id')
+                            ->join('products','reviews.orp_id','=','products.id')
                             ->orderBy('reviews.created_at', 'DESC')
                             ->orderBy('reviews.re_star', 'DESC')
                             ->limit(4)

@@ -18,7 +18,7 @@ class ReviewFactory extends Factory
     {
         return [
             'u_id' => 1
-            ,'p_id' => 1
+            ,'orp_id' => 1
             ,'re_content' => $this->faker->realText(rand(10,100))
             ,'re_star' => $this->faker->numberBetween(1, 5)
         ];

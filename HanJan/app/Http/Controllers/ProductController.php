@@ -246,7 +246,19 @@ class ProductController extends Controller
     // ----------------------- 호경 시작 -------------------------
     // 메인 페이지에서 계절별 추천 출력
     public function seasonSelect() {
-        $nowMonth = date('n', strtotime(now()));
+        // 테스트 날짜 설정
+            $nowMonth = 1;
+
+            // // Carbon을 사용하여 날짜 계산
+            // Carbon::setTestNow(Carbon::create(2023, 9, 15));
+            // $nowMonth = date('n', strtotime(now())); 
+
+            // // 인자가 없으면 현재 날짜 사용
+            // $nowMonth = $testMonth ?? date('n', strtotime(now())); 
+            // $this->seasonSelect(1);
+
+        // 현재 날짜 설정 함수
+        // $nowMonth = date('n', strtotime(now()));
         $season = '';
         if ($nowMonth == 12 || $nowMonth == 1 || $nowMonth == 2 ) {
             // 겨울
@@ -278,13 +290,13 @@ class ProductController extends Controller
 
     public function getSeasonKorean($value) {
         if ($value == '0') {
-            return '당신의 향긋한 봄이 여기에';
+            return '향긋한 봄';
         } else if($value == '1') {
-            return '당신의 시원한 여름이 여기에';
+            return '시원한 여름';
         } else if($value == '2') {
-            return '당신의 선선한 가을이 여기에';
+            return '선선한 가을';
         } else {
-            return '당신의 포근한 겨울이 여기에';
+            return '포근한 겨울';
         }
     }
     // ----------------------- 호경 끝 ---------------------------

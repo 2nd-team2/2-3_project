@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\MyValidateException;
 use App\Models\Exchange;
 use App\Models\Orderproduct;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -13,17 +14,20 @@ use Illuminate\Support\Facades\Validator;
 class ExchangeController extends Controller
 {
     public function exchangeProduct($id) {
-
+        
         $exchangeData = Orderproduct::select(
-                        'orderproducts.orp_id as orpId'
-                        ,'orderproducts.orp_count as orpCount'
-                        ,'orderproducts.created_at as orpCre'
-                        ,'completes.created_at as comCre'
-                        ,'products.*')
-                        ->join('products','orderproducts.p_id','=','products.id')
-                        ->join('completes', 'orderproducts.orp_id', '=', 'completes.orp_id')
-                        ->where('products.id','=', $id)
-                        ->first();
+            'orderproducts.orp_id'
+            ,'orderproducts.orp_count as orpCount'
+            ,'orderproducts.created_at as orpCre'
+            ,'completes.created_at as comCre'
+            ,'exchanges.created_at as exCre'
+            ,'exchanges.ex_flg'
+            ,'products.*')
+            ->join('exchanges','orderproducts.orp_id', '=', 'exchanges.orp_id')
+            ->join('products','orderproducts.p_id','=','products.id')
+            ->join('completes', 'orderproducts.orp_id', '=', 'completes.orp_id')
+            ->where('orderproducts.orp_id','=', $id)
+            ->first();
 
         $responseData = [
             'code' => '0'
@@ -65,19 +69,24 @@ class ExchangeController extends Controller
         // 주문 데이터 생성
         $exchangData = $request->all();
         
+        Log::debug($exchangData);
+        
         // 작성 데이터 입력 처리
         $exchangData['u_id'] = Auth::id();
-        $exchangData['orp_id'] = $request->orpId;
+        $exchangData['orp_id'] = $request->orp_id;
         $exchangData['ex_addr'] = $request->ex_addr; 
         $exchangData['ex_det_addr'] = $request->ex_det_addr;
         $exchangData['ex_post'] = $request->ex_post;
         $exchangData['ex_reason'] = (int)$request->ex_reason;
-        $exchangData['ex_flg'] = '1';
-
-
+        $exchangData['ex_flg'] = 1;
+        $exchangData['created_at'] = Carbon::now();
+        
+        
         // 작성 저장 처리
-        $exchangeCreate = Exchange::create($exchangData);
+        $exchangeCreate = Exchange::updateOrCreate(['orp_id' => $request->orp_id], $exchangData);
 
+        Log::debug($exchangeCreate);
+        
         // 레스폰스 데이터 생성
         $responseData = [
             'code' => '0'
