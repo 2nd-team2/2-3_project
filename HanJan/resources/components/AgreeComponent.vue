@@ -70,7 +70,7 @@
                     </div>
                     <div class="agree_item">
                         <label for="agree2" class="chk_box">
-                            <input id="agree2" type="checkbox" v-model="agree2Checked" @change="checkAllAgreements">
+                            <input type="checkbox" v-model="agree2Checked" @change="checkAllAgreements">
                             <span class="red_span">(필수)</span>
                             <span class="middle_span">개인정보 수집 및 이용 </span>
                             <button type="button" id="second_btn_modal" class="text_btn">전체보기 ></button>
@@ -123,10 +123,6 @@ const modalContent = ref('');
 const modalOn = (content) => {
     modalContent.value = content;
     showModal.value = true;
-}
-
-const modalOff = () => {
-    showModal.value = false;
 }
 
 onMounted(() => {
@@ -183,6 +179,11 @@ function Submit() {
         router.push('/regist');
     }
 }
+
+const modalOff = () => {
+    showModal.value = false;
+}
+
 </script>
 
 <style scoped src="../css/agree.css">

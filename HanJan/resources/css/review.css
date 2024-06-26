@@ -200,8 +200,8 @@ main {
     justify-content: space-between;
 }
 
-/* 쇼핑 계속하기 버튼 */
-.reviewC_cancel {
+/* 쇼핑 계속하기 버튼, 돌아가기 버튼 */
+/* .reviewC_cancel {
     text-decoration: none;
     font-size: 1rem;
     font-weight: 300;
@@ -216,6 +216,27 @@ main {
     background-color: #FAC91D;
     font-weight: 400;
     color: black;
+} */
+
+
+
+.reviewC_cancel {
+    height: 35px;
+    width: 150px;
+    padding: 0 1rem;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    background-color: black;
+    color: white;
+    text-align: center;
+    line-height: 35px;
+    font-size: 1rem;
+    font-weight: 400;
+}
+.reviewC_cancel:hover {
+    background-color: #FAC91D;
+    color: rgb(0, 0, 0);
 }
 
 .reviewC_padding_top {
@@ -247,10 +268,6 @@ main {
     align-items: center;
     gap: 10px;
 }
-
-/* 상품정보 그리드 */
-
-
 
 
 /* 필수 */
@@ -315,4 +332,8 @@ textarea {
     justify-content: flex-end;
 }
 
+.review_none_item_center {
+    padding: 20px;
+    text-align: center;
+}
 
