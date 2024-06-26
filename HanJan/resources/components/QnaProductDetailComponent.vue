@@ -26,12 +26,16 @@
                 <textarea disabled>{{ $store.state.qnaProductDetailData.qnp_answer }}</textarea>
             </div>
                 
-            <hr>
-        </div>
-
-            <div class="inquiry_padding_top inquiry_btn_right">
-                <button @click="$router.back()" class="inquiry_submit_btn">취소</button>
+            <div class="kakao">
+                더 자세한 문의는 카카오톡 채널을 이용해 주시길 바랍니다.
             </div>
+        </div>
+        <div class="inquiry_padding_top inquiry_btn_right">
+            <button @click="$router.back()" class="inquiry_submit_btn">취소</button>
+        </div>
+        <a href="http://pf.kakao.com/_xmIqpG/chat" class="">
+            <img src="/img/kakao_ch.png" class="kakao_channel">
+        </a>
     </main>
 </template>
 
