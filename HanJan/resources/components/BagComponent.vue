@@ -58,25 +58,22 @@
                             <div class="bag_yellow bag_flex_end"> {{ deliveryPrice + totalPrice.total }}원</div>
                         </div>
                     </div>
+                    <div class="btn_box">
+                        <button @click="toggleSelectAll" type="button" class="btn_all bag_cancel bag_border_none bag_margin_right">
+                            {{ allSelected ? '전체 해제' : '전체 선택' }}
+                        </button>
+                        <button @click="bagsSelectDelete" type="button" class="btn_delete bag_cancel bag_border_none bag_margin_right">
+                            {{ allSelected ? '전체 삭제' : '선택 삭제' }}
+                        </button>
+                        <div class="bag_flex_end">
+                            <!-- <button @click="$router.push('/order')" type="button" class="bag_cancel bag_border_none">구매하기</button> -->
+                            <!-- TODO : 가지고 있는 정보를 다 oreder 페이지로 넘기기 -->
+                            <button @click="bagsToOrder" type="button" class="bag_cancel bag_border_none">구매하기</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="bag_margin_top bag_btn_grid">
-                <div>
-                    <button @click="toggleSelectAll" type="button" class="bag_cancel bag_border_none bag_margin_right">
-                        {{ allSelected ? '전체 해제' : '전체 선택' }}
-                    </button>
-                    <button @click="bagsSelectDelete" type="button" class="bag_cancel bag_border_none bag_margin_right">
-                        {{ allSelected ? '전체 삭제' : '선택 삭제' }}
-                    </button>
-                </div>
-
-                <div class="bag_flex_end">
-                    <!-- <button @click="$router.push('/order')" type="button" class="bag_cancel bag_border_none">구매하기</button> -->
-                    <!-- TODO : 가지고 있는 정보를 다 oreder 페이지로 넘기기 -->
-                    <button @click="bagsToOrder" type="button" class="bag_cancel bag_border_none">구매하기</button>
-                </div>
-            </div>
-
+            <div class="bag_hr"></div>
         </form>
     </main>
 
