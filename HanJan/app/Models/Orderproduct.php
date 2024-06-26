@@ -11,7 +11,7 @@ class Orderproduct extends Model
     use HasFactory, SoftDeletes;
 
     protected $primaryKey = 'orp_id';
-    public $timestamps = false;
+    // public $timestamps = false;
 
     protected $fillable = [
         'or_id',

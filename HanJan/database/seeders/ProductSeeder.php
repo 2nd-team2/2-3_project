@@ -20,8 +20,8 @@ class ProductSeeder extends Seeder
             ,'price' => 10000
             ,'count' => 100
             ,'ml' => 355
-            ,'img' => '/img/best.png'
-            ,'info' => '/img/best.png'
+            ,'img' => '/DB_img/liquor.jpg'
+            ,'info' => '/DB_img/liquor.jpg'
         ];
         Product::create($data);
     }

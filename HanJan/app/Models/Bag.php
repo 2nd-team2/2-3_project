@@ -11,7 +11,7 @@ class Bag extends Model
     use HasFactory, SoftDeletes;
 
     protected $primaryKey = 'ba_id';
-    public $timestamps = false;
+    // public $timestamps = false;
 
     protected $fillable = [
         'u_id',
