@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bag;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -40,8 +41,8 @@ class BagController extends Controller
         if($productDate) {
             $productDate->ba_count -= 1;
 
-            // TODO : update_at 생성하면주석해제하기
-            // $productDate->updated_at = now();
+            // TODO : update_at 생성하면주석해제하기 -> 자동으로 업데이트 날짜가 기록됨
+            // $productDate->updated_at = Carbon::now();
             
             $productDate->save();
             
