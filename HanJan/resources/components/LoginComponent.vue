@@ -40,7 +40,7 @@ function login_updata() {
 
 const otterImg = ref('/img/drunkOtter.png');
 const otterImg2 = ref('/img/drunkOtter.png');
-const alternateImg = '/img/drunkOtter2.png';
+const alternateImg = '/img/drunkOtter3.png';
 
 function toggleImg(imgRef) {
   if (imgRef === 'otterImg') {
