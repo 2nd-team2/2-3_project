@@ -220,6 +220,7 @@ class ProductController extends Controller
         return response()->json($responseData, 200);
     }
 
+
     // 디테일->장바구니 데이터 보내기
         public function detailedToCount(Request $request) {
         // 리퀘스트 데이터 받기
@@ -252,14 +253,18 @@ class ProductController extends Controller
         $createData['p_id'] = $request->p_id;
         $createData['ba_count'] = $request->ba_count;
 
-        // 작성 처리
-        $bagItem = Bag::create($createData);
+        // $bagItem = Bag::create($createData); // 한개씩만 저장이 된다
+        // 받은 데이터로 유저아이디랑 상품아이디가 같을때 ba_count랑 기존 저장된 count랑 합쳐서 저장 처리
+        $bagItem_user = ['key' => 'p_id'];
+        $bagItem = ['ba_count' => 'p_id'];
+        $bagItem_data = Bag::updateOrCreate($bagItem_user, $bagItem);
+        
 
         // 레스폰스 데이터 생성
         $responseData = [
             'code' => '0'
             ,'msg' => '장바구니 추가 완료'
-            ,'data' => $bagItem
+            ,'data' => $bagItem_data
         ];
 
         return response()->json($responseData, 200);
