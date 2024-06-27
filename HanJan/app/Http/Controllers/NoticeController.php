@@ -25,21 +25,16 @@ class NoticeController extends Controller
 
     // 공지사항 디테일 페이지
     public function detailNotice(Request $request) {
-        Log::debug('공지사항 pk : ' . $request->id);
 
         $productData = Notice::select('notices.*')
                         ->where('notices.no_id', $request->id)
                         ->first();
-                        // ->get();
-
-        Log::debug('공지사항 데이터:', $productData->toArray());
     
         $responseData = [
                 'code' => '0'
                 ,'msg' => '초기 상품값 획득 완료'
                 ,'data' => $productData
         ];
-        Log::debug($responseData);
         
         return response()->json($responseData, 200);
     }
