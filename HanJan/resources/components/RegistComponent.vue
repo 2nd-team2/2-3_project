@@ -241,11 +241,7 @@ function kakaoPostcode() {
                 if(extraAddr !== ''){
                     extraAddr = ' (' + extraAddr + ')';
                 }
-                // 조합된 참고항목을 해당 필드에 넣는다.
-                // document.getElementById("sample6_extraAddress").value = extraAddr;
             
-            } else {
-                // document.getElementById("sample6_extraAddress").value = '';
             }
 
             // 우편번호와 주소 정보를 해당 필드에 넣는다.
@@ -264,5 +260,4 @@ function kakaoPostcode() {
 
 </script>
 <style scoped src="../css/regist.css">
-    /* @import url('../css/regist.css'); */
 </style>
