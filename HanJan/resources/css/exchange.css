@@ -229,13 +229,13 @@ input {
 .ex_cancel {
     text-decoration: none;
     font-size: 1rem;
-    font-weight: 300;
-    height: 30px;
-    line-height: 30px;
+    height: 35px;
+    line-height: 35px;
     padding: 0 3rem;
     background-color: black;
     color: white;
-    border-radius: 15px;
+    border-radius: 20px;
+    cursor: pointer;
 }
 .ex_cancel:hover {
     background-color: #FAC91D;
@@ -244,14 +244,19 @@ input {
 }
 
 .ex_cancel_padding {
-    padding: 2px 3rem;
     margin-right: 2rem;
 }
 
 
 
 /* 체크박스 수정 */
-/* .checkbox {
+.radio_grid {
+    display: grid;
+    grid-template-columns: 0.025fr 1fr;
+    gap: 5px;
+}
+
+.checkbox {
     display: inline-block;
     padding: 5px;
     cursor: pointer;
@@ -261,10 +266,41 @@ input {
     width: 25px;
 }
 
-input[type="checkbox"] {
+input[type="radio"] {
     display: none;
 }
 
-input[type="checkbox"]:checked + .checkbox {
-    background-color: #FAC91D;
-} */
+
+input[type="radio"]:checked + .checkbox {
+    background-image: url('/img/checked.png');
+    background-size: contain;
+}
+
+.checked_icon {
+    height: 25px;
+    width: 25px;
+}
+
+.checkbox > p {
+    width: 200px;
+    height: 30px;
+    line-height: 30px;
+}
+
+.radio1 {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+}
+
+.radio2 {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+}
+.radio3 {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+}
+.radio4 {
+    grid-column: 1 / 2;
+    grid-row: 4 / 5;
+}

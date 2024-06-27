@@ -26,20 +26,21 @@
                     </h2>
                     <div class="ex_padding_bottom">어떤문제가 있나요?</div>
                 </div>
-                <div class="ex_padding_bottom ex_padding_left">
+                <div class="ex_padding_bottom ex_padding_left radio_grid">
                     <!-- <div class="ex_content">단순변심</div>
                     <hr> -->
-                    <input type="radio" name="ex_reason" id="ex_reason1" value="0">
-                    <label for="ex_reason1" class="checkbox"> 상품이 마음에 들지 않음</label>
-                    <br>
+                    <input type="radio" name="ex_reason" id="ex_reason1" value="0" class="radio0">
+                    <label for="ex_reason1" class="checkbox radio1"></label>
+                    <p class="radio_p1">상품이 마음에 들지 않음</p>
                     <input type="radio" name="ex_reason" id="ex_reason2" value="1">
-                    <label for="ex_reason2" class="checkbox"> 다른 상품이 배송됨</label>
-                    <br>
+                    <label for="ex_reason2" class="checkbox radio2"></label>
+                    <p class="radio_p2">다른 상품이 배송됨</p>
                     <input type="radio" name="ex_reason" id="ex_reason3" value="2">
-                    <label for="ex_reason3" class="checkbox"> 상품의 구성품 / 부속품이 들어있지 않음</label>
-                    <br>
+                    <label for="ex_reason3" class="checkbox radio3"></label>
+                    <p class="radio_p3">상품의 구성품 / 부속품이 들어있지 않음</p>
                     <input type="radio" name="ex_reason" id="ex_reason4" value="3">
-                    <label for="ex_reason4" class="checkbox"> 상품이 파손/결함 되어 배송됨</label>
+                    <label for="ex_reason4" class="checkbox radio14"></label>
+                    <p class="radio_p4">상품이 파손 / 결함 되어 배송됨</p>
                 </div>
             </div>
 
