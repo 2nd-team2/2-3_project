@@ -37,14 +37,14 @@ class OrderController extends Controller
             
             // 리퀘스트 데이터 받기
             $requestData = [
-                'or_buy_name' => $orderItem->or_buy_name
-                ,'or_buy_tel' => $orderItem->or_buy_tel
-                ,'or_get_name' => $orderItem->or_get_name
-                ,'or_get_tel' => $orderItem->or_get_tel
-                ,'or_get_addr' => $orderItem->or_get_addr
-                ,'or_get_post' => $orderItem->or_get_post
-                ,'or_get_det_addr' => $orderItem->or_get_det_addr
-                ,'or_sum' => $orderItem->or_sum
+                'or_buy_name' => $orderItem['or_buy_name'],
+                'or_buy_tel' => $orderItem['or_buy_tel'],
+                'or_get_name' => $orderItem['or_get_name'],
+                'or_get_tel' => $orderItem['or_get_tel'],
+                'or_get_addr' => $orderItem['or_get_addr'],
+                'or_get_post' => $orderItem['or_get_post'],
+                'or_get_det_addr' => $orderItem['or_get_det_addr'],
+                'or_sum' => $orderItem['or_sum']
             ];
 
             // 데이터 유효성 검사
@@ -69,18 +69,18 @@ class OrderController extends Controller
             }    
 
             // 주문 데이터 생성
-            $orderData = $orderItem->all();
+            $orderData = $orderItem;
             
             // 작성 데이터 입력 처리
             $orderData['u_id'] = Auth::id();
-            $orderData['or_buy_name'] = $orderItem->or_buy_name;
-            $orderData['or_buy_tel'] = $orderItem->or_buy_tel; 
-            $orderData['or_get_name'] = $orderItem->or_get_name;
-            $orderData['or_get_tel'] = $orderItem->or_get_tel;
-            $orderData['or_get_addr'] = $orderItem->or_get_addr;
-            $orderData['or_get_post'] = $orderItem->or_get_post;
-            $orderData['or_get_det_addr'] = $orderItem->or_get_det_addr;
-            $orderData['or_sum'] = $orderItem->or_sum;
+            $orderData['or_buy_name'] = $orderItem['or_buy_name'];
+            $orderData['or_buy_tel'] = $orderItem['or_buy_tel']; 
+            $orderData['or_get_name'] = $orderItem['or_get_name'];
+            $orderData['or_get_tel'] = $orderItem['or_get_tel'];
+            $orderData['or_get_addr'] = $orderItem['or_get_addr'];
+            $orderData['or_get_post'] = $orderItem['or_get_post'];
+            $orderData['or_get_det_addr'] = $orderItem['or_get_det_addr'];
+            $orderData['or_sum'] = $orderItem['or_sum'];
 
             // 작성 저장 처리
             $orderCreate = Order::create($orderData);        
@@ -166,6 +166,8 @@ class OrderController extends Controller
             
             }
 
+
+            DB::commit();
  
             // 레스폰스 데이터 생성
             $responseData = [
@@ -177,10 +179,11 @@ class OrderController extends Controller
                 ,'orderDeleteData' => $deletedBags
             ];
 
+            Log::debug($responseData);
+
             return response()->json($responseData, 200);
 
 
-            DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
             Log::error('결제 처리 오류: ' . $th->getMessage());
