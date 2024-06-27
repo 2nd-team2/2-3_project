@@ -356,70 +356,95 @@ const store = createStore({
          * @param {*} context
          * @param {*} store.state.orderProductData
         */
-        orderComplete(context, bagsToOrder) {   
-            if(confirm('확인을 누르면 결제가 진행됩니다.')) {
-                // 1. orders테이블에 주문 데이터 저장 처리
-                const url = '/api/orderComplete';
-                const data = new FormData(document.querySelector('#orderComplete'));
+        orderComplete(context, orderComplete) {
 
-                axios.post(url, data)
-                .then(response => {
-                    console.log('주문 테이블 완료');
+            // 장바구니에서 받은 데이터와 주문페이지에서 입력한 데이터 가공 처리
+            const orderItems = store.state.orderProductData.map(item => {
+                const OrderItem = { ...orderComplete, ...item };
+                
+                return OrderItem;
+            });
 
-                    // 2. orderproducts테이블에 주문 상품 데이터 저장 처리
-                    const url = '/api/orderProductComlete/' + response.data.data.or_id;
-        
-                    axios.post(url, bagsToOrder)
-                    .then(response => {
-                        console.log('주문상품 테이블 완료');
+            const data = JSON.stringify({ data: orderItems}); // 키값을 포함하여 서버에 전달
+            console.log(data); // TODO : 삭제
+            const url = '/api/orderTrans';
 
-                        response.data.data.forEach(item => {
-                            // 3. 구매확정(completes) 테이블 생성 (co_flg === 0 으로 초기데이터 생성)
-                            // 4. 교환 및 반품(exchanges) 테이블 생성 (ex_flg === 0 으로 초기데이터 생성)
-                            const multiUrl = '/api/orderComEx/' + item.orp_id;
+            axios.post(url, data)
+            .then(response => {
+                console.log(response.data.data);
+                // router.push('/ordercomplete');             
+            })
+            .catch(error => {
+                alert('결제에 실패하였습니다.(' + error.response.data.code + ')' )
+            });
 
-                            axios.post(multiUrl)
-                            .then(response => {
-                                console.log('구매확정, 교환 및 반품 테이블 완료')
-    
-                                // TODO :
-                                // 5. 장바구니에서 삭제 (장바구니 페이지에서 주문할 경우에만 적용)
-                                // if(조건) {
-                                    // 장바구니에서 구매 완료시
-                                    // 주문 완료 시 장바구니 deleted_at 수정 처리
-                                    const url = '/api/bagsCompleteDelete';
-            
-                                    axios.post(url, bagsToOrder)
-                                    .then(response => {
-                                        console.log('주문 완료 > 장바구니 삭제')
-                                        // 주문완료 페이지로 이동
-                                        router.push('/ordercomplete');
-                                    })
-                                    .catch(error => {
-                                        alert('결제에 실패하였습니다.-장바구니삭제(' + error.response.data.code + ')' )
-                                    });
-                                // } else {
-                                //     // 바로구매에서 구매 완료시
-                                //     router.push('/ordercomplete');
-                                // }
-    
-                            })
-                            .catch(error => {
-                                alert('결제에 실패하였습니다.-구매확정, 교환 및 반품(' + error.response.data.code + ')' )
-                            });
-                        })
-                    })
-                    .catch(error => {
-                        alert('결제에 실패하였습니다.-주문 상품(' + error.response.data.code + ')' )
-                    });
-                })
-                .catch(error => {
-                    alert('결제에 실패하였습니다.-주문(' + error.response.data.code + ')' )
-                });
-            } else {
-                console.log('confirm false');
-            }
         },
+
+
+        // orderComplete(context, bagsToOrder) {   
+        //     if(confirm('확인을 누르면 결제가 진행됩니다.')) {
+        //         // 1. orders테이블에 주문 데이터 저장 처리
+        //         const url = '/api/orderComplete';
+        //         const data = new FormData(document.querySelector('#orderComplete'));
+
+        //         axios.post(url, data)
+        //         .then(response => {
+        //             console.log('주문 테이블 완료');
+
+        //             // 2. orderproducts테이블에 주문 상품 데이터 저장 처리
+        //             const url = '/api/orderProductComlete/' + response.data.data.or_id;
+        
+        //             axios.post(url, bagsToOrder)
+        //             .then(response => {
+        //                 console.log('주문상품 테이블 완료');
+
+        //                 response.data.data.forEach(item => {
+        //                     // 3. 구매확정(completes) 테이블 생성 (co_flg === 0 으로 초기데이터 생성)
+        //                     // 4. 교환 및 반품(exchanges) 테이블 생성 (ex_flg === 0 으로 초기데이터 생성)
+        //                     const multiUrl = '/api/orderComEx/' + item.orp_id;
+
+        //                     axios.post(multiUrl)
+        //                     .then(response => {
+        //                         console.log('구매확정, 교환 및 반품 테이블 완료')
+    
+        //                         // TODO :
+        //                         // 5. 장바구니에서 삭제 (장바구니 페이지에서 주문할 경우에만 적용)
+        //                         // if(조건) {
+        //                             // 장바구니에서 구매 완료시
+        //                             // 주문 완료 시 장바구니 deleted_at 수정 처리
+        //                             const url = '/api/bagsCompleteDelete';
+            
+        //                             axios.post(url, bagsToOrder)
+        //                             .then(response => {
+        //                                 console.log('주문 완료 > 장바구니 삭제')
+        //                                 // 주문완료 페이지로 이동
+        //                                 router.push('/ordercomplete');
+        //                             })
+        //                             .catch(error => {
+        //                                 alert('결제에 실패하였습니다.-장바구니삭제(' + error.response.data.code + ')' )
+        //                             });
+        //                         // } else {
+        //                         //     // 바로구매에서 구매 완료시
+        //                         //     router.push('/ordercomplete');
+        //                         // }
+    
+        //                     })
+        //                     .catch(error => {
+        //                         alert('결제에 실패하였습니다.-구매확정, 교환 및 반품(' + error.response.data.code + ')' )
+        //                     });
+        //                 })
+        //             })
+        //             .catch(error => {
+        //                 alert('결제에 실패하였습니다.-주문 상품(' + error.response.data.code + ')' )
+        //             });
+        //         })
+        //         .catch(error => {
+        //             alert('결제에 실패하였습니다.-주문(' + error.response.data.code + ')' )
+        //         });
+        //     } else {
+        //         console.log('confirm false');
+        //     }
+        // },
 
         /**
          * 리뷰관리에 최초 게시글 획득
@@ -831,11 +856,11 @@ const store = createStore({
             console.log(url);
             axios.get(url)
             .then(response => {
-                console.log('디테일 데이터', response.data); // TODO
+                console.log('디테일 데이터', response.data);
                 context.commit('detailedNumData', response.data.data);
             })
             .catch(error => {
-                console.log(error.response.data); // TODO
+                console.log(error.response.data);
                 alert('상세정보 불러오기 실패했습니다.(' + error.response.data.code + ')');
             });
         },
@@ -860,7 +885,7 @@ const store = createStore({
                 context.commit('listInfoData', response.data.data);
             })
             .catch(error => {
-                console.log(error.response.data); //  TODO : 삭제
+                console.log(error.response.data);
                 alert('선택한 상품이 없습니다.(' + error.response.data.code + ')' )
             });
         },
@@ -894,12 +919,12 @@ const store = createStore({
 
             axios.get(url)
             .then(response => {
-                console.log('리뷰 데이터', response.data); // TODO
+                console.log('리뷰 데이터', response.data);
                 // 데이터베이스->서버를 통해 받은 데이터를 reviewDetail 저장
                 constext.commit('detailedReviewData', response.data.data);
             })
             .catch(error => {
-                console.log(error.response.data); // TODO
+                console.log(error.response.data);
                 alert('디테일 리뷰데이터 불러오기 실패했습니다.(' + error.response.data.code + ')');
             });
         },
@@ -915,7 +940,7 @@ const store = createStore({
             
             axios.post(url, data)
             .then(response => {
-                console.log('수량데이터', response.data); // TODO
+                console.log('수량데이터', response.data);
                 // 데이터베이스->서버를 통해 받은 데이터를 CountData 저장
                 constext.commit('detailedCountData', response.data.data);
                 if(confirm('확인을 클릭시 장바구니로 이동 됩니다.')) {
@@ -923,8 +948,16 @@ const store = createStore({
                 }
             })
             .catch(error => {
-                console.log(error.response.data); // TODO
-                alert('장바구니 이동 실패했습니다(' + error.response.data.code + ')');
+                // 로그인이 되어있을경우
+                if(store.state.userInfo) {
+                    console.log(error.response.data);
+                    alert('장바구니 이동 실패했습니다(' + error.response.data.code + ')');
+                }
+                // 로그인이 되어있지 않을경우
+                else if (!store.state.userInfo){
+                    alert('로그인이 필요한 서비스입니다.');
+                    router.push('/login');
+                }
             });
         },
 

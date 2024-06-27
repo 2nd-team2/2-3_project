@@ -103,15 +103,12 @@ class ProductController extends Controller
                         ->groupBy('products.id', 'products.price', 'products.count', 'products.img', 'products.info', 'products.name')
                         ->distinct()
                         ->first();
-
-        Log::debug($productData);
     
         $responseData = [
                 'code' => '0'
                 ,'msg' => '초기 상품값 획득 완료'
                 ,'data' => $productData
         ];
-        Log::debug($responseData);
         
         return response()->json($responseData, 200);
     }
@@ -138,15 +135,11 @@ class ProductController extends Controller
                         ->limit(5)
                         ->get();
 
-        Log::debug($productData);
-    
         $responseData = [
                 'code' => '0'
                 ,'msg' => '초기 리뷰 획득 완료'
                 ,'data' => $productData
         ];
-        Log::debug($responseData);
-        
         return response()->json($responseData, 200);
     }
 
@@ -162,10 +155,6 @@ class ProductController extends Controller
         }
         
         $productData = $productQuery->paginate(20);
-
-        Log::debug('리퀘스트 data', $request->all());
-        Log::debug('결과', $productData->toArray());
-        
         $responseData = [
                 'code' => '0'
                 ,'msg' => '초기 상품값 획득 완료'
@@ -208,14 +197,11 @@ class ProductController extends Controller
                                 ->orderByDesc('products.created_at')
                                 ->get();
 
-        Log::debug($productData);
-    
         $responseData = [
                 'code' => '0'
                 ,'msg' => '초기 상품값 획득 완료'
                 ,'data' => $productData
         ];
-        Log::debug($responseData);
         
         return response()->json($responseData, 200);
     }
@@ -228,7 +214,6 @@ class ProductController extends Controller
             'p_id' => $request->p_id
             ,'ba_count' => $request->ba_count
         ];
-        Log::debug('장바구니 리퀘스트 데이터', $request->all());
         // 데이터 유효성 검사
         $validator = Validator::make(
             $requestData
@@ -245,7 +230,7 @@ class ProductController extends Controller
         }
 
         // 데이터 생성
-        $createData = $request->only('p_id','ba_count');
+        // $createData = $request->only('p_id','ba_count');
         
         // // 작성 처리
         // $createData['u_id'] = Auth::id();
@@ -268,7 +253,8 @@ class ProductController extends Controller
         if ($existingItem) { 
             // 기존 항목이 있으면 수량 업데이트
             $existingItem->ba_count += $request->ba_count; 
-            $existingItem->save(); $bagItem = $existingItem;
+            $existingItem->save(); 
+            $bagItem = $existingItem;
         } else { 
             // 데이터 생성
             $createData = $request->only('p_id', 'ba_count'); 

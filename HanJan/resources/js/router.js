@@ -55,7 +55,6 @@ const routes = [
         path: '/detailed',
         component: DetailedCompnent,
         beforeEnter: (to, from, next) => {
-            console.log(to.query.id);
             store.dispatch('setProductDetailData', to.query.id);
             store.dispatch('setProductReviewData', to.query.id);
 
@@ -67,7 +66,6 @@ const routes = [
         component: ExchangeCompnent,
         beforeEnter: (to, from, next) => {
             chkAuth(to, from, next)
-            console.log(to.query.id);
             store.dispatch('exchangeProduct', to.query.id);
 
             next();
@@ -93,7 +91,6 @@ const routes = [
         component: QnaProductDetailComponent,
         beforeEnter: (to, from, next) => {
             chkAuth(to, from, next)
-            console.log(to.query.id);
             store.dispatch('getQnaProductDetailData', to.query.id);
 
             next();
@@ -104,7 +101,6 @@ const routes = [
         component: QnaOnebyOneDetailComponent,
         beforeEnter: (to, from, next) => {
             chkAuth(to, from, next)
-            console.log(to.query.id);
             store.dispatch('getQnaOneByOneDetailData', to.query.id);
 
             next();
@@ -114,7 +110,6 @@ const routes = [
         path: '/list',
         component: ListComponent,
         beforeEnter: (to, from, next) => {
-            console.log(to.query);
             // 베스트 상품
             store.commit('setCurrentImage', to.query.type);
             // 리스트 상품
@@ -171,7 +166,6 @@ const routes = [
         path: '/notice',
         component: NoticeComponent,
         beforeEnter: (to, from, next) => {
-            console.log(to.query.id);
             store.dispatch('getNoticeDetailData', to.query.id);
 
             next();
