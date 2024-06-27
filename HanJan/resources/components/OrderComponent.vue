@@ -21,10 +21,10 @@
                 <div class="header_bottom">
                     <p class="info_item_err_msg_name">{{ buyNameError }}</p>
                     <div class="header_bottom_name">이름</div>
-                    <input type="text" name="or_buy_name" id="or_buy_name" @input="buyChkName" v-model="buyName" class="header_bottom_name_input">
+                    <input type="text" name="or_buy_name" id="or_buy_name" @input="buyChkName" v-model="orderCompleteData.or_buy_name" class="header_bottom_name_input">
                     <p class="info_item_err_msg_tel">{{ buyTelError }}</p>
                     <div class="header_bottom_tel">휴대폰번호</div>
-                    <input type="text" name="or_buy_tel" id="or_buy_tel" @input="buyChkTel" v-model="buyTel" class="header_bottom_tel_input">
+                    <input type="text" name="or_buy_tel" id="or_buy_tel" @input="buyChkTel" v-model="orderCompleteData.or_buy_tel" class="header_bottom_tel_input">
                 </div>
             </div>
 
@@ -35,16 +35,16 @@
                 <div class="main_bottom">
                     <div class="main_bottom_name">이름</div>
                     <p class="info_item_err_msg1">{{ getNameError }}</p>
-                    <input type="text" name="or_get_name" id="or_get_name" @input="getChkName" v-model="getName" class="main_bottom_input1">
+                    <input type="text" name="or_get_name" id="or_get_name" @input="getChkName" v-model="orderCompleteData.or_get_addr" class="main_bottom_input1">
                     <div class="main_bottom_tell">휴대폰번호</div>
                     <p class="info_item_err_msg2 ">{{ getTelError }}</p>
-                    <input type="text" name="or_get_tel" id="or_get_tel" @input="getChkTel" v-model="getTel" class="main_bottom_input2">
+                    <input type="text" name="or_get_tel" id="or_get_tel" @input="getChkTel" v-model="orderCompleteData.or_buy_tel" class="main_bottom_input2">
                     <label class="main_bottom_adds" for="address">주소</label>
                     <p class="info_item_err_msg3">{{ addressError }}</p>
-                    <input type="text"  name="or_get_addr" id="address" @input="chkAddress" readonly @click="kakaoPostcode" class="main_bottom_input3" v-model="address" >
-                    <input type="text" readonly v-model="postcode" class="main_bottom_input4" name="or_get_post">
+                    <input type="text"  name="or_get_addr" id="address" @input="chkAddress" readonly @click="kakaoPostcode" class="main_bottom_input3" v-model="orderCompleteData.or_get_addr" >
+                    <input type="text" readonly v-model="orderCompleteData.or_get_post" class="main_bottom_input4" name="or_get_post">
                     <label class="main_bottom_de_adds" for="address">상세주소</label>
-                    <input type="text" class="main_bottom_input5" name="or_get_det_addr" id="address_detail" v-model="detailAddress" >
+                    <input type="text" class="main_bottom_input5" name="or_get_det_addr" id="address_detail" v-model="orderCompleteData.or_get_det_addr" >
                     <button type="button" class="main_bottom_btn" @click="kakaoPostcode" id="postcode">주소검색</button>
                 </div>
 
@@ -71,7 +71,7 @@
                 <input type="hidden" name="orp_id" :value="$store.state.orderProductData.p_id">  
                 <input type="hidden" name="orp_count" :value="$store.state.orderProductData.ba_count">
                 <div class="btn_com_box">
-                    <button type="button" @click="$store.dispatch('orderComplete', $store.state.orderProductData)" class="btn_ord_com">결제하기</button>
+                    <button type="button" @click="$store.dispatch('orderComplete', orderCompleteData)" class="btn_ord_com">결제하기</button>
                 </div>
             </div>
         </form>
@@ -79,10 +79,22 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, reactive } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
+
+// axios 처리할 데이터 가공
+const orderCompleteData = reactive({
+    or_buy_name: store.state.userInfo.name,
+    or_buy_tel: store.state.userInfo.tel,
+    or_get_name: store.state.userInfo.name,
+    or_get_tel: store.state.userInfo.tel,
+    or_get_addr: store.state.userInfo.addr,
+    or_get_det_addr: store.state.userInfo.det_addr,
+    or_get_post: store.state.userInfo.post,
+    or_sum: 0,
+});
 
 
 // 배송비 (TODO : 일정 금액 이상일 경우 무료 + 각 상품 마다 배송비 저장할 컬럼 만들기(products 테이블) )
@@ -124,13 +136,13 @@ const totalPrice = computed(() => {
 
 
 // 실시간 유효성 체크
-const buyName = ref(store.state.userInfo.name);
-const buyTel = ref(store.state.userInfo.tel);
-const getName = ref(store.state.userInfo.name);
-const getTel = ref(store.state.userInfo.tel);
-const address = ref(store.state.userInfo.addr);
-const detailAddress = ref(store.state.userInfo.det_addr);
-const postcode = ref(store.state.userInfo.post);
+// const buyName = ref(store.state.userInfo.name);
+// const buyTel = ref(store.state.userInfo.tel);
+// const getName = ref(store.state.userInfo.name);
+// const getTel = ref(store.state.userInfo.tel);
+// const address = ref(store.state.userInfo.addr);
+// const detailAddress = ref(store.state.userInfo.det_addr);
+// const postcode = ref(store.state.userInfo.post);
 
 const buyNameError = ref('');
 const buyTelError = ref('');

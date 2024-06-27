@@ -66,6 +66,7 @@
                         <button @click="bagsSelectDelete" type="button" class="btn_delete bag_cancel bag_border_none bag_margin_right">
                             {{ allSelected ? '전체 삭제' : '선택 삭제' }}
                         </button>
+                        <input type="hidden" name="buy_type" value="bags">
                         <div class="bag_flex_end">
                             <button @click="bagsToOrder" type="button" class="bag_cancel bag_border_none">구매하기</button>
                         </div>
