@@ -67,6 +67,8 @@ const store = createStore({
             qnaOneByOneDetailData: [],
             // 주문 목록
             productAskCreateData: localStorage.getItem('productAskCreateData') ? JSON.parse(localStorage.getItem('productAskCreateData')) : null,
+            // 전통주 설명 데이터
+            TraditionalLiquorData: [],
             // ----------------------- 호경 끝 ---------------------------
         }
 
@@ -204,6 +206,10 @@ const store = createStore({
         setProductAskCreateData(state, data) {
             state.productAskCreateData = data;
             localStorage.setItem('productAskCreateData', JSON.stringify(data))
+        },
+        // 전통주 설명
+        setTraditionalLiquorData(state, data) {
+            state.TraditionalLiquorData = data;
         },
         // ----------------------- 호경 끝 ---------------------------
     },actions: {
@@ -1115,6 +1121,24 @@ const store = createStore({
             .catch(error => {
                 console.log(error.response); // TODO
                 alert('글 작성에 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
+        /**
+         * 전통주 설명 획득
+         * 
+         * @param {*} context 
+         */
+        getTraditionalLiquorData(context) {
+            const url = '/api/traditionalliquor';
+            
+            axios.get(url)
+            .then(response => {
+                console.log(response.data); // TODO
+                context.commit('setTraditionalLiquorData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert('전통주 설명 습득에 실패했습니다.(' + error.response.data.code + ')');
             });
         },
         // ----------------------- 호경 끝 ---------------------------
