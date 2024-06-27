@@ -86,6 +86,11 @@ main {
     height: 45px;
 }
 
+input:focus,
+textarea:focus {
+    outline: none;
+}
+
 /* 웹버전 */
 @media screen and (min-width: 1201px) {
     .main {

@@ -111,18 +111,17 @@ const addressError = ref('');
 
 const birthError = ref('');
 
-function chkEmail(e) {
+function chkEmail() {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailPattern.test(e.target.value)) {
+  if (!emailPattern.test(emailText.value)) {
     emailError.value = '이메일 주소가 형식에 맞지 않습니다.';
   } else {
     emailError.value = '';
   }
 }
 
-function chkPassword(e) {
-  if (e.target.value.length < 1) { 
-  // if (e.target.value.length < 8 || e.target.value.length > 20) { // TODO : 배포
+function chkPassword() {
+  if (password.value.length < 8 || password.value.length > 20) {
     passwordError.value = '비밀번호는 8 ~ 20자 사이로 설정 해주세요.';
   } else {
     passwordError.value = '';
@@ -137,34 +136,34 @@ function chkPasswordChk() {
   }
 }
 
-function chkName(e) {
+function chkName() {
   const namePattern = /^[가-힣a-zA-Z]+$/;
-  if (!namePattern.test(e.target.value)) {
-    nameError.value = '이름은 영어 대소문자와 한글로만 사용 가능합니다.';
+  if (!namePattern.test(name.value) || name.value.length > 5) {
+    nameError.value = '이름은 영어 대소문자와 한글로 5자 이내로 설정해주세요.';
   } else {
     nameError.value = '';
   }
 }
 
-function chkPhone(e) {
+function chkPhone() {
   const phonePattern = /^\d{10,11}$/;
-  if (!phonePattern.test(e.target.value)) {
+  if (!phonePattern.test(phone.value)) {
     phoneError.value = '전화번호는 숫자 10,11자로 설정 해주세요.';
   } else {
     phoneError.value = '';
   }
 }
 
-function chkAddress(e) {
-  if (e.target.value === '') {
+function chkAddress() {
+  if (address.value === '') {
     addressError.value = '주소 형식이 맞지 않습니다.';
   } else {
     addressError.value = '';
   }
 }
 
-function chkBirth(e) {
-  const birth = new Date(e.target.value);
+function chkBirth() {
+  const birth = new Date(birth.value);
   const today = new Date();
   let age = today.getFullYear() - birth.getFullYear();
   const monthDifference = today.getMonth() - birth.getMonth();
@@ -181,25 +180,25 @@ function chkBirth(e) {
 function validateForm() {
   let valid = true;
 
-  chkEmail({ target: { value: email.value } });
+  chkEmail();
   if (emailError.value) valid = false;
 
-  chkPassword({ target: { value: password.value } });
+  chkPassword();
   if (passwordError.value) valid = false;
 
-  chkPasswordChk({ target: { value: passwordChk.value } });
+  chkPasswordChk();
   if (passwordChkError.value) valid = false;
 
-  chkName({ target: { value: name.value } });
+  chkName();
   if (nameError.value) valid = false;
 
-  chkPhone({ target: { value: phone.value } });
+  chkPhone();
   if (phoneError.value) valid = false;
 
-  chkAddress({ target: { value: address.value } });
+  chkAddress();
   if (addressError.value) valid = false;
 
-  chkBirth({ target: { value: birth.value } });
+  chkBirth();
   if (birthError.value) valid = false;
 
 }

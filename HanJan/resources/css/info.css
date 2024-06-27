@@ -271,6 +271,7 @@ li{
     text-align: center;
     line-height: 40px;
 }
+
 .num_none:hover {
     background-color: #FAC91D;
     border-radius: 50%;
@@ -279,6 +280,7 @@ li{
     text-align: center;
     line-height: 40px;
 }
+
 .qna_answer { 
     background-color: black;
     color: white;
@@ -289,6 +291,7 @@ li{
     text-align: center;
     line-height: 35px;
 }
+
 .qna_answer_complete {
     background-color: #FAC91D;
     color: rgb(0, 0, 0);
@@ -299,13 +302,18 @@ li{
     text-align: center;
     line-height: 35px;
 }
+
 .cursorBtn {
     cursor: pointer;
 }
+
 .h2_center {
     text-align: center;
 }
 
+.left_span {
+    margin-left: -22px;
+}
 /* --------------------- move top --------------------- */
 .move_top_img {
     width: 100%;

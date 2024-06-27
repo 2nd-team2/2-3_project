@@ -90,16 +90,14 @@ const phone = ref('');
 const address = ref('');
 const detailAddress = ref('');
 const postcode = ref('');
-// const name = ref('');
 
 const passwordError = ref('');
 const passwordChkError = ref('');
 const phoneError = ref('');
 const addressError = ref('');
-// const nameError = ref('');
 
-function chkPassword(e) {
-    if (e.target.value.length < 8 || e.target.value.length > 20) {
+function chkPassword() {
+    if (password.value.length < 8 || password.value.length > 20) {
     passwordError.value = '비밀번호는 8 ~ 20자 사이로 설정 해주세요.';
   } else {
     passwordError.value = '';
@@ -114,18 +112,9 @@ function chkPasswordChk() {
   }
 }
 
-// function chkName(e) {
-//   const namePattern = /^[가-힣a-zA-Z]+$/;
-//   if (!namePattern.test(e.target.value)) {
-//     nameError.value = '이름은 영어 대소문자와 한글로만 사용 가능합니다.';
-//   } else {
-//     nameError.value = '';
-//   }
-// }
-
-function chkPhone(e) {
+function chkPhone() {
   const phone = /^\d{10,11}$/;
-  if (!phone.test(e.target.value)) {
+  if (!phone.test(phone.value)) {
     phoneError.value = '전화번호는 숫자 10,11자로 설정 해주세요.';
   } else {
     phoneError.value = '';
@@ -144,28 +133,17 @@ function chkAddress() {
 function validateForm() {
   let valid = true;
 
-  chkPassword({ target: { value: password.value } });
+  chkPassword();
   if (passwordError.value) valid = false;
 
-  chkPasswordChk({ target: { value: passwordChk.value } });
+  chkPasswordChk();
   if (passwordChkError.value) valid = false;
 
-  // chkName({ target: { value: name.value } });
-  // if (nameError.value) valid = false;
-
-  chkPhone({ target: { value: phone.value } });
+  chkPhone();
   if (phoneError.value) valid = false;
 
-  chkAddress({ target: { value: address.value } });
+  chkAddress();
   if (addressError.value) valid = false;
-
-  // if (!valid) {
-  //   window.scrollTo({
-  //     top: 0,
-  //     behavior: 'smooth'
-  //   });
-  // }
-
 
 }
 

@@ -16,7 +16,7 @@
                         <div class="item_left_list_text">
                             <span class="title_span">{{ item.orpDate }}</span>
                             <div class="order_date">
-                                <span class="title_span" v-if="item.co_flg === '1'"> / 구매확정 : </span>
+                                <span class="title_span left_span" v-if="item.co_flg === '1'">/ 구매확정 : </span>
                                 <span class="yellow_span" v-if="item.co_flg === '1'">{{ item.completeOn }}</span>
                             </div>
                             <button class="order_delete" @click="$store.dispatch('orderItemDelete', item.orp_id)" v-if="item.co_flg === '1'"></button>

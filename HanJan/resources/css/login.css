@@ -72,6 +72,12 @@ input {
     cursor: pointer;
 }
 
+input:focus,
+textarea:focus {
+    outline: none;
+}
+
+
 /* ----------------------- 웹 버전 ----------------------- */
 @media screen and (min-width: 1201px) {
     .leftInfo {

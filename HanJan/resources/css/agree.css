@@ -107,14 +107,7 @@ form .buttons button {
 .agree_item {
     margin: 30px auto;
 }
-textarea {
-    width: 100%;
-    height: 16vh;
-    padding: 10px;
-    border: 1px solid #5C5C5C;
-    border-radius: 4px;
-    resize: none;
-} 
+
 /* 모달창 */
 .modal_overlay {
     display: flex;
@@ -139,6 +132,14 @@ textarea {
     max-height: 70%;
 }
 
+.modalLine {
+    width: 100%;
+    height: 40vh;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    resize: none;
+}
 .title {
     display: flex;
     justify-content: space-between;
@@ -174,6 +175,28 @@ textarea {
 .text_btn:hover {
     background-color: #FAC91D;
     color: black;
+}
+
+.textArea {
+    width: 100%;
+    height: 16vh;
+    padding: 10px;
+    border: 1px solid #5C5C5C;
+    border-radius: 4px;
+    resize: none;
+}
+
+.hidden_box {
+    visibility: visible;
+}
+
+.hidden_box.visible {
+    visibility: hidden;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
 }
 
 /* 모달 페이드 */
