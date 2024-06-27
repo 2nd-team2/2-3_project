@@ -371,8 +371,8 @@ const store = createStore({
 
             axios.post(url, data)
             .then(response => {
-                console.log(response.data.data);
-                // router.push('/ordercomplete');             
+                console.log(response.data);
+                router.push('/ordercomplete');         
             })
             .catch(error => {
                 alert('결제에 실패하였습니다.(' + error.response.data.code + ')' )

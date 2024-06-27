@@ -13,12 +13,13 @@
                 계속 쇼핑하기
             </router-link>
         </div>
-            
+        
         <form id="bagsProductData">
             <div class="bag_box">
                 <div v-if="$store.state.bagsProductData && $store.state.bagsProductData.length > 0">
                     <div v-for="(item, key) in $store.state.bagsProductData" :key="key" class="bag_goods_item bag_grid bag_padding_bottom">
-                        <input type="hidden" :value="item.p_id">
+                        <input type="hidden" name="buy_type" value="bags">
+                        <input type="hidden" name="p_id" :value="item.p_id">
                         <input type="checkbox" @click="check(item)" :id="item.p_id" v-model="item.checked" name="ba_id[]" :value="item.ba_id" class="checkbox_input">
                         <label :for="item.p_id" class="checkbox"></label>
                         <img class="bag_goods_img" :src="item.img">    
@@ -66,7 +67,6 @@
                         <button @click="bagsSelectDelete" type="button" class="btn_delete bag_cancel bag_border_none bag_margin_right">
                             {{ allSelected ? '전체 삭제' : '선택 삭제' }}
                         </button>
-                        <input type="hidden" name="buy_type" value="bags">
                         <div class="bag_flex_end">
                             <button @click="bagsToOrder" type="button" class="bag_cancel bag_border_none">구매하기</button>
                         </div>
@@ -215,7 +215,9 @@ const bagsToOrder = () => {
             ,ba_id: item.ba_id
             ,ba_count: item.ba_count
             ,price: item.price
+            ,buy_type: "bags"
         }));
+
 
         store.dispatch('bagsToOrder', orderItems);
     }

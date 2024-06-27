@@ -1,6 +1,5 @@
 <template>
     <main>
-      <div>{{ $store.state.orderProductData }}</div>
         <form id="orderComplete" @submit.prevent="validateForm">
             <div></div>
             <div class="header">
