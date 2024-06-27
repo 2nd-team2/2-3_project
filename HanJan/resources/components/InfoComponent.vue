@@ -19,21 +19,21 @@
                                 <span class="title_span left_span" v-if="item.co_flg === '1'">/ 구매확정 : </span>
                                 <span class="yellow_span" v-if="item.co_flg === '1'">{{ item.completeOn }}</span>
                             </div>
-                            <button class="order_delete" @click="$store.dispatch('orderItemDelete', item.orp_id)" v-if="item.co_flg === '1'"></button>
+                            <div class="order_delete" @click="$store.dispatch('orderItemDelete', item.orp_id)" v-if="item.co_flg === '1'"></div>
                             <img class="order_img" :src="item.img">
                             <p class="order_name">{{ item.name + ' ' + item.ml +'ml' }}</p>
                             <p class="order_price">{{ '금액 : ' + item.price + '원 / ' + item.orp_count + '개' }}</p>
-                            <button class="button_a" @click="$store.dispatch('completeBtn', item.orp_id)" v-if="item.co_flg === '0' || item.co_flg === null">구매확정</button>
+                            <div class="button_a" @click="$store.dispatch('completeBtn', item.orp_id)" v-if="item.co_flg === '0' || item.co_flg === null">구매확정</div>
                         </div>
                         <div class="item_right">
-                            <button @click="askProduct(item)" class="button_a">상품문의하기</button>
+                            <div @click="askProduct(item)" class="button_a">상품문의하기</div>
                             <div v-if="item.co_flg === '1'">
-                                <button @click="exchange(item.orp_id)" class="button_a" v-if="item.ex_flg === '0'">교환, 반품 신청</button>
-                                <button class="button_a" v-else-if="item.ex_flg === '1'">교환, 반품 신청 완료</button>
-                                <button class="button_a" v-else-if="item.ex_flg === '2'">상품 회수중</button>
-                                <button class="button_a" v-else-if="item.ex_flg === '3'">교환, 반품 처리 완료</button>
+                                <div @click="exchange(item.orp_id)" class="button_a" v-if="item.ex_flg === '0'">교환, 반품 신청</div>
+                                <div class="button_b" v-else-if="item.ex_flg === '1'">교환, 반품 신청 완료</div>
+                                <div class="button_b" v-else-if="item.ex_flg === '2'">상품 회수중</div>
+                                <div class="button_b" v-else-if="item.ex_flg === '3'">교환, 반품 처리 완료</div>
                             </div>
-                            <button @click="infoReviewCreate(item)" type="button" class="button_a" v-if="item.co_flg === '1'">리뷰 작성하기</button>
+                            <div @click="infoReviewCreate(item)" type="button" class="button_a" v-if="item.co_flg === '1'">리뷰 작성하기</div>
                         </div>
                     </div>
                     <div v-else>
@@ -72,7 +72,7 @@
                             <p class="inquiry_date">{{ item.created_at }}</p>
                         </div>
                         <div class="inquiry_item_right_list">
-                            <button type="submit" class="inquiry_delete" @click="$store.dispatch('productAskDelete', item.qnp_id)"></button>
+                            <div type="submit" class="inquiry_delete" @click="$store.dispatch('productAskDelete', item.qnp_id)"></div>
                             <div class="keep_shoping_btn qna_answer_complete" v-if="item.qnp_answer">답변완료</div>
                             <div class="keep_shoping_btn qna_answer" v-else>답변진행중</div>
                         </div>

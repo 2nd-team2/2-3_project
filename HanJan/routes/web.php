@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\QnaController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\TraditionalLiquorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -140,4 +141,6 @@ Route::middleware('auth')->post('/api/qnaproductcreate', [QnaController::class, 
 Route::middleware('auth')->get('/api/qnaonebyonedetail/{id}', [QnaController::class, 'qnaOnebyOneDetailIndex']);
 // 1:1문의 작성하기
 Route::middleware('auth')->post('/api/qnaonebyonecreate', [QnaController::class, 'qnaOnebyOneCreate']);
+// 전통주 설명 불러오기
+Route::get('/api/traditionalliquor', [TraditionalLiquorController::class, 'traditionalLiquorIndex']);
 // ----------------------- 호경 끝 ---------------------------

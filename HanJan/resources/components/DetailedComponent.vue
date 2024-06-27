@@ -30,6 +30,7 @@
                         <form id="bagForm"> 
                             <input type="hidden" name="ba_count" :value="count">
                             <input type="hidden" name="p_id" :value="$store.state.productDetail.id">
+                            <input type="hidden" name="buy_type" value="0">
                             <!-- p_id & conut-->
                             <button @click="$store.dispatch('detailedToCount')" type="button" @mouseover="openIconBag" @mouseleave="closeIconBag"  class="detailed_haeder_bag_a">
                                 <img src="/img/bag.png" class="detailed_haeder_bag_w" id="b_detailed">

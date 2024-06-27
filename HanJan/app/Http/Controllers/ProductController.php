@@ -220,6 +220,7 @@ class ProductController extends Controller
         return response()->json($responseData, 200);
     }
 
+
     // 디테일->장바구니 데이터 보내기
         public function detailedToCount(Request $request) {
         // 리퀘스트 데이터 받기
@@ -244,16 +245,38 @@ class ProductController extends Controller
         }
 
         // 데이터 생성
-        $createData = $request->only('p_id','ba_count');
+        // $createData = $request->only('p_id','ba_count');
         
-        // 작성 처리
-        $createData['u_id'] = Auth::id();
-        $createData['ba_id'] = $request->ba_id;
-        $createData['p_id'] = $request->p_id;
-        $createData['ba_count'] = $request->ba_count;
+        // // 작성 처리
+        // $createData['u_id'] = Auth::id();
+        // $createData['ba_id'] = $request->ba_id;
+        // $createData['p_id'] = $request->p_id;
+        // $createData['ba_count'] = $request->ba_count;
 
-        // 작성 처리
-        $bagItem = Bag::create($createData);
+        // // $bagItem = Bag::create($createData); // 한개씩만 저장이 된다
+        // // 받은 데이터로 유저아이디랑 상품아이디가 같을때 ba_count랑 기존 저장된 count랑 합쳐서 저장 처리
+        // $bagItem_user = ['key' => 'p_id'];
+        // $bagItem = ['ba_count' => 'p_id'];
+        // $bagItem_data = Bag::updateOrCreate($bagItem_user, $bagItem);
+        // 유저 ID 가져오기
+        $userId = Auth::id();
+        // 동일한 p_id와 u_id를 가진 항목이 이미 존재하는지 확인
+        $existingItem = Bag::where('p_id', $request->p_id) 
+                            ->where('u_id', $userId) 
+                            ->first();
+
+        if ($existingItem) { 
+            // 기존 항목이 있으면 수량 업데이트
+            $existingItem->ba_count += $request->ba_count; 
+            $existingItem->save(); 
+            $bagItem = $existingItem;
+        } else { 
+            // 데이터 생성
+            $createData = $request->only('p_id', 'ba_count'); 
+            $createData['u_id'] = $userId; 
+            // 작성 처리
+            $bagItem = Bag::create($createData);
+        }
 
         // 레스폰스 데이터 생성
         $responseData = [
