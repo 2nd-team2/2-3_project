@@ -1055,7 +1055,8 @@ footer {
 @media screen and (max-width: 770px) {
     /* ----------------------- 모달 ------------------------ */
     .btn_yes, .btn_no {
-        width: 100px;
+        line-height: 47px;
+        width: 75px;
         height: 50px;
     }
 
