@@ -245,7 +245,7 @@ class ProductController extends Controller
         }
 
         // 데이터 생성
-        $createData = $request->only('p_id','ba_count');
+        // $createData = $request->only('p_id','ba_count');
         
         // // 작성 처리
         // $createData['u_id'] = Auth::id();
@@ -268,7 +268,8 @@ class ProductController extends Controller
         if ($existingItem) { 
             // 기존 항목이 있으면 수량 업데이트
             $existingItem->ba_count += $request->ba_count; 
-            $existingItem->save(); $bagItem = $existingItem;
+            $existingItem->save(); 
+            $bagItem = $existingItem;
         } else { 
             // 데이터 생성
             $createData = $request->only('p_id', 'ba_count'); 
