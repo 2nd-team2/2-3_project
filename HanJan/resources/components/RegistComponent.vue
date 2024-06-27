@@ -163,11 +163,15 @@ function chkAddress() {
 }
 
 function chkBirth() {
-  const birth = new Date(birth.value);
+  if (!birth.value) {
+    birthError.value = '생년월일을 입력해주세요.';
+    return;
+  }
+  const birthDate = new Date(birth.value);
   const today = new Date();
-  let age = today.getFullYear() - birth.getFullYear();
-  const monthDifference = today.getMonth() - birth.getMonth();
-  if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birth.getDate())) {
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDifference = today.getMonth() - birthDate.getMonth();
+  if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
     age--;
   }
   if (age < 19) {
@@ -176,6 +180,7 @@ function chkBirth() {
     birthError.value = '';
   }
 }
+
 
 function validateForm() {
   let valid = true;

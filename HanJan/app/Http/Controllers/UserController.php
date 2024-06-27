@@ -32,11 +32,9 @@ class UserController extends Controller
             $validator = Validator::make(
                 $request->only('email', 'password')
                 ,[
-                    // 'email' => ['required', 'min:1', 'max:30', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'], 
-                    'email' => ['required', 'min:1', 'max:30'], 
-                    // 'name' => ['required', 'min:10', 'max:30','unique:users', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'], // TODO: 배포
+                    'email' => ['required', 'min:5', 'max:30', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'], 
                     'password' => ['required', 'min:1', 'max:20'], 
-                    // 'password' => ['required', 'min:9', 'max:20', 'regex:/^[a-zA-Z0-9!@#$%^&*]+$/u'], // TODO: 배포
+                    // 'password' => ['required', 'min:8', 'max:20', 'regex:/^[a-zA-Z0-9!@#$%^&*]+$/u'], TODO
                 ]
             );
 
@@ -101,10 +99,8 @@ class UserController extends Controller
             $validator = Validator::make(
                 $requestData,
                 [
-                    'email' => ['required', 'min:1', 'max:30','unique:users', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'], // TODO : 개발할때
-                    // 'email' => ['required', 'min:10', 'max:30','unique:users', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'], // TODO : 배포
-                    'password' => ['required', 'min:1', 'max:20'], // TODO : 개발할때
-                    // 'password' => ['required', 'min:9', 'max:20', 'regex:/^[a-zA-Z0-9!@#$%^&*]+$/u'], // TODO : 배포
+                    'email' => ['required', 'min:10', 'max:30','unique:users', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
+                    'password' => ['required', 'min:8', 'max:20', 'regex:/^[a-zA-Z0-9!@#$%^&*]+$/u'], 
                     'password_chk' => ['same:password'],
                     'tel' => ['required', 'min:10','max:11', 'regex:/^[0-9]+$/'],
                     'addr' => ['required'],
