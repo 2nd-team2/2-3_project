@@ -815,11 +815,11 @@ const store = createStore({
             console.log(url);
             axios.get(url)
             .then(response => {
-                console.log('디테일 데이터', response.data); // TODO
+                console.log('디테일 데이터', response.data);
                 context.commit('detailedNumData', response.data.data);
             })
             .catch(error => {
-                console.log(error.response.data); // TODO
+                console.log(error.response.data);
                 alert('상세정보 불러오기 실패했습니다.(' + error.response.data.code + ')');
             });
         },
@@ -844,7 +844,7 @@ const store = createStore({
                 context.commit('listInfoData', response.data.data);
             })
             .catch(error => {
-                console.log(error.response.data); //  TODO : 삭제
+                console.log(error.response.data);
                 alert('선택한 상품이 없습니다.(' + error.response.data.code + ')' )
             });
         },
@@ -878,12 +878,12 @@ const store = createStore({
 
             axios.get(url)
             .then(response => {
-                console.log('리뷰 데이터', response.data); // TODO
+                console.log('리뷰 데이터', response.data);
                 // 데이터베이스->서버를 통해 받은 데이터를 reviewDetail 저장
                 constext.commit('detailedReviewData', response.data.data);
             })
             .catch(error => {
-                console.log(error.response.data); // TODO
+                console.log(error.response.data);
                 alert('디테일 리뷰데이터 불러오기 실패했습니다.(' + error.response.data.code + ')');
             });
         },
@@ -899,7 +899,7 @@ const store = createStore({
             
             axios.post(url, data)
             .then(response => {
-                console.log('수량데이터', response.data); // TODO
+                console.log('수량데이터', response.data);
                 // 데이터베이스->서버를 통해 받은 데이터를 CountData 저장
                 constext.commit('detailedCountData', response.data.data);
                 if(confirm('확인을 클릭시 장바구니로 이동 됩니다.')) {
@@ -909,7 +909,7 @@ const store = createStore({
             .catch(error => {
                 // 로그인이 되어있을경우
                 if(store.state.userInfo) {
-                    console.log(error.response.data); // TODO
+                    console.log(error.response.data);
                     alert('장바구니 이동 실패했습니다(' + error.response.data.code + ')');
                 }
                 // 로그인이 되어있지 않을경우
