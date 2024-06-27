@@ -12,7 +12,6 @@
                 </div>
                 <div class="order_list_main">
                     <div class="order_item" v-for="(item, key) in $store.state.infoData.data" :key="key" v-if="$store.state.infoData.data && $store.state.infoData.data.length > 0">
-                        <!-- <div>{{ item }}</div> -->
                         <div class="item_left_list_text">
                             <span class="title_span">{{ item.orpDate }}</span>
                             <div class="order_date">
@@ -61,13 +60,11 @@
                     <h2>상품문의 내역</h2>
                 </div>
                 <div class="inquiry_list_main" v-for="(item, key) in $store.state.productAskData.data" :key="key" v-if="$store.state.productAskData.data && $store.state.productAskData.data.length > 0">
-                    <!-- <div>{{ item }}</div> -->
                     <div class="inquiry_item" >
                         <div class="inquiry_item_left_list_text">
                             <div>
                                 <span class="title_span">상품문의</span>
                             </div>
-                            <!-- <div class="inquiry_img" :src="item.img"></div> -->
                             <p class="inquiry_name cursorBtn" @click=qnaProductDetail(item.qnp_id)>{{ item.qnp_content }}</p>
                             <p class="inquiry_date">{{ item.created_at }}</p>
                         </div>
@@ -103,7 +100,6 @@
                     </router-link>
                 </div>
                 <div class="inquiry_list_main" v-for="(item, key) in $store.state.askSetData.data" :key="key" v-if="$store.state.askSetData.data && $store.state.askSetData.data.length > 0">
-                    <!-- <div>{{ item }}</div> -->
                     <div class="inquiry_item">
                         <div class="inquiry_item_left_list_text">
                             <div class="inquiry_text">
@@ -244,8 +240,6 @@
 
     // 상품문의 페이지네이션
 
-    // 게시물 데이터 가져오기
-    // const products = computed(() => store.state.askSetData)
     // 페이지 번호 배열 계산
     const productsPages = computed(() => {
         const pageArray = [];
@@ -291,8 +285,6 @@
 
     // 1:1문의 페이지네이션
 
-    // 게시물 데이터 가져오기
-    // const oneByOne = computed(() => store.state.askSetData)
     // 페이지 번호 배열 계산
     const oneByOnePages = computed(() => {
         const pageArray = [];

@@ -124,11 +124,6 @@ const store = createStore({
             state.askSetData = data;
             localStorage.setItem('askSetData', JSON.stringify(data))
         },
-        // 마이페이지에서 리뷰작성 넘어갈때 데이터 전달
-        // infoReviewCreate(state, data) {
-        //     state.reviewToUpdate = data;
-        //     localStorage.setItem('reviewToUpdate', JSON.stringify(data));
-        // },
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------
         
@@ -630,10 +625,8 @@ const store = createStore({
             const url = '/api/logout';
             axios.post(url)
             .then(responseData => {
-                console.log(responseData.data); // TODO
             })
             .catch(error => {
-                console.log(error.responseData); // TODO
                 alert('로그아웃 (' + error.responseData.data.code + ')');
             })
             .finally(() => {
@@ -651,9 +644,6 @@ const store = createStore({
             axios.post(url, data)
             .then(responseData => {
                 router.replace('login');
-            })
-            .catch(error => {
-                console.log(error.responseData.data.code);
             });
         },
 
@@ -686,9 +676,6 @@ const store = createStore({
             axios.post(url, data)
             .then(responseData => {
                 router.replace('info');
-            })
-            .catch(error => {
-                console.log(error.responseData.data.code);
             });
         },
 
@@ -704,12 +691,7 @@ const store = createStore({
                     context.commit('setUserInfo', null);
                     router.replace('/');
                     console.log(responseData);
-            })
-                .catch(error => {
-                    console.log(error.responseData.data.code);
             });
-            } else {
-                console.log('confirm false');
             }
         },
 
@@ -723,8 +705,7 @@ const store = createStore({
                 } else {
                     alert('비밀번호가 일치하지 않습니다.');
                 }
-            })
-            .catch();
+            });
         },
 
         // 마이페이지에서 주문목록 불러오기
@@ -746,14 +727,11 @@ const store = createStore({
             if (confirm('확인을 누르면 구매한 상품이 삭제됩니다.')) {
                 axios.delete(url)
                 .then(responseData => {
-                    console.log(responseData.data);
                     context.dispatch('getInfoData', context.state.infoData.current_page);
                 })
                 .catch(error => {
                     alert('삭제에 실패했습니다.(' + error.response.data.code + ')' )
                 });
-            } else {
-                console.log('confirm false');
             }
         },
 
@@ -781,8 +759,6 @@ const store = createStore({
                 .catch(error => {
                     alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
                 });
-            } else {
-                console.log('confirm false');
             }
         },
 
@@ -810,9 +786,6 @@ const store = createStore({
                 .catch(error => {
                     alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
                 });
-
-            } else {
-                console.log('confirm false');
             }
         },
 
@@ -827,22 +800,8 @@ const store = createStore({
                 .catch(error => {
                     alert('실패했습니다.(' + error.responseData.data.code + ')' )
                 });
-            } else {
-                console.log('confirm false');
             }
         },
-
-        /**
-         * 마이페이지에서 리뷰작성 이동
-         * @param {*} context
-         * @param {*} item
-        */
-        // infoReviewCreate(context, item) {
-        //     const infoReviewCreateData = item;
-
-        //     context.commit('reviewToUpdate', infoReviewCreateData);
-        //     localStorage.setItem('reviewToUpdate', JSON.stringify(infoReviewCreateData));
-        // },
             
         // ----------------------- 성환 끝 ---------------------------
         // ----------------------- 민서 시작 -------------------------

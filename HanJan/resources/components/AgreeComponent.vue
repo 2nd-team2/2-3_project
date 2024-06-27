@@ -122,7 +122,6 @@ function Submit() {
         const form = document.querySelector('#regist_form');
         form.reset();
     } else {
-        // 여기에서 회원가입 처리를 합니다.
         router.push('/regist');
     }
 }
