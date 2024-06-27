@@ -972,12 +972,12 @@ const store = createStore({
             
             axios.get(url)
             .then(response => {
-                console.log(response.data); // TODO
+                console.log(response.data);
                 context.commit('setSeasonListData', response.data.data);
                 context.commit('setSeason', response.data.season);
             })
             .catch(error => {
-                console.log(error.response); // TODO
+                console.log(error.response);
                 alert('계절 별 추천 데이터 습득에 실패했습니다.(' + error.response.data.code + ')');
             });
         },
@@ -991,11 +991,11 @@ const store = createStore({
             
             axios.get(url)
             .then(response => {
-                console.log(response.data); // TODO
+                console.log(response.data);
                 context.commit('setReviewListData', response.data.data);
             })
             .catch(error => {
-                console.log(error.response); // TODO
+                console.log(error.response);
                 alert('리뷰 데이터 습득에 실패했습니다.(' + error.response.data.code + ')');
             });
         },
@@ -1010,11 +1010,11 @@ const store = createStore({
             
             axios.get(url)
             .then(response => {
-                console.log(response.data); // TODO
+                console.log(response.data);
                 context.commit('setNoticeData', response.data.data);
             })
             .catch(error => {
-                console.log(error.response); // TODO
+                console.log(error.response);
                 alert('공지사항 습득에 실패했습니다.(' + error.response.data.code + ')');
             });
         },
@@ -1028,11 +1028,11 @@ const store = createStore({
             console.log(url);
             axios.get(url)
             .then(response => {
-                console.log('공지사항 데이터', response.data); // TODO
+                console.log('공지사항 데이터', response.data);
                 context.commit('setNoticeDetailData', response.data.data);
             })
             .catch(error => {
-                console.log(error.response.data); // TODO
+                console.log(error.response.data);
                 alert('공지사항 불러오기 실패했습니다.(' + error.response.data.code + ')');
             });
         },
@@ -1046,11 +1046,11 @@ const store = createStore({
             
             axios.get(url)
             .then(response => {
-                console.log(response.data); // TODO
+                console.log(response.data);
                 context.commit('setQnaProductDetailData', response.data.data);
             })
             .catch(error => {
-                console.log(error.response); // TODO
+                console.log(error.response);
                 alert('상품문의내역 습득에 실패했습니다.(' + error.response.data.code + ')');
             });
         },
@@ -1065,11 +1065,11 @@ const store = createStore({
             
             axios.get(url)
             .then(response => {
-                console.log(response.data); // TODO
+                console.log(response.data);
                 context.commit('setQnaOneByOneDetailData', response.data.data);
             })
             .catch(error => {
-                console.log(error.response); // TODO
+                console.log(error.response);
                 alert('1:1문의내역 습득에 실패했습니다.(' + error.response.data.code + ')');
             });
         },
@@ -1083,18 +1083,18 @@ const store = createStore({
             const url = '/api/qnaproductcreate';
             const data = new FormData(document.querySelector('#qnaProductForm'));
 
-            console.log(url); // TODO
+            console.log(url);
             axios.post(url, data)
             .then(response => {
                 if(context.state.qnaProductDetailData.length > 1) {
                     context.commit('setUnshiftQnaProductData', response.data.data);
                 }
                 
-                console.log(response.data); // TODO
+                console.log(response.data);
                 router.replace('/info');
             })
             .catch(error => {
-                console.log(error.response); // TODO
+                console.log(error.response);
                 alert('글 작성에 실패했습니다.(' + error.response.data.code + ')');
             });
         },
@@ -1115,11 +1115,11 @@ const store = createStore({
                     context.commit('setUnshiftQnaOneByOneData', response.data.data);
                 }
                 
-                console.log(response.data); // TODO
+                console.log(response.data); 
                 router.replace('/info');
             })
             .catch(error => {
-                console.log(error.response); // TODO
+                console.log(error.response);
                 alert('글 작성에 실패했습니다.(' + error.response.data.code + ')');
             });
         },
@@ -1133,11 +1133,11 @@ const store = createStore({
             
             axios.get(url)
             .then(response => {
-                console.log(response.data); // TODO
+                console.log(response.data);
                 context.commit('setTraditionalLiquorData', response.data.data);
             })
             .catch(error => {
-                console.log(error.response); // TODO
+                console.log(error.response);
                 alert('전통주 설명 습득에 실패했습니다.(' + error.response.data.code + ')');
             });
         },

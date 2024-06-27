@@ -22,15 +22,11 @@ class QnaController extends Controller
                                     ->where('qnaproducts.u_id', '=', Auth::id())
                                     ->first();
         
-        Log::debug('상품문의내역 pk : ' . $id);
-        Log::debug('상품문의내역 데이터:', $qnaProductData->toArray());
-    
         $responseData = [
                 'code' => '0'
                 ,'msg' => '초기 상품문의 값 획득 완료'
                 ,'data' => $qnaProductData
         ];
-        Log::debug($responseData);
         
         return response()->json($responseData, 200);
     }
@@ -43,15 +39,11 @@ class QnaController extends Controller
                                 ->where('qnas.u_id', '=', Auth::id())
                                 ->first();
         
-        Log::debug('1:1 문의 내역 pk : ' . $id);
-        Log::debug('1:1 문의 데이터:', $qnaOneByOneData->toArray());
-
         $responseData = [
                 'code' => '0'
                 ,'msg' => '초기 1:1 문의 값 획득 완료'
                 ,'data' => $qnaOneByOneData
         ];
-        Log::debug($responseData);
         
         return response()->json($responseData, 200);
     }
@@ -67,7 +59,6 @@ class QnaController extends Controller
         );
         // 유효성 검사 실패 체크
         if($validator->fails()) {
-            Log::debug('유효성 검사 실패', $validator->errors()->toArray());
             throw new MyValidateException('E01');
         }
 
@@ -96,7 +87,6 @@ class QnaController extends Controller
         );
         // 유효성 검사 실패 체크
         if($validator->fails()) {
-            Log::debug('유효성 검사 실패', $validator->errors()->toArray());
             throw new MyValidateException('E01');
         }
 
