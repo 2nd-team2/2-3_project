@@ -473,11 +473,7 @@ li {
 }
 
 .kakao_channel {
-    width: 50px;
-    height: 50px;
     position: fixed;
-    bottom: 15%;
-    right: 4%;
     border-radius: 50%;
     z-index: 991;   
 } 
@@ -728,6 +724,12 @@ footer {
         height: 100%;
     }
 
+    .kakao_channel {
+        width: 50px;
+        height: 50px;
+        bottom: 15%;
+        right: 4%;
+    } 
 
     /* --------------------- footer --------------------- */
     .footer_team {
@@ -1019,6 +1021,12 @@ footer {
         height: 100%;
     }
 
+    .kakao_channel {
+        width: 50px;
+        height: 50px;
+        bottom: 15%;
+        right: 4%; 
+    } 
 
     /* --------------------- footer --------------------- */
     .footer_team {
@@ -1308,6 +1316,14 @@ footer {
         width: 80%;
         height: 80%;
     }
+    
+    .kakao_channel {
+        width: 40px;
+        height: 40px;
+        bottom: 15%;
+        right: 6%;
+    } 
+    
 
     /* --------------------- footer --------------------- */
     .footer_team {
