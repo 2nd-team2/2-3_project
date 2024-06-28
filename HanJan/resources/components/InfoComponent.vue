@@ -12,6 +12,7 @@
                 </div>
                 <div class="order_list_main">
                     <div class="order_item" v-for="(item, key) in $store.state.infoData.data" :key="key" v-if="$store.state.infoData.data && $store.state.infoData.data.length > 0">
+                        <!-- <div>{{item }}</div> -->
                         <div class="item_left_list_text">
                             <span class="title_span">{{ formatDate(item.orpDate) }}
                                 <span class="order_date">
@@ -168,10 +169,8 @@
 
     // 초기 데이터
     onBeforeMount(() => {
-        // 상품문의 내역 데이터
-        if(store.state.infoData.current_page == 1) {
-            store.dispatch('getInfoData', 1);
-        }
+        store.dispatch('getInfoData', store.state.infoData.current_page);
+
 
         // 상품문의 내역 데이터
         if(store.state.productAskData.current_page == 1) {
