@@ -99,7 +99,7 @@ class UserController extends Controller
             $validator = Validator::make(
                 $requestData,
                 [
-                    'email' => ['required', 'min:5', 'max:30','unique:users', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
+                    'email' => ['required', 'min:5', 'max:30', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
                     'password' => ['required', 'min:8', 'max:20', 'regex:/^[a-zA-Z0-9!@#$%^&*]+$/u'], 
                     'password_chk' => ['same:password'],
                     'tel' => ['required', 'min:10','max:11', 'regex:/^[0-9]+$/'],
@@ -139,7 +139,7 @@ class UserController extends Controller
         public function registEmailChk($emailText)
         {
             // 이메일 중복 확인
-            $userInfo = User::where('email', $emailText)->first();
+            $userInfo = User::withTrashed()->where('email', $emailText)->first();
 
             // 기본 응답 데이터
             $responseData = [
@@ -198,7 +198,8 @@ class UserController extends Controller
             if ($deleted) {
                 // 로그아웃 처리
                 Auth::logout(Auth::user());
-                return response()->json(['msg' => '회원 탈퇴 완료'], 200);
+                return response()->json(['msg' => '회원 탈퇴 완료'], 200)
+                ->cookie('auth', '1', -1, null, null, false, false);
             } else {
                 return response()->json(['error' => '사용자 삭제 실패'], 500);
             }

@@ -1,39 +1,61 @@
 <template>
     <main>
-        <h2 class="review_title reviewC_title_grid">
-            <span>리뷰관리</span>
-            <router-link to="/info" class="reviewC_cancel">
-                돌아가기
-            </router-link >
-        </h2>
+        <div class="review_title reviewC_title_grid">
+            <h2>리뷰관리</h2>
+            <router-link to="/info" class="reviewC_cancel">내 술잔 가기</router-link >
+        </div>
 
-        <div class="review_goods_item" v-for="(item, key) in $store.state.reviewData.data" :key="key" v-if="$store.state.reviewData.data && $store.state.reviewData.data.length > 0">
+        <div class="review_goods_item review_item_grid" v-for="(item, key) in $store.state.reviewData.data" :key="key" v-if="$store.state.reviewData.data && $store.state.reviewData.data.length > 0">
+            <div class="reviewC_order_at">{{ formatDate(item.orpCre) }} 주문 / 구매확정 <span class="reviewC_yellow">{{ formatDate(item.coCre) }}</span></div>
+                <div class="review_goods_grid">
+                    <img class="review_goods_img" :src="item.img">
+
+                    <div class="review_item_grid">
+                        <div class="review_goods_title"> {{ item.name +' '+ item.ml +'ml /' + item.orp_count +'개'}}</div>
+                        <div class="star-rating">
+                            <span class="star" v-for="star in 5" :key="star" :class="{ checked: star <= item.re_star }">&#9733;</span>
+                        </div>                  
+                        <div class="review_content">{{ item.re_content }}</div>
+                    </div>
+
+                    <div class="vertical-hr"></div>
+                    <div class="review_goods_info_grid_btn">
+                        <button @click="reviewUpdate(item)" button="button" class="review_btn">수정하기</button>
+                        <button @click="reviewDelete(item.re_id)" button="button" class="review_btn">삭제하기</button>
+                    </div>
+                </div>
+            </div>
+
+
+
+        <!-- <div class="review_goods_item" v-for="(item, key) in $store.state.reviewData.data" :key="key" v-if="$store.state.reviewData.data && $store.state.reviewData.data.length > 0">
+            <div class="reviewC_order_at">{{ formatDate(item.orpCre) }} 주문 / 구매확정 <span class="reviewC_yellow">{{ formatDate(item.coCre) }}</span></div>
             <div class="review_grid">
-
                 <img class="review_goods_img" :src="item.img">
 
                 <div class="review_goods_info">
                     <div class="review_goods_title"> {{ item.name +' '+ item.ml +'ml /' + item.orp_count +'개'}}</div>
                     <div class="review_goods_info_grid_star">
                         <div class="star-rating">
-                            <span class="star" v-for="star in 5" :key="star" :class="{ checked: star <= item.re_star }">
-                                &#9733;
-                            </span>
+                            <span class="star" v-for="star in 5" :key="star" :class="{ checked: star <= item.re_star }">&#9733;</span>
                         </div>                  
                     </div>
                     <div>
-                        <div class="review_content">
-                            {{ item.re_content }}
-                        </div>
+                        <div class="review_content">{{ item.re_content }}</div>
                     </div>
                 </div>
+
                 <div class="vertical-hr"></div>
                 <div class="review_goods_info_grid_btn">
                     <button @click="reviewUpdate(item)" button="button" class="review_btn">수정하기</button>
                     <button @click="reviewDelete(item.re_id)" button="button" class="review_btn">삭제하기</button>
                 </div>
             </div>
-        </div>
+        </div> -->
+
+
+
+
         <div v-else>
             <h2 class="review_none_item_center">
                 작성한 리뷰가 없습니다.
@@ -75,6 +97,16 @@ onBeforeMount(() => {
 
 })
 
+// 날짜 포맷 (YYYY-MM-DD)
+function formatDate(dateString) {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1, 두 자리로 맞춤
+        const day = date.getDate().toString().padStart(2, '0'); // 두 자리로 맞춤
+        return `${year}-${month}-${day}`; // 연-월-일 형식으로 반환
+}
+
+
 // 리뷰 수정하기 페이지로 정보 넘기기
 const reviewUpdate = (item) => {
     store.dispatch('reviewUpdate', item);
@@ -83,6 +115,10 @@ const reviewUpdate = (item) => {
 // 리뷰 삭제하기 기능
 const reviewDelete = (re_id) => {
     store.dispatch('reviewDelete', re_id)
+
+    if(store.state.reviewData.current_page == 1) {
+        store.dispatch('reviewGet', 1);
+    }
 }
 
 

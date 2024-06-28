@@ -132,6 +132,7 @@ class ProductController extends Controller
                         ->JOIN('orderproducts','reviews.orp_id','=', 'orderproducts.orp_id')
                         ->JOIN('products','products.id','=', 'orderproducts.p_id')
                         ->where('products.id', $id) // 상품 아이디 가져와 리뷰 출력
+                        ->whereNull('users.deleted_at')
                         ->orderBy('reviews.re_star', 'DESC')
                         ->orderBy('reviews.created_at', 'DESC')
                         ->limit(5)

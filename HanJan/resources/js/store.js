@@ -541,7 +541,7 @@ const store = createStore({
 
                 alert('리뷰 작성을 완료하였습니다.');
 
-                router.replace('/info');
+                router.replace('/review');
             })
             .catch(error => {
                 console.log(error.response); //  TODO : 삭제
@@ -562,7 +562,7 @@ const store = createStore({
             .then(response => {
                 context.commit('reviewToUpdate', response.data.data);
                 localStorage.setItem('reviewToUpdate', JSON.stringify(response.data.data));
-                if (confirm('리뷰 수정을 완료하였습니다. 확인을 누르면 리뷰 관리로 돌아갑니다.')){
+                if(confirm('리뷰 수정을 완료하였습니다. 확인을 누르면 리뷰 관리로 돌아갑니다.')){
                     router.replace('/review');
                 }
             })
@@ -605,7 +605,6 @@ const store = createStore({
                 .then(response => {
                     console.log(response.data); // TODO 
                     alert('교환 및 반품이 완료 되었습니다.')
-
                     router.push('/info');
                 })
                 .catch(error => {
@@ -667,6 +666,9 @@ const store = createStore({
             axios.post(url, data)
             .then(responseData => {
                 router.replace('login');
+            })
+            .catch(error => {
+                alert('회원가입 실패');
             });
         },
 
@@ -698,6 +700,7 @@ const store = createStore({
             const data = new FormData(document.querySelector('#update_form'));
             axios.post(url, data)
             .then(responseData => {
+                localStorage.setItem('userInfo', JSON.stringify(responseData.data.data));
                 router.replace('info');
             });
         },
@@ -710,7 +713,7 @@ const store = createStore({
                 axios.delete(url, data)
                 .then(responseData => {
                     localStorage.clear();
-                    context.commit('setAuthFlg', false);
+                    context.commit('setAuthFlg', null);
                     context.commit('setUserInfo', null);
                     router.replace('/');
                     console.log(responseData);
@@ -738,7 +741,7 @@ const store = createStore({
             const url = '/api/info' + param;
             axios.get(url)
             .then(responseData => {
-                context.commit('infoSetData', responseData.data.data);
+                localStorage.setItem('infoData', JSON.stringify(responseData.data.data));
              })
              .catch(error => {
                  alert('주문목록 불러오기 실패.(' + error.responseData.data.code + ')' )

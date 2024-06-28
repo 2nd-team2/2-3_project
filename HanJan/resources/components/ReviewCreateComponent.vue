@@ -11,7 +11,7 @@
                 <div class="reviewC_goods_grid">
                     <img class="review_goods_img" :src="$store.state.reviewToUpdate.img">
                     <div class="reviewC_item_grid">
-                        <div class="review_goods_title">{{ $store.state.reviewToUpdate.name +' / '+ $store.state.reviewToUpdate.ml +'ml /' + '1' +'개'}}</div>
+                        <div class="reviewC_goods_title">{{ $store.state.reviewToUpdate.name +' / '+ $store.state.reviewToUpdate.ml +'ml /' + '1' +'개'}}</div>
                         <div class="reviewC_required"><span class="reviewC_required_red">*</span>(필수)</div>
                         <div class="star-rating">
                             <span class="star" v-for="star in 5" :key="star" :class="{ checked: star <= selectedStar }" @click="selectStar(star)">
@@ -27,6 +27,8 @@
         
         <form id="reviewCreateForm">
             <input type="hidden" name="re_star" :value="selectedStar">
+            <input type="hidden" name="orpDate" :value="$store.state.reviewToUpdate.orpDate">
+            <input type="hidden" name="completeOn" :value="$store.state.reviewToUpdate.completeOn">
             <div class="reviewC_padding_top">상세리뷰</div>
             <input type="hidden" name="orp_id" :value="$store.state.reviewToUpdate.orp_id">          
             <div class="reviewC_padding_top">

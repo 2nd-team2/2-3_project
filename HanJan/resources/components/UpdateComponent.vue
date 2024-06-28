@@ -73,7 +73,7 @@
                 <br>
                 <div class="buttons twobuttons">
                     <button type="reset" class="info_item_btn form_btn" @click="$router.back()">취소</button>
-                    <button type="submit" class="info_item_btn form_btn" @click="$store.dispatch('userUpdate')">확인</button>
+                    <button type="submit" class="info_item_btn form_btn">확인</button>
                     <button type="button" class="info_item_btn form_btn" @click="$store.dispatch('userDelete')">탈퇴</button>
                 </div>
             </form>
@@ -83,13 +83,16 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useStore } from 'vuex';
+
+const store = useStore();
 
 const password = ref('');
 const passwordChk = ref('');
-const phone = ref('');
-const address = ref('');
-const detailAddress = ref('');
-const postcode = ref('');
+const phone = ref(store.state.userInfo.tel);
+const address = ref(store.state.userInfo.addr);
+const detailAddress = ref(store.state.userInfo.det_addr);
+const postcode = ref(store.state.userInfo.post);
 
 const passwordError = ref('');
 const passwordChkError = ref('');
@@ -97,8 +100,10 @@ const phoneError = ref('');
 const addressError = ref('');
 
 function chkPassword() {
-    if (password.value.length < 8 || password.value.length > 20) {
+  if (!password.value || password.value.length < 8 || password.value.length > 20) {
     passwordError.value = '비밀번호는 8 ~ 20자 사이로 설정 해주세요.';
+  } else if (/\s/.test(password.value)) {
+    passwordError.value = '비밀번호에는 공백을 포함할 수 없습니다.';
   } else {
     passwordError.value = '';
   }
@@ -145,6 +150,9 @@ function validateForm() {
   chkAddress();
   if (addressError.value) valid = false;
 
+  if (valid) {
+    store.dispatch('userUpdate');
+  }
 }
 
 // 카카오 주소 API
