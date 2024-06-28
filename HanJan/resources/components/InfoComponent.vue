@@ -13,26 +13,28 @@
                 <div class="order_list_main">
                     <div class="order_item" v-for="(item, key) in $store.state.infoData.data" :key="key" v-if="$store.state.infoData.data && $store.state.infoData.data.length > 0">
                         <div class="item_left_list_text">
-                            <span class="title_span">{{ item.orpDate }}</span>
-                            <div class="order_date">
-                                <span class="title_span left_span" v-if="item.co_flg === '1'">/ 구매확정 : </span>
-                                <span class="yellow_span" v-if="item.co_flg === '1'">{{ item.completeOn }}</span>
-                            </div>
+                            <span class="title_span">{{ formatDate(item.orpDate) }}
+                                <span class="order_date">
+                                    <span class="title_span" v-if="item.co_flg === '1'">/ 구매확정 : </span>
+                                    <span class="yellow_span" v-if="item.co_flg === '1'">{{ formatDate(item.completeOn) }}</span>
+                                </span>                            
+                            </span>
                             <div class="order_delete" @click="$store.dispatch('orderItemDelete', item.orp_id)" v-if="item.co_flg === '1'"></div>
                             <img class="order_img" :src="item.img">
                             <p class="order_name">{{ item.name + ' ' + item.ml +'ml' }}</p>
-                            <p class="order_price">{{ '금액 : ' + item.price + '원 / ' + item.orp_count + '개' }}</p>
+                            <p class="order_price">{{ '금액 : ' + formatPrice(item.price) + '원 / ' + item.orp_count + '개' }}</p>
                             <div class="button_a" @click="$store.dispatch('completeBtn', item.orp_id)" v-if="item.co_flg === '0' || item.co_flg === null">구매확정</div>
                         </div>
                         <div class="item_right">
                             <div @click="askProduct(item)" class="button_a">상품문의하기</div>
                             <div v-if="item.co_flg === '1'">
                                 <div @click="exchange(item.orp_id)" class="button_a" v-if="item.ex_flg === '0'">교환, 반품 신청</div>
-                                <div class="button_b" v-else-if="item.ex_flg === '1'">교환, 반품 신청 완료</div>
+                                <div class="button_b button_ex_color" v-else-if="item.ex_flg === '1'">교환, 반품 신청 완료</div>
                                 <div class="button_b" v-else-if="item.ex_flg === '2'">상품 회수중</div>
                                 <div class="button_b" v-else-if="item.ex_flg === '3'">교환, 반품 처리 완료</div>
                             </div>
-                            <div @click="infoReviewCreate(item)" type="button" class="button_a" v-if="item.co_flg === '1'">리뷰 작성하기</div>
+                            <div @click="infoReviewCreate(item)" type="button" class="button_a" v-if="item.re_id === null && item.co_flg === '1'">리뷰 작성하기</div>
+                            <div type="button" class="button_b" v-else-if="item.re_id">리뷰 작성 완료</div>
                         </div>
                     </div>
                     <div v-else>
@@ -150,6 +152,19 @@
     import router from '../js/router';
 
     const store = useStore();
+
+    // 날짜 포맷 (YYYY-MM-DD)
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1, 두 자리로 맞춤
+        const day = date.getDate().toString().padStart(2, '0'); // 두 자리로 맞춤
+        return `${year}-${month}-${day}`; // 연-월-일 형식으로 반환
+    }
+    // 금액 천단위 포맷 (,000)
+    function formatPrice(price) {
+        return price.toLocaleString('ko-KR');
+    }
 
     // 초기 데이터
     onBeforeMount(() => {
