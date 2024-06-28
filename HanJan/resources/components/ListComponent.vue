@@ -5,17 +5,17 @@
             <div class="list_menu">
                 <router-link to="/list?type=0&page=1" class="list_menu_img" @click="changeImage('/img/list_img01.png')" >
                     <img src="/img/menu01.png" alt="탁주">
-                    <p>탁주</p>
+                    <p :class="{ list_name_bk }">탁주</p>
                 </router-link>
                 <div class="list_line"></div>
                 <router-link to="/list?type=1&page=1" class="list_menu_img" @click="changeImage('/img/list_img02.png')">
                     <img src="/img/menu02.png" alt="과실주">
-                    <p>과실주</p>
+                    <p :class="{ list_name_bk }">과실주</p>
                 </router-link>
                 <div class="list_line"></div>
                 <router-link to="/list?type=2&page=1" class="list_menu_img" @click="changeImage('/img/list_img03.png')">
                     <img src="/img/menu03.png" alt="중류주">
-                    <p>증류주</p>
+                    <p :class="{ list_name_bk }">증류주</p>
                 </router-link>
             </div>
             <p class="list_best_title">한잔 베스트</p>

@@ -68,7 +68,9 @@ const store = createStore({
             // 주문 목록
             productAskCreateData: localStorage.getItem('productAskCreateData') ? JSON.parse(localStorage.getItem('productAskCreateData')) : null,
             // 전통주 설명 데이터
-            TraditionalLiquorData: [],
+            // TraditionalLiquorData: [],
+            // 전통주 설명 데이터
+            TraditionalLiquorData: localStorage.getItem('TraditionalLiquorData') ? JSON.parse(localStorage.getItem('TraditionalLiquorData')) : [],
             // ----------------------- 호경 끝 ---------------------------
         }
 
@@ -203,8 +205,13 @@ const store = createStore({
             localStorage.setItem('productAskCreateData', JSON.stringify(data))
         },
         // 전통주 설명
+        // setTraditionalLiquorData(state, data) {
+        //     state.TraditionalLiquorData = data;
+        // },
+        // 전통주 설명
         setTraditionalLiquorData(state, data) {
             state.TraditionalLiquorData = data;
+            localStorage.setItem('TraditionalLiquorData', JSON.stringify(data))
         },
         // ----------------------- 호경 끝 ---------------------------
     },actions: {
@@ -533,7 +540,8 @@ const store = createStore({
                 // localStorage.setItem('reviewToUpdate', JSON.stringify(response.data.data));
 
                 alert('리뷰 작성을 완료하였습니다.');
-                router.replace('/info');
+
+                router.replace('/review');
             })
             .catch(error => {
                 console.log(error.response); //  TODO : 삭제
@@ -554,7 +562,7 @@ const store = createStore({
             .then(response => {
                 context.commit('reviewToUpdate', response.data.data);
                 localStorage.setItem('reviewToUpdate', JSON.stringify(response.data.data));
-                if (confirm('리뷰 수정을 완료하였습니다. 확인을 누르면 리뷰 관리로 돌아갑니다.')){
+                if(confirm('리뷰 수정을 완료하였습니다. 확인을 누르면 리뷰 관리로 돌아갑니다.')){
                     router.replace('/review');
                 }
             })
@@ -709,6 +717,7 @@ const store = createStore({
                     context.commit('setUserInfo', null);
                     router.replace('/');
                     console.log(responseData);
+                    store.dispatch('getReviewistData');
             });
             }
         },

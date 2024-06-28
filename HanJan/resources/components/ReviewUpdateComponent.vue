@@ -9,12 +9,11 @@
         <div>
             <div class="reviewC_padding_top">이 상품의 품질에 대해서 얼마나 만족하시나요?</div>
             <div class="review_goods_item reviewC_grid">
-                <div>{{ $store.state.reviewToUpdate }}</div>
                 <div class="reviewC_order_at">{{ formatDate($store.state.reviewToUpdate.orpCre) }} 주문 / 구매확정 <span class="reviewC_yellow">{{ formatDate($store.state.reviewToUpdate.coCre) }}</span></div>
                 <div class="reviewC_goods_grid">
                     <img class="review_goods_img" :src="$store.state.reviewToUpdate.img">
                     <div class="reviewC_item_grid">
-                        <div class="review_goods_title">{{ $store.state.reviewToUpdate.name +' / '+ $store.state.reviewToUpdate.ml +'ml /' + '1' +'개'}}</div>
+                        <div class="reviewC_goods_title">{{ $store.state.reviewToUpdate.name +' / '+ $store.state.reviewToUpdate.ml +'ml /' + '1' +'개'}}</div>
                         <div class="reviewC_required"><span class="reviewC_required_red">*</span>(필수)</div>
                         <!-- 별점 초기 값은 date 들고오기 -->
                         <div class="star-rating">
