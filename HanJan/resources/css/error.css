@@ -1,0 +1,74 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Noto Sans KR", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: weight;
+    font-style: normal;
+}
+
+main {
+    width: 70%;
+    margin: 3rem auto;
+}
+
+.errors_title {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #5c5c5c;
+}
+
+.erros_box {
+    display: grid;
+    margin: 20px auto;
+    width: 80%;
+    grid-template-columns: 1fr 0.1fr 1fr;
+    justify-items: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.errors_img {
+    width: 800px;
+    grid-column: 1 / 4;
+    margin: 10px 0;
+}
+
+.errors_link {
+    grid-column: 1 / 2;
+    background-color: black;
+    border-radius: 20px;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    height: 35px;
+    width: 150px;
+    margin: 10px 0 0 200px;
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 35px;
+    text-align: center;
+}
+
+.errors_back {
+    grid-column: 3 / 4;
+    background-color: black;
+    border-radius: 20px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    height: 35px;
+    width: 150px;
+    margin: 10px 200px 0 0;
+    font-size: 1rem;
+    line-height: 35px;
+    text-align: center;
+}
+
+.errors_link:hover,
+.errors_back:hover {
+    background-color: #FAC91D;
+    color: black;
+}

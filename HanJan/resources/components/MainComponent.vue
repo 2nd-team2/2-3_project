@@ -174,7 +174,10 @@
         if(store.state.seasonData.length < 1) {
             store.dispatch('getSeasonData');
         }
-        
+        // 전통주 설명
+        if(store.state.TraditionalLiquorData.length < 1) {
+            store.dispatch('getTraditionalLiquorData');
+        }
     })
 
     // 공지사항 디테일 페이지 이동

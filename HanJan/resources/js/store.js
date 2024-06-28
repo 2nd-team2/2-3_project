@@ -68,7 +68,9 @@ const store = createStore({
             // 주문 목록
             productAskCreateData: localStorage.getItem('productAskCreateData') ? JSON.parse(localStorage.getItem('productAskCreateData')) : null,
             // 전통주 설명 데이터
-            TraditionalLiquorData: [],
+            // TraditionalLiquorData: [],
+            // 전통주 설명 데이터
+            TraditionalLiquorData: localStorage.getItem('TraditionalLiquorData') ? JSON.parse(localStorage.getItem('TraditionalLiquorData')) : [],
             // ----------------------- 호경 끝 ---------------------------
         }
 
@@ -203,8 +205,13 @@ const store = createStore({
             localStorage.setItem('productAskCreateData', JSON.stringify(data))
         },
         // 전통주 설명
+        // setTraditionalLiquorData(state, data) {
+        //     state.TraditionalLiquorData = data;
+        // },
+        // 전통주 설명
         setTraditionalLiquorData(state, data) {
             state.TraditionalLiquorData = data;
+            localStorage.setItem('TraditionalLiquorData', JSON.stringify(data))
         },
         // ----------------------- 호경 끝 ---------------------------
     },actions: {
@@ -707,6 +714,7 @@ const store = createStore({
                     context.commit('setUserInfo', null);
                     router.replace('/');
                     console.log(responseData);
+                    store.dispatch('getReviewistData');
             });
             }
         },

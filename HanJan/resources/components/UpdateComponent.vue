@@ -113,8 +113,8 @@ function chkPasswordChk() {
 }
 
 function chkPhone() {
-  const phone = /^\d{10,11}$/;
-  if (!phone.test(phone.value)) {
+  const phonePattern = /^\d{10,11}$/;
+  if (!phonePattern.test(phone.value)) {
     phoneError.value = '전화번호는 숫자 10,11자로 설정 해주세요.';
   } else {
     phoneError.value = '';
