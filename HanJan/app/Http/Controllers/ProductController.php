@@ -32,6 +32,7 @@ class ProductController extends Controller
         public function infoData() {
             $infoData = Orderproduct::select(
                             'orderproducts.*'
+                            ,'reviews.re_id'
                             ,'orderproducts.created_at as orpDate'
                             ,'products.*'
                             ,'completes.*'
@@ -42,6 +43,7 @@ class ProductController extends Controller
                             ->join('products','orderproducts.p_id','=','products.id')
                             ->leftJoin('exchanges','orderproducts.orp_id','=','exchanges.orp_id')
                             ->leftJoin('completes', 'orderproducts.orp_id', '=', 'completes.orp_id')
+                            ->leftJoin('reviews', 'orderproducts.orp_id', '=', 'reviews.orp_id')
                             ->where('orders.u_id', '=', Auth::id())
                             ->orderBy('orderproducts.created_at','DESC')
                             ->orderBy('orderproducts.orp_id','DESC')
