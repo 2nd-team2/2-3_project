@@ -6,13 +6,13 @@
                     교환 및 반품 신청
                 </h2>
                 <div class="ex_goods_item ex_grid">
-                    <div class="ex_order_at"> {{ $store.state.exchangeProduct.orpCre }} 주문 / 구매확정 <span class="ex_yellow"> {{ $store.state.exchangeProduct.comCre }}</span></div>
+                    <div class="ex_order_at"> {{ formatDate($store.state.exchangeProduct.orpCre) }} 주문 / 구매확정 <span class="ex_yellow"> {{ formatDate($store.state.exchangeProduct.comCre) }}</span></div>
                     <div class="ex_goods_grid">
                         <img class="ex_goods_img" :src="$store.state.exchangeProduct.img">
                         <div>
                             <div class="ex_goods_title ex_padding_bottom">{{ $store.state.exchangeProduct.name + ' ' +$store.state.exchangeProduct.ml + 'ml' }}</div>
                             <div class="ex_padding_bottom">
-                                <div class="ex_font">금액: {{ $store.state.exchangeProduct.price }}원 / {{ $store.state.exchangeProduct.orpCount }}개</div>
+                                <div class="ex_font">금액: {{ formatPrice($store.state.exchangeProduct.price) }}원 / {{ $store.state.exchangeProduct.orpCount }}개</div>
                             </div>
                         </div>
                     </div>
@@ -71,17 +71,17 @@
                 <div></div>
                 <div>
                     <div> 총 상품금액</div>
-                    <div class="ex_yellow ex_flex_end"> {{ $store.state.exchangeProduct.price * $store.state.exchangeProduct.orpCount }}원</div>
+                    <div class="ex_yellow ex_flex_end"> {{ formatPrice($store.state.exchangeProduct.price * $store.state.exchangeProduct.orpCount) }}원</div>
                 </div>
                 <img src="/img/plus.png">
                 <div>
                     <div>배송비</div>
-                    <div class="ex_yellow ex_flex_end"> {{ deliveryPrice }}원</div>
+                    <div class="ex_yellow ex_flex_end"> {{ formatPrice(deliveryPrice) }}원</div>
                 </div>
                 <img src="/img/equal.png">
                 <div>
                     <div>합계</div>
-                    <div class="ex_yellow ex_flex_end"> {{ $store.state.exchangeProduct.price * $store.state.exchangeProduct.orpCount + deliveryPrice }}원</div>
+                    <div class="ex_yellow ex_flex_end"> {{ formatPrice($store.state.exchangeProduct.price * $store.state.exchangeProduct.orpCount + deliveryPrice) }}원</div>
                 </div>
             </div>
             <input type="hidden" name="orp_id" :value="$store.state.exchangeProduct.orp_id">
@@ -210,7 +210,18 @@ function kakaoPostcode() {
     }).open();
 }
 
-
+// 날짜 포맷 (YYYY-MM-DD)
+function formatDate(dateString) {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1, 두 자리로 맞춤
+        const day = date.getDate().toString().padStart(2, '0'); // 두 자리로 맞춤
+        return `${year}-${month}-${day}`; // 연-월-일 형식으로 반환
+    }
+    // 금액 천단위 포맷 (,000)
+    function formatPrice(price) {
+        return price.toLocaleString('ko-KR');
+    }
 
 
 </script>

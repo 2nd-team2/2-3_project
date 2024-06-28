@@ -7,7 +7,7 @@
         <div>
             <div class="reviewC_padding_top">이 상품의 품질에 대해서 얼마나 만족하시나요?</div>
             <div class="review_goods_item reviewC_grid">
-                <div class="reviewC_order_at">{{ $store.state.reviewToUpdate.orpDate }} 주문 / 구매확정 <span class="reviewC_yellow">{{ $store.state.reviewToUpdate.completeOn }}</span></div>
+                <div class="reviewC_order_at">{{ formatDate($store.state.reviewToUpdate.orpDate) }} 주문 / 구매확정 <span class="reviewC_yellow">{{ formatDate($store.state.reviewToUpdate.completeOn) }}</span></div>
                 <div class="reviewC_goods_grid">
                     <img class="review_goods_img" :src="$store.state.reviewToUpdate.img">
                     <div class="reviewC_item_grid">
@@ -62,6 +62,15 @@ const selectedStar = ref(0);
 const selectStar = (star) => {
   selectedStar.value = star;
 };
+
+// 날짜 포맷 (YYYY-MM-DD)
+function formatDate(dateString) {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1, 두 자리로 맞춤
+        const day = date.getDate().toString().padStart(2, '0'); // 두 자리로 맞춤
+        return `${year}-${month}-${day}`; // 연-월-일 형식으로 반환
+}
 
 </script>
 

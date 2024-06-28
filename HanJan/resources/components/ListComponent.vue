@@ -27,7 +27,7 @@
                         <img :src="item.img">
                         <div class="list_best_detail">
                             <p>{{ item.name }}</p>
-                            <strong>{{ item.price }}원</strong>
+                            <strong>{{ formatPrice(item.price) }}원</strong>
                         </div>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                         <img :src="item.img">
                         <div class="list_best_detail">
                             <p>{{ item.name }}</p>
-                            <strong>{{ item.price }}원</strong>
+                            <strong>{{ formatPrice(item.price) }}원</strong>
                         </div>
                     </div>
                 </div>
@@ -141,6 +141,11 @@
         if (store.state.listData.current_page < store.state.listData.last_page) {
             goToPage(store.state.listData.current_page + 1);
         }
+    }
+
+    // 금액 천단위 포맷 (,000)
+    function formatPrice(price) {
+        return price.toLocaleString('ko-KR');
     }
 </script>
 

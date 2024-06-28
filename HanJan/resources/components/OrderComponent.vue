@@ -52,17 +52,17 @@
                     <div></div>
                     <div class="bag_price_grid">
                         <div class="total_text_right"> 총 {{ totalPrice.count }} 개의 상품금액</div>
-                        <div class="bag_yellow bag_flex_end"> {{ totalPrice.total }}원</div>
+                        <div class="bag_yellow bag_flex_end"> {{ formatPrice(totalPrice.total) }}원</div>
                     </div>
                     <img src="/img/plus.png">
                     <div>
                         <div class="total_text_right">배송비</div>
-                        <div class="bag_yellow bag_flex_end"> {{ deliveryPrice }}원</div>
+                        <div class="bag_yellow bag_flex_end"> {{ formatPrice(deliveryPrice) }}원</div>
                     </div>
                     <img src="/img/equal.png">
                     <div>
                         <div class="total_text_right">합계</div>
-                        <div class="bag_yellow bag_flex_end"> {{ totalPrice.total + deliveryPrice }}원</div>
+                        <div class="bag_yellow bag_flex_end"> {{ formatPrice(totalPrice.total + deliveryPrice) }}원</div>
                     </div>
                 </div>
 
@@ -263,6 +263,10 @@ function kakaoPostcode() {
     }).open();
 }
 
+// 금액 천단위 포맷 (,000)
+function formatPrice(price) {
+        return price.toLocaleString('ko-KR');
+}
 
 </script>
 
