@@ -15,10 +15,13 @@ main {
 } 
 
 .review_title {
-    font-size: 1.8rem;
     margin-bottom: 10px;
     padding-bottom: 15px;
     border-bottom: 1px solid #5c5c5c;
+}
+
+.review_title > h2 {
+    font-size: 1.8rem;
 }
 
 /* 상품 목록 테두리 및 정렬*/
@@ -26,7 +29,7 @@ main {
     border: 1px solid #5c5c5c;
     border-radius: 20px;
     margin: 40px 0;
-    display: flex;
+    display: grid;
     align-items: center;
 }
 
@@ -35,19 +38,38 @@ main {
     width: 90%;
     height: 90%;
     place-items: center; /* Grid 컨테이너 내부의 모든 항목을 중앙에 정렬 */
-    padding: 10px;
+    margin: 10px;
 }
 
 /* 상품 이름 */
 .review_goods_title {
     font-size: 1.5rem;
     font-weight: 500;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
+}
+.reviewC_goods_title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 20px;
 }
 
 
 
 /* *** 리뷰 관리 *** */
+/*  */
+.review_item_grid {
+    display: grid;
+    /* grid-template-rows: 1fr 1fr 1fr; */
+    padding: 20px;
+}
+/*  */
+.review_goods_grid {
+    display: grid;
+    grid-template-columns: 1.2fr 3.4fr 0.1fr 1.5fr;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
 
 /* 상품 목록 그리드 */
 .review_grid {
@@ -287,7 +309,7 @@ main {
     display: flex;
     cursor: pointer;
     align-items: center;
-    line-height: 20px;
+    line-height: 35px;
 }
 .star {
     font-size: 1.5rem;

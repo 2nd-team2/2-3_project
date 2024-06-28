@@ -534,7 +534,7 @@ const store = createStore({
 
                 alert('리뷰 작성을 완료하였습니다.');
 
-                router.replace('/info');
+                router.replace('/review');
             })
             .catch(error => {
                 console.log(error.response); //  TODO : 삭제
@@ -555,7 +555,7 @@ const store = createStore({
             .then(response => {
                 context.commit('reviewToUpdate', response.data.data);
                 localStorage.setItem('reviewToUpdate', JSON.stringify(response.data.data));
-                if (confirm('리뷰 수정을 완료하였습니다. 확인을 누르면 리뷰 관리로 돌아갑니다.')){
+                if(confirm('리뷰 수정을 완료하였습니다. 확인을 누르면 리뷰 관리로 돌아갑니다.')){
                     router.replace('/review');
                 }
             })
