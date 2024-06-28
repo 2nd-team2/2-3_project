@@ -167,17 +167,38 @@ hr {
 /* 아주 작은 화면에서는 한 컬럼으로 */
 @media (max-width: 480px) {
     .list_content {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
         width: 90%;
+        gap: 2rem 1rem;
     }
     
     .list_best_title {
-        margin: 2rem auto 1rem;
-        font-size: 1.3rem;
+        margin: 4rem auto 1rem;
+        font-size: 1.5rem;
+        margin-left: 5%;
+    }
+    .list_menu {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        gap: 2rem;
+        margin-top: 4rem;
+    }
+    .list_num_item {
+        width: 90%;
+        margin: 3rem auto 0;
+        align-items: center;
+        gap: 1rem;
     }
     
-    .list_num_item {
-        margin-top: 2rem;
+    .list_num_item > a {
+        margin: 1rem 0;
+    }
+    .list_best img {
+        width: 12rem;
+    }
+    hr {
+        width: 90%;
     }
 
 }

@@ -107,7 +107,8 @@ input[type="number"]::-webkit-outer-spin-button {
     padding: 0.5rem 1rem;
     font-weight: 600;
     margin-top: 0.5rem;
-    pointer-events: none
+    pointer-events: none;
+    width: 12rem;
 }
 .detailed_haeder_btn {
     display: flex;

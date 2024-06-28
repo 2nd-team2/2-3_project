@@ -29,12 +29,12 @@
                             <div @click="askProduct(item)" class="button_a">상품문의하기</div>
                             <div v-if="item.co_flg === '1'">
                                 <div @click="exchange(item.orp_id)" class="button_a" v-if="item.ex_flg === '0'">교환, 반품 신청</div>
-                                <div class="button_b button_ex_color" v-else-if="item.ex_flg === '1'">교환, 반품 신청 완료</div>
+                                <div class="button_b button_complete_color" v-else-if="item.ex_flg === '1'">교환, 반품 신청 완료</div>
                                 <div class="button_b" v-else-if="item.ex_flg === '2'">상품 회수중</div>
                                 <div class="button_b" v-else-if="item.ex_flg === '3'">교환, 반품 처리 완료</div>
                             </div>
                             <div @click="infoReviewCreate(item)" type="button" class="button_a" v-if="item.re_id === null && item.co_flg === '1'">리뷰 작성하기</div>
-                            <div type="button" class="button_b" v-else-if="item.re_id">리뷰 작성 완료</div>
+                            <div type="button" class="button_b button_complete_color" v-else-if="item.re_id">리뷰 작성 완료</div>
                         </div>
                     </div>
                     <div v-else>
