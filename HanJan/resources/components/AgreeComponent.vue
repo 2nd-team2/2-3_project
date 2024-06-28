@@ -92,6 +92,7 @@ const showModal = ref(false);
 const agree1Checked = ref(false);
 const agree2Checked = ref(false);
 const agree3Checked = ref(false);
+
 const allAgreed = ref(false);
 
 function checkAllAgreements() {

@@ -99,7 +99,7 @@ class UserController extends Controller
             $validator = Validator::make(
                 $requestData,
                 [
-                    'email' => ['required', 'min:10', 'max:30','unique:users', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
+                    'email' => ['required', 'min:5', 'max:30','unique:users', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
                     'password' => ['required', 'min:8', 'max:20', 'regex:/^[a-zA-Z0-9!@#$%^&*]+$/u'], 
                     'password_chk' => ['same:password'],
                     'tel' => ['required', 'min:10','max:11', 'regex:/^[0-9]+$/'],
@@ -171,7 +171,6 @@ class UserController extends Controller
 
             // 업데이트 할 리퀘스트 데이터 셋팅
             $userInfo->password = Hash::make($request->password); 
-            $userInfo->name = $request->name;
             $userInfo->tel = $request->tel;
             $userInfo->addr = $request->addr;
             $userInfo->det_addr = $request->det_addr;
