@@ -714,6 +714,7 @@ const store = createStore({
                     context.commit('setUserInfo', null);
                     router.replace('/');
                     console.log(responseData);
+                    store.dispatch('getReviewistData');
             });
             }
         },
