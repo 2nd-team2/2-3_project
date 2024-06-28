@@ -210,9 +210,9 @@ class ReviewController extends Controller
                             ->join('users', 'users.id', '=', 'reviews.u_id')
                             ->join('orderproducts', 'orderproducts.orp_id', '=', 'reviews.orp_id')
                             ->join('products','products.id', '=', 'orderproducts.p_id')
-                            ->whereNotNull('users.deleted_at')
+                            ->whereNull('users.deleted_at')
+                            ->orderBy('reviews.updated_at', 'DESC')
                             ->orderBy('reviews.re_star', 'DESC')
-                            ->orderBy('reviews.created_at', 'DESC')
                             ->limit(4)
                             ->get();
         $responseData = [
