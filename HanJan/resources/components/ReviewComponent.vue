@@ -94,7 +94,8 @@ const reviewPages = computed(() => {
     // 페이지네이션 3개
     const maxPagesToShow = 5;
 
-    let startPage = store.state.reviewData.current_page - 2;
+    // let startPage = store.state.reviewData.current_page - 2;
+    let startPage = store.state.reviewData.last_page <5 ? 1 : store.state.reviewData.current_page - 2;
     if(startPage < 1) {
         startPage = 1;
     }

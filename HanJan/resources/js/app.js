@@ -16,7 +16,7 @@ createApp({
 .mount('#app');
 
 // 전역 에러 핸들러 설정
-app.config.errorHandler = (err, instance, info) => {
-    console.error(err);
-    router.push({ name: 'NotFound' });
-};
+// app.config.errorHandler = (err, instance, info) => {
+//     console.error(err);
+//     router.push({ name: 'NotFound' });
+// };
