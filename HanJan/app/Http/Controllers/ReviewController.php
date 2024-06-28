@@ -29,11 +29,12 @@ class ReviewController extends Controller
         $reviewData = Review::select(
                         'products.*'
                         ,'orderproducts.*'
-                        // ,'completes.created_at as coCre'
+                        ,'orderproducts.created_at as orpCre'
+                        ,'completes.created_at as coCre'
                         ,'reviews.*')
                         ->join('orderproducts','reviews.orp_id','=','orderproducts.orp_id')
                         ->join('products','products.id','=','orderproducts.p_id')
-                        // ->join('completes','completes.orp_id','=','orderproducts.orp_id')
+                        ->join('completes','completes.orp_id','=','orderproducts.orp_id')
 
                         ->where('reviews.u_id', '=', Auth::id())
                         ->where('reviews.deleted_at', '=', null)

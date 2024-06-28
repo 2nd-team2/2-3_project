@@ -26,13 +26,13 @@
                         <div class="reviewC_item_grid">
                             <div class="bag_goods_title bag_padding_bottom"> {{ item.name }}</div>
                             <div>배송비 : 착불</div>
-                            <div class="bag_font">금액: {{ item.price }}원</div>
+                            <div class="bag_font">금액: {{ formatPrice(item.price) }}원</div>
                             <div class="bag_count">
                                 <button type="button" @click="decInt(item)" :disabled="item.ba_count <= 1" class="bag_count_minus">-</button>
                                 <input type="number" v-model="item.ba_count" name="ba_count[]" @change="validateCount(item)" class="quantity-input">
                                 <button type="button" @click="incInt(item)" :disabled="item.ba_count >= item.count" class="bag_count_plus">+</button>
                             </div>    
-                            <div>총 상품가격 : {{ item.price * item.ba_count }}원</div>
+                            <div>총 상품가격 : {{ formatPrice(item.price * item.ba_count) }}원</div>
                         </div>
                         <button @click="$store.dispatch('bagsDelete', item.ba_id)" class="bag_delete" type="button"></button>
                     </div>
@@ -46,18 +46,18 @@
                 <div class="bag_total_box" v-if="$store.state.bagsProductData && $store.state.bagsProductData.length > 0">
                     <div class="bag_margin_top bag_margin_bottom bag_total_border bag_total_grid">
                         <div class="bag_price_grid">
-                            <div class="total_text_right"> 총 {{ totalPrice.count }} 개의 상품금액</div>
-                            <div class="bag_yellow bag_flex_end"> {{ totalPrice.total }}원</div>
+                            <div class="total_text_right"> 총 {{ formatPrice(totalPrice.count) }} 개의 상품금액</div>
+                            <div class="bag_yellow bag_flex_end"> {{ formatPrice(totalPrice.total) }}원</div>
                         </div>
                         <img src="/img/plus.png" class="plus_icon">
                         <div class="bag_total_item1">
                             <div class="total_text_right">배송비</div>
-                            <div class="bag_yellow bag_flex_end"> {{ deliveryPrice }}원</div>
+                            <div class="bag_yellow bag_flex_end"> {{ formatPrice(deliveryPrice) }}원</div>
                         </div>
                         <img src="/img/equal.png" class="equal_icon">
                         <div class="bag_total_item2">
                             <div class="total_text_right">합계</div>
-                            <div class="bag_yellow bag_flex_end"> {{ deliveryPrice + totalPrice.total }}원</div>
+                            <div class="bag_yellow bag_flex_end"> {{ formatPrice(deliveryPrice + totalPrice.total) }}원</div>
                         </div>
                     </div>
                     <div class="btn_box">
@@ -223,7 +223,10 @@ const bagsToOrder = () => {
     }
 }
 
-
+// 금액 천단위 포맷 (,000)
+function formatPrice(price) {
+        return price.toLocaleString('ko-KR');
+    }
 
 
 

@@ -5,7 +5,7 @@
             <div class="detailed_haeder_item">
                 <p class="detailed_haeder_title">{{ store.state.productDetail.name }}</p>
                 <p>판매가격 :</p>
-                <p class="detailed_haeder_price">{{ store.state.productDetail.price }}원</p>
+                <p class="detailed_haeder_price">{{ formatPrice(store.state.productDetail.price) }}원</p>
                 <div class="detailed_haeder_review">
                     <img src="/img/detailed_star.png">
                     <p>{{ store.state.productDetail.star_avg }}</p>
@@ -133,6 +133,11 @@
     // onBeforeMount(() => {
     //     store.dispatch('setProductReviewData');
     // })
+
+    // 금액 천단위 포맷 (,000)
+    function formatPrice(price) {
+        return price.toLocaleString('ko-KR');
+    }
 
 </script>
 
