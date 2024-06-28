@@ -6,7 +6,6 @@
                 돌아가기
             </router-link >
         </h2>
-        <div>test : {{ $store.state.reviewToUpdate }}</div>
         <div>
             <div class="reviewC_padding_top">이 상품의 품질에 대해서 얼마나 만족하시나요?</div>
             <div class="review_goods_item reviewC_grid">
@@ -21,7 +20,6 @@
                             <span class="star" v-for="star in 5" :key="star" :class="{ checked: star <= selectedStar }" @click="selectStar(star)">
                                 &#9733;
                             </span>
-                            <span>{{ selectedStar }}</span>
                         </div>
                     </div>
                 </div>

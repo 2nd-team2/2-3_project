@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Validator;
 class OrderController extends Controller
 {
     // 트랜잭션으로 아래 함수를 병합 > 일관성을 유지하기 위해서
-    // orderComplete, orderProductComlete, orderComEx
+    // orderComplete, orderProductComlete, orderComEx, bagsCompleteDelete
 
     public function orderTrans(Request $request) {
         // JSON 데이터를 배열 또는 객체로 변환
@@ -28,9 +28,7 @@ class OrderController extends Controller
         DB::beginTransaction();
 
         try {
-            Log::debug($data);
-            Log::debug($data['data'][0]);
-            
+
             // ************************************************
             // 1. orderComplete 처리
             // 주문 데이터는 하나만 저장해도 되기 때문에 먼저 실행
@@ -39,14 +37,14 @@ class OrderController extends Controller
             
             // 리퀘스트 데이터 받기
             $requestData = [
-                'or_buy_name' => $orderItem->or_buy_name
-                ,'or_buy_tel' => $orderItem->or_buy_tel
-                ,'or_get_name' => $orderItem->or_get_name
-                ,'or_get_tel' => $orderItem->or_get_tel
-                ,'or_get_addr' => $orderItem->or_get_addr
-                ,'or_get_post' => $orderItem->or_get_post
-                ,'or_get_det_addr' => $orderItem->or_get_det_addr
-                ,'or_sum' => $orderItem->or_sum
+                'or_buy_name' => $orderItem['or_buy_name'],
+                'or_buy_tel' => $orderItem['or_buy_tel'],
+                'or_get_name' => $orderItem['or_get_name'],
+                'or_get_tel' => $orderItem['or_get_tel'],
+                'or_get_addr' => $orderItem['or_get_addr'],
+                'or_get_post' => $orderItem['or_get_post'],
+                'or_get_det_addr' => $orderItem['or_get_det_addr'],
+                'or_sum' => $orderItem['or_sum']
             ];
 
             // 데이터 유효성 검사
@@ -71,18 +69,18 @@ class OrderController extends Controller
             }    
 
             // 주문 데이터 생성
-            $orderData = $orderItem->all();
+            $orderData = $orderItem;
             
             // 작성 데이터 입력 처리
             $orderData['u_id'] = Auth::id();
-            $orderData['or_buy_name'] = $orderItem->or_buy_name;
-            $orderData['or_buy_tel'] = $orderItem->or_buy_tel; 
-            $orderData['or_get_name'] = $orderItem->or_get_name;
-            $orderData['or_get_tel'] = $orderItem->or_get_tel;
-            $orderData['or_get_addr'] = $orderItem->or_get_addr;
-            $orderData['or_get_post'] = $orderItem->or_get_post;
-            $orderData['or_get_det_addr'] = $orderItem->or_get_det_addr;
-            $orderData['or_sum'] = $orderItem->or_sum;
+            $orderData['or_buy_name'] = $orderItem['or_buy_name'];
+            $orderData['or_buy_tel'] = $orderItem['or_buy_tel']; 
+            $orderData['or_get_name'] = $orderItem['or_get_name'];
+            $orderData['or_get_tel'] = $orderItem['or_get_tel'];
+            $orderData['or_get_addr'] = $orderItem['or_get_addr'];
+            $orderData['or_get_post'] = $orderItem['or_get_post'];
+            $orderData['or_get_det_addr'] = $orderItem['or_get_det_addr'];
+            $orderData['or_sum'] = $orderItem['or_sum'];
 
             // 작성 저장 처리
             $orderCreate = Order::create($orderData);        
@@ -90,13 +88,15 @@ class OrderController extends Controller
 
             // *******************************************************
             // 이외 데이터는 여러개 저장해야되므로 모든 데이터 다 들고 오기
-            $orderItems = $data['data']->all();
+
+            $orderItems = $data['data'];
             $savedOrderProducts = [];
             $saveOrderComExs = [];
+            $deletedBags = [];
 
             foreach($orderItems as $item) {
+                // ****************************
                 // 2. orderProductComlete 처리
-                // 주문 상품 테이블 작성
 
                 $orderProductData = [
                     // 'u_id' => Auth::id(),
@@ -110,7 +110,9 @@ class OrderController extends Controller
                 // 작성한 데이터 배열로 만들기
                 $savedOrderProducts[] = $orderProductCreate;
 
+                // *****************************************************
                 // 3. orderComEx 처리 (구매확정, 교환 및 반품 데이터 생성)
+                
                 // 구매확정 데이터 입력
                 $completeData = [
                     'orp_id' => $orderProductCreate->orp_id
@@ -127,17 +129,46 @@ class OrderController extends Controller
                 ];
                 // 작성처리
                 $exchangeCreateData = Exchange::create($exchangeData);
-        
+                
                 // 작성한 데이터 배열로 만들기
                 $saveOrderComExs[] = [
                     'complete' => $completeCreateData,
                     'exchange' => $exchangeCreateData
                 ];
+                
+                // *****************************************************
+                // 4. bagsCompleteDelete 처리 (장바구니에서 온 데이터만 삭제)
+                if ($item['buy_type'] === 'bags') {
+
+                    $ba_id = $item['ba_id'];
+                    $p_id = $item['p_id'];
+                    $ba_count = $item['ba_count'];
+
+
+                    $bag = Bag::find($ba_id);
+                    if ($bag) {
+                        $bag->delete(); // 소프트 삭제
+                        $deletedBags[] = $ba_id;
+                    }
+            
+                    // Products 테이블에서 ba_count 빼기
+                    $product = Product::find($p_id);
+                    if ($product) {
+                        // 현재 ba_count를 가져온 후 빼고 저장
+                        $currentCount = $product->count;
+                        $product->count = $currentCount - $ba_count;
+                        $product->save();
+                    }
+                }
+                else {
+                    Log::debug($item['buy_type']);
+                }
+            
             }
 
 
-
-            
+            DB::commit();
+ 
             // 레스폰스 데이터 생성
             $responseData = [
                 'code' => '0'
@@ -145,15 +176,19 @@ class OrderController extends Controller
                 ,'orderData' => $orderCreate
                 ,'orderProductData' => $savedOrderProducts
                 ,'orderComExData' => $saveOrderComExs
-                ,
+                ,'orderDeleteData' => $deletedBags
             ];
+
+            Log::debug($responseData);
 
             return response()->json($responseData, 200);
 
 
-            DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
+            Log::error('결제 처리 오류: ' . $th->getMessage());
+    
+            return response()->json(['success' => false, 'message' => '결제 처리 중 오류가 발생했습니다.'], 500);
         }
 
 
@@ -299,43 +334,43 @@ class OrderController extends Controller
 
 
     
-    // 장바구니 테이블 삭제
-    public function bagsCompleteDelete(Request $request){
+    // // 장바구니 테이블 삭제
+    // public function bagsCompleteDelete(Request $request){
 
-        $orderDeleteProducts = $request->all();
-        $deletedBags = [];
+    //     $orderDeleteProducts = $request->all();
+    //     $deletedBags = [];
         
-        foreach ( $orderDeleteProducts as $bagProductData) {
+    //     foreach ( $orderDeleteProducts as $bagProductData) {
 
-            $ba_id = $bagProductData['ba_id'];
-            $p_id = $bagProductData['p_id'];
-            $ba_count = $bagProductData['ba_count'];
+    //         $ba_id = $bagProductData['ba_id'];
+    //         $p_id = $bagProductData['p_id'];
+    //         $ba_count = $bagProductData['ba_count'];
 
 
-            $bag = Bag::find($ba_id);
-            if ($bag) {
-                $bag->delete(); // 소프트 삭제
-                $deletedBags[] = $ba_id;
-            }
+    //         $bag = Bag::find($ba_id);
+    //         if ($bag) {
+    //             $bag->delete(); // 소프트 삭제
+    //             $deletedBags[] = $ba_id;
+    //         }
     
-            // Products 테이블에서 ba_count 빼기
-            $product = Product::find($p_id);
-            if ($product) {
-                // 현재 ba_count를 가져온 후 빼고 저장
-                $currentCount = $product->count;
-                $product->count = $currentCount - $ba_count;
-                $product->save();
-            }
+    //         // Products 테이블에서 ba_count 빼기
+    //         $product = Product::find($p_id);
+    //         if ($product) {
+    //             // 현재 ba_count를 가져온 후 빼고 저장
+    //             $currentCount = $product->count;
+    //             $product->count = $currentCount - $ba_count;
+    //             $product->save();
+    //         }
 
-        }
+    //     }
 
-        $responseData = [
-            'code' => '0'
-            ,'msg' => '주문 완료 장바구니 삭제 완료'
-            ,'data' => $deletedBags
-        ];
+    //     $responseData = [
+    //         'code' => '0'
+    //         ,'msg' => '주문 완료 장바구니 삭제 완료'
+    //         ,'data' => $deletedBags
+    //     ];
 
-        return response()->json($responseData);
-    }
+    //     return response()->json($responseData);
+    // }
     
 }

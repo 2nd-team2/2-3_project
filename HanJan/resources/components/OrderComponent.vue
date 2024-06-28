@@ -1,6 +1,5 @@
 <template>
     <main>
-      <div>{{ $store.state.orderProductData }}</div>
         <form id="orderComplete" @submit.prevent="validateForm">
             <div></div>
             <div class="header">
@@ -35,10 +34,10 @@
                 <div class="main_bottom">
                     <div class="main_bottom_name">이름</div>
                     <p class="info_item_err_msg1">{{ getNameError }}</p>
-                    <input type="text" name="or_get_name" id="or_get_name" @input="getChkName" v-model="orderCompleteData.or_get_addr" class="main_bottom_input1">
+                    <input type="text" name="or_get_name" id="or_get_name" @input="getChkName" v-model="orderCompleteData.or_get_name" class="main_bottom_input1">
                     <div class="main_bottom_tell">휴대폰번호</div>
                     <p class="info_item_err_msg2 ">{{ getTelError }}</p>
-                    <input type="text" name="or_get_tel" id="or_get_tel" @input="getChkTel" v-model="orderCompleteData.or_buy_tel" class="main_bottom_input2">
+                    <input type="text" name="or_get_tel" id="or_get_tel" @input="getChkTel" v-model="orderCompleteData.or_get_tel" class="main_bottom_input2">
                     <label class="main_bottom_adds" for="address">주소</label>
                     <p class="info_item_err_msg3">{{ addressError }}</p>
                     <input type="text"  name="or_get_addr" id="address" @input="chkAddress" readonly @click="kakaoPostcode" class="main_bottom_input3" v-model="orderCompleteData.or_get_addr" >
@@ -67,7 +66,7 @@
                     </div>
                 </div>
 
-                <input type="hidden" name="or_sum" :value="totalPrice.total + deliveryPrice">
+                <input type="hidden" name="or_sum" v-model="or_sum">
                 <input type="hidden" name="orp_id" :value="$store.state.orderProductData.p_id">  
                 <input type="hidden" name="orp_count" :value="$store.state.orderProductData.ba_count">
                 <div class="btn_com_box">
@@ -93,7 +92,7 @@ const orderCompleteData = reactive({
     or_get_addr: store.state.userInfo.addr,
     or_get_det_addr: store.state.userInfo.det_addr,
     or_get_post: store.state.userInfo.post,
-    or_sum: 0,
+    or_sum: computed(() => totalPrice.value.total + deliveryPrice.value)
 });
 
 
@@ -102,13 +101,17 @@ const deliveryPrice = ref(0);
 
 // 체크된 항목들만 필터링 > (선택된 상품의 총 합계와 수량을 리턴해줌)
 const totalPrice = computed(() => {
-    const Items = store.state.orderProductData;
+    let Items = store.state.orderProductData;
+    // 배열이 아니면 배열로 바꾸기
+    if (!Array.isArray(Items) && Items !== null && typeof Items === 'object') {
+        Items = [Items];
+    }
 
     let count = 0;
     let total = 0;
 
     // 객체, 배열 판단
-    if (Array.isArray(Items)) {
+    // if (Array.isArray(Items)) {
         // 장바구니페이지(구매하기) -> 주문페이지 : 배열로 넘어옴
         count = Items.length;
 
@@ -122,12 +125,13 @@ const totalPrice = computed(() => {
         else {
             total += (Items[0].price * Items[0].ba_count);
         }
-    } 
-    // 상세페이지(바로구매) -> 주문페이지 : 객체로 넘어옴
-    else if (Items && typeof Items === 'object') {
-        count = 1;
-        total += (Items.price * Items.ba_count);
-    }
+    // } 
+    // // 상세페이지(바로구매) -> 주문페이지 : 객체로 넘어옴
+    // else if (Items && typeof Items === 'object') {
+        
+    //     count = 1;
+    //     total += (Items.price * Items.ba_count);
+    // }
 
     return {count, total};
 });

@@ -349,16 +349,31 @@ const store = createStore({
          * 실제 결제하기 기능은 없고 각 테이블에 데이터 처리만 수행
          * 
          * @param {*} context
-         * @param {*} store.state.orderProductData
+         * @param {*} orderComplete
         */
         orderComplete(context, orderComplete) {
+            let orderItems = [];
 
-            // 장바구니에서 받은 데이터와 주문페이지에서 입력한 데이터 가공 처리
-            const orderItems = store.state.orderProductData.map(item => {
-                const OrderItem = { ...orderComplete, ...item };
+            if(Array.isArray(store.state.orderProductData)){
+                // store.state.orderProductData가 배열인 경우
+                orderItems = store.state.orderProductData.map(item => (
+                    { ...orderComplete, ...item }));
+            } else if (typeof store.state.orderProductData === 'object') {
+                // store.state.orderProductData가 객체인 경우
+                orderItems = [ { ...orderComplete, ...store.state.orderProductData } ]; // 객체를 배열로 변환하여 저장
+            } else {
+                console.error('Invalid orderProductData format in Vuex state.');
+                return; // 예외 처리: 유효하지 않은 데이터 형식인 경우 종료
+            }
+
+
+            
+            // // 장바구니에서 받은 데이터와 주문페이지에서 입력한 데이터 가공 처리
+            // const orderItems = store.state.orderProductData.map(item => {
+            //     const OrderItem = { ...orderComplete, ...item };
                 
-                return OrderItem;
-            });
+            //     return OrderItem;
+            // });
 
             const data = JSON.stringify({ data: orderItems}); // 키값을 포함하여 서버에 전달
             console.log(data); // TODO : 삭제
@@ -366,8 +381,8 @@ const store = createStore({
 
             axios.post(url, data)
             .then(response => {
-                console.log(response.data.data);
-                // router.push('/ordercomplete');             
+                console.log(response.data);
+                router.push('/ordercomplete');         
             })
             .catch(error => {
                 alert('결제에 실패하였습니다.(' + error.response.data.code + ')' )
@@ -540,8 +555,9 @@ const store = createStore({
             .then(response => {
                 context.commit('reviewToUpdate', response.data.data);
                 localStorage.setItem('reviewToUpdate', JSON.stringify(response.data.data));
-
-                alert('리뷰 수정을 완료하였습니다.');
+                if (confirm('리뷰 수정을 완료하였습니다. 확인을 누르면 리뷰 관리로 돌아갑니다.')){
+                    router.replace('/review');
+                }
             })
             .catch(error => {
                 alert('리뷰 수정에 실패하였습니다.(' + error.response.data.code + ')' )

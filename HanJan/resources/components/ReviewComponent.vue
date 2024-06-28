@@ -19,8 +19,6 @@
                             <span class="star" v-for="star in 5" :key="star" :class="{ checked: star <= item.re_star }">
                                 &#9733;
                             </span>
-                            <span>{{ item.re_star }}</span>
-
                         </div>                  
                     </div>
                     <div>
