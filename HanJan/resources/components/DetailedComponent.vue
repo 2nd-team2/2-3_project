@@ -24,7 +24,7 @@
                 <div>
                     <p>총 상품가격</p>
                     <!-- <input type="number" class="detailed_haeder_num" :value="$store.state.productDetail.price*count" readonly >원 -->
-                    <div class="detailed_haeder_num">{{ formatPrice(store.state.productDetail.price*count) }}</div> 원
+                    <div class="detailed_haeder_num">{{ formatPrice (store.state.productDetail.price*count) }}</div> 원
                 </div>
                 <div class="detailed_haeder_btn">
                         <!-- 수량만 장바구니에 저장 -->

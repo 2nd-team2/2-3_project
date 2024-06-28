@@ -36,6 +36,9 @@ hr {
     font-weight: 500;
     font-size: 1rem;
 }
+.list_name_bk {
+    background-color: rgba(250, 201, 29, 0.3);
+}
 
 /* ------------- 한잔 베스트 ------------- */
 .list_content {
