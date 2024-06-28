@@ -80,10 +80,12 @@ const modalTerms = ref('');
 function openModal(terms) {
     modalTerms.value = terms;
     showModal.value = true;
+    document.body.style.overflowY = 'hidden';
 }
 
 const modalOff = () => {
     showModal.value = false;
+    document.body.style.overflowY = 'scroll';
 }
 
 const showModal = ref(false);

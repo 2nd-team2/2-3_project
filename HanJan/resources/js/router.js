@@ -23,6 +23,7 @@ import NoticeListComponent from '../components/NoticeListComponent.vue';
 import NoticeComponent from '../components/NoticeComponent.vue';
 import store from './store';
 import ListComponent from '../components/ListComponent.vue';
+import ErrorsComponent from '../components/ErrorsComponent.vue';
 
 const routes = [
     {
@@ -55,10 +56,23 @@ const routes = [
         path: '/detailed',
         component: DetailedCompnent,
         beforeEnter: (to, from, next) => {
-            store.dispatch('setProductDetailData', to.query.id);
-            store.dispatch('setProductReviewData', to.query.id);
+            // 숫자인지 검증
+            const validId = /^\d+$/; 
+            const IdValue = parseInt(to.query.id, 10);
 
-            next();
+            if(
+                validId.test(to.query.id) &&
+                IdValue >= 1 &&
+                IdValue <= 68
+            ) {
+                // 유효한 경우
+                store.dispatch('setProductDetailData', to.query.id);
+                store.dispatch('setProductReviewData', to.query.id);
+                next();
+            } else {
+                // 유효하지 않은 경우 에러 페이지로 리디렉션
+                next({ name: 'NotFound' });
+            }
         }
     },
     {
@@ -106,18 +120,46 @@ const routes = [
             next();
         }, 
     },
+    // {
+    //     path: '/list',
+    //     component: ListComponent,
+    //     beforeEnter: (to, from, next) => {
+    //         // 베스트 상품
+    //         store.commit('setCurrentImage', to.query.type);
+    //         // 리스트 상품
+    //         store.dispatch('getList', to.query);
+
+    //         next();
+    //     },
+    // },
     {
         path: '/list',
         component: ListComponent,
         beforeEnter: (to, from, next) => {
-            // 베스트 상품
-            store.commit('setCurrentImage', to.query.type);
-            // 리스트 상품
-            store.dispatch('getList', to.query);
+          // 쿼리 파라미터 검증
+          // 유효한 type 값들
+          const validTypes = ['99', '0', '1', '2']; 
+          // 숫자인지 검증
+          const validPage = /^\d+$/; 
 
-            next();
-        }, 
-    },
+          const pageValue = parseInt(to.query.page, 10);
+    
+          if (
+                validTypes.includes(to.query.type) &&
+                validPage.test(to.query.page) &&
+                pageValue >= 1 &&
+                pageValue <= 68
+            ) {
+                // 유효한 경우
+                store.commit('setCurrentImage', to.query.type);
+                store.dispatch('getList', to.query);
+                next();
+            } else {
+                // 유효하지 않은 경우 에러 페이지로 리디렉션
+                next({ name: 'NotFound' });
+            }
+        }
+      },
     {
         path: '/order',
         component: OrderComponent,
@@ -171,7 +213,12 @@ const routes = [
             next();
         }
     },
-
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'NotFound',
+        component: ErrorsComponent,
+    },
+   
 ];
 
 function chkAuth(to, from, next) {

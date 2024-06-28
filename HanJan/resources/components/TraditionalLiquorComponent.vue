@@ -4,7 +4,7 @@
             전통주 이야기
         </h2>
         <div class="tl_none">
-            {{ $store.state.TraditionalLiquorData }}
+            <!-- {{ $store.state.TraditionalLiquorData }} -->
         </div>
         <swiper
             :slidesPerView="1"
@@ -37,7 +37,7 @@
                 <div class="tl_box">
                     <img :src="$store.state.TraditionalLiquorData[0].tl_img" class="tl_type_img">
                     <div class="tl_type">{{ $store.state.TraditionalLiquorData[0].tl_title }}</div>
-                    <p class="tl_type_content">{{ $store.state.TraditionalLiquorData[0].tl_content }}</p>
+                    <p class="tl_type_content">{{ $store.state.TraditionalLiquorData[0].tl_content }}</p>   
                 </div>
             </swiper-slide>
             <swiper-slide>
