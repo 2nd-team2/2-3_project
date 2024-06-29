@@ -35,6 +35,8 @@
             <input type="hidden" name="name" :value="$store.state.reviewToUpdate.name">
             <input type="hidden" name="ml" :value="$store.state.reviewToUpdate.ml">
             <input type="hidden" name="img" :value="$store.state.reviewToUpdate.img">
+            <input type="hidden" name="orpCre" :value="$store.state.reviewToUpdate.orpCre">
+            <input type="hidden" name="coCre" :value="$store.state.reviewToUpdate.coCre">
 
             <div class="reviewC_padding_top">
                 <textarea name="re_content" placeholder="다른 고객님에게 도움이 되도록 상품에 대한 솔직한 평가를 남겨주세요.(최대 : 500자)">{{ $store.state.reviewToUpdate.re_content }}</textarea>

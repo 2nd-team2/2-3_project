@@ -78,7 +78,7 @@ class ReviewController extends Controller
         $validator = Validator::make(
             $request->only('re_star', 're_content')
             , [
-                're_star' => ['required']
+                're_star' => ['required', 'regex: /^[0-5]+$/u' ]
                 ,'re_content' => ['nullable', 'max: 200','regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
             ]
         );
@@ -87,6 +87,15 @@ class ReviewController extends Controller
             Log::debug('유효성 검사 실패', $validator->errors()->toArray());
             throw new MyValidateException('E01');
         }
+
+        // 별점 0점일때
+        if($request->re_star == '0') {
+            return response()->json([
+                'code' => 're_star_zero',
+                'msg' => '별점이 0점입니다.'
+            ], 400);
+        }
+
         
         $reviewCreateData = new Review();
         
@@ -191,7 +200,9 @@ class ReviewController extends Controller
         $addUpdateData = [
             'ml' => $request->ml,
             'name' => $request->name,
-            'img' => $request->img
+            'img' => $request->img,
+            'orpCre' => $request->orpCre,
+            'coCre' => $request->coCre,
         ];
 
         // 레스폰스 데이터 생성
