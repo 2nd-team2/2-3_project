@@ -371,8 +371,6 @@ const store = createStore({
                 return; // 예외 처리: 유효하지 않은 데이터 형식인 경우 종료
             }
 
-
-            
             // // 장바구니에서 받은 데이터와 주문페이지에서 입력한 데이터 가공 처리
             // const orderItems = store.state.orderProductData.map(item => {
             //     const OrderItem = { ...orderComplete, ...item };
@@ -394,7 +392,6 @@ const store = createStore({
             });
 
         },
-
 
         // orderComplete(context, bagsToOrder) {   
         //     if(confirm('확인을 누르면 결제가 진행됩니다.')) {
@@ -503,10 +500,10 @@ const store = createStore({
         reviewDelete(context, re_id) {
             const url = '/api/reviewDelete/' + re_id;
             
-            if (confirm('확인을 누르면 작성한 리뷰가 삭제됩니다.')) {
+            if (confirm('확인을 누르면 작성한 리뷰가 삭제됩니다. \n리뷰 삭제 시 다시 작성할 수 없습니다.')) {
                 axios.delete(url)
-                .then(response => {
-                    console.log(response.data); // TODO : 삭제
+                .then(responseData => {
+                    context.dispatch('reviewGet', lastItemPaginate(context.state.reviewData));
                 })
                 .catch(error => {
                     alert('리뷰 삭제에 실패했습니다.(' + error.response.data.code + ')' )
@@ -564,7 +561,7 @@ const store = createStore({
                 context.commit('reviewToUpdate', response.data.data);
                 localStorage.setItem('reviewToUpdate', JSON.stringify(response.data.data));
 
-                if(confirm('리뷰 수정을 완료하였습니다. 확인을 누르면 리뷰 관리로 돌아갑니다.')){
+                if(confirm('리뷰 수정을 완료하였습니다. \n확인을 누르면 리뷰 관리로 돌아갑니다.')){
                     router.replace('/review');
                 }
             })
@@ -758,7 +755,7 @@ const store = createStore({
             if (confirm('확인을 누르면 구매한 상품이 삭제됩니다.')) {
                 axios.delete(url)
                 .then(responseData => {
-                    context.dispatch('getInfoData', context.state.infoData.current_page);
+                    context.dispatch('getInfoData', lastItemPaginate(context.state.infoData));
                 })
                 .catch(error => {
                     alert('삭제에 실패했습니다.(' + error.response.data.code + ')' )
@@ -785,7 +782,7 @@ const store = createStore({
             if (confirm('확인을 누르면 작성한 상품 문의가 삭제됩니다.')) {
                 axios.delete(url)
                 .then(responseData => {
-                    context.dispatch('getProductAskData', context.state.productAskData.current_page);
+                    context.dispatch('getProductAskData', lastItemPaginate(context.state.productAskData));
                 })
                 .catch(error => {
                     alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
@@ -812,7 +809,7 @@ const store = createStore({
             if (confirm('확인을 누르면 작성한 1:1 문의가 삭제됩니다.')) {
                 axios.delete(url)
                 .then(responseData => {
-                    context.dispatch('getAskData', context.state.askSetData.current_page);
+                    context.dispatch('getAskData', lastItemPaginate(context.state.askSetData));
                 })
                 .catch(error => {
                     alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
@@ -1111,6 +1108,7 @@ const store = createStore({
             .then(response => {
                 if(context.state.qnaProductDetailData.length > 1) {
                     context.commit('setUnshiftQnaProductData', response.data.data);
+                    context.commit('getProductAskData', context.state.productAskData.current_page);
                 }
                 
                 console.log(response.data);
@@ -1136,6 +1134,7 @@ const store = createStore({
             .then(response => {
                 if(context.state.qnaOneByOneDetailData.length > 1) {
                     context.commit('setUnshiftQnaOneByOneData', response.data.data);
+                    context.commit('getAskData', context.state.askSetData.current_page);
                 }
                 
                 console.log(response.data); 
@@ -1168,5 +1167,16 @@ const store = createStore({
 
     }
 })
+
+// 페이지에 데이터가 1개일때 삭제하면 마지막 페이지 -1 로 돌아가는 함수
+function lastItemPaginate(data) {
+    let page;
+    if (data.data.length == 1 && data.current_page != 1) {
+        page = data.current_page - 1;
+    } else {
+        page = data.current_page;
+    }
+    return page;
+}
 
 export default store;

@@ -60,7 +60,7 @@
                     <input type="text"  name="ex_addr" id="address" @input="chkAddress" readonly @click="kakaoPostcode" class="main_bottom_input3" v-model="address" >
                     <input type="text" readonly v-model="postcode" class="main_bottom_input4" name="ex_post">
                     <label class="main_bottom_de_adds" for="address">상세주소</label>
-                    <input type="text" class="main_bottom_input5" name="ex_det_addr" id="address_detail" v-model="detailAddress" >
+                    <input type="text" class="main_bottom_input5" name="ex_det_addr" id="address_detail" v-model="detailAddress">
                     <button type="button" class="main_bottom_btn" @click="kakaoPostcode" id="postcode">주소검색</button>
                 </div>
             </div>
