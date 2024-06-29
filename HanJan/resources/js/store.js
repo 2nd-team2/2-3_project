@@ -371,8 +371,6 @@ const store = createStore({
                 return; // 예외 처리: 유효하지 않은 데이터 형식인 경우 종료
             }
 
-
-            
             // // 장바구니에서 받은 데이터와 주문페이지에서 입력한 데이터 가공 처리
             // const orderItems = store.state.orderProductData.map(item => {
             //     const OrderItem = { ...orderComplete, ...item };
@@ -394,7 +392,6 @@ const store = createStore({
             });
 
         },
-
 
         // orderComplete(context, bagsToOrder) {   
         //     if(confirm('확인을 누르면 결제가 진행됩니다.')) {
@@ -503,7 +500,7 @@ const store = createStore({
         reviewDelete(context, re_id) {
             const url = '/api/reviewDelete/' + re_id;
             
-            if (confirm('확인을 누르면 작성한 리뷰가 삭제됩니다.')) {
+            if (confirm('확인을 누르면 작성한 리뷰가 삭제됩니다. \n리뷰 삭제 시 다시 작성할 수 없습니다.')) {
                 axios.delete(url)
                 .then(response => {
                     console.log(response.data); // TODO : 삭제
@@ -564,7 +561,7 @@ const store = createStore({
                 context.commit('reviewToUpdate', response.data.data);
                 localStorage.setItem('reviewToUpdate', JSON.stringify(response.data.data));
 
-                if(confirm('리뷰 수정을 완료하였습니다. 확인을 누르면 리뷰 관리로 돌아갑니다.')){
+                if(confirm('리뷰 수정을 완료하였습니다. \n확인을 누르면 리뷰 관리로 돌아갑니다.')){
                     router.replace('/review');
                 }
             })

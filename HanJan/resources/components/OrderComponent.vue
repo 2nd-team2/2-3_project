@@ -40,10 +40,10 @@
                     <input type="text" name="or_get_tel" id="or_get_tel" @input="getChkTel" v-model="orderCompleteData.or_get_tel" class="main_bottom_input2">
                     <label class="main_bottom_adds" for="address">주소</label>
                     <p class="info_item_err_msg3">{{ addressError }}</p>
-                    <input type="text"  name="or_get_addr" id="address" @input="chkAddress" readonly @click="kakaoPostcode" class="main_bottom_input3" v-model="orderCompleteData.or_get_addr" >
+                    <input type="text" name="or_get_addr" id="address" @input="chkAddress" readonly @click="kakaoPostcode" class="main_bottom_input3" v-model="orderCompleteData.or_get_addr">
                     <input type="text" readonly v-model="orderCompleteData.or_get_post" class="main_bottom_input4" name="or_get_post">
                     <label class="main_bottom_de_adds" for="address">상세주소</label>
-                    <input type="text" class="main_bottom_input5" name="or_get_det_addr" id="address_detail" v-model="orderCompleteData.or_get_det_addr" >
+                    <input type="text" class="main_bottom_input5" name="or_get_det_addr" id="address_detail" v-model="orderCompleteData.or_get_det_addr">
                     <button type="button" class="main_bottom_btn" @click="kakaoPostcode" id="postcode">주소검색</button>
                 </div>
 
@@ -90,8 +90,8 @@ const orderCompleteData = reactive({
     or_get_name: store.state.userInfo.name,
     or_get_tel: store.state.userInfo.tel,
     or_get_addr: store.state.userInfo.addr,
-    or_get_det_addr: store.state.userInfo.det_addr,
     or_get_post: store.state.userInfo.post,
+    or_get_det_addr: store.state.userInfo.det_addr,
     or_sum: computed(() => totalPrice.value.total + deliveryPrice.value)
 });
 
@@ -254,9 +254,11 @@ function kakaoPostcode() {
             }
 
             // 우편번호와 주소 정보를 해당 필드에 넣는다.
-            postcode.value = data.zonecode;
+            // postcode.value = data.zonecode;
+            orderCompleteData.or_get_post = data.zonecode;
             // 주소 필드에 삽입
-            address.value = addr;
+            // address.value = addr;
+            orderCompleteData.or_get_addr = addr;
             // 커서를 상세주소 필드로 이동한다.
             document.querySelector('#address_detail').focus();
         }
