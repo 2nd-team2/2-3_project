@@ -545,7 +545,14 @@ const store = createStore({
             })
             .catch(error => {
                 console.log(error.response); //  TODO : 삭제
-                alert('리뷰 작성에 실패하였습니다.(' + error.response.data.code + ')' )
+                // 별점이 0점인경우
+                if(error.response.data.code === 're_star_zero'){
+                    alert('별점을 입력해주세요.' )
+                }
+                // 그 외
+                else {
+                    alert('리뷰 작성에 실패하였습니다.(' + error.response.data.code + ')' )
+                }
             });
         }, 
 
@@ -560,8 +567,10 @@ const store = createStore({
 
             axios.post(url, data)
             .then(response => {
+
                 context.commit('reviewToUpdate', response.data.data);
                 localStorage.setItem('reviewToUpdate', JSON.stringify(response.data.data));
+
                 if(confirm('리뷰 수정을 완료하였습니다. 확인을 누르면 리뷰 관리로 돌아갑니다.')){
                     router.replace('/review');
                 }
@@ -701,6 +710,7 @@ const store = createStore({
             axios.post(url, data)
             .then(responseData => {
                 localStorage.setItem('userInfo', JSON.stringify(responseData.data.data));
+                context.commit('setUserInfo',responseData.data.data);
                 router.replace('info');
             });
         },
@@ -715,10 +725,10 @@ const store = createStore({
                     localStorage.clear();
                     context.commit('setAuthFlg', null);
                     context.commit('setUserInfo', null);
-                    router.replace('/');
-                    console.log(responseData);
                     store.dispatch('getReviewistData');
-            });
+                    
+                    router.replace('/');
+                });
             }
         },
 
@@ -742,6 +752,7 @@ const store = createStore({
             axios.get(url)
             .then(responseData => {
                 localStorage.setItem('infoData', JSON.stringify(responseData.data.data));
+                context.commit('infoSetData',responseData.data.data);
              })
              .catch(error => {
                  alert('주문목록 불러오기 실패.(' + error.responseData.data.code + ')' )

@@ -44,7 +44,7 @@
                         </h2>
                     </div>
                     <!-- 페이지네이션 -->
-                    <div class="list_num_item">
+                    <div class="list_num_item" v-if="$store.state.infoData.data && $store.state.infoData.data.length > 0">
                         <a href="#" class="before" @click.prevent="prevPage()">〈 이전</a>
                         <a
                             v-for="page in pages"
@@ -56,6 +56,7 @@
                         </a>
                         <a href="#" class="next" @click.prevent="nextPage()">다음 〉</a>
                     </div>
+                    <div v-else></div>
                 </div>
             </div>
             <div class="inquiry_list">
@@ -84,7 +85,7 @@
                     </h2>
                 </div>
                 <!-- 페이지네이션 -->
-                <div class="list_num_item">
+                <div class="list_num_item" v-if="$store.state.productAskData.data && $store.state.productAskData.data.length > 0">
                     <a href="#" class="before" @click.prevent="productPrevPage()">〈 이전</a>
                     <a
                         v-for="productpage in productsPages"
@@ -96,6 +97,7 @@
                     </a>
                     <a href="#" class="next" @click.prevent="productNextPage()">다음 〉</a>
                 </div>
+                <div v-else></div>
                 <div class="inquiry_list_header">
                     <h2>1:1문의 내역</h2>
                     <router-link to="/qnaonebyonecreate" class="keep_shoping_btn black_button">
@@ -126,7 +128,7 @@
                     </h2>
                 </div>
                 <!-- 페이지네이션 -->
-                <div class="list_num_item">
+                <div class="list_num_item" v-if="$store.state.askSetData.data && $store.state.askSetData.data.length > 0">
                     <a href="#" class="before" @click.prevent="oneByOnePrevPage()">〈 이전</a>
                     <a
                         v-for="oneByOnepage in oneByOnePages"
@@ -138,6 +140,7 @@
                     </a>
                     <a href="#" class="next" @click.prevent="oneByOneNextPage()">다음 〉</a>
                 </div>
+                <div v-else></div>
             </div>
         </div>
     </main>
