@@ -701,6 +701,7 @@ const store = createStore({
             axios.post(url, data)
             .then(responseData => {
                 localStorage.setItem('userInfo', JSON.stringify(responseData.data.data));
+                context.commit('setUserInfo',responseData.data.data);
                 router.replace('info');
             });
         },
@@ -715,10 +716,10 @@ const store = createStore({
                     localStorage.clear();
                     context.commit('setAuthFlg', null);
                     context.commit('setUserInfo', null);
-                    router.replace('/');
-                    console.log(responseData);
                     store.dispatch('getReviewistData');
-            });
+                    
+                    router.replace('/');
+                });
             }
         },
 
@@ -742,6 +743,7 @@ const store = createStore({
             axios.get(url)
             .then(responseData => {
                 localStorage.setItem('infoData', JSON.stringify(responseData.data.data));
+                context.commit('infoSetData',responseData.data.data);
              })
              .catch(error => {
                  alert('주문목록 불러오기 실패.(' + error.responseData.data.code + ')' )
