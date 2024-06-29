@@ -89,7 +89,7 @@
     }
 
     onBeforeRouteUpdate((to, from) => {
-        console.log('onBeforeRouteUpdate', to.query);
+        // console.log('onBeforeRouteUpdate', to.query);
         store.commit('setCurrentImage', to.query.type);
         store.dispatch('getList', to.query);
     });
