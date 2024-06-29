@@ -502,8 +502,8 @@ const store = createStore({
             
             if (confirm('확인을 누르면 작성한 리뷰가 삭제됩니다. \n리뷰 삭제 시 다시 작성할 수 없습니다.')) {
                 axios.delete(url)
-                .then(response => {
-                    console.log(response.data); // TODO : 삭제
+                .then(responseData => {
+                    context.dispatch('reviewGet', lastItemPaginate(context.state.reviewData));
                 })
                 .catch(error => {
                     alert('리뷰 삭제에 실패했습니다.(' + error.response.data.code + ')' )
