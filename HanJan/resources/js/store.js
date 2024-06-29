@@ -308,8 +308,6 @@ const store = createStore({
                     alert('장바구니 삭제에 실패했습니다.(' + error.response.data.code + ')' )
                 });
 
-            } else {
-                console.log('confirm false');
             }
 
         },
@@ -458,8 +456,6 @@ const store = createStore({
         //         .catch(error => {
         //             alert('결제에 실패하였습니다.-주문(' + error.response.data.code + ')' )
         //         });
-        //     } else {
-        //         console.log('confirm false');
         //     }
         // },
 
@@ -516,10 +512,7 @@ const store = createStore({
                     alert('리뷰 삭제에 실패했습니다.(' + error.response.data.code + ')' )
                 });
 
-            } else {
-                console.log('confirm false');
             }
-
         },
 
         /**
