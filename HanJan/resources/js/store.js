@@ -765,7 +765,7 @@ const store = createStore({
             if (confirm('확인을 누르면 구매한 상품이 삭제됩니다.')) {
                 axios.delete(url)
                 .then(responseData => {
-                    context.dispatch('getInfoData', context.state.infoData.current_page);
+                    context.dispatch('getInfoData', lastItemPaginate(context.state.infoData));
                 })
                 .catch(error => {
                     alert('삭제에 실패했습니다.(' + error.response.data.code + ')' )
@@ -792,7 +792,7 @@ const store = createStore({
             if (confirm('확인을 누르면 작성한 상품 문의가 삭제됩니다.')) {
                 axios.delete(url)
                 .then(responseData => {
-                    context.dispatch('getProductAskData', context.state.productAskData.current_page);
+                    context.dispatch('getProductAskData', lastItemPaginate(context.state.productAskData));
                 })
                 .catch(error => {
                     alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
@@ -819,7 +819,7 @@ const store = createStore({
             if (confirm('확인을 누르면 작성한 1:1 문의가 삭제됩니다.')) {
                 axios.delete(url)
                 .then(responseData => {
-                    context.dispatch('getAskData', context.state.askSetData.current_page);
+                    context.dispatch('getAskData', lastItemPaginate(context.state.askSetData));
                 })
                 .catch(error => {
                     alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
@@ -1118,6 +1118,7 @@ const store = createStore({
             .then(response => {
                 if(context.state.qnaProductDetailData.length > 1) {
                     context.commit('setUnshiftQnaProductData', response.data.data);
+                    context.commit('getProductAskData', context.state.productAskData.current_page);
                 }
                 
                 console.log(response.data);
@@ -1143,6 +1144,7 @@ const store = createStore({
             .then(response => {
                 if(context.state.qnaOneByOneDetailData.length > 1) {
                     context.commit('setUnshiftQnaOneByOneData', response.data.data);
+                    context.commit('getAskData', context.state.askSetData.current_page);
                 }
                 
                 console.log(response.data); 
@@ -1175,5 +1177,16 @@ const store = createStore({
 
     }
 })
+
+// 페이지에 데이터가 1개일때 삭제하면 마지막 페이지 -1 로 돌아가는 함수
+function lastItemPaginate(data) {
+    let page;
+    if (data.data.length == 1 && data.current_page != 1) {
+        page = data.current_page - 1;
+    } else {
+        page = data.current_page;
+    }
+    return page;
+}
 
 export default store;

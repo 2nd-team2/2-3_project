@@ -44,7 +44,7 @@
                         </h2>
                     </div>
                     <!-- 페이지네이션 -->
-                    <div class="list_num_item" v-if="$store.state.infoData.data && $store.state.infoData.data.length > 0">
+                    <div class="list_num_item">
                         <a href="#" class="before" @click.prevent="prevPage()">〈 이전</a>
                         <a
                             v-for="page in pages"
@@ -56,7 +56,6 @@
                         </a>
                         <a href="#" class="next" @click.prevent="nextPage()">다음 〉</a>
                     </div>
-                    <div v-else></div>
                 </div>
             </div>
             <div class="inquiry_list">
@@ -85,7 +84,7 @@
                     </h2>
                 </div>
                 <!-- 페이지네이션 -->
-                <div class="list_num_item" v-if="$store.state.productAskData.data && $store.state.productAskData.data.length > 0">
+                <div class="list_num_item">
                     <a href="#" class="before" @click.prevent="productPrevPage()">〈 이전</a>
                     <a
                         v-for="productpage in productsPages"
@@ -97,7 +96,6 @@
                     </a>
                     <a href="#" class="next" @click.prevent="productNextPage()">다음 〉</a>
                 </div>
-                <div v-else></div>
                 <div class="inquiry_list_header">
                     <h2>1:1문의 내역</h2>
                     <router-link to="/qnaonebyonecreate" class="keep_shoping_btn black_button">
@@ -128,7 +126,7 @@
                     </h2>
                 </div>
                 <!-- 페이지네이션 -->
-                <div class="list_num_item" v-if="$store.state.askSetData.data && $store.state.askSetData.data.length > 0">
+                <div class="list_num_item">
                     <a href="#" class="before" @click.prevent="oneByOnePrevPage()">〈 이전</a>
                     <a
                         v-for="oneByOnepage in oneByOnePages"
@@ -140,7 +138,6 @@
                     </a>
                     <a href="#" class="next" @click.prevent="oneByOneNextPage()">다음 〉</a>
                 </div>
-                <div v-else></div>
             </div>
         </div>
     </main>
@@ -303,7 +300,6 @@
     }
 
     // 1:1문의 페이지네이션
-
     // 페이지 번호 배열 계산
     const oneByOnePages = computed(() => {
         const pageArray = [];
@@ -311,7 +307,7 @@
         const maxPagesToShow = 5;
 
         // let startPage = store.state.askSetData.current_page - 2;
-        let startPage = store.state.askSetData.last_page <5 ? 1 : store.state.askSetData.current_page - 2;
+        let startPage = store.state.askSetData.last_page < 5 ? 1 : store.state.askSetData.current_page - 2;
         if(startPage < 1) {
             startPage = 1;
         }
