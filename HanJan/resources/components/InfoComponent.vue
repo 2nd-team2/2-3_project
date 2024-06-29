@@ -218,7 +218,8 @@
         // 페이지네이션 5개
         const maxPagesToShow = 5;
 
-        let startPage = store.state.infoData.current_page - 2;
+        // let startPage = store.state.infoData.current_page - 2;
+        let startPage = store.state.infoData.last_page <5 ? 1 : store.state.infoData.current_page - 2;
         if(startPage < 1) {
             startPage = 1;
         }
@@ -263,7 +264,8 @@
         // 페이지네이션 3개
         const maxPagesToShow = 5;
 
-        let startPage = store.state.productAskData.current_page - 2;
+        // let startPage = store.state.productAskData.current_page - 2;
+        let startPage = store.state.productAskData.last_page <5 ? 1 : store.state.productAskData.current_page - 2;
         if(startPage < 1) {
             startPage = 1;
         }
@@ -308,7 +310,8 @@
         // 페이지네이션 3개
         const maxPagesToShow = 5;
 
-        let startPage = store.state.askSetData.current_page - 2;
+        // let startPage = store.state.askSetData.current_page - 2;
+        let startPage = store.state.askSetData.last_page <5 ? 1 : store.state.askSetData.current_page - 2;
         if(startPage < 1) {
             startPage = 1;
         }

@@ -105,7 +105,8 @@
         // 페이지네이션 5개
         const maxPagesToShow = 5;
 
-        let startPage = store.state.listData.current_page - 2;
+        // let startPage = store.state.listData.current_page - 2;
+        let startPage = store.state.listData.last_page <5 ? 1 : store.state.listData.current_page - 2;
         if(startPage < 1) {
             startPage = 1;
         }
