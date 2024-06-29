@@ -78,7 +78,7 @@ class ReviewController extends Controller
         $validator = Validator::make(
             $request->only('re_star', 're_content')
             , [
-                're_star' => ['required']
+                're_star' => ['required', 'regex: /^[0-5]+$/u' ]
                 ,'re_content' => ['nullable', 'max: 200','regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
             ]
         );
@@ -87,6 +87,15 @@ class ReviewController extends Controller
             Log::debug('유효성 검사 실패', $validator->errors()->toArray());
             throw new MyValidateException('E01');
         }
+
+        // 별점 0점일때
+        if($request->re_star == '0') {
+            return response()->json([
+                'code' => 're_star_zero',
+                'msg' => '별점이 0점입니다.'
+            ], 400);
+        }
+
         
         $reviewCreateData = new Review();
         
@@ -105,55 +114,6 @@ class ReviewController extends Controller
         ];
         return response()->json($responseData, 200);
     }
-
-    // public function reviewCreateSubmit(Request $request) {
-
-    //     // 리퀘스트 데이터 받기
-    //     $requestData = [
-    //         're_id' => $request->re_id
-    //         ,'re_content' => $request->re_content
-    //         ,'re_star' => $request->re_star
-    //     ];
-
-    //     // 데이터 유효성 검사
-    //     $validator = Validator::make(
-    //         $requestData
-    //         , [
-    //             're_star' => ['required', 'regex:/^[1-5]{1}$/']
-    //             ,'re_content' => ['nullable', 'max: 200','regex:/^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
-    //         ]
-    //     );
-
-    //     // 유효성 검사 실패 체크
-    //     if($validator->fails()) {
-    //         Log::debug('유효성 검사 실패', $validator->errors()->toArray());
-    //         throw new MyValidateException('E01');
-    //     }
-
-    //     // 데이터 생성
-    //     $createData = $request->only('re_content','re_star');
-
-        
-    //     // 작성 처리
-    //     $createData['u_id'] = Auth::id();
-    //     $createData['p_id'] = 1; // TODO: $request->p_id; store에서 넘겨 받은 p_id 작성하기 
-    //     $createData['re_content'] = $request->re_content;
-    //     $createData['re_star'] = $request->re_star;
-
-
-    //     // 작성 처리
-    //     $reviewCreate = Review::create($createData);
-
-    //     // 레스폰스 데이터 생성
-    //     $responseData = [
-    //         'code' => '0'
-    //         ,'msg' => '리뷰 작성 완료'
-    //         ,'data' => $reviewCreate
-    //     ];
-
-    //     return response()->json($responseData, 200);
-    // }
-
 
     // 리뷰 수정
     // 리뷰수정 페이지에서 버튼 눌렀을때 reviews(리뷰) 테이블에서 데이터 수정
@@ -191,7 +151,9 @@ class ReviewController extends Controller
         $addUpdateData = [
             'ml' => $request->ml,
             'name' => $request->name,
-            'img' => $request->img
+            'img' => $request->img,
+            'orpCre' => $request->orpCre,
+            'coCre' => $request->coCre,
         ];
 
         // 레스폰스 데이터 생성
@@ -223,5 +185,56 @@ class ReviewController extends Controller
 
         return response()->json($responseData, 200);
     }
+
+
+
+
+    // public function reviewCreateSubmit(Request $request) {
+
+    //     // 리퀘스트 데이터 받기
+    //     $requestData = [
+    //         're_id' => $request->re_id
+    //         ,'re_content' => $request->re_content
+    //         ,'re_star' => $request->re_star
+    //     ];
+
+    //     // 데이터 유효성 검사
+    //     $validator = Validator::make(
+    //         $requestData
+    //         , [
+    //             're_star' => ['required', 'regex:/^[1-5]{1}$/']
+    //             ,'re_content' => ['nullable', 'max: 200','regex:/^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
+    //         ]
+    //     );
+
+    //     // 유효성 검사 실패 체크
+    //     if($validator->fails()) {
+    //         Log::debug('유효성 검사 실패', $validator->errors()->toArray());
+    //         throw new MyValidateException('E01');
+    //     }
+
+    //     // 데이터 생성
+    //     $createData = $request->only('re_content','re_star');
+
+        
+    //     // 작성 처리
+    //     $createData['u_id'] = Auth::id();
+    //     $createData['p_id'] = 1;
+    //     $createData['re_content'] = $request->re_content;
+    //     $createData['re_star'] = $request->re_star;
+
+
+    //     // 작성 처리
+    //     $reviewCreate = Review::create($createData);
+
+    //     // 레스폰스 데이터 생성
+    //     $responseData = [
+    //         'code' => '0'
+    //         ,'msg' => '리뷰 작성 완료'
+    //         ,'data' => $reviewCreate
+    //     ];
+
+    //     return response()->json($responseData, 200);
+    // }
 
 }

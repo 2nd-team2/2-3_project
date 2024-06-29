@@ -105,7 +105,7 @@ class UserController extends Controller
                 $requestData,
                 [
                     'email' => ['required', 'min:5', 'max:30', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
-                    'password' => ['required', 'min:8', 'max:20', 'regex:/^[a-zA-Z0-9!@#$%^&*]+$/u'], 
+                    'password' => ['required', 'min:8', 'max:20', 'regex:/^[a-zA-Z0-9!@]+$/u'], 
                     'password_chk' => ['same:password'],
                     'tel' => ['required', 'min:10','max:11', 'regex:/^[0-9]+$/'],
                     'addr' => ['required'],

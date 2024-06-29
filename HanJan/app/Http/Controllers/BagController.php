@@ -20,7 +20,6 @@ class BagController extends Controller
                         ->where('bags.deleted_at', '=', null)
                         ->orderBy('bags.created_at','DESC')
                         ->orderBy('bags.ba_id','DESC')
-                        // ->limit(3) // TODO : 배포시 limit 삭제
                         ->get();
     
         $responseData = [
@@ -40,9 +39,6 @@ class BagController extends Controller
         // 조회된 데이터가 있는지 확인
         if($productDate) {
             $productDate->ba_count -= 1;
-
-            // TODO : update_at 생성하면주석해제하기 -> 자동으로 업데이트 날짜가 기록됨
-            // $productDate->updated_at = Carbon::now();
             
             $productDate->save();
             
@@ -71,9 +67,6 @@ class BagController extends Controller
         if($productDate) {
             
             $productDate->ba_count += 1;
-
-            // TODO : update_at 컬럼 생성하면 주석 해제하기
-            // $productDate->updated_at = now();
             
             $productDate->save();
             
@@ -104,9 +97,6 @@ class BagController extends Controller
             
             $productDate->ba_count = $baCountData;
 
-            // TODO : update_at 컬럼 생성하면 주석 해제하기
-            // $productDate->updated_at = now();
-            
             $productDate->save();
             
             $responseData = [
@@ -148,7 +138,7 @@ class BagController extends Controller
         $baIds = $request->input('ba_id');
         // $baCounts = $request->input('ba_count');
 
-        Log::debug($request); // TODO : 삭제
+        Log::debug($request);
 
         foreach($baIds as $ba_id) {
             
@@ -168,7 +158,6 @@ class BagController extends Controller
 
     // // 장바구니 데이터 > 주문 페이지로 전달 처리
     // public function bagsToOrder(Request $request) {
-    //     Log::debug($request); // TODO : 삭제
 
     //     $baIds = $request->input('ba_id');
     //     // $baCounts = $request->input('ba_count');

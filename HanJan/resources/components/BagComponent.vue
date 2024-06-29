@@ -126,8 +126,6 @@ const validateCount = (item) => {
         item.ba_count = item.count;
         alert('남은 수량까지 선택할 수 있습니다. ( 남은 수량 : ' + item.count + ')')
     } 
-    // TODO
-    // DB에 저장해서 새로고침 해도 직접 입력한 값을 저장
     else {
         store.dispatch('bagsCountChange', item);
     }
@@ -161,8 +159,6 @@ const deliveryPrice = ref(0);
 const totalPrice = computed(() => {
     const chkTotalItems = store.state.bagsProductData.filter(item => item.checked);
     
-    // console.log(chkTotalItems); // TODO : 삭제
-
     let count = chkTotalItems.length;
     let total = 0;
 
@@ -193,8 +189,6 @@ const bagsSelectDelete = () => {
      
             // 삭제 처리
             store.dispatch('bagsSelectDelete', data);
-        } else {
-            console.log('confirm false'); // TODO : 삭제
         }
     }
 
@@ -254,25 +248,17 @@ function formatPrice(price) {
 //     if (chkOrderItems.length <= 0) {
 //         alert('구매할 상품을 선택해주세요.')
 //     } else {
-//         console.log('****체크된 상품*****');
-//         console.log(chkOrderItems); // TODO : 삭제
 
 //         const data = new FormData();
 
 //         chkOrderItems.forEach(item => {
-//             data.append('p_id[]', item.p_id); // TODO : 경량화할때 확인 해보고 삭제하기
+//             data.append('p_id[]', item.p_id);
 //             data.append('ba_id[]', item.ba_id); 
-//             data.append('ba_count[]', item.ba_count); // TODO : 경량화할때 확인 해보고 삭제하기
-//         });
-        
-//         console.log('****forEach 돌린 폼데이터*****');
-//         console.log(data); // TODO : 삭제
-        
+//             data.append('ba_count[]', item.ba_count);
+//         });     
+
 //         // FormData를 일반 객체롤 변환
 //         const bagsToOrder = formDataToObject(data);
-        
-//         console.log('****폼데이터 변환*****');
-//         console.log(data); // TODO : 삭제
 
 //         store.dispatch('bagsToOrder', bagsToOrder);
 //     }
