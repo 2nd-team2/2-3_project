@@ -16,7 +16,7 @@
                         <div class="item_left_list_text">
                             <span class="title_span">{{ formatDate(item.orpDate) }}
                                 <span class="order_date">
-                                    <span class="title_span" v-if="item.co_flg === '1'">/ 구매확정 : </span>
+                                    <span class="title_span" v-if="item.co_flg === '1'">/&emsp;구매확정 : </span>
                                     <span class="yellow_span" v-if="item.co_flg === '1'">{{ formatDate(item.completeOn) }}</span>
                                 </span>                            
                             </span>
