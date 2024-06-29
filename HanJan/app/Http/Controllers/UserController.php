@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\MyAuthException;
 use App\Exceptions\MyValidateException;
+use App\Models\Exchange;
+use App\Models\Order;
+use App\Models\Qna;
+use App\Models\Qnaproduct;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -194,6 +199,10 @@ class UserController extends Controller
 
             // 사용자 삭제
             $deleted = User::destroy($userInfo->id);
+            $deleted = Review::where('u_id', '=', $userInfo->id )->delete(); // 리뷰 -> u_id deleted
+            $deleted = Exchange::where('u_id', '=', $userInfo->id )->delete(); // 수정회원 -> u_id deleted
+            $deleted = Qna::where('u_id', '=', $userInfo->id )->delete(); // 문의 -> u_id deleted
+            $deleted = Qnaproduct::where('u_id', '=', $userInfo->id )->delete(); // 문의 -> u_id deleted
     
             if ($deleted) {
                 // 로그아웃 처리

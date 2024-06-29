@@ -308,8 +308,6 @@ const store = createStore({
                     alert('장바구니 삭제에 실패했습니다.(' + error.response.data.code + ')' )
                 });
 
-            } else {
-                console.log('confirm false');
             }
 
         },
@@ -373,8 +371,6 @@ const store = createStore({
                 return; // 예외 처리: 유효하지 않은 데이터 형식인 경우 종료
             }
 
-
-            
             // // 장바구니에서 받은 데이터와 주문페이지에서 입력한 데이터 가공 처리
             // const orderItems = store.state.orderProductData.map(item => {
             //     const OrderItem = { ...orderComplete, ...item };
@@ -396,7 +392,6 @@ const store = createStore({
             });
 
         },
-
 
         // orderComplete(context, bagsToOrder) {   
         //     if(confirm('확인을 누르면 결제가 진행됩니다.')) {
@@ -458,8 +453,6 @@ const store = createStore({
         //         .catch(error => {
         //             alert('결제에 실패하였습니다.-주문(' + error.response.data.code + ')' )
         //         });
-        //     } else {
-        //         console.log('confirm false');
         //     }
         // },
 
@@ -507,7 +500,7 @@ const store = createStore({
         reviewDelete(context, re_id) {
             const url = '/api/reviewDelete/' + re_id;
             
-            if (confirm('확인을 누르면 작성한 리뷰가 삭제됩니다.')) {
+            if (confirm('확인을 누르면 작성한 리뷰가 삭제됩니다. \n리뷰 삭제 시 다시 작성할 수 없습니다.')) {
                 axios.delete(url)
                 .then(response => {
                     console.log(response.data); // TODO : 삭제
@@ -516,10 +509,7 @@ const store = createStore({
                     alert('리뷰 삭제에 실패했습니다.(' + error.response.data.code + ')' )
                 });
 
-            } else {
-                console.log('confirm false');
             }
-
         },
 
         /**
@@ -571,7 +561,7 @@ const store = createStore({
                 context.commit('reviewToUpdate', response.data.data);
                 localStorage.setItem('reviewToUpdate', JSON.stringify(response.data.data));
 
-                if(confirm('리뷰 수정을 완료하였습니다. 확인을 누르면 리뷰 관리로 돌아갑니다.')){
+                if(confirm('리뷰 수정을 완료하였습니다. \n확인을 누르면 리뷰 관리로 돌아갑니다.')){
                     router.replace('/review');
                 }
             })
@@ -850,14 +840,14 @@ const store = createStore({
          */
         setProductDetailData(context, id) {
             const url = '/api/detailed/' + id;
-            console.log(url);
+            // console.log(url);
             axios.get(url)
             .then(response => {
-                console.log('디테일 데이터', response.data);
+                // console.log('디테일 데이터', response.data);
                 context.commit('detailedNumData', response.data.data);
             })
             .catch(error => {
-                console.log(error.response.data);
+                // console.log(error.response.data);
                 alert('상세정보 불러오기 실패했습니다.(' + error.response.data.code + ')');
             });
         },
@@ -873,7 +863,7 @@ const store = createStore({
 
             axios.get(url)
             .then(response => {
-                console.log(response.data);
+                // console.log(response.data);
 
                 //type 추가
                 response.data.data.type = query.type;
@@ -882,7 +872,7 @@ const store = createStore({
                 context.commit('listInfoData', response.data.data);
             })
             .catch(error => {
-                console.log(error.response.data);
+                // console.log(error.response.data);
                 alert('선택한 상품이 없습니다.(' + error.response.data.code + ')' )
             });
         },
@@ -896,12 +886,12 @@ const store = createStore({
 
             axios.get(url)
             .then(response => {
-                console.log('베스트 상품 데이터',response.data);
+                // console.log('베스트 상품 데이터',response.data);
                 // 데이터베이스->서버를 통해 받은 데이터를 bastData 저장
                 context.commit('listBastData', response.data.data);
             })
             .catch(error => {
-                console.log(error.response.data);
+                // console.log(error.response.data);
                 alert('선택한 상품이 없습니다.(' + error.response.data.code + ')' )
             });
         },
@@ -916,12 +906,12 @@ const store = createStore({
 
             axios.get(url)
             .then(response => {
-                console.log('리뷰 데이터', response.data);
+                // console.log('리뷰 데이터', response.data);
                 // 데이터베이스->서버를 통해 받은 데이터를 reviewDetail 저장
                 constext.commit('detailedReviewData', response.data.data);
             })
             .catch(error => {
-                console.log(error.response.data);
+                // console.log(error.response.data);
                 alert('디테일 리뷰데이터 불러오기 실패했습니다.(' + error.response.data.code + ')');
             });
         },
@@ -937,7 +927,7 @@ const store = createStore({
             
             axios.post(url, data)
             .then(response => {
-                console.log('수량데이터', response.data);
+                // console.log('수량데이터', response.data);
                 // 데이터베이스->서버를 통해 받은 데이터를 CountData 저장
                 constext.commit('detailedCountData', response.data.data);
                 if(confirm('확인을 클릭시 장바구니로 이동 됩니다.')) {
@@ -947,7 +937,7 @@ const store = createStore({
             .catch(error => {
                 // 로그인이 되어있을경우
                 if(store.state.userInfo) {
-                    console.log(error.response.data);
+                    // console.log(error.response.data);
                     alert('장바구니 이동 실패했습니다(' + error.response.data.code + ')');
                 }
                 // 로그인이 되어있지 않을경우

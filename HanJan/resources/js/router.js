@@ -136,15 +136,15 @@ const routes = [
         path: '/list',
         component: ListComponent,
         beforeEnter: (to, from, next) => {
-          // 쿼리 파라미터 검증
-          // 유효한 type 값들
-          const validTypes = ['99', '0', '1', '2']; 
-          // 숫자인지 검증
-          const validPage = /^\d+$/; 
+            // 쿼리 파라미터 검증
+            // 유효한 type 값들
+            const validTypes = ['99', '0', '1', '2']; 
+            // 숫자인지 검증
+            const validPage = /^\d+$/; 
 
-          const pageValue = parseInt(to.query.page, 10);
+            const pageValue = parseInt(to.query.page, 10);
     
-          if (
+            if (
                 validTypes.includes(to.query.type) &&
                 validPage.test(to.query.page) &&
                 pageValue >= 1 &&
@@ -159,7 +159,7 @@ const routes = [
                 next({ name: 'NotFound' });
             }
         }
-      },
+    },
     {
         path: '/order',
         component: OrderComponent,
@@ -218,7 +218,7 @@ const routes = [
         name: 'NotFound',
         component: ErrorsComponent,
     },
-   
+    
 ];
 
 function chkAuth(to, from, next) {

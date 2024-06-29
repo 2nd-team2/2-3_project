@@ -86,11 +86,9 @@ const store = useStore();
 
 // 리뷰 초기 데이터 가져오기
 onBeforeMount(() => {
-    // TODO: 이미 데이터가 있으면 onBeforeMount 요청 안하게 수정하기
 
     // 리뷰 데이터 획득
     //store.dispatch('reviewGet', 1)
-
     if(store.state.reviewData.current_page == 1) {
         store.dispatch('reviewGet', 1);
     }
