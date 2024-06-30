@@ -172,7 +172,7 @@ const totalPrice = computed(() => {
 
     return {count, total};
 });
-
+ 
 // 체크된 상품의 ba_id와 ba_count만 가져오기 > 삭제 처리
 const bagsSelectDelete = () => {
     const chkSelectItems = store.state.bagsProductData.filter(item => item.checked);
