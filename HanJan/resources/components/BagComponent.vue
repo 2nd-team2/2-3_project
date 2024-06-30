@@ -181,21 +181,44 @@ const bagsSelectDelete = () => {
         alert('삭제할 상품을 선택해주세요.');
     } else {
         if(confirm('확인을 누르면 선택된 데이터가 삭제 됩니다.')) {
-            const data = new FormData();
-            
-            chkSelectItems.forEach(item => {
-                data.append('ba_id[]', item.ba_id);
-                data.append('ba_count[]', item.ba_count); // TODO : 경량화할때 확인 해보고 삭제하기
-            });
-            console.log(data);
-     
+            const data = {
+                ba_id: chkSelectItems.map(item => item.ba_id),
+                ba_count: chkSelectItems.map(item => item.ba_count)
+            };
+
+            console.log('전송할 데이터:', data); // 데이터가 정상적으로 출력되는지 확인
+
             // 삭제 처리
             store.dispatch('bagsSelectDelete', data);
         }
     }
-
-
 }
+
+// const bagsSelectDelete = () => {
+//     const chkSelectItems = store.state.bagsProductData.filter(item => item.checked);
+    
+//     if (chkSelectItems.length <= 0 ){
+//         alert('삭제할 상품을 선택해주세요.');
+//     } else {
+//         if(confirm('확인을 누르면 선택된 데이터가 삭제 됩니다.')) {
+//             const data = {
+//                 ba_id: chkSelectItems.map(item => item.ba_id),
+//                 ba_count: chkSelectItems.map(item => item.ba_count)
+//             }
+//             // const data = new FormData();
+
+//             // chkSelectItems.forEach(item => {
+//             //     data.append('ba_id[]', item.ba_id);
+//             //     data.append('ba_count[]', item.ba_count); // TODO : 경량화할때 확인 해보고 삭제하기
+//             // });
+
+//             console.log(data);
+     
+//             // 삭제 처리
+//             store.dispatch('bagsSelectDelete', data);
+//         }
+//     }
+// }
 
 // 체크 상품이 있을 경우만 order 페이지로 넘어가기
 const bagsToOrder = () => {

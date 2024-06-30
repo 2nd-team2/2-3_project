@@ -319,19 +319,43 @@ const store = createStore({
          * @param {*} data
         */
         bagsSelectDelete(context, data) {
-            const url = '/api/bagsSelectDelete/'
-            // 선택된 데이터만 들고 와야되기 때문에 vue에서 먼저 처리후 데이터 넘겨줌
-            // const data = new FormData(document.querySelector('#bagsProductData'));
-
-            axios.post(url, data)
+            const url = '/api/bagsSelectDelete/';
+    
+            axios.post(url, data, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
             .then(response => {
-                console.log(response.data.data); // TODO : 삭제
-                store.dispatch('bagsGetProductData');
+                console.log('응답 데이터:', response.data); // 응답 데이터 확인
+                store.dispatch('bagsGetProductData'); // 데이터 갱신
             })
             .catch(error => {
-                alert('장바구니 선택 삭제에 실패했습니다.(' + error.response.data.code + ')' )
+                console.error('삭제 실패:', error);
+                alert('장바구니 선택 삭제에 실패했습니다.');
             });
         },
+
+        // bagsSelectDelete(context, data ) {
+        //     const url = '/api/bagsSelectDelete/'
+        //     // 선택된 데이터만 들고 와야되기 때문에 vue에서 먼저 처리후 데이터 넘겨줌
+        //     // const data = new FormData(document.querySelector('#bagsProductData'));
+        //     console.log('store에서 data 받오는 거 확인'); // TODO
+        //     console.log(data);
+
+        //     axios.post(url, data, {
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         }
+        //     })
+        //     .then(response => {
+        //         console.log(response.data.data); // TODO : 삭제
+        //         store.dispatch('bagsGetProductData');
+        //     })
+        //     .catch(error => {
+        //         alert('장바구니 선택 삭제에 실패했습니다.(' + error.response.data.code + ')' )
+        //     });
+        // },
 
         /**
          * 장바구니 페이지에서 선택된 상품만 주문 페이지로 정보 전달
