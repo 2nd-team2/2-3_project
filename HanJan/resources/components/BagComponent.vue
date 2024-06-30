@@ -20,8 +20,10 @@
                     <div v-for="(item, key) in $store.state.bagsProductData" :key="key" class="bag_goods_item bag_grid bag_padding_bottom">
                         <input type="hidden" name="buy_type" value="bags">
                         <input type="hidden" name="p_id" :value="item.p_id">
-                        <input type="checkbox" @click="check(item)" :id="item.p_id" v-model="item.checked" name="ba_id[]" :value="item.ba_id" class="checkbox_input">
-                        <label :for="item.p_id" class="checkbox"></label>
+                        <div>
+                            <input type="checkbox" @click="check(item)" :id="item.p_id" v-model="item.checked" name="ba_id[]" :value="item.ba_id" class="checkbox_input">
+                            <label :for="item.p_id" class="checkbox"></label>
+                        </div>
                         <img class="bag_goods_img" :src="item.img">    
                         <div class="reviewC_item_grid">
                             <div class="bag_goods_title bag_padding_bottom"> {{ item.name }}</div>
