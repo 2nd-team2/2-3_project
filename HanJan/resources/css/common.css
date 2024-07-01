@@ -373,7 +373,7 @@ li {
 
 .review_box {
     display: grid;
-    grid-template-rows: 1fr 0.1fr 100px 0.2fr;
+    grid-template-rows: 1fr 20px 100px 0.2fr;
     align-items: start;
     gap: 10px;
 }
