@@ -740,7 +740,6 @@ const store = createStore({
                     context.commit('setAuthFlg', null);
                     context.commit('setUserInfo', null);
                     store.dispatch('getReviewistData');
-                    
                     router.replace('/');
                 });
             }
