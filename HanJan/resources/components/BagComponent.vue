@@ -21,7 +21,7 @@
                         <input type="hidden" name="buy_type" value="bags">
                         <input type="hidden" name="p_id" :value="item.p_id">
                         <div>
-                            <input type="checkbox" @click="check(item)" :id="item.p_id" v-model="item.checked" name="ba_id[]" :value="item.ba_id" class="checkbox_input">
+                            <input type="checkbox" :id="item.p_id" v-model="item.checked" name="ba_id[]" :value="item.ba_id" class="checkbox_input">
                             <label :for="item.p_id" class="checkbox"></label>
                         </div>
                         <img class="bag_goods_img" :src="item.img">    

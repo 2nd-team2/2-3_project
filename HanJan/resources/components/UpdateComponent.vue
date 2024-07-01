@@ -55,7 +55,7 @@
                     <label class="info_item_label address_text" for="address">주소</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg">{{ addressError }}</p>
-                        <input type="text" name="addr" id="address" class="top_input" v-model="address" @input="chkAddress" readonly @click="kakaoPostcode">
+                        <input type="text" name="addr" id="address" class="top_input" v-model="address" readonly @click="kakaoPostcode">
                         <input type="text" readonly v-model="postcode" class="postcode" name="post">
                         <label class="address_detail_label" for="address">상세주소</label>
                         <input type="text" class="address_detail" name="det_addr" id="address_detail" v-model="detailAddress">
@@ -126,15 +126,6 @@ function chkPhone() {
   }
 }
 
-function chkAddress() {
-  if (!address.value) {
-    addressError.value = '주소를 다시 확인해주세요.';
-  } else {
-    addressError.value = '';
-  }
-}
-
-
 function validateForm() {
   let valid = true;
 
@@ -146,9 +137,6 @@ function validateForm() {
 
   chkPhone();
   if (phoneError.value) valid = false;
-
-  chkAddress();
-  if (addressError.value) valid = false;
 
   if (valid) {
     store.dispatch('userUpdate');

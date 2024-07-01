@@ -267,6 +267,10 @@ textarea:focus {
     .container {
         padding: 15px 30px;
     }
+
+    main {
+        width: 80%;
+    }
     
     .info_item_btn {
         height: 35px;
@@ -326,6 +330,10 @@ textarea:focus {
         font-size: 1.5em; 
         margin-bottom: 5px;    
     }
+
+    .chk_box {
+        font-size: 0.8em;
+    }
     
     .regist {
         grid-template-columns: 1fr;
@@ -338,6 +346,7 @@ textarea:focus {
     
     .regist_step > li {
         margin: 5px;
+        font-size: 0.9em;
     }
     
     .info_item_btn {
@@ -376,8 +385,8 @@ textarea:focus {
         margin-bottom: 10px;
     }
     
-    textarea {
-        height: 20vh;
+    .textArea {
+        height: 18vh;
     }
 
     .modal_window {
@@ -386,6 +395,14 @@ textarea:focus {
         height: 60%;
         max-height: 60%;
         padding: 0.5rem;
+    }
+
+    .close_area {
+        margin-left: 85%;
+    }
+
+    .modalLine {
+        height: 52vh;
     }
 
     p {
