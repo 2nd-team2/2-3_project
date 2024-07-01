@@ -63,18 +63,27 @@ main {
     padding: 20px;
 }
 
-/* 이미지, 상품 정보 그리드 */
-.ex_goods_grid {
-    display: grid;
-    grid-template-columns: 1fr 5fr;
-    gap: 10px;
-    padding: 20px;
+@media (min-width: 768px)  {
+    /* 이미지, 상품 정보 그리드 */
+    .ex_goods_grid {
+        display: grid;
+        grid-template-columns: 1fr 5fr;
+        gap: 10px;
+        padding: 20px;
+    }
 }
 
 /* 주문, 구매확정 날짜 */
-.ex_order_at{
+.ex_at_grid{
+    display: flex;
+}
+.ex_order_at {
     font-weight: bold;
-    padding: 0 20px;
+    padding-left: 0 20px;
+}
+.ex_complete_at {
+    font-weight: bold;
+    padding-right: 0 20px;
 }
 .ex_yellow {
     color: #FAC91D;
@@ -110,12 +119,14 @@ main {
 input {
     padding: 5px;
 }
-.main_bottom {
-    display: grid;
-    grid-template-columns: 0.4fr 1fr 1fr;
-    gap: 10px;
-    width: 60%;
-    margin: 50px auto;
+@media (min-width: 768px) {
+    .main_bottom {
+        display: grid;
+        grid-template-columns: 0.4fr 1fr 1fr;
+        gap: 10px;
+        width: 60%;
+        margin: 50px auto;
+    }
 }
 
 .header_bottom input {
@@ -216,13 +227,15 @@ input {
     border: 1px solid #5c5c5c;
 }
 
-/* 합계금액 그리드 */
-.ex_total_grid {
-    display: grid;
-    grid-template-columns: 6fr 3fr 1fr 2fr 1fr 2fr;
-    align-items: center;
-    justify-items: center;
-    height: 8rem;
+@media (min-width: 768px) {
+    /* 합계금액 그리드 */
+    .ex_total_grid {
+        display: grid;
+        grid-template-columns: 6fr 3fr 1fr 2fr 1fr 2fr;
+        align-items: center;
+        justify-items: center;
+        height: 8rem;
+    }
 }
 
 /* 취소 버튼 */
@@ -266,6 +279,10 @@ input {
     width: 25px;
 }
 
+/* .input_default{
+    display: none;
+} */
+
 input[type="radio"] {
     display: none;
 }
@@ -305,12 +322,44 @@ input[type="radio"]:checked + .checkbox {
     grid-row: 4 / 5;
 }
 
-/* 태블릿 버전 스타일 */
-@media (max-width: 1024px) {
-    
-}
 
 /* 모바일 버전 스타일 */
 @media (max-width: 768px) {
 
+    .main_bottom {
+        display: grid;
+        grid-template-columns: 0.5fr 1fr 1fr;
+        gap: 10px;
+        margin: 50px auto;
+        font-size: 0.8rem;
+    }
+
+
+    /* 이미지, 상품 정보 그리드 */
+    .ex_goods_grid {
+        display: grid;
+        grid-template-rows: 3fr 1fr;
+        gap: 10px;
+        padding: 20px;
+    }
+    .ex_goods_img{
+        grid-row: 1 / 2;
+    }
+    .ex_goods_info{
+        grid-row: 2 / 3;
+    }
+
+    .ex_at_grid{
+        display: block;
+    }
+
+    /* 합계금액 그리드 */
+    .ex_total_grid {
+        display: grid;
+        grid-template-columns: 0.1fr 4.5fr 0.1fr 2fr 0.1fr 3fr;
+        align-items: center;
+        justify-items: center;
+        height: 8rem;
+        font-size: 0.9rem;
+    }
 }
