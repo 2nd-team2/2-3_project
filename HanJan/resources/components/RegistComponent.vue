@@ -17,7 +17,7 @@
                     <p class="note">* 표시는 반드시 입력하셔야 하는 항목입니다.</p>
                 </div>
                 <hr>
-                <div class="info_item_box">
+                <div class="email_box info_item_box">
                     <label class="info_item_label" for="email">이메일</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg error">{{ emailError }}</p>
@@ -61,7 +61,7 @@
                 <div class="info_item_box address">
                     <label class="info_item_label address_text" for="address">주소</label>
                     <div class="info_item_input">
-                        <p class="info_item_err_msg">{{ addressError }}</p>
+                        <p class="info_item_err">{{ addressError }}</p>
                         <input class="input_width top_input" type="text" name="addr" id="address" v-model="address" @input="chkAddress" readonly @click="kakaoPostcode">
                         <input class="postcode" type="text" readonly v-model="postcode" name="post">
                         <label class="address_detail_label" for="address">상세주소</label>

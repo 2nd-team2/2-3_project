@@ -6,10 +6,14 @@
                     교환 및 반품 신청
                 </h2>
                 <div class="ex_goods_item ex_grid">
-                    <div class="ex_order_at"> {{ formatDate($store.state.exchangeProduct.orpCre) }} 주문 / 구매확정 <span class="ex_yellow"> {{ formatDate($store.state.exchangeProduct.comCre) }}</span></div>
+                    <div class="ex_at_grid">
+                        <div class="ex_order_at"> {{ formatDate($store.state.exchangeProduct.orpCre) }} 주문 </div>
+                        <div class="ex_complete_at"> / 구매확정 <span class="ex_yellow"> {{ formatDate($store.state.exchangeProduct.comCre) }}</span></div>
+                    </div>
+
                     <div class="ex_goods_grid">
                         <img class="ex_goods_img" :src="$store.state.exchangeProduct.img">
-                        <div>
+                        <div class="ex_goods_info">
                             <div class="ex_goods_title ex_padding_bottom">{{ $store.state.exchangeProduct.name + ' ' +$store.state.exchangeProduct.ml + 'ml' }}</div>
                             <div class="ex_padding_bottom">
                                 <div class="ex_font">금액: {{ formatPrice($store.state.exchangeProduct.price) }}원 / {{ $store.state.exchangeProduct.orpCount }}개</div>
@@ -27,8 +31,7 @@
                     <div class="ex_padding_bottom">어떤문제가 있나요?</div>
                 </div>
                 <div class="ex_padding_bottom ex_padding_left radio_grid">
-                    <!-- <div class="ex_content">단순변심</div>
-                    <hr> -->
+                    <input clsaa="input_default" type="radio" name="ex_reason" value="99" checked>
                     <input type="radio" name="ex_reason" id="ex_reason1" value="0" class="radio0">
                     <label for="ex_reason1" class="checkbox radio1"></label>
                     <p class="radio_p1">상품이 마음에 들지 않음</p>

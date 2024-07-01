@@ -24,7 +24,7 @@
                             <img class="order_img" :src="item.img">
                             <p class="order_name">{{ item.name + ' ' + item.ml +'ml' }}</p>
                             <p class="order_price">{{ '금액 : ' + formatPrice(item.price) + '원 / ' + item.orp_count + '개' }}</p>
-                            <div class="button_a" @click="$store.dispatch('completeBtn', item.orp_id)" v-if="item.co_flg === '0' || item.co_flg === null">구매확정</div>
+                            <div class="button_a complete_btn" @click="$store.dispatch('completeBtn', item.orp_id)" v-if="item.co_flg === '0' || item.co_flg === null">구매확정</div>
                         </div>
                         <div class="item_right">
                             <div @click="askProduct(item)" class="button_a">상품문의하기</div>

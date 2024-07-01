@@ -145,6 +145,11 @@ form {
     top: -1.8rem;
 }
 
+.info_item_err {
+    position: absolute;
+    top: -1.8rem;
+}
+
 .info_item_input > p {
     color: #ff0000;
 }
@@ -236,11 +241,14 @@ textarea:focus {
 
 
 
-
 /* 태블릿버전 */
 @media screen and (min-width: 771px) and (max-width: 1200px) {
     .container {
         padding: 15px 30px;
+    }
+
+    main {
+        width: 80%;
     }
 
     .info_item_btn {
@@ -272,12 +280,25 @@ textarea:focus {
 /* 모바일 버전 */
 @media screen and (max-width: 770px) {
 
+    main {
+        width: 80%;
+    }
+
+    .address {
+        height: 200px;
+    }
+
+    .email_box {
+        height: 19vh;
+        grid-template-rows: 0.7fr 0.3fr;
+    }
+
     .top_input {
         margin-top: 20px;
     }
 
     label {
-        font-size: 0.8em;
+        font-size: 0.6em;
     }
 
     main {
@@ -287,7 +308,7 @@ textarea:focus {
 
     .info_item_input input {
         height: 30px;
-        max-width: 160px;
+        max-width: 50vw;
         font-size: 0.1em;
     }
 
@@ -318,6 +339,7 @@ textarea:focus {
 
     .regist_step > li {
         margin: 5px;
+        font-size: 0.8em;
     }
 
     .info_item_btn {
@@ -349,7 +371,10 @@ textarea:focus {
     }
 
     .form_btn {
-        height: 40px;
+        width: 30vw;
+        font-size: 0.5em;
+        grid-column: 2/3;
+        margin-top: 0;
     }
 
     textarea {
@@ -363,15 +388,38 @@ textarea:focus {
 
     .info_item_box {
         display: grid;
-        grid-template-columns: 1.2fr 2fr 1.5fr;
-        gap: 20px;
+        grid-template-columns: 0.6fr 1.4fr;
+        gap: 0;
         justify-content: space-around;
         align-items: center;
-        margin: 10px;
+        margin: 0;
     }
 
     .info_item_input {
         display: flex;
-        flex-direction: column-reverse;
+        flex-direction: column;
+        gap: 4px;
     }
+
+    .info_header_title {
+        font-size: 0.8em;
+    }
+
+    .note {
+        font-size: 0.7em;
+    }
+
+    form {
+        margin: 15px auto;
+    }
+
+    .regist_step {
+        display: none;
+    }
+
+    .info_item_err {
+        position: absolute;
+        top: 0;
+    }
+    
 }

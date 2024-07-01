@@ -63,12 +63,14 @@ main {
     padding: 20px;
 }
 /*  */
-.review_goods_grid {
-    display: grid;
-    grid-template-columns: 1.2fr 3.4fr 0.1fr 1.5fr;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
+@media (min-width: 770px) {
+    .review_goods_grid {
+        display: grid;
+        grid-template-columns: 1.2fr 3.4fr 0.1fr 1.5fr;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
 }
 
 /* 상품 목록 그리드 */
@@ -180,7 +182,7 @@ main {
 } */
 
 /* 페이지네이션 */
-.list_num_item {
+/* .list_num_item {
     margin: 80px auto;
     width: 50%;
     display: flex;
@@ -210,8 +212,37 @@ main {
     height: 40px;
     text-align: center;
     line-height: 40px;
-}
+} */
 
+/* 페이지네이션 */
+.list_num_item {
+    margin: 80px auto;
+    width: 50%;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+}
+.list_num_item > a {
+    color: #000;
+    font-weight: 500;
+}
+.num {
+    background-color: #FAC91D;
+    border-radius: 50%;
+    width: 39px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+}
+.num_none:hover {
+    background-color: #FAC91D;
+    border-radius: 50%;
+    width: 41px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+}
 
 
 
@@ -360,11 +391,65 @@ textarea {
 }
 
 /* 태블릿 버전 스타일 */
-@media (max-width: 1024px) {
-    
+@media screen and (min-width: 771px) and (max-width: 1200px) {
+    main {
+        width: 80%;
+    }
+    /* 페이지네이션 */
+    .list_num_item {
+        width: 90%;
+    }
+    .list_num_item > a {
+        padding: 0rem 1rem;
+        margin: 0 0.5rem;
+        font-size: 1rem;
+    }
 }
 
 /* 모바일 버전 스타일 */
-@media (max-width: 768px) {
+@media screen and (max-width: 770px) {
+    * {
+        font-size: 0.8rem;
+    }
+    .reviewC_goods_title {
+        font-size: 1.3rem;
+    }
 
+    main {
+        width: 90%;
+    }
+    /* 페이지네이션 */
+    .list_num_item {
+        width: 100%;
+    }
+    .list_num_item > .num,
+    .list_num_item > .num_none {
+        font-size: 0.9rem;
+        margin: 0 5px;
+        padding: 0 12px;
+    }
+    .num {
+        width: 32px;
+        height: 31px;
+        line-height: 31px;
+    }
+    .num_none:hover {
+        width: 32px;
+        height: 31px;
+        line-height: 31px;
+    }
+    .before, .next {
+        font-size: 0.8rem;
+    }
+
+    .review_goods_grid {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+    .review_goods_info_grid_btn {
+        grid-column: 1 / 3;
+    }
 }
