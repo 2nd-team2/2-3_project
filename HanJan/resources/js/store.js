@@ -691,7 +691,7 @@ const store = createStore({
 
         // 회원정보 수정
         userUpdate(context) {
-            const url = '/api/userUpdate';
+            const url = '/api/userupdate';
             const data = new FormData(document.querySelector('#update_form'));
             axios.post(url, data)
             .then(responseData => {
@@ -703,7 +703,7 @@ const store = createStore({
 
         // 회원 탈퇴
         userDelete(context) {
-            const url = '/api/userDelete';
+            const url = '/api/userdelete';
             const data = new FormData(document.querySelector('#update_form'));
             if (confirm('정말 탈퇴 하시겠습니까?')) {
                 axios.delete(url, data)
@@ -747,7 +747,7 @@ const store = createStore({
 
         //  주문목록 삭제
         orderItemDelete(context, orp_id) {
-            const url = '/api/orderProductDelete/' + orp_id;
+            const url = '/api/orderproductdelete/' + orp_id;
             if (confirm('확인을 누르면 구매한 상품이 삭제됩니다.')) {
                 axios.delete(url)
                 .then(responseData => {
@@ -762,7 +762,7 @@ const store = createStore({
         // 상품 문의목록 불러오기
         getProductAskData(context, page) {
             const param = page == 1 ? '' : '?page=' + page;
-            const url = '/api/productAsk' + param;
+            const url = '/api/productask' + param;
             axios.get(url)
             .then(responseData => {
                 context.commit('productAskSetData', responseData.data.data);
@@ -774,7 +774,7 @@ const store = createStore({
 
         //  상품 문의 삭제
         productAskDelete(context, qnp_id) {
-            const url = '/api/productAskDelete/' + qnp_id;
+            const url = '/api/productaskdelete/' + qnp_id;
             if (confirm('확인을 누르면 작성한 상품 문의가 삭제됩니다.')) {
                 axios.delete(url)
                 .then(responseData => {
@@ -789,7 +789,7 @@ const store = createStore({
         // 1:1 문의목록 불러오기
         getAskData(context, page) {
             const param = page == 1 ? '' : '?page=' + page;
-            const url = '/api/askData' + param;
+            const url = '/api/askdata' + param;
             axios.get(url)
             .then(responseData => {
                 context.commit('askSetData', responseData.data.data);
@@ -801,7 +801,7 @@ const store = createStore({
         
         //  1:1 문의 삭제
         askDelete(context, qn_id) {
-            const url = '/api/askDelete/' + qn_id;
+            const url = '/api/askdelete/' + qn_id;
             if (confirm('확인을 누르면 작성한 1:1 문의가 삭제됩니다.')) {
                 axios.delete(url)
                 .then(responseData => {
