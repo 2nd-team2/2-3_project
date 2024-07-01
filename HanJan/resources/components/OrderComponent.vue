@@ -70,7 +70,7 @@
                 <input type="hidden" name="orp_id" :value="$store.state.orderProductData.p_id">  
                 <input type="hidden" name="orp_count" :value="$store.state.orderProductData.ba_count">
                 <div class="btn_com_box">
-                    <button type="button" @click="$store.dispatch('orderComplete', orderCompleteData)" class="btn_ord_com">결제하기</button>
+                    <button type="button" @click="orderComplete(orderCompleteData)" class="btn_ord_com">결제하기</button>
                 </div>
             </div>
         </form>
@@ -136,7 +136,12 @@ const totalPrice = computed(() => {
     return {count, total};
 });
 
-
+// 결제하기 재확인 안내
+const orderComplete = (orderCompleteData) => {
+    if (confirm('확인을 누르면 결제가 진행됩니다.')) {
+        store.dispatch('orderComplete', orderCompleteData);
+    }
+}
 
 
 // 실시간 유효성 체크

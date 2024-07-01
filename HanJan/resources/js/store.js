@@ -622,7 +622,7 @@ const store = createStore({
         exchage(context) {
             const url = '/api/exchage';
             const data = new FormData(document.querySelector('#exchage'));
-            
+
             if (confirm('확인을 누르면 교환 및 반품 신청이 완료 됩니다.')) {
                 axios.post(url, data)
                 .then(response => {
@@ -632,9 +632,16 @@ const store = createStore({
                 })
                 .catch(error => {
                     console.log(error.response); // TODO
-                    alert('교환 및 반품에 실패했습니다.(' + error.response.data.code + ')');
+
+                    if (error.response.data.code === 'E01') {
+                        alert('교환 및 반품 사유, 회수 정보를 확인해주세요.');
+                    } else {
+                        alert('교환 및 반품에 실패했습니다.(' + error.response.data.code + ')');
+                    }
                 });
             }
+            
+            
         },
 
         

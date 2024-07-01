@@ -39,6 +39,7 @@ class ExchangeController extends Controller
         
     }
 
+    // 교환 및 반품 신청 처리
     public function exchage(Request $request) {
 
         // 리퀘스트 데이터 받기
@@ -56,8 +57,8 @@ class ExchangeController extends Controller
                 'ex_addr' => ['required']
                 ,'ex_det_addr' => ['required']
                 ,'ex_post' => ['required']
-                ,'ex_reason' => ['required']
-            ]
+                ,'ex_reason' => ['required','regex:/^[0-3]+$/']
+            ],
         );
 
         // 유효성 검사 실패 체크
