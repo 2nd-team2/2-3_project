@@ -176,6 +176,10 @@ textarea:focus {
 /* 모바일 버전 */
 @media screen and (max-width: 770px) {
 
+    .note {
+        font-size: 0.8em;
+    }
+
     .top_input {
         margin-top: 20px;
     }
@@ -190,7 +194,7 @@ textarea:focus {
     }
 
     .info_item_input input {
-        height: 30px;
+        height: 4vh;
         font-size: 0.1em;
     }
 
@@ -276,5 +280,9 @@ textarea:focus {
     .info_item_input {
         display: flex;
         flex-direction: column-reverse;
+    }
+
+    .info_header_title {
+        font-size: 0.8em;
     }
 }
