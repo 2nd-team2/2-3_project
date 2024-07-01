@@ -280,6 +280,10 @@ textarea:focus {
         width: 80%;
     }
 
+    .email_box {
+        height: 26vh;
+    }
+
     .top_input {
         margin-top: 20px;
     }
@@ -295,7 +299,7 @@ textarea:focus {
 
     .info_item_input input {
         height: 30px;
-        max-width: 140px;
+        max-width: 50vw;
         font-size: 0.1em;
     }
 
@@ -358,9 +362,10 @@ textarea:focus {
     }
 
     .form_btn {
-        height: 40px;
-        width: 23vw;
+        width: 30vw;
         font-size: 0.5em;
+        grid-column: 2/3;
+        margin-top: 0;
     }
 
     textarea {
@@ -374,8 +379,8 @@ textarea:focus {
 
     .info_item_box {
         display: grid;
-        grid-template-columns: 1.2fr 2fr 1.5fr;
-        gap: 20px;
+        grid-template-columns: 0.6fr 1.4fr;
+        gap: 0;
         justify-content: space-around;
         align-items: center;
         margin: 0;
@@ -395,10 +400,6 @@ textarea:focus {
         font-size: 0.7em;
     }
 
-    #email {
-        width: 31vw;
-    }
-
     form {
         margin: 15px auto;
     }
@@ -406,4 +407,5 @@ textarea:focus {
     .regist_step {
         display: none;
     }
+    
 }
