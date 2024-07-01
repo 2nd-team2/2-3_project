@@ -98,14 +98,28 @@ class ProductController extends Controller
         //                 ->first();
                         // ->get();
                         // 
-        $productData = Product::select('products.id', 'products.price', 'products.count', 'products.img', 'products.info', 'products.name', DB::raw('COUNT(reviews.re_id) as total_star'), DB::raw('ROUND(AVG(reviews.re_star),1) as star_avg'))
-                        ->leftJoin('orderproducts','products.id','=', 'orderproducts.p_id')
-                        ->leftJoin('reviews','reviews.orp_id','=', 'orderproducts.orp_id')
-                        ->where('products.id', $id)
-                        ->groupBy('products.id', 'products.price', 'products.count', 'products.img', 'products.info', 'products.name')
-                        ->distinct()
-                        ->first();
-    
+        
+        // $productData = Product::select('products.id', 'products.price', 'products.count', 'products.img', 'products.info', 'products.name', DB::raw('COUNT(reviews.re_id) as total_star'), DB::raw('ROUND(AVG(reviews.re_star),1) as star_avg'))
+        //                 ->leftJoin('orderproducts','products.id','=', 'orderproducts.p_id')
+        //                 ->leftJoin('reviews','reviews.orp_id','=', 'orderproducts.orp_id')
+        //                 ->where('products.id', $id)
+        //                 ->groupBy('products.id', 'products.price', 'products.count', 'products.img', 'products.info', 'products.name')
+        //                 ->distinct()
+        //                 ->first();
+
+        $subQuery = Orderproduct::select('orderproducts.p_id', DB::raw('COUNT(reviews.re_id) total_star'), DB::raw('ROUND(AVG(reviews.re_star), 1) star_avg'))
+                                ->join('reviews', 'orderproducts.orp_id', '=', 'reviews.orp_id')
+                                ->where('orderproducts.p_id', $id)
+                                ->whereNull('reviews.deleted_at')
+                                ->groupBy('orderproducts.p_id');
+
+        $productData = Product::select('products.*', 'avg_rev.total_star', 'avg_rev.star_avg')
+                            ->leftJoinSub($subQuery, 'avg_rev', function($query) {
+                                $query->on('avg_rev.p_id', '=', 'products.id');
+                            })
+                            ->where('products.id', $id)
+                            ->first();
+
         $responseData = [
                 'code' => '0'
                 ,'msg' => '초기 상품값 획득 완료'
@@ -128,9 +142,9 @@ class ProductController extends Controller
         //                 ->limit(5)
         //                 ->get();
         $productData = Review::select('users.name AS user_name','products.id' ,'reviews.re_star','reviews.re_content','reviews.updated_at')
-                        ->JOIN('users','reviews.u_id','=', 'users.id')
-                        ->JOIN('orderproducts','reviews.orp_id','=', 'orderproducts.orp_id')
-                        ->JOIN('products','products.id','=', 'orderproducts.p_id')
+                        ->join('users','reviews.u_id','=', 'users.id')
+                        ->join('orderproducts','reviews.orp_id','=', 'orderproducts.orp_id')
+                        ->join('products','products.id','=', 'orderproducts.p_id')
                         ->where('products.id', $id) // 상품 아이디 가져와 리뷰 출력
                         ->orderBy('reviews.re_star', 'DESC')
                         ->orderBy('reviews.created_at', 'DESC')
@@ -190,14 +204,32 @@ class ProductController extends Controller
         //                     ->orderByDesc('products.created_at')
         //                     ->limit(5)
         //                     ->get();
+
+        $subQuery = Review::select('orderproducts.p_id', DB::raw('ROUND(AVG(reviews.re_star)) AS avg_star'))
+                            ->join('orderproducts', 'reviews.orp_id', '=', 'orderproducts.orp_id')
+                            ->groupBy('orderproducts.p_id');
+
         $productData = Product::select('products.*', 'avt.avg_star')
-                                ->join(DB::raw('(SELECT orderproducts.p_id, ROUND(AVG(reviews.re_star)) AS avg_star
-                                                FROM reviews
-                                                JOIN orderproducts ON reviews.orp_id = orderproducts.orp_id
-                                                GROUP BY orderproducts.p_id) AS avt'), 'products.id', '=', 'avt.p_id')
+                                ->joinSub($subQuery, 'avt', function($query) {
+                                    $query->on('products.id', '=', 'avt.p_id');
+                                })
+                                // ->join(DB::raw('(SELECT orderproducts.p_id, ROUND(AVG(reviews.re_star)) AS avg_star
+                                //                 FROM reviews
+                                //                 JOIN orderproducts ON reviews.orp_id = orderproducts.orp_id
+                                //                 GROUP BY orderproducts.p_id) AS avt'), 'products.id', '=', 'avt.p_id')
                                 ->orderByDesc('avt.avg_star')
                                 ->orderByDesc('products.created_at')
                                 ->get();
+        // $productData = DB::table('reviews')
+        //             ->join('orderproducts', 'reviews.orp_id', '=', 'orderproducts.orp_id')
+        //             ->select('orderproducts.p_id', DB::raw('ROUND(AVG(reviews.re_star)) AS avg_star'))
+        //             ->whereNull('reviews.deleted_at')
+        //             ->groupBy('orderproducts.p_id')
+        //             ->get();
+
+
+        Log::debug('#######################');
+        Log::debug($productData);
 
         $responseData = [
                 'code' => '0'

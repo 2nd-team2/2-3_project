@@ -196,30 +196,15 @@ class UserController extends Controller
 
             // 유저정보 획득
             $userInfo = Auth::user();
-            
+
+
             // 사용자 삭제
+            $deleted = Review::where('u_id', '=', $userInfo->id)->delete(); // 리뷰 -> u_id deleted
+            $deleted = Exchange::where('u_id', '=', $userInfo->id)->delete(); // 수정회원 -> u_id deleted
+            $deleted = Qna::where('u_id', '=', $userInfo->id)->delete(); // 문의 -> u_id deleted
+            $deleted = Qnaproduct::where('u_id', '=', $userInfo->id)->delete(); // 문의 -> u_id deleted
             $deleted = User::destroy($userInfo->id);
-
-            // 리뷰 삭제
-            if (Review::where('u_id', '=', $userInfo->id)->exists()) {
-                $deleted = Review::destroy($userInfo->id);
-            }
-
-            // 수정회원 삭제
-            if (Exchange::where('u_id', '=', $userInfo->id)->exists()) {
-                $deleted = Exchange::destroy($userInfo->id);
-            }
-
-            // 문의 삭제
-            if (Qna::where('u_id', '=', $userInfo->id)->exists()) {
-                $deleted = Qna::destroy($userInfo->id);
-            }
-
-            // 문의 상품 삭제
-            if (Qnaproduct::where('u_id', '=', $userInfo->id)->exists()) {
-                $deleted = Qnaproduct::destroy($userInfo->id);
-            }
-    
+            
             if ($deleted) {
                 // 로그아웃 처리
                 Auth::logout(Auth::user());
@@ -228,6 +213,9 @@ class UserController extends Controller
             } else {
                 return response()->json(['error' => '사용자 삭제 실패'], 500);
             }
+
+            // 사용자 삭제
+            // $deleted = User::destroy($userInfo->id);
         }
 
         // 수정 전 비밀번호 재확인
