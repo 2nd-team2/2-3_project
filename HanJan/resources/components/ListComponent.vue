@@ -3,19 +3,19 @@
         <div>
             <div class="list_main_img" :style="{ 'background-image': 'url(' + $store.state.currentImage + ')' }"></div>
             <div class="list_menu">
-                <router-link to="/list?type=0&page=1" class="list_menu_img" @click="changeImage('/img/list_img01.png')" >
+                <router-link to="/list?type=0&page=1" class="list_menu_img">
                     <img src="/img/menu01.png" alt="탁주">
-                    <p :class="{ list_name_bk }">탁주</p>
+                    <p :class="{list_name_bk:isType0}">탁주</p>
                 </router-link>
                 <div class="list_line"></div>
-                <router-link to="/list?type=1&page=1" class="list_menu_img" @click="changeImage('/img/list_img02.png')">
+                <router-link to="/list?type=1&page=1" class="list_menu_img">
                     <img src="/img/menu02.png" alt="과실주">
-                    <p :class="{ list_name_bk }">과실주</p>
+                    <p :class="{list_name_bk:isType1}">과실주</p>
                 </router-link>
                 <div class="list_line"></div>
-                <router-link to="/list?type=2&page=1" class="list_menu_img" @click="changeImage('/img/list_img03.png')">
+                <router-link to="/list?type=2&page=1" class="list_menu_img">
                     <img src="/img/menu03.png" alt="중류주">
-                    <p :class="{ list_name_bk }">증류주</p>
+                    <p :class="{list_name_bk:isType2}">증류주</p>
                 </router-link>
             </div>
             <p class="list_best_title">한잔 베스트</p>
@@ -67,12 +67,15 @@
 </template>
 
 <script setup>
-    import { onBeforeMount, computed } from 'vue';
+    import { onBeforeMount, computed, ref } from 'vue';
     import { useStore } from 'vuex';
     import router from '../js/router';
     import { onBeforeRouteUpdate } from 'vue-router';
 
     const store = useStore();
+    const isType0 = ref(false);
+    const isType1 = ref(false);
+    const isType2 = ref(false);
     
     onBeforeMount(() => {
         // if(store.state.listData.current_page == 1) {
@@ -92,7 +95,26 @@
         // console.log('onBeforeRouteUpdate', to.query);
         store.commit('setCurrentImage', to.query.type);
         store.dispatch('getList', to.query);
+
+        if(to.query.type == '0') {
+            isType0.value = true;
+            isType1.value = false;
+            isType2.value = false;
+        } else if(to.query.type == '1') {
+            isType0.value = false;
+            isType1.value = true;
+            isType2.value = false;
+        } else if(to.query.type == '2') {
+            isType0.value = false;
+            isType1.value = false;
+            isType2.value = true;
+        }
     });
+    
+    
+    // function changeImage () {
+//         backgroundColor.value = 'rgba(250, 201, 29, 0.3)';
+    // }
 
     // 페이지네이션
 

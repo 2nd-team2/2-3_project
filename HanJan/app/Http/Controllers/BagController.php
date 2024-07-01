@@ -155,7 +155,6 @@ class BagController extends Controller
         return response()->json($responseData);
     }
 
-
     // // 장바구니 데이터 > 주문 페이지로 전달 처리
     // public function bagsToOrder(Request $request) {
 

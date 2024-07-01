@@ -304,3 +304,13 @@ input[type="radio"]:checked + .checkbox {
     grid-column: 1 / 2;
     grid-row: 4 / 5;
 }
+
+/* 태블릿 버전 스타일 */
+@media (max-width: 1024px) {
+    
+}
+
+/* 모바일 버전 스타일 */
+@media (max-width: 768px) {
+
+}
