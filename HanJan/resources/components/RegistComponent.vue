@@ -61,7 +61,7 @@
                 <div class="info_item_box address">
                     <label class="info_item_label address_text" for="address">주소</label>
                     <div class="info_item_input">
-                        <p class="info_item_err_msg">{{ addressError }}</p>
+                        <p class="info_item_err">{{ addressError }}</p>
                         <input class="input_width top_input" type="text" name="addr" id="address" v-model="address" @input="chkAddress" readonly @click="kakaoPostcode">
                         <input class="postcode" type="text" readonly v-model="postcode" name="post">
                         <label class="address_detail_label" for="address">상세주소</label>

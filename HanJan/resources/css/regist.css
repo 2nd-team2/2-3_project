@@ -281,7 +281,8 @@ textarea:focus {
     }
 
     .email_box {
-        height: 26vh;
+        height: 19vh;
+        grid-template-rows: 0.7fr 0.3fr;
     }
 
     .top_input {
@@ -406,6 +407,10 @@ textarea:focus {
 
     .regist_step {
         display: none;
+    }
+
+    .info_item_err {
+        position: absolute;
     }
     
 }
