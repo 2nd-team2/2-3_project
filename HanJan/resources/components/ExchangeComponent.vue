@@ -31,7 +31,7 @@
                     <div class="ex_padding_bottom">어떤문제가 있나요?</div>
                 </div>
                 <div class="ex_padding_bottom ex_padding_left radio_grid">
-                    <input clsaa="input_default" type="radio" name="ex_reason" value="99" checked>
+                    <input clsaa="input_default" type="radio" name="ex_reason" value="9" checked>
                     <input type="radio" name="ex_reason" id="ex_reason1" value="0" class="radio0">
                     <label for="ex_reason1" class="checkbox radio1"></label>
                     <p class="radio_p1">상품이 마음에 들지 않음</p>
