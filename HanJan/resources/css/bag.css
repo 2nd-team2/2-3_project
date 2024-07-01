@@ -44,7 +44,7 @@ main {
 
 .bag_box {
     display: grid;
-    grid-template-columns: 2fr 1.2fr;
+    grid-template-columns: 2fr 1.5fr;
     gap: 20px;
 }
 
@@ -129,6 +129,7 @@ main {
     margin: 20px 0;
     display: flex;
     align-items: center;
+    /* width: 45rem; */
 }
 
 /* 상품, 배송비, 금액, 수량 그리드 */
@@ -280,7 +281,7 @@ main {
     justify-items: end;
     height: 8rem;
     padding-right: 10px;
-    width: 30rem;
+    width: 25rem;
 }
 
 .bag_price_grid {
@@ -372,9 +373,11 @@ input::-webkit-inner-spin-button {
 } */
 
 /* --------------- 웹 ~ 태블릿 버전 사이  ------------------- */
-@media screen and (min-width: 1201px) and (max-width: 1680px) {
-
-    /* .bag_box {
+@media (max-width: 1515px) {
+    main {
+        width: 90%;
+    }
+    .bag_box {
         grid-template-columns: 1fr;
     }
     .bag_grid {
@@ -383,6 +386,10 @@ input::-webkit-inner-spin-button {
     .btn_box {
         grid-template-columns: 1fr;
         grid-template-rows: auto auto auto;
+    }
+
+    .move_top {
+        display: none;
     }
 
     .bag_total_box {
@@ -397,16 +404,20 @@ input::-webkit-inner-spin-button {
     .bag_total_grid {
         width: 100%;
         padding-right: 0;
-    } */
-
+    }
+    
 }
 
 /* 태블릿 버전 스타일 */
 @media (max-width: 1024px) {
+/* @media (max-width: 1515px) { */
     main {
         width: 90%;
     }
     .header_step > li {
+        display: none;
+    }
+    .move_top {
         display: none;
     }
     .bag_box {
@@ -443,6 +454,9 @@ input::-webkit-inner-spin-button {
     .header_step > li {
         display: none;
     }    
+    .move_top {
+        display: none;
+    }
     .bag_box {
         grid-template-columns: 1fr;
     }
