@@ -84,11 +84,11 @@ Route::post('/api/login', [UserController::class, 'login']);
 // 회원가입 처리
 Route::post('/api/regist', [UserController::class, 'regist']);
 // 회원정보 수정 처리
-Route::middleware('auth')->post('/api/userUpdate', [UserController::class, 'userUpdate']);
+Route::middleware('auth')->post('/api/userupdate', [UserController::class, 'userUpdate']);
 // 회원 탈퇴
-Route::middleware('auth')->delete('/api/userDelete', [UserController::class, 'userDelete']);
+Route::middleware('auth')->delete('/api/userdelete', [UserController::class, 'userDelete']);
 // 이메일 중복체크
-Route::get('/api/regist/{emailText}', [UserController::class, 'registEmailChk']);
+Route::get('/api/regist/{emailtext}', [UserController::class, 'registEmailChk']);
 // 비밀번호 재확인
 Route::post('/api/confirm', [UserController::class, 'confirm']);
 // 로그아웃 처리
@@ -98,15 +98,15 @@ Route::middleware('auth')->post('/api/complete/{id}', [ProductController::class,
 // 주문목록 불러오기
 Route::middleware('auth')->get('/api/info', [ProductController::class, 'infoData']);
 // 상품목록 불러오기
-Route::middleware('auth')->get('/api/productAsk', [QnaController::class, 'productAsk']);
+Route::middleware('auth')->get('/api/productask', [QnaController::class, 'productAsk']);
 // 1대1 문의 불러오기
-Route::middleware('auth')->get('/api/askData', [QnaController::class, 'askData']);
+Route::middleware('auth')->get('/api/askdata', [QnaController::class, 'askData']);
 // 주문목록 삭제
-Route::middleware('auth')->delete('/api/orderProductDelete/{itemId}', [ProductController::class, 'orderProductDelete']);
+Route::middleware('auth')->delete('/api/orderproductdelete/{itemId}', [ProductController::class, 'orderProductDelete']);
 // 상품목록 삭제
-Route::middleware('auth')->delete('/api/productAskDelete/{qnp_id}', [QnaController::class, 'productAskDelete']);
+Route::middleware('auth')->delete('/api/productaskdelete/{qnp_id}', [QnaController::class, 'productAskDelete']);
 // 1대1 문의 삭제
-Route::middleware('auth')->delete('/api/askDelete/{qn_id}', [QnaController::class, 'askDelete']);
+Route::middleware('auth')->delete('/api/askdelete/{qn_id}', [QnaController::class, 'askDelete']);
 
 // ----------------------- 성환 끝 ---------------------------
 
@@ -114,11 +114,11 @@ Route::middleware('auth')->delete('/api/askDelete/{qn_id}', [QnaController::clas
 // 상세페이지 데이터 불러오기
 Route::get('/api/detailed/{id}', [ProductController::class, 'value']);
 // 상세페이지 데이터 불러오기
-Route::get('/api/listBast', [ProductController::class, 'listBast']);
+Route::get('/api/listbast', [ProductController::class, 'listBast']);
 // 리뷰 데이터 불러오기
 Route::get('/api/reviewdetailed/{id}', [ProductController::class, 'detailedReview']);
 // 수량 데이터 보내기(디테일->장바구니)
-Route::middleware('auth')->post('/api/detailedToCount', [ProductController::class, 'detailedToCount']);
+Route::middleware('auth')->post('/api/detailedtocount', [ProductController::class, 'detailedToCount']);
 // 상세리스트 데이터 불러오기
 Route::get('/api/list', [ProductController::class, 'list']);
 // ----------------------- 민서 끝 ---------------------------

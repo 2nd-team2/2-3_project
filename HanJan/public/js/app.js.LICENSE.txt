@@ -18,7 +18,12 @@
  */
 
 /**
+<<<<<<< HEAD
 * @vue/shared v3.4.29
+=======
+* @vue/shared v3.4.27
+>>>>>>> 533f067d86169a4f8f24598ac7db1d3820429ee8
+* @vue/shared v3.4.27
 * (c) 2018-present Yuxi (Evan) You and Vue contributors
 * @license MIT
 **/

@@ -196,13 +196,32 @@ class UserController extends Controller
 
             // 유저정보 획득
             $userInfo = Auth::user();
-
+            
             // 사용자 삭제
             $deleted = User::destroy($userInfo->id);
-            $deleted = Review::where('u_id', '=', $userInfo->id )->delete(); // 리뷰 -> u_id deleted
-            $deleted = Exchange::where('u_id', '=', $userInfo->id )->delete(); // 수정회원 -> u_id deleted
-            $deleted = Qna::where('u_id', '=', $userInfo->id )->delete(); // 문의 -> u_id deleted
-            $deleted = Qnaproduct::where('u_id', '=', $userInfo->id )->delete(); // 문의 -> u_id deleted
+
+            // 리뷰 삭제
+            if (Review::where('u_id', '=', $userInfo->id)->exists()) {
+                $deleted = Review::destroy($userInfo->id);
+            }
+
+            // 수정회원 삭제
+            if (Exchange::where('u_id', '=', $userInfo->id)->exists()) {
+                $deleted = Exchange::destroy($userInfo->id);
+            }
+
+            // 문의 삭제
+            if (Qna::where('u_id', '=', $userInfo->id)->exists()) {
+                $deleted = Qna::destroy($userInfo->id);
+            }
+
+            // 문의 상품 삭제
+            if (Qnaproduct::where('u_id', '=', $userInfo->id)->exists()) {
+                $deleted = Qnaproduct::destroy($userInfo->id);
+            }
+
+            log::debug($deleted);
+
     
             if ($deleted) {
                 // 로그아웃 처리
