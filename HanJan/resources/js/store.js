@@ -878,7 +878,7 @@ const store = createStore({
          * @param {*} context
          */
         productBastDetail(context) {
-            const url = '/api/listBast';
+            const url = '/api/listbast';
 
             axios.get(url)
             .then(response => {
@@ -918,7 +918,7 @@ const store = createStore({
         //  * @param {*} constext 
         //  */
         detailedToCount(constext) {
-            const url = '/api/detailedToCount';
+            const url = '/api/detailedtocount';
             const data = new FormData(document.querySelector('#bagForm'));
             
             axios.post(url, data)
