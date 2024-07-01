@@ -219,9 +219,6 @@ class UserController extends Controller
             if (Qnaproduct::where('u_id', '=', $userInfo->id)->exists()) {
                 $deleted = Qnaproduct::destroy($userInfo->id);
             }
-
-            log::debug($deleted);
-
     
             if ($deleted) {
                 // 로그아웃 처리
