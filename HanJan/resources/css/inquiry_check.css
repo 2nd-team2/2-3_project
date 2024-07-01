@@ -248,13 +248,52 @@ textarea {
     font-size: 0.8rem;
 }
 
-.kakao_channel {
+/* .move_kakao {
     width: 50px;
     height: 50px;
     position: fixed;
     bottom: 8%;
     right: 4%;
-    border-radius: 50%;
-    z-index: 991;   
-} 
+    z-index: 991;
+} */
 
+.kakao_channel {
+    border-radius: 50%;
+    position: fixed;
+    right: 4%;
+    z-index: 991;
+}
+
+/* ----------------------- 웹 버전 ----------------------- */
+@media screen and (min-width: 1201px) {
+    .kakao_channel {
+        width: 50px;
+        height: 50px;
+        bottom: 8%;
+    } 
+}
+/* ---------------------- 태블릿 버전 ---------------------- */
+@media screen and (min-width: 771px) and (max-width: 1200px) {
+    main {
+        width: 80%;
+    }
+
+    .kakao_channel {
+        width: 50px;
+        height: 50px;
+        bottom: 24%;
+    } 
+}
+/* ---------------------- 모바일 버전 ---------------------- */
+@media screen and (max-width: 770px) {
+    main {
+        width: 90%;
+    }
+
+    .kakao_channel {
+        width: 40px;
+        height: 40px;
+        bottom: 4%;
+    } 
+
+}

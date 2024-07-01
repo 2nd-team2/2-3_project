@@ -137,7 +137,7 @@
     <a href="#" class="move_top">
         <img src="/img/up.png" class="move_top_img">
     </a>
-    <a href="http://pf.kakao.com/_xmIqpG/chat" class="">
+    <a href="http://pf.kakao.com/_xmIqpG/chat" class="move_kakao">
         <img src="/img/kakao_ch.png" class="kakao_channel">
     </a>
 
