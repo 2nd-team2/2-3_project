@@ -435,7 +435,7 @@ li{
 /* 모바일 버전 */
 @media screen and (max-width: 770px) {
     main {
-        width: 100%;
+        width: 90%;
         margin: 1rem auto;
     }
 
@@ -464,6 +464,7 @@ li{
     .order_list_button, .item_right {
         flex-direction: column;
         align-items: flex-start;
+        border: none;
     }
 
     .order_list_main, .inquiry_list_main {
@@ -474,22 +475,32 @@ li{
         padding: 10px;
         grid-template-columns: 1fr;
     }
-
-    .order_delete, .inquiry_delete {
-        margin-right: 0;
+    
+    .order_item {
+        height: 64vh;
     }
 
     .order_img, .inquiry_img {
-        width: 100%;
-        height: auto;
+        grid-column: 1/2;
+        grid-row: 4/5;
     }
 
     .item_left_list_text, .inquiry_item_left_list_text {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 0.4fr;
     }
 
     .order_name, .order_price, .inquiry_name, .inquiry_date {
-        grid-column: 1 / -1;
+        grid-column: 1 / 2;
+    }
+
+    .inquiry_name {
+        font-size: 0.8em;
+    }
+
+    .order_name {
+        grid-row: 3/4;
+        grid-column: 1/2;
+        font-size: 1em;
     }
 
     .list_num_item {
@@ -502,6 +513,58 @@ li{
         padding: 0.5rem;
         margin: 0.25rem;
         line-height: normal;
+    }
+
+    .title_span {
+        font-weight: 900;
+        padding-left: 10px;
+        font-size: 0.9em;
+        grid-column: 1 / 3;
+        grid-row: 1 / 2;
+    }
+
+    .order_date {
+        grid-column: 1 / 3;
+        grid-row: 2 / 3;
+        font-size: 0.9em;
+    }
+
+    .left_span {
+        margin-left: 0;
+    }
+
+    .order_delete {
+        grid-column: 3 / 4;
+        margin-left: 0;
+        grid-row: 1 / 2;
+    }
+
+    .order_price {
+        grid-column: 1 / 3;
+        grid-row: 2 / 3;
+        font-size: 0.8em;
+    }
+
+    .complete_btn {
+        width: 40vw;
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+    }
+
+    .item_left_list_text {
+        grid-template-rows: 0.9fr 0.4fr;
+        grid-template-columns: 0.8fr 1fr;
+    }
+
+    .order_img {
+        grid-column: 2 / 3;
+        grid-row: 2 / 4;
+    }
+
+    .item_right {
+        align-items: center;
+        margin: 0 auto;
+        justify-content: flex-end
     }
 }
 

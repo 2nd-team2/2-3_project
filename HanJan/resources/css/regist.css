@@ -243,6 +243,10 @@ textarea:focus {
         padding: 15px 30px;
     }
 
+    main {
+        width: 80%;
+    }
+
     .info_item_btn {
         height: 35px;
         padding: 0 1.2rem;
@@ -272,12 +276,16 @@ textarea:focus {
 /* 모바일 버전 */
 @media screen and (max-width: 770px) {
 
+    main {
+        width: 80%;
+    }
+
     .top_input {
         margin-top: 20px;
     }
 
     label {
-        font-size: 0.8em;
+        font-size: 0.6em;
     }
 
     main {
@@ -287,7 +295,7 @@ textarea:focus {
 
     .info_item_input input {
         height: 30px;
-        max-width: 160px;
+        max-width: 140px;
         font-size: 0.1em;
     }
 
@@ -318,6 +326,7 @@ textarea:focus {
 
     .regist_step > li {
         margin: 5px;
+        font-size: 0.8em;
     }
 
     .info_item_btn {
@@ -350,6 +359,8 @@ textarea:focus {
 
     .form_btn {
         height: 40px;
+        width: 23vw;
+        font-size: 0.5em;
     }
 
     textarea {
@@ -367,11 +378,31 @@ textarea:focus {
         gap: 20px;
         justify-content: space-around;
         align-items: center;
-        margin: 10px;
+        margin: 0;
     }
 
     .info_item_input {
         display: flex;
         flex-direction: column-reverse;
+    }
+
+    .info_header_title {
+        font-size: 0.8em;
+    }
+
+    .note {
+        font-size: 0.7em;
+    }
+
+    #email {
+        width: 32vw;
+    }
+
+    form {
+        margin: 15px auto;
+    }
+
+    .regist_step {
+        display: none;
     }
 }

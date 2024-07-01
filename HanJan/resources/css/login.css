@@ -139,6 +139,10 @@ textarea:focus {
 
 /* ---------------------- 태블릿 버전 ---------------------- */
 @media screen and (min-width: 771px) and (max-width: 1200px) {
+    main {
+        width: 80%;
+    }
+
     .leftInfo {
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 0.5fr 1.2fr 1.2fr 0.5fr 0.5fr;
@@ -189,6 +193,10 @@ textarea:focus {
 
 /* ---------------------- 모바일 버전 ---------------------- */
 @media screen and (max-width: 770px) {
+    main {
+         width: 90%;
+    }
+
     .rightPoto {
         display: none;
     }
