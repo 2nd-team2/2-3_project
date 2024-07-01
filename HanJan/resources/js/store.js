@@ -319,7 +319,9 @@ const store = createStore({
          * @param {*} data
         */
         bagsSelectDelete(context, data) {
-            const url = '/api/bagsSelectDelete/';
+            const url = '/api/bagsSelectDelete';
+            console.log('@##@$@#$@#$@#$');
+            console.log(data);
     
             axios.post(url, data, {
                 headers: {
@@ -332,7 +334,7 @@ const store = createStore({
             })
             .catch(error => {
                 console.error('삭제 실패:', error);
-                alert('장바구니 선택 삭제에 실패했습니다.');
+                alert('장바구니 삭제에 실패했습니다.(' + error.response.data.code + ')' );
             });
         },
 
