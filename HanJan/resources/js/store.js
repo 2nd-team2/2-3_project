@@ -1002,7 +1002,8 @@ const store = createStore({
             context.commit('setdetailedUpdate', detailedData);
             localStorage.setItem('orderProductData', JSON.stringify(detailedData));
 
-            router.replace('/order');
+            router.push('/order');
+            // router.replace('/order');
         },
         // // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------

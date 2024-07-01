@@ -18,7 +18,7 @@
         <div class="inquiry_padding_top inquiry_btn_right">
             <button @click="$router.back()"  class="inquiry_submit_btn">취소</button>
         </div>
-        <a href="http://pf.kakao.com/_xmIqpG/chat" class="">
+        <a href="http://pf.kakao.com/_xmIqpG/chat" class="move_kakao">
             <img src="/img/kakao_ch.png" class="kakao_channel">
         </a>
     </main>

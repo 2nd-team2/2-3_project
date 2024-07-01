@@ -11,6 +11,8 @@ h1 {
     margin: 0 auto;
 }
 
+
+
 /* ------------- 상품상세페이지 이미지상단 ------------- */
 
 
@@ -237,29 +239,45 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
  /* --------------------- move top --------------------- */
+.move_top{
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    bottom: 8%;
+    border-radius: 50%;
+    z-index: 991;
+}
+
 .move_top_img {
     width: 100%;
     height: 100%;
 }
 
-/* 작은 디바이스 (모바일 기기) */
-@media (max-width: 768px) {
+/* 테블릿 */
+@media screen and (min-width: 771px) and (max-width: 1200px) {
+    h1 {
+        margin: 0 auto;
+        width: 80%;
+    }
     .detailed_haeder {
         flex-direction: column;
         gap: 2rem;
         max-height: none; /* 높이 제한 해제 */
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
     }
     main {
-        width: 80%;
-        margin: 3rem auto;
+        width: 100%;
+        margin: 0 auto;
     }
-
     .detailed_haeder > img {
         width: 100%; /* 이미지를 화면 너비에 맞게 조정 */
     }
 
     .detailed_haeder_item {
         font-size: 1rem; /* 폰트 크기 축소 */
+        margin-left: 3rem;
     }
     .detailed_footer_content {
         width: 20rem; /* 필요에 따라 너비 설정 */
@@ -273,6 +291,9 @@ input[type="number"]::-webkit-outer-spin-button {
         gap: 2rem;
         margin-top: 3rem;
     }
+    .detailed_content img {
+        max-width: 100%;
+    }
     .detailed_haeder_bay
     ,.detailed_haeder_bag_a {
         width: 12rem;
@@ -285,34 +306,102 @@ input[type="number"]::-webkit-outer-spin-button {
         margin-top: 5rem;
     }
     hr {
-        margin: 5rem -2rem;
+        width: 80%;
+        margin: 3rem auto;
     }
-    .detailed_footer[data-v-5e59c9e8] {
+    .detailed_footer {
         margin-top: 2rem;
         padding: 0.8rem;
         border-radius: 10px;
     }
-    
+    .move_top_img {
+        width: 80%;
+        height: 80%;
+    }
+    .detailed_footer_item {
+        width: 80%;
+        margin: 0 auto;
+    }
 }
 
-/* 중간 크기 디바이스 (태블릿) */
-@media (min-width: 768px) and (max-width: 1024px) {
+/* 모바일 */
+@media (max-width: 770px) {
+    h1 {
+        margin: 0 auto;
+        width: 80%;
+    }
     .detailed_haeder {
-        gap: 3rem; /* 간격을 조금 더 넓게 */
+        flex-direction: column;
+        gap: 2rem;
+        max-height: none; /* 높이 제한 해제 */
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+    }
+    main {
+        width: 100%;
+        margin: 0 auto;
+    }
+    .detailed_haeder > img {
+        width: 100%; /* 이미지를 화면 너비에 맞게 조정 */
     }
 
+    .detailed_haeder_item {
+        font-size: 1rem; /* 폰트 크기 축소 */
+        margin-left: 1rem;
+    }
     .detailed_footer_content {
-        width: 25rem; /* 필요에 따라 너비 설정 */
+        width: 15rem; /* 필요에 따라 너비 설정 */
+        font-size: 1rem;
     }
-
-    /* 필요한 다른 스타일 조정 */
-}
-
-/* 큰 디바이스 (데스크탑) */
-@media (min-width: 1025px) {
-    .detailed_haeder {
-        gap: 5rem; /* 더 넓은 간격 */
+    .detailed_footer_date {
+        padding-left: 0.5rem;
     }
-
-    /* 데스크탑에 맞는 추가적인 스타일 적용 */
+    .detailed_haeder_btn {
+        display: flex;
+        gap: 1.2rem;
+        margin-top: 3rem;
+    }
+    .detailed_content img {
+        width: 100%;
+    }
+    .detailed_haeder_bay
+    ,.detailed_haeder_bag_a {
+        width: 10rem;
+        font-size: 1.2rem;
+    }
+    .detailed_haeder_review {
+        margin-bottom: 3rem;
+    }
+    .detailed_content {
+        margin-top: 5rem;
+    }
+    hr {
+        width: 80%;
+        margin: 3rem auto;
+    }
+    .detailed_footer {
+        margin-top: 2rem;
+        display: flex;
+        border: 1px solid #5c5c5c;
+        padding: 0.8rem;
+        border-radius: 10px;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.8rem;
+    }
+    .star {
+        font-size: 1rem;
+    }
+    .detailed_footer_item {
+        width: 80%;
+        margin: 0 auto;
+    }
+    .move_top{
+        right: 7%;
+    }
+    .move_top_img {
+        width: 80%;
+        height: 80%;
+    }
 }

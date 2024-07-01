@@ -22,16 +22,14 @@ main {
 
 .erros_box {
     display: grid;
-    margin: 20px auto;
-    width: 80%;
     grid-template-columns: 1fr 0.1fr 1fr;
+    margin: 20px auto;
     justify-items: center;
     align-items: center;
     gap: 10px;
 }
 
 .errors_img {
-    width: 800px;
     grid-column: 1 / 4;
     margin: 10px 0;
 }
@@ -44,7 +42,6 @@ main {
     color: white;
     cursor: pointer;
     height: 35px;
-    width: 150px;
     margin: 10px 0 0 200px;
     font-size: 1rem;
     font-weight: 300;
@@ -60,7 +57,6 @@ main {
     color: white;
     cursor: pointer;
     height: 35px;
-    width: 150px;
     margin: 10px 200px 0 0;
     font-size: 1rem;
     line-height: 35px;
@@ -71,4 +67,70 @@ main {
 .errors_back:hover {
     background-color: #FAC91D;
     color: black;
+}
+
+/* ----------------------- 웹 버전 ----------------------- */
+@media screen and (min-width: 1201px) {
+    .errors_img {
+        width: 800px;
+    }
+
+    .erros_box {
+        width: 80%;
+    }
+
+    .errors_link {
+        margin: 10px 0 0 200px;
+        width: 150px;
+    }
+    
+    .errors_back {
+        margin: 10px 200px 0 0;
+        width: 150px;
+    }
+}
+/* ---------------------- 태블릿 버전 ---------------------- */
+@media screen and (min-width: 771px) and (max-width: 1200px) {
+    main {
+        width: 80%;
+    }
+
+    .errors_img {
+        width: 80%;
+    }
+    
+    .errors_link {
+        margin: 10px 0 0 200px;
+        width: 150px;
+    }
+    
+    .errors_back {
+        margin: 10px 200px 0 0;
+        width: 150px;
+    }
+}
+/* ---------------------- 모바일 버전 ---------------------- */
+@media screen and (max-width: 770px) {
+    main {
+        width: 90%;
+    }
+
+    .erros_box {
+        width: 100%;
+    }
+
+    .errors_img {
+        width: 80%;
+    }
+
+    .errors_link {
+        margin: 10px 0 0 40px;
+        width: 100px;
+    }
+    
+    .errors_back {
+        margin: 10px 40px 0 0;
+        width: 100px;
+    }
+
 }
