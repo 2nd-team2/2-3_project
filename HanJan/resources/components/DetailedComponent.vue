@@ -136,8 +136,17 @@
     // })
 
     // 금액 천단위 포맷 (,000)
+    // function formatPrice(price) {
+    //     return price.toLocaleString('ko-KR');
+    // }
+
+    // 금액 천단위 포맷 (,000)
     function formatPrice(price) {
-        return price.toLocaleString('ko-KR');
+        if (typeof price === 'number' && !isNaN(price)) {
+            return price.toLocaleString('ko-KR');
+        } else {
+            return ''; // 혹은 다른 기본값 처리
+        }
     }
 
 </script>

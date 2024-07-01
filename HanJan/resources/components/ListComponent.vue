@@ -108,6 +108,10 @@
             isType0.value = false;
             isType1.value = false;
             isType2.value = true;
+        } else if(to.query.type == '99') {
+            isType0.value = false;
+            isType1.value = false;
+            isType2.value = false;
         }
     });
     
