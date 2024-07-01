@@ -383,7 +383,8 @@ textarea:focus {
 
     .info_item_input {
         display: flex;
-        flex-direction: column-reverse;
+        flex-direction: column;
+        gap: 4px;
     }
 
     .info_header_title {
@@ -395,7 +396,7 @@ textarea:focus {
     }
 
     #email {
-        width: 32vw;
+        width: 31vw;
     }
 
     form {

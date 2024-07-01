@@ -97,6 +97,7 @@ const postcode = ref(store.state.userInfo.post);
 const passwordError = ref('');
 const passwordChkError = ref('');
 const phoneError = ref('');
+const addressError = ref('');
 
 function chkPassword() {
   if (!password.value || password.value.length < 8 || password.value.length > 20) {

@@ -194,7 +194,7 @@ textarea:focus {
     }
 
     .info_item_input input {
-        height: 28px;
+        height: 4vh;
         font-size: 0.1em;
     }
 
