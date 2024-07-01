@@ -319,7 +319,7 @@ const store = createStore({
          * @param {*} data
         */
         bagsSelectDelete(context, data) {
-            const url = '/api/bagsSelectDelete';
+            const url = '/api/bagsSelectDelete/';
     
             axios.post(url, data, {
                 headers: {
@@ -332,9 +332,30 @@ const store = createStore({
             })
             .catch(error => {
                 console.error('삭제 실패:', error);
-                alert('장바구니 삭제에 실패했습니다.(' + error.response.data.code + ')' );
+                alert('장바구니 선택 삭제에 실패했습니다.');
             });
         },
+
+        // bagsSelectDelete(context, data ) {
+        //     const url = '/api/bagsSelectDelete/'
+        //     // 선택된 데이터만 들고 와야되기 때문에 vue에서 먼저 처리후 데이터 넘겨줌
+        //     // const data = new FormData(document.querySelector('#bagsProductData'));
+        //     console.log('store에서 data 받오는 거 확인'); // TODO
+        //     console.log(data);
+
+        //     axios.post(url, data, {
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         }
+        //     })
+        //     .then(response => {
+        //         console.log(response.data.data); // TODO : 삭제
+        //         store.dispatch('bagsGetProductData');
+        //     })
+        //     .catch(error => {
+        //         alert('장바구니 선택 삭제에 실패했습니다.(' + error.response.data.code + ')' )
+        //     });
+        // },
 
         /**
          * 장바구니 페이지에서 선택된 상품만 주문 페이지로 정보 전달
@@ -373,6 +394,13 @@ const store = createStore({
                 console.error('Invalid orderProductData format in Vuex state.');
                 return; // 예외 처리: 유효하지 않은 데이터 형식인 경우 종료
             }
+
+            // // 장바구니에서 받은 데이터와 주문페이지에서 입력한 데이터 가공 처리
+            // const orderItems = store.state.orderProductData.map(item => {
+            //     const OrderItem = { ...orderComplete, ...item };
+                
+            //     return OrderItem;
+            // });
 
             const data = JSON.stringify({ data: orderItems}); // 키값을 포함하여 서버에 전달
             console.log(data); // TODO : 삭제
@@ -698,7 +726,7 @@ const store = createStore({
 
         // 회원정보 수정
         userUpdate(context) {
-            const url = '/api/userupdate';
+            const url = '/api/userUpdate';
             const data = new FormData(document.querySelector('#update_form'));
             axios.post(url, data)
             .then(responseData => {
@@ -710,7 +738,7 @@ const store = createStore({
 
         // 회원 탈퇴
         userDelete(context) {
-            const url = '/api/userdelete';
+            const url = '/api/userDelete';
             const data = new FormData(document.querySelector('#update_form'));
             if (confirm('정말 탈퇴 하시겠습니까?')) {
                 axios.delete(url, data)
@@ -719,6 +747,7 @@ const store = createStore({
                     context.commit('setAuthFlg', null);
                     context.commit('setUserInfo', null);
                     store.dispatch('getReviewistData');
+                    
                     router.replace('/');
                 });
             }
@@ -753,7 +782,7 @@ const store = createStore({
 
         //  주문목록 삭제
         orderItemDelete(context, orp_id) {
-            const url = '/api/orderproductdelete/' + orp_id;
+            const url = '/api/orderProductDelete/' + orp_id;
             if (confirm('확인을 누르면 구매한 상품이 삭제됩니다.')) {
                 axios.delete(url)
                 .then(responseData => {
@@ -768,7 +797,7 @@ const store = createStore({
         // 상품 문의목록 불러오기
         getProductAskData(context, page) {
             const param = page == 1 ? '' : '?page=' + page;
-            const url = '/api/productask' + param;
+            const url = '/api/productAsk' + param;
             axios.get(url)
             .then(responseData => {
                 context.commit('productAskSetData', responseData.data.data);
@@ -780,7 +809,7 @@ const store = createStore({
 
         //  상품 문의 삭제
         productAskDelete(context, qnp_id) {
-            const url = '/api/productaskdelete/' + qnp_id;
+            const url = '/api/productAskDelete/' + qnp_id;
             if (confirm('확인을 누르면 작성한 상품 문의가 삭제됩니다.')) {
                 axios.delete(url)
                 .then(responseData => {
@@ -795,7 +824,7 @@ const store = createStore({
         // 1:1 문의목록 불러오기
         getAskData(context, page) {
             const param = page == 1 ? '' : '?page=' + page;
-            const url = '/api/askdata' + param;
+            const url = '/api/askData' + param;
             axios.get(url)
             .then(responseData => {
                 context.commit('askSetData', responseData.data.data);
@@ -807,7 +836,7 @@ const store = createStore({
         
         //  1:1 문의 삭제
         askDelete(context, qn_id) {
-            const url = '/api/askdelete/' + qn_id;
+            const url = '/api/askDelete/' + qn_id;
             if (confirm('확인을 누르면 작성한 1:1 문의가 삭제됩니다.')) {
                 axios.delete(url)
                 .then(responseData => {
