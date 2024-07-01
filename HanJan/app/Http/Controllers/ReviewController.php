@@ -168,7 +168,7 @@ class ReviewController extends Controller
 
     // 메인 페이지에서 리뷰 출력
     public function reviewMainIndex() {
-        $noticeData = Review::select('reviews.re_content', 'products.id',  'products.name', 'products.img', 'products.name')
+        $noticeData = Review::select('reviews.re_content', 'reviews.re_star', 'products.id',  'products.name', 'products.img', 'products.name')
                             ->join('users', 'users.id', '=', 'reviews.u_id')
                             ->join('orderproducts', 'orderproducts.orp_id', '=', 'reviews.orp_id')
                             ->join('products','products.id', '=', 'orderproducts.p_id')

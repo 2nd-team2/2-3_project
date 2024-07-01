@@ -373,7 +373,7 @@ li {
 
 .review_box {
     display: grid;
-    grid-template-rows: 1fr 100px 0.2fr;
+    grid-template-rows: 1fr 0.1fr 100px 0.2fr;
     align-items: start;
     gap: 10px;
 }
@@ -426,6 +426,23 @@ li {
 .goods_read:hover {
     background-color: #ffcd40;
     color: black;
+}
+
+/* * 별점 선택* */
+.review_goods_info_grid_star {
+    display: grid;
+}
+.star-rating {
+    display: flex;
+    align-items: center;
+    line-height: 20px;
+}
+.star {
+    font-size: 1.5rem;
+    color: lightgray;
+}
+.star.checked {
+    color: gold;
 }
 
 /* ---------------------- 공지사항 ---------------------- */

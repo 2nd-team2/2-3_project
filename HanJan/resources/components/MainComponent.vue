@@ -114,6 +114,11 @@
         <h1 class="review">한잔 리뷰</h1>
         <div class="review_box" v-for="review in reviewLimit">
             <img :src="review.img" class="goods_img">
+            <div class="star-rating">
+                <span class="star" v-for="star in 5" :key="star" :class="{ checked: star <= review.re_star }">
+                    &#9733;
+                </span>
+            </div>
             <p class="review_content">{{ review.re_content }}</p>
             <div @click="productDetail(review.id)" class="review_a">
                 <div class="goods_title">{{ review.name }}</div>
