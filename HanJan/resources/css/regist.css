@@ -145,6 +145,11 @@ form {
     top: -1.8rem;
 }
 
+.info_item_err {
+    position: absolute;
+    top: -1.8rem;
+}
+
 .info_item_input > p {
     color: #ff0000;
 }
@@ -236,7 +241,6 @@ textarea:focus {
 
 
 
-
 /* 태블릿버전 */
 @media screen and (min-width: 771px) and (max-width: 1200px) {
     .container {
@@ -278,6 +282,10 @@ textarea:focus {
 
     main {
         width: 80%;
+    }
+
+    .address {
+        height: 200px;
     }
 
     .email_box {
@@ -411,6 +419,7 @@ textarea:focus {
 
     .info_item_err {
         position: absolute;
+        top: 0;
     }
     
 }
