@@ -88,7 +88,7 @@ hr {
     font-size: 1.3rem;
 }
 
-/* ------------- 목록번호 ------------- */
+/* 페이지네이션 */
 .list_num_item {
     margin: 80px auto;
     width: 50%;
@@ -98,10 +98,7 @@ hr {
     justify-content: center;
 }
 .list_num_item > a {
-    padding: 0rem 1rem;
-    margin: 0 0.5rem;
     color: #000;
-    font-size: 1rem;
     font-weight: 500;
 }
 .num {
@@ -127,12 +124,24 @@ hr {
     height: 100%;
 }
 
-/* 미디어 쿼리를 사용하여 반응형으로 스타일 조정 */
+/* 웹 버전 */
+@media screen and (min-width: 1201px) {
+    /* 페이지네이션 */
+    .list_num_item {
+        width: 70%;
+    }
+    .list_num_item > a {
+        padding: 0rem 1rem;
+        margin: 0 0.5rem;
+        font-size: 1rem;
+    }
+}
 
-/* 작은 화면에서는 내용들이 좀 더 넓게 보이도록 */
-@media (max-width: 768px) {
+/* 테블릿 */
+
+@media screen and (min-width: 771px) and (max-width: 1200px) {
     .list_content {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
         width: 90%;
         gap: 2rem 1rem;
     }
@@ -146,7 +155,7 @@ hr {
         display: flex;
         justify-content: center;
         text-align: center;
-        gap: 2rem;
+        gap: 3rem;
         margin-top: 4rem;
     }
     .list_num_item {
@@ -160,15 +169,24 @@ hr {
         margin: 1rem 0;
     }
     .list_best img {
-        width: 12rem;
+        width: 14rem;
     }
     hr {
         width: 90%;
     }
+    /* 페이지네이션 */
+    .list_num_item {
+        width: 90%;
+    }
+    .list_num_item > a {
+        padding: 0rem 1rem;
+        margin: 0 0.5rem;
+        font-size: 1rem;
+    }
 }
 
-/* 아주 작은 화면에서는 한 컬럼으로 */
-@media (max-width: 480px) {
+/* 모바일 */
+@media (max-width: 770px) {
     .list_content {
         grid-template-columns: 1fr 1fr;
         width: 90%;
@@ -180,6 +198,7 @@ hr {
         font-size: 1.5rem;
         margin-left: 5%;
     }
+    /* 메뉴 */
     .list_menu {
         display: flex;
         justify-content: center;
@@ -187,36 +206,44 @@ hr {
         gap: 2rem;
         margin-top: 4rem;
     }
+    .list_menu img {
+        width: 4rem;
+    }
     .list_num_item {
         width: 90%;
         margin: 3rem auto 0;
         align-items: center;
         gap: 1rem;
     }
-    
-    .list_num_item > a {
-        margin: 1rem 0;
-    }
+
     .list_best img {
-        width: 12rem;
+        width: 10rem;
     }
     hr {
         width: 90%;
     }
-
-}
-
-/* 더 큰 화면에서는 넓은 이미지와 메뉴 간격을 늘려서 보기 좋게 */
-@media (min-width: 1200px) {
-    .list_main_img {
-        height: 30rem;
-    }
-    
-    .list_menu {
-        gap: 6rem;
-    }
-    
+     /* 페이지네이션 */
     .list_num_item {
-        width: 60%;
+        width: 100%;
     }
+    .list_num_item > .num,
+    .list_num_item > .num_none {
+        font-size: 0.9rem;
+        margin: 0 5px;
+        padding: 0 12px;
+    }
+    .num {
+        width: 32px;
+        height: 31px;
+        line-height: 31px;
+    }
+    .num_none:hover {
+        width: 32px;
+        height: 31px;
+        line-height: 31px;
+    }
+    .before, .next {
+        font-size: 0.8rem;
+    }
+
 }
