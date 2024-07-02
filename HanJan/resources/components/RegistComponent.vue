@@ -211,6 +211,8 @@ function validateForm() {
 
   if (valid) {
     store.dispatch('regist');
+  } else {
+    alert('회원가입에 실패했습니다.');
   }
 
 }

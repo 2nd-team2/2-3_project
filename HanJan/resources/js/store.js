@@ -698,9 +698,6 @@ const store = createStore({
                 router.replace('login');
                 alert('회원가입이 완료되었습니다.');
             })
-            .catch(error => {
-                alert('회원가입을 실패했습니다.');
-            });
         },
 
         // 이메일 중복체크
