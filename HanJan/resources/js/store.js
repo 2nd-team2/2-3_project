@@ -918,7 +918,7 @@ const store = createStore({
 
             axios.get(url)
             .then(response => {
-                console.log('베스트 상품 데이터',response.data.data);
+                // console.log('베스트 상품 데이터',response.data.data);
                 // 데이터베이스->서버를 통해 받은 데이터를 bastData 저장
                 context.commit('listBastData', response.data.data);
             })
