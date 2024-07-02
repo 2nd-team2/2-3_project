@@ -8,8 +8,8 @@
                 <p class="detailed_haeder_price">{{ formatPrice(store.state.productDetail.price) }}원</p>
                 <div class="detailed_haeder_review">
                     <img src="/img/detailed_star.png">
-                    <p>{{ store.state.productDetail.star_avg }}</p>
-                    <p class="detailed_review">리뷰{{ store.state.productDetail.total_star }}</p>
+                    <p>{{ store.state.productDetail.star_avg !== null ? store.state.productDetail.star_avg : 0 }}</p>
+                    <p class="detailed_review">리뷰 {{ store.state.productDetail.total_star !== null ? store.state.productDetail.total_star : 0 }}</p>
                 </div>
                 <p id="app">수량</p>
                 <div class="detailed_quantity" >

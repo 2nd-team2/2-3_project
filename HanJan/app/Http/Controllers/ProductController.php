@@ -205,7 +205,7 @@ class ProductController extends Controller
         //                     ->limit(5)
         //                     ->get();
 
-        $subQuery = Review::select('orderproducts.p_id', DB::raw('ROUND(AVG(reviews.re_star)) AS avg_star'))
+        $subQuery = Review::select('orderproducts.p_id', DB::raw('ROUND(AVG(reviews.re_star),1) AS avg_star'))
                             ->join('orderproducts', 'reviews.orp_id', '=', 'orderproducts.orp_id')
                             ->groupBy('orderproducts.p_id');
 
