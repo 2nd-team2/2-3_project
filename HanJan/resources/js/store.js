@@ -319,7 +319,7 @@ const store = createStore({
          * @param {*} data
         */
         bagsSelectDelete(context, data) {
-            const url = '/api/bagsSelectDelete/';
+            const url = '/api/bagsSelectDelete';
     
             axios.post(url, data, {
                 headers: {
