@@ -695,6 +695,7 @@ const store = createStore({
             const data = new FormData(document.querySelector('#regist_form'));
             axios.post(url, data)
             .then(responseData => {
+                alert('회원가입이 완료되었습니다.');
                 router.replace('login');
             })
             .catch(error => {
