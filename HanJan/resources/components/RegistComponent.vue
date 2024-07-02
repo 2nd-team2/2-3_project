@@ -138,8 +138,8 @@ function chkPasswordChk() {
 
 function chkName() {
   const namePattern = /^[가-힣a-zA-Z]+$/;
-  if (!namePattern.test(name.value) || name.value.length > 5) {
-    nameError.value = '이름은 영어 대소문자와 한글로 5자 이내로 설정해주세요.';
+  if (!namePattern.test(name.value) || name.value.length > 10) {
+    nameError.value = '이름은 영어 대소문자와 한글로 10자 이내로 설정해주세요.';
   } else {
     nameError.value = '';
   }
