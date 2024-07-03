@@ -667,7 +667,7 @@ const store = createStore({
                 router.replace('/');
             })
             .catch(responseData => {
-                alert('로그인 실패');
+                alert('로그인을 실패했습니다.');
                 form.reset();
             });
         },
@@ -695,12 +695,9 @@ const store = createStore({
             const data = new FormData(document.querySelector('#regist_form'));
             axios.post(url, data)
             .then(responseData => {
-                alert('회원가입이 완료되었습니다.');
                 router.replace('login');
+                alert('회원가입이 완료되었습니다.');
             })
-            .catch(error => {
-                alert('회원가입 실패');
-            });
         },
 
         // 이메일 중복체크
