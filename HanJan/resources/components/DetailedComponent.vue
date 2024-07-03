@@ -9,7 +9,9 @@
                 <div class="detailed_haeder_review">
                     <img src="/img/detailed_star.png">
                     <p>{{ store.state.productDetail.star_avg !== null ? store.state.productDetail.star_avg : 0 }}</p>
-                    <p class="detailed_review">리뷰 {{ store.state.productDetail.total_star !== null ? store.state.productDetail.total_star : 0 }}</p>
+                    <a href="#detailed_review_list" >
+                        <p class="detailed_review">리뷰 {{ store.state.productDetail.total_star !== null ? store.state.productDetail.total_star : 0 }} 	&#62;</p>
+                    </a>
                 </div>
                 <p id="app">수량</p>
                 <div class="detailed_quantity" >
@@ -43,11 +45,26 @@
                 </div>
             </div>
         </div>
+    <!-- 상품정보  -->
     <div class="detailed_content">
         <img :src="$store.state.productDetail.info">
     </div>
+
+    <!-- 양조장 이야기 -->
+    <router-link>
+        <div class="detailed_title_story">
+            <p>양조장 이야기가 궁금하다면?</p>
+            <div class="detailed_img">
+                <div class="datailed_title_img">
+                    <p>술샘</p>
+                    <button type="button" class="detailed_title_story_dt">더 알아보기 &#62;</button>
+                </div>
+            </div>
+        </div>
+    </router-link>
+
     <hr>
-    <h1>리뷰</h1>
+    <h1 id="detailed_review_list">리뷰</h1>
     <div class="detailed_footer_item" v-for="(item, key) in $store.state.reviewDetail" :key="key">
         <div class="detailed_footer">
             <p class="detailed_footer_name">{{ item.user_name }}</p>
