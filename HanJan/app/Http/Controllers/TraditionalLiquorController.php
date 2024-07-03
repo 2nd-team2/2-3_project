@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class TraditionalLiquorController extends Controller
 {
-    // 공지사항 획득
+    // 전통주 설명 획득
     public function traditionalLiquorIndex() {
         $traditionalLiquorData = TraditionalLiquor::select('traditional_liquors.tl_id', 'traditional_liquors.tl_title', 'traditional_liquors.tl_content', 'traditional_liquors.tl_img')
                                 ->get();

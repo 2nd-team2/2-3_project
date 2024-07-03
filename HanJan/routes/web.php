@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin;
 use App\Http\Controllers\BagController;
 use App\Http\Controllers\ExchangeController;
 use App\Http\Controllers\NoticeController;
@@ -30,6 +31,7 @@ use Illuminate\Support\Facades\Route;
 //     return view('TraditionaLiquor');
 // });
 
+// 관리자 페이지 만들기 전에 사용하던거
 Route::get('/{any}', function() {
     return view('welcome');
 })->where('any', '^(?!api).*$');
@@ -143,4 +145,16 @@ Route::middleware('auth')->get('/api/qnaonebyonedetail/{id}', [QnaController::cl
 Route::middleware('auth')->post('/api/qnaonebyonecreate', [QnaController::class, 'qnaOnebyOneCreate']);
 // 전통주 설명 불러오기
 Route::get('/api/traditionalliquor', [TraditionalLiquorController::class, 'traditionalLiquorIndex']);
+// ----------------------- 호경 끝 ---------------------------
+
+
+// --------------------------------------------------------------------- 관리자 페이지 -------------------------------------------------------------------------
+// ----------------------- 보원 시작 -------------------------
+// ----------------------- 보원 끝 ---------------------------
+// ----------------------- 성환 시작 -------------------------
+// ----------------------- 성환 끝 ---------------------------
+// ----------------------- 민서 시작 -------------------------
+// ----------------------- 민서 끝 ---------------------------
+// ----------------------- 호경 시작 -------------------------
+// Route::get('/api/admin', [Admin::class, 'adminIndex']);
 // ----------------------- 호경 끝 ---------------------------

@@ -24,6 +24,9 @@ import NoticeComponent from '../components/NoticeComponent.vue';
 import store from './store';
 import ListComponent from '../components/ListComponent.vue';
 import ErrorsComponent from '../components/ErrorsComponent.vue';
+import AdminAppComponent from '../components/admin/AdminAppComponent.vue';
+import AdminLoginComponent from '../components/admin/AdminLoginComponent.vue';
+import AdminTestComponent from '../components/admin/AdminTestComponent.vue';
 
 const routes = [
     {
@@ -213,12 +216,29 @@ const routes = [
             next();
         }
     },
+
+    // --------------------------------------------------------------------- 관리자 페이지 -------------------------------------------------------------------------
+    {
+        path: '/admin',
+        component: AdminLoginComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/main',
+        component: AdminAppComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/test',
+        component: AdminTestComponent,
+        beforeEnter: chkAdmin
+    },
+    // 에러 페이지
     {
         path: '/:pathMatch(.*)*',
         name: 'NotFound',
         component: ErrorsComponent,
     },
-    
 ];
 
 function chkAuth(to, from, next) {
@@ -263,6 +283,12 @@ router.beforeEach((to, from, next) => {
         next();
     }
 });
+
+// --------------------------------------------------------------------- 관리자 페이지 -------------------------------------------------------------------------
+function chkAdmin(to, from, next) {
+    store.commit('setAdminFlg', to.path.includes('admin'));
+    console.log('chkAdmin');
+}
 
 
 export default router;
