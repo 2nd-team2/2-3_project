@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Socialite\Facades\Socialite;
 
 // ************************************************
 
@@ -28,6 +29,58 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
         // ----------------------- 보원 시작 -------------------------
+        // 카카오 로그인
+        public function redirectToKakao()
+        {
+            return Socialite::driver('kakao')->redirect();
+        }
+        // 소셜 로그인 후 콜백 처리
+        public function handleKakaoCallback()
+        {
+            try {
+                Log::debug('로그인 안됨');
+                $kakaoUser = Socialite::driver('kakao')->user();
+            } catch (\Exception $e) {
+                Log::debug($e);
+                return redirect('/login');
+            }
+
+            // 사용자 정보를 이용해 로그인 처리를 합니다.
+            $user = User::where('email', $kakaoUser->getEmail())->first();
+            Log::debug('카카오 유저정보'.$user);
+            if (isset($user)) {
+                Auth::login($user);
+                return redirect('/');
+            } else {
+                // 사용자가 없다면 새로운 사용자 생성
+                $newUser = User::create([
+                    'email' => $kakaoUser->getEmail()
+                    ,'password' => 1
+                    ,'name' => '카카오 로그인 이용자'
+                    ,'tel' => '11111111111'
+                    ,'addr' => '카카오 로그인 이용자'
+                    ,'det_addr' => '카카오 로그인 이용자'
+                    ,'post' => '1'
+                    ,'birth' => '2000-01-01'
+                ]);
+
+                $users = Auth::login($newUser);
+
+                
+                $responseData = [
+                    'code' => '0',
+                    'msg' => '카카오 로그인 완료',
+                    'data' => $users
+                ];
+                
+                return response()->json($responseData, 200);
+
+                //return redirect('/');
+            }
+
+            return redirect()->intended('/');
+        }
+
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
 

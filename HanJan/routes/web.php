@@ -75,6 +75,10 @@ Route::middleware('auth')->get('/api/exchangeProduct/{id}', [ExchangeController:
 Route::middleware('auth')->post('/api/exchage', [ExchangeController::class, 'exchage']);
 
 
+// 카카오 로그인
+Route::get('/api/kakao', [UserController::class, 'redirectToKakao']);
+Route::get('/api/login/kakao/callback', [UserController::class, 'handleKakaoCallback']);
+
 // ----------------------- 보원 끝 ---------------------------
 
 // ----------------------- 성환 시작 -------------------------

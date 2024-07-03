@@ -13,7 +13,8 @@
                 </div>
                 <button type="button" class="loginBtn" @click="login">로그인</button>
                 <button type="button" class="registBtn" @click="$router.push('agree')">회원가입</button>
-                <!-- <button type="button" class="kakaoBtn"><img src="/img/kakao_login_large_wide.png" class="kakaoBtn_img"></button> -->
+                <!-- <a href="/api/kakao" type="button" class="kakaoBtn"><img src="/img/kakao_login_large_wide.png" class="kakaoBtn_img"></a> -->
+                <button @click="responseData" type="button" class="kakaoBtn"><img src="/img/kakao_login_large_wide.png" class="kakaoBtn_img"></button>
                 <img class="rightPoto" src="/img/IE002927310_STD.png"></img>
             </div>
         </form>
@@ -21,6 +22,7 @@
 </template>
 
 <script setup>
+import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 
@@ -54,6 +56,18 @@ onMounted(() => {
 });
 
 
+// 카카오톡 로그인
+function responseData() {
+    axios.get('/api/kakao')
+.then(responseData => {
+    context.commit('setUserInfo', responseData.data.data);
+    localStorage.setItem('userInfo', JSON.stringify(responseData.data.data));
+})
+.catch(error => {
+    alert('1234.(' + error.response.data.code + ')');
+})
+
+}
 </script>
 
 <style scoped src="../css/login.css">

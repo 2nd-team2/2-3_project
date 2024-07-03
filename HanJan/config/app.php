@@ -177,6 +177,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        // 카카오 로그인
+        \SocialiteProviders\Manager\ServiceProvider::class,
+
     ],
 
     /*

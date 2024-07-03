@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->register(\SocialiteProviders\Manager\ServiceProvider::class);
     }
 
     /**
@@ -23,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app['events']->listen(SocialiteWasCalled::class, KakaoExtendSocialite::class.'@handle');
     }
+
 }
