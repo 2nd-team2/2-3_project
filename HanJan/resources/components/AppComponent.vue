@@ -2,8 +2,8 @@
     <div v-if="$store.state.adminFlg">
         <header>헤더</header>
         <div>sidebar</div>
-        <!-- <router-view></router-view>
-        <AdminAppComponent />
+        <router-view></router-view>
+        <!-- <AdminAppComponent />
         <AdminLoginComponent />
         <AdminTestComponent /> -->
     </div>

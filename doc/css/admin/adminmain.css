@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+    display: block;
+}
+
+.main_container {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    color: white;
+}
+
+.header {
+    background-color: black;
+    min-height: 100vh;
+}
+
+.logo {
+    width: 100px;
+    margin: 3px 0 3px 50px;
+}
+
+.main_nav {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.main_nav_list {
+    margin-top: 10px;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.main_nav_list:hover {
+    background-color: #5c5c5c;
+    cursor: pointer;
+}
+
+.main_nav_title {
+    font-weight: 900;
+}
+
+.main_nav_mini {
+    display: none;
+}
+
+.main_nav_mini_box {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    width: 200px;
+}
+
+.main_nav_mini_box:hover {
+    background-color: #5c5c5c;
+}
+
+
