@@ -350,7 +350,7 @@ const store = createStore({
          * @param {*} data
         */
         bagsSelectDelete(context, data) {
-            const url = '/api/bagsSelectDelete/';
+            const url = '/api/bagsSelectDelete';
     
             axios.post(url, data, {
                 headers: {
@@ -698,7 +698,7 @@ const store = createStore({
                 router.replace('/');
             })
             .catch(responseData => {
-                alert('로그인 실패');
+                alert('로그인을 실패했습니다.');
                 form.reset();
             });
         },
@@ -727,10 +727,8 @@ const store = createStore({
             axios.post(url, data)
             .then(responseData => {
                 router.replace('login');
+                alert('회원가입이 완료되었습니다.');
             })
-            .catch(error => {
-                alert('회원가입 실패');
-            });
         },
 
         // 이메일 중복체크

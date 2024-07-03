@@ -81,7 +81,7 @@
                 <br>
                 <div class="buttons twobuttons">
                     <button type="button" class="info_item_btn form_btn" @click="$router.push('/')">취소</button>
-                    <button type="submit" class="info_item_btn form_btn" @click="$store.dispatch('regist')">확인</button>
+                    <button type="submit" class="info_item_btn form_btn" >확인</button>
                 </div>
             </form>
         </div>
@@ -90,6 +90,9 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
+import { useStore } from 'vuex';
+
+const store = useStore();
 
 // 실시간 유효성 체크
 const emailText = ref('');
@@ -138,8 +141,8 @@ function chkPasswordChk() {
 
 function chkName() {
   const namePattern = /^[가-힣a-zA-Z]+$/;
-  if (!namePattern.test(name.value) || name.value.length > 5) {
-    nameError.value = '이름은 영어 대소문자와 한글로 5자 이내로 설정해주세요.';
+  if (!namePattern.test(name.value) || name.value.length > 10) {
+    nameError.value = '이름은 영어 대소문자와 한글로 10자 이내로 설정해주세요.';
   } else {
     nameError.value = '';
   }
@@ -205,6 +208,12 @@ function validateForm() {
 
   chkBirth();
   if (birthError.value) valid = false;
+
+  if (valid) {
+    store.dispatch('regist');
+  } else {
+    alert('회원가입에 실패했습니다.');
+  }
 
 }
 
