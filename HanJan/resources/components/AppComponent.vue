@@ -1,131 +1,157 @@
 <template>
-    <!-- 모달 -->
-    <div class="modal no_scroll">
-        <div class="modal_img_box"></div>
-        <button @click="openAlert" class="btn_no">NO</button>
-        <button @click="closeModal" class="btn_yes">YES</button>
+    <div v-if="$store.state.adminFlg">
+        <header>헤더</header>
+        <div>sidebar</div>
+        <!-- <router-view></router-view>
+        <AdminAppComponent />
+        <AdminLoginComponent />
+        <AdminTestComponent /> -->
     </div>
-    <!-- header -->
-    <header>
-        <div class="header_container">
-            <div class="header_content">
-                <div @click="logoclick" class="logo"><img src="/img/logo.png" class="logo"></div>
-                <div @click="openNavMini" class="hamburger" id="hamburger"><img src="/img/hamburger.png" class="hamburger_img"></div>
-                <div @click="closeNavMini" class="cancel" id="cancel"><img src="/img/cancel.png" class="cancel_img"></div>
-                <ul class="nav" id="nav">
-                    <li class="nav_box nav_item1">
-                        <router-link to="/list?type=99&page=1" @mouseover="openMiniNav" @mouseleave="closeMiniNav" class="nav_font">
-                            전체 메뉴 <span class="plus"> + </span>
-                            <div class="nav_mini display_none" id="nav_mini">
-                                <ul class="nav_mini_title">
-                                    <li class="nav_mini_item1">
-                                        <router-link to="/list?type=0&page=1" class="nav_mini_font" @click="closeNavMini">탁주</router-link>
-                                    </li>
-                                    <li class="nav_mini_item2">
-                                        <router-link to="/list?type=1&page=1" class="nav_mini_font" @click="closeNavMini">과실주</router-link>
-                                    </li>
-                                    <li class="nav_mini_item3">
-                                        <router-link to="/list?type=2&page=1" class="nav_mini_font" @click="closeNavMini">증류주</router-link>
-                                    </li>
-                                </ul>
-                            </div>
-                        </router-link>
-                    </li>
-                    <li class="nav_box nav_item2">
-                        <router-link to="/traditionalLiquor" class="nav_font" @click="closeNavMini">전통주 이야기</router-link>
-                    </li>
-                    <li class="nav_box nav_item4">
-                        <router-link to="/noticelist" class="nav_font" @click="closeNavMini">공지사항</router-link>
-                    </li>
-                    <li class="nav_item5">
-                        <div @mouseover="openIconLogin" @mouseleave="closeIconLogin" @click="closeNavMini" class="nav_font">
-                            <div v-if="!$store.state.authFlg" @click="$router.push('/login')" class="nav_user_box">
-                                <img src="/img/login.png" class="nav_icon_login" id="b_iconuser">
-                                <img src="/img/goldlogin.png" class="nav_icon_hover nav_icon_login_hover" id="g_iconuser">
-                                <div class="nav_user">로그인</div>
-                            </div>
-                            <div v-else class="nav_user_box" @click="$store.dispatch('logout')">
-                                <img src="/img/logout.png" class="nav_icon_logout" id="b_iconuser">
-                                <img src="/img/goldlogout.png" class="nav_icon_hover nav_icon_logout_hover" id="g_iconuser">
-                                <div class="nav_user">로그아웃</div>
-                            </div>
-                        </div>
-                    </li>
-                    <div class="nav_user_line"></div>
-                    <li class="nav_item6">
-                        <div @mouseover="openIconRegist" @mouseleave="closeIconRegist" @click="closeNavMini" class="nav_font">
-                            <div v-if="!$store.state.authFlg" @click="$router.push('/agree')" class="nav_user_box">
-                                <img src="/img/regist.png" class="nav_icon_regist" id="b_iconregist">
-                                <img src="/img/goldregist.png" class="nav_icon_hover nav_icon_regist_hover" id="g_iconregist">
-                                <div class="nav_user">회원가입</div>
-                            </div>
-                            <router-link to="/info" v-else class="nav_user_box">
-                                <img src="/img/profile.png" class="nav_icon_my" id="b_iconregist">
-                                <img src="/img/goldprofile.png" class="nav_icon_hover nav_icon_my_hover" id="g_iconregist">
-                                <div class="nav_user">내 술잔</div>
+    <div v-else>
+        <!-- 모달 -->
+        <div class="modal no_scroll">
+            <div class="modal_img_box"></div>
+            <button @click="openAlert" class="btn_no">NO</button>
+            <button @click="closeModal" class="btn_yes">YES</button>
+        </div>
+        <!-- header -->
+        <header>
+            <div class="header_container">
+                <div class="header_content">
+                    <div @click="logoclick" class="logo"><img src="/img/logo.png" class="logo"></div>
+                    <div @click="openNavMini" class="hamburger" id="hamburger"><img src="/img/hamburger.png" class="hamburger_img"></div>
+                    <div @click="closeNavMini" class="cancel" id="cancel"><img src="/img/cancel.png" class="cancel_img"></div>
+                    <ul class="nav" id="nav">
+                        <li class="nav_box nav_item1">
+                            <router-link to="/list?type=99&page=1" @mouseover="openMiniNav" @mouseleave="closeMiniNav" class="nav_font">
+                                전체 메뉴 <span class="plus"> + </span>
+                                <div class="nav_mini display_none" id="nav_mini">
+                                    <ul class="nav_mini_title">
+                                        <li class="nav_mini_item1">
+                                            <router-link to="/list?type=0&page=1" class="nav_mini_font" @click="closeNavMini">탁주</router-link>
+                                        </li>
+                                        <li class="nav_mini_item2">
+                                            <router-link to="/list?type=1&page=1" class="nav_mini_font" @click="closeNavMini">과실주</router-link>
+                                        </li>
+                                        <li class="nav_mini_item3">
+                                            <router-link to="/list?type=2&page=1" class="nav_mini_font" @click="closeNavMini">증류주</router-link>
+                                        </li>
+                                    </ul>
+                                </div>
                             </router-link>
-                        </div>
-                    </li>
-                    <div class="nav_user_line"></div>
-                    <li class="nav_item7">
-                        <router-link to="/bag" @mouseover="openIconBag" @mouseleave="closeIconBag" @click="closeNavMini" class="nav_font">
-                            <div class="nav_user_box">
-                                <img src="/img/bag.png" class="nav_icon_bag" id="b_iconbag">
-                                <img src="/img/goldbag.png" class="nav_icon_hover nav_icon_bag_hover" id="g_iconbag">
-                                <div class="nav_user">장바구니</div>
+                        </li>
+                        <li class="nav_box nav_item2">
+                            <router-link to="/traditionalLiquor" class="nav_font" @click="closeNavMini">전통주 이야기</router-link>
+                        </li>
+                        <li class="nav_box nav_item4">
+                            <router-link to="/noticelist" class="nav_font" @click="closeNavMini">공지사항</router-link>
+                        </li>
+                        <li class="nav_item5">
+                            <div @mouseover="openIconLogin" @mouseleave="closeIconLogin" @click="closeNavMini" class="nav_font">
+                                <div v-if="!$store.state.authFlg" @click="$router.push('/login')" class="nav_user_box">
+                                    <img src="/img/login.png" class="nav_icon_login" id="b_iconuser">
+                                    <img src="/img/goldlogin.png" class="nav_icon_hover nav_icon_login_hover" id="g_iconuser">
+                                    <div class="nav_user">로그인</div>
+                                </div>
+                                <div v-else class="nav_user_box" @click="$store.dispatch('logout')">
+                                    <img src="/img/logout.png" class="nav_icon_logout" id="b_iconuser">
+                                    <img src="/img/goldlogout.png" class="nav_icon_hover nav_icon_logout_hover" id="g_iconuser">
+                                    <div class="nav_user">로그아웃</div>
+                                </div>
                             </div>
-                        </router-link>
-                    </li>
-                </ul>
+                        </li>
+                        <div class="nav_user_line"></div>
+                        <li class="nav_item6">
+                            <div @mouseover="openIconRegist" @mouseleave="closeIconRegist" @click="closeNavMini" class="nav_font">
+                                <div v-if="!$store.state.authFlg" @click="$router.push('/agree')" class="nav_user_box">
+                                    <img src="/img/regist.png" class="nav_icon_regist" id="b_iconregist">
+                                    <img src="/img/goldregist.png" class="nav_icon_hover nav_icon_regist_hover" id="g_iconregist">
+                                    <div class="nav_user">회원가입</div>
+                                </div>
+                                <router-link to="/info" v-else class="nav_user_box">
+                                    <img src="/img/profile.png" class="nav_icon_my" id="b_iconregist">
+                                    <img src="/img/goldprofile.png" class="nav_icon_hover nav_icon_my_hover" id="g_iconregist">
+                                    <div class="nav_user">내 술잔</div>
+                                </router-link>
+                            </div>
+                        </li>
+                        <div class="nav_user_line"></div>
+                        <li class="nav_item7">
+                            <router-link to="/bag" @mouseover="openIconBag" @mouseleave="closeIconBag" @click="closeNavMini" class="nav_font">
+                                <div class="nav_user_box">
+                                    <img src="/img/bag.png" class="nav_icon_bag" id="b_iconbag">
+                                    <img src="/img/goldbag.png" class="nav_icon_hover nav_icon_bag_hover" id="g_iconbag">
+                                    <div class="nav_user">장바구니</div>
+                                </div>
+                            </router-link>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </header>
+        </header>
+        
+        <router-view></router-view>
     
-    <router-view></router-view>
-
-    <!-- footer -->
-     <footer>
-        <div class="footer_team">
-            <div class="footer_team_member">
-                <p class="team_member_name">권성환</p>
-                <p>#감사합니다</p>
+        <!-- footer -->
+         <footer>
+            <div class="footer_team">
+                <div class="footer_team_member">
+                    <p class="team_member_name">권성환</p>
+                    <p>#감사합니다</p>
+                </div>
+                <div class="footer_team_member">
+                    <p class="team_member_name">서보원</p>
+                    <p>#하..분명 됐었는데..?</p>
+                </div>
+                <div class="footer_team_member">
+                    <p class="team_member_name">유호경</p>
+                    <p>#될때_까지 #않이 #외않되</p>
+                </div>
+                <div class="footer_team_member">
+                    <p class="team_member_name">권민서</p>
+                    <p>#수고많으셨습니다</p>
+                </div>
             </div>
-            <div class="footer_team_member">
-                <p class="team_member_name">서보원</p>
-                <p>#하..분명 됐었는데..?</p>
+            <div class="footer_line"></div>
+            <div class="footer_info">
+                <p class="footer_info1 footer_info_font">아카데미 정보</p>
+                <p class="footer_info2 footer_info_font">그린컴퓨터아트학원 대구</p>
+                <p class="footer_info3 footer_info_font">대구광역시 중구 중앙대로 394 제일빌딩 5F</p>
+                <p class="footer_info4 footer_info_font">053.572.1005</p>
+                <p class="footer_info5 footer_info_font">기업요구를 반영한 PHP풀스택(프론트앤드 + 백앤드) 개발자 양성 과정</p>
+                <div class="footer_site footer_info_font">
+                    참고한 사이트
+                    <br>
+                    <br>
+                    <img src="/img/logo02.png">
+                    <img src="/img/logo03.gif">
+                    <img src="/img/logo04.png">
+                </div>
             </div>
-            <div class="footer_team_member">
-                <p class="team_member_name">유호경</p>
-                <p>#될때_까지 #않이 #외않되</p>
-            </div>
-            <div class="footer_team_member">
-                <p class="team_member_name">권민서</p>
-                <p>#수고많으셨습니다</p>
-            </div>
-        </div>
-        <div class="footer_line"></div>
-        <div class="footer_info">
-            <p class="footer_info1 footer_info_font">아카데미 정보</p>
-            <p class="footer_info2 footer_info_font">그린컴퓨터아트학원 대구</p>
-            <p class="footer_info3 footer_info_font">대구광역시 중구 중앙대로 394 제일빌딩 5F</p>
-            <p class="footer_info4 footer_info_font">053.572.1005</p>
-            <p class="footer_info5 footer_info_font">기업요구를 반영한 PHP풀스택(프론트앤드 + 백앤드) 개발자 양성 과정</p>
-            <div class="footer_site footer_info_font">
-                참고한 사이트
-                <br>
-                <br>
-                <img src="/img/logo02.png">
-                <img src="/img/logo03.gif">
-                <img src="/img/logo04.png">
-            </div>
-        </div>
-    </footer>
+        </footer>
+    </div>
     
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import Cookies from 'js-cookie';
+import { useRoute } from 'vue-router';
+// import AdminAppComponent from './admin/AdminAppComponent.vue'
+// import AdminTestComponent from './admin/AdminTestComponent.vue'
+// import AdminLoginComponent from './admin/AdminLoginComponent.vue'
+
+let adminFlg = ref(false);
+const router = useRoute();
+
+onBeforeUnmount(() => {
+   if(router.fullPath.includes('admin')) {
+    adminFlg = true;
+   } else {
+    adminFlg = false;
+   }
+});
+
     const showModal = ref(true);
     function closeModal() {
         // 쿠키에 자정까지 유효시간 부여
