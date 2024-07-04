@@ -21,6 +21,8 @@ const store = createStore({
             orderProductData: localStorage.getItem('orderProductData') ? JSON.parse(localStorage.getItem('orderProductData')) : null,
             // 결제하기 > 주문 번호 저장
             exchangeProduct : [],
+            // 카카오 로그인 이메일 데이터
+            kakaoInfo: localStorage.getItem('kakaoEamil') ? localStorage.getItem('kakaoEamil') : null,
             
             // ----------------------- 보원 끝 ---------------------------
             // ----------------------- 성환 시작 -------------------------
@@ -113,6 +115,11 @@ const store = createStore({
         },
         exchangeProduct(state, data) {
             state.exchangeProduct = data;
+        },
+        // 카카오 로그인 정보 저장
+        kakaoInfo(state, data) {
+            state.kakaoInfo = data;
+            localStorage.setItem('kakaoInfo', data);
         },
 
         // ----------------------- 보원 끝 ---------------------------
@@ -674,6 +681,33 @@ const store = createStore({
             
             
         },
+        /**
+         * 카카오 로그인 처리
+         * 
+         * @param {*} context 
+         * @param {*} response.data 
+         */
+
+        kakaoLogin(context, data) {
+            const url = '/api/kakaoLogin'
+
+            axios.post(url, data)
+            .then(response => {
+                console.log('카카오 로그인 정보 저장 성공')
+
+                localStorage.setItem('userInfo', JSON.stringify(response.data.data));
+                context.commit('setUserInfo', response.data.data);
+
+                context.commit('setAuthFlg', true);
+
+                localStorage.removeItem('kakaoInfo');
+                router.replace('/');
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert('카카오 로그인 정보 저장 실패.(' + error.response.data.code + ')');
+            });
+        },
   
         
         // ----------------------- 보원 끝 ---------------------------
@@ -708,11 +742,18 @@ const store = createStore({
             .then(responseData => {
             })
             .catch(error => {
-                alert('로그아웃 (' + error.responseData.data.code + ')');
+                if (error.response) {
+                    console.error('로그아웃 오류:', error.response.data.code);
+                    alert('로그아웃 실패 (' + error.response.data.code + ')');
+                } else {
+                    console.error('로그아웃 오류:', error);
+                    alert('로그아웃 중 오류가 발생했습니다.');
+                }
             })
             .finally(() => {
                 localStorage.clear();
-                context.commit('setAuthFlg', null);
+                context.commit('setAuthFlg', false);
+                document.cookie = "auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                 context.commit('setUserInfo', null);
                 router.replace('/login');
             });
@@ -771,7 +812,7 @@ const store = createStore({
                 axios.delete(url, data)
                 .then(responseData => {
                     localStorage.clear();
-                    context.commit('setAuthFlg', null);
+                    context.commit('setAuthFlg', false);
                     context.commit('setUserInfo', null);
                     store.dispatch('getReviewistData');
                     

@@ -14,8 +14,6 @@
                 <button type="button" class="loginBtn" @click="login">로그인</button>
                 <button type="button" class="registBtn" @click="$router.push('agree')">회원가입</button>
                 <a href="/api/kakao" class="kakaoBtn"><img src="/img/kakao_login_large_wide.png" class="kakaoBtn_img"></a>
-                <!-- <a href="/api/kakao" class="kakaoBtn" @click.prevent="handleLinkClick"><img src="/img/kakao_login_large_wide.png" class="kakaoBtn_img"></a> -->
-                <!-- <a @click="responseData" type="button" class="kakaoBtn"><img src="/img/kakao_login_large_wide.png" class="kakaoBtn_img"></a> -->
                 <img class="rightPoto" src="/img/IE002927310_STD.png"></img>
             </div>
         </form>
@@ -23,7 +21,6 @@
 </template>
 
 <script setup>
-import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 
@@ -56,31 +53,6 @@ onMounted(() => {
   resetForm();
 });
 
-
-// // 카카오톡 로그인
-// function responseData() {
-//     axios.get('/api/kakao')
-// .then(responseData => {
-//     console.log(responseData);
-//     context.commit('setUserInfo', responseData.data.data);
-//     localStorage.setItem('userInfo', JSON.stringify(responseData.data.data));
-// })
-// .catch(error => {
-//     alert('1234.(' + error.response.data.code + ')');
-// })
-// }
-
-
-// const userData = ref(null);
-// const handleLinkClick = async () => {
-//     try {
-//       const response = await axios.get('/api/kakao');
-//       userData.value = response.data;
-//       store.commit('setUserData', response.data); // Vuex store에 데이터를 저장
-//     } catch (error) {
-//       console.error('데이터를 가져오는 중 오류 발생:', error);
-//     }
-// };
 </script>
 
 <style scoped src="../css/login.css">

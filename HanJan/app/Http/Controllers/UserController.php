@@ -32,7 +32,9 @@ class UserController extends Controller
         // 카카오 로그인
         public function redirectToKakao()
         {
-            return Socialite::driver('kakao')->redirect();
+            // 카카오 로그인 할때 마다 카카오에서 제공하는 로그인창 출력하기
+            return Socialite::driver('kakao')->with(['prompt' => 'select_account'])->redirect();
+            // return Socialite::driver('kakao')->redirect();
         }
         // 소셜 로그인 후 콜백 처리
         public function handleKakaoCallback()
@@ -43,48 +45,74 @@ class UserController extends Controller
                 Log::debug($e);
                 return redirect('/login');
             }
-
-            // 사용자 정보를 이용해 로그인 처리를 합니다.
+        
+            // 카카오에서 받아온 email을 통해 사용자 정보가 있는지 확인
             $user = User::where('email', $kakaoUser->getEmail())->first();
-
-            Log::debug('카카오 유저정보'.$user);
-            Session::put('data',$kakaoUser->getId());
-
+            Log::debug('비밀번호 받아오나?');
+            Log::debug($user);
+        
             if (isset($user)) {
 
                 Auth::login($user);
-                return redirect('/');
+
+                $responseData = [
+                    'code' => '1',
+                    'msg' => '카카오 로그인 완료',
+                    'data' => $user->toArray() // 사용자 데이터를 배열로 변환
+                ];
             } else {
-                // 사용자가 없다면 새로운 사용자 생성
-                // 첫 로그인이기 때문에 카카오톡 email 정보를 회원가입 페이지로 넘겨서 회원 가입 처리 시키기
-
-                $newUser = User::create([
-                    'email' => $kakaoUser->getEmail()
-                    ,'password' => 1
-                    ,'name' => $kakaoUser->getNickname()
-                    ,'tel' => '11111111111'
-                    ,'addr' => '카카오 로그인 이용자'
-                    ,'det_addr' => '카카오 로그인 이용자'
-                    ,'post' => '1'
-                    ,'birth' => '2000-01-01'
-                ]);
-
-                $users = Auth::login($newUser);
-
-                
+                // 없을 경우 카카오에서 가져온 email만 넘겨주기
                 $responseData = [
                     'code' => '0',
-                    'msg' => '카카오 로그인 완료',
-                    'data' => $users
+                    'msg' => '카카오 첫 로그인 완료',
+                    'data' => ['email' => $kakaoUser->getEmail()]
                 ];
-                
-                return response()->json($responseData, 200);
-
-                //return redirect('/');
             }
+            
+            // 레스폰스 데이터 가공처리
+            $encodedResponseData = urlencode(json_encode($responseData));
 
-            return redirect()->intended('/');
+            // 로그인 처리중 페이지로 이동
+            return redirect("/login/kakao/callback?data=$encodedResponseData");
         }
+
+        // 카카오 로그인
+        public function kakaoLogin(Request $request) {
+            
+            Log::debug('백처리 : 로그인 했을때 가져오는 request 값 확인');
+            Log::debug($request);
+            
+            $userInfo = User::select('users.*', 'users.password')
+                        ->where('email', $request->email)
+                        ->first();
+            
+            //유저 정보 없음
+            if(!isset($userInfo)) {
+                // 유저 없음
+                throw new MyAuthException('E20');
+            }
+            
+            Log::debug('백처리 : 로그인 했을때 가져오는 userInfo 값 확인');
+            Log::debug($userInfo);
+
+            // 로그인 처리
+            Auth::login($userInfo);
+
+            if (Auth::check()) {
+                Log::debug('사용자 로그인 성공');
+            } else {
+                Log::debug('사용자 로그인 실패');
+            }
+    
+            // 레스폰스 데이터 생성
+            $responseData = [
+                'code' => '0',
+                'msg' => '로그인 성공',
+                'data' => $userInfo
+            ];
+            return response()->json($responseData, 200)->cookie('auth', '1', 600, null, null, false, false);
+        }
+        
 
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
@@ -96,7 +124,7 @@ class UserController extends Controller
                 $request->only('email', 'password')
                 ,[
                     'email' => ['required', 'min:5', 'max:30', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'], 
-                    'password' => ['required', 'min:1', 'max:20'], 
+                    'password' => ['required', 'min:1', 'max:100'], 
                     // 'password' => ['required', 'min:8', 'max:20', 'regex:/^[a-zA-Z0-9!@#$%^&*]+$/u'],
                 ]
             );
@@ -150,7 +178,7 @@ class UserController extends Controller
             ];
             return response()->json($responseData, 200)
                             ->cookie('auth', '1', -1, null, null, false, false);
-    
+            // return response()->json($responseData, 200) ->withCookie(cookie()->forget('auth'));
         }
 
         // 회원가입

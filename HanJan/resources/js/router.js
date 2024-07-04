@@ -27,6 +27,7 @@ import ErrorsComponent from '../components/ErrorsComponent.vue';
 import AdminAppComponent from '../components/admin/AdminAppComponent.vue';
 import AdminLoginComponent from '../components/admin/AdminLoginComponent.vue';
 import AdminTestComponent from '../components/admin/AdminTestComponent.vue';
+import LoginKakaoComponent from '../components/LoginKakaoComponent.vue';
 
 const routes = [
     {
@@ -41,6 +42,12 @@ const routes = [
         path: '/login',
         component: LoginComponent,
     },
+    {
+        // 카카오로그인 처리 진행중인 component
+        path: '/login/kakao/callback',
+        component: LoginKakaoComponent
+      },
+    
     {
         path: '/agree',
         component: AgreeCompnent,
