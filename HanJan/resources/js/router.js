@@ -31,6 +31,8 @@ import AdminNoticeComponent from '../components/admin/AdminNoticeComponent.vue';
 import AdminProductQnaComponent from '../components/admin/AdminProductQnaComponent.vue';
 import AdminProductComponent from '../components/admin/AdminProductComponent.vue';
 import AdminOneByOneComponent from '../components/admin/AdminOneByOneComponent.vue';
+import AdminTestComponent from '../components/admin/AdminTestComponent.vue';
+import LoginKakaoComponent from '../components/LoginKakaoComponent.vue';
 
 const routes = [
     {
@@ -45,6 +47,12 @@ const routes = [
         path: '/login',
         component: LoginComponent,
     },
+    {
+        // 카카오로그인 처리 진행중인 component
+        path: '/login/kakao/callback',
+        component: LoginKakaoComponent
+      },
+    
     {
         path: '/agree',
         component: AgreeCompnent,

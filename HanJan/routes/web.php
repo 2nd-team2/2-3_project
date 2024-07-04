@@ -82,6 +82,9 @@ Route::middleware('auth')->post('/api/exchage', [ExchangeController::class, 'exc
 // 카카오 로그인
 Route::get('/api/kakao', [UserController::class, 'redirectToKakao']);
 Route::get('/api/login/kakao/callback', [UserController::class, 'handleKakaoCallback']);
+// 카카오 로그인 유저 정보 저장
+Route::post('/api/kakaoLogin', [UserController::class, 'kakaoLogin']);
+
 
 // ----------------------- 보원 끝 ---------------------------
 
