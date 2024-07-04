@@ -23,6 +23,7 @@ import NoticeListComponent from '../components/NoticeListComponent.vue';
 import NoticeComponent from '../components/NoticeComponent.vue';
 import store from './store';
 import ListComponent from '../components/ListComponent.vue';
+import ListComponentCk from '../components/ListComponentCk.vue';
 import ErrorsComponent from '../components/ErrorsComponent.vue';
 import AdminAppComponent from '../components/admin/AdminAppComponent.vue';
 import AdminLoginComponent from '../components/admin/AdminLoginComponent.vue';
@@ -139,29 +140,38 @@ const routes = [
         path: '/list',
         component: ListComponent,
         beforeEnter: (to, from, next) => {
-            // 쿼리 파라미터 검증
             // 유효한 type 값들
             const validTypes = ['99', '0', '1', '2']; 
             // 숫자인지 검증
             const validPage = /^\d+$/; 
 
             const pageValue = parseInt(to.query.page, 10);
-    
-            if (
-                validTypes.includes(to.query.type) &&
-                validPage.test(to.query.page) &&
-                pageValue >= 1 &&
-                pageValue <= 68
-            ) {
-                // 유효한 경우
+            const searchQuery = to.search;
+
+            // 기본 조건 검증
+            const isValidType = validTypes.includes(to.query.type);
+            const isValidPage = validPage.test(to.query.page) && pageValue >= 1 && pageValue <= 68;
+            const isValidSearch = typeof searchQuery === 'string' && searchQuery.length > 0;
+
+            if (isValidType && isValidPage) {
+                // type과 page가 유효한 경우
                 store.commit('setCurrentImage', to.query.type);
                 store.dispatch('getList', to.query);
+                next();
+            } else if (isValidSearch) {
+                // 검색 쿼리 파라미터가 유효한 경우
+                store.dispatch('searchList', searchQuery);
                 next();
             } else {
                 // 유효하지 않은 경우 에러 페이지로 리디렉션
                 next({ name: 'NotFound' });
             }
         }
+    },
+    {
+        path: '/listck',
+        component: ListComponentCk,
+        // beforeEnter: chkAuth,
     },
     {
         path: '/order',

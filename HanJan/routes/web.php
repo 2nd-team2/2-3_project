@@ -127,6 +127,8 @@ Route::get('/api/reviewdetailed/{id}', [ProductController::class, 'detailedRevie
 Route::middleware('auth')->post('/api/detailedtocount', [ProductController::class, 'detailedToCount']);
 // 상세리스트 데이터 불러오기
 Route::get('/api/list', [ProductController::class, 'list']);
+// 상세리스트 검색
+Route::get('/api/listck', [ProductController::class, 'listck']);
 // ----------------------- 민서 끝 ---------------------------
 
 

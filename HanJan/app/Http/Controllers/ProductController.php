@@ -182,6 +182,34 @@ class ProductController extends Controller
     }
 
     // products(상품)테이블에서
+    // 검색한 상세리스트 데이터 불러오기
+    public function listck(Request $request) {
+        $query = $request->input('search');
+        Log::debug('상품검색 req', $request->all());
+        $productQuery = Product::select('products.price','products.img', 'products.name', 'products.id')
+                        ->where('products.name','like', "%{$query}%")
+                        ->orderBy('products.created_at', 'DESC');
+                        // ->paginate(20);
+
+        if($request->type != '99') {
+            $productQuery->where('products.type', $request->type);
+        }
+        
+        $productData = $productQuery->paginate(20);
+
+        
+        Log::debug('상품검색 완', $productData->toArray());
+        $responseData = [
+                'code' => '0'
+                ,'msg' => '초기 상품값 획득 완료'
+                ,'data' => $productData
+        ];
+        // Log::debug($responseData);
+        
+        return response()->json($responseData, 200);
+    }
+
+    // products(상품)테이블에서
     // 베스트 상품 출력
     public function listBast() {
         // $productData = Product::select('products.*', 'rev.star_avg', 'rev.star_avg_round')

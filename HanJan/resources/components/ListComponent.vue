@@ -4,10 +4,10 @@
             <div class="list_main_img" :style="{ 'background-image': 'url(' + $store.state.currentImage + ')' }"></div>
 
             <!-- 검색 -->
-            <form action="">
+            <form action="" @submit.prevent="search">
                 <div class="list_search">
-                    <input type="text" name="" id="" class="list_search_text" placeholder="검색어를 입력해주세요">
-                    <button type="submit" class="list_search_img"><img src="/img/search.png"></button>
+                    <input type="text" class="list_search_text" placeholder="검색어를 입력해주세요" v-memo="data.search">
+                    <button type="button" class="list_search_img" @click="search"><img src="/img/search.png"></button>
                 </div>
             </form>
             
@@ -112,6 +112,11 @@
     const isType1 = ref(false);
     const isType2 = ref(false);
     
+    const data = {
+        type: '',
+        page: '',
+        search: '',
+    };
     onBeforeMount(() => {
         // if(store.state.listData.current_page == 1) {
         //     store.dispatch('getList', 1);
@@ -278,6 +283,12 @@
         });
     };
     
+    // 검색추가
+    function search() {
+        data.type = '99';
+        data.page = '1';
+        store.dispatch('searchList', data);
+    }
 </script>
 
 <style scoped src="../css/list.css">

@@ -41,6 +41,8 @@ const store = createStore({
             bastData: [],
             // 상품 게시물 리스트
             listData: localStorage.getItem('listData') ? JSON.parse(localStorage.getItem('listData')) : {current_page: '1'},
+            // 검색 상품 게시물 리스트
+            searchListData: localStorage.getItem('listData') ? JSON.parse(localStorage.getItem('listData')) : null,
             // 리뷰 게시물 리스트
             reviewDetail: [],
             // 디테일->장바구니 데이터 보내기
@@ -148,7 +150,11 @@ const store = createStore({
             state.listData = data;
             localStorage.setItem('listData', JSON.stringify(data));
         },
-        
+        // 검색 상품리스트
+        searchList(state, data) {
+            state.searchListData = data.data;
+            localStorage.setItem('listData', JSON.stringify(data));
+        },
         // 베스트리스트
         listBastData(state, data) {
             state.bastData = data;
@@ -921,7 +927,7 @@ const store = createStore({
 
             axios.get(url)
             .then(response => {
-                // console.log(response.data);
+                console.log(response.data);
 
                 //type 추가
                 response.data.data.type = query.type;
@@ -933,6 +939,24 @@ const store = createStore({
                 // console.log(error.response.data);
                 alert('선택한 상품이 없습니다.(' + error.response.data.code + ')' )
             });
+        },
+        // 검색리스트
+        searchList(context, data) {
+            const url ='/api/listck?search=' + data.search + '&page=' + data.page + '&type=' + query.type;
+            axios.get(url)
+            .then(response => {
+                if(response.data.data.total !== 0) {
+                    console.log(response.data.data);
+                    context.commit('setSearchdata', response.data.data);
+                    // router.replace('/search/recipe?page=' + data.page);
+                    router.replace('/listck/recipe?search=' + data.search + '&page=' + data.page);
+                } else {
+                    alert('해당 주류가 존재하지 않습니다')
+                }
+            })
+            .catch(error => { 
+                console.log(error.response);
+            }) 
         },
         /**
          * 베스트 상품 불러오기
