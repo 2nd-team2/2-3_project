@@ -17,7 +17,14 @@
                     <p class="note">* 표시는 반드시 입력하셔야 하는 항목입니다.</p>
                 </div>
                 <hr>
-                <div class="email_box info_item_box">
+                <div v-if="$store.state.kakaoInfo" class="email_box info_item_box">
+                    <label class="info_item_label" for="email">이메일</label>
+                    <div class="info_item_input">
+                        <p class="info_item_err_msg error">카카오 이메일 입니다. 변경 불가</p>
+                        <input class="input_width" type="email" name="email" id="email" readonly :value="$store.state.kakaoInfo">
+                    </div>
+                </div>
+                <div v-else class="email_box info_item_box">
                     <label class="info_item_label" for="email">이메일</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg error">{{ emailError }}</p>
@@ -89,7 +96,6 @@
 </template>
 <script setup>
 import { ref } from 'vue';
-import axios from 'axios';
 import { useStore } from 'vuex';
 
 const store = useStore();
@@ -186,34 +192,36 @@ function chkBirth() {
 
 
 function validateForm() {
-  let valid = true;
+    let valid = true;
 
-  chkEmail();
-  if (emailError.value) valid = false;
+    if (!store.state.kakaoInfo) {
+        chkEmail();
+        if (emailError.value) valid = false;
+    }
 
-  chkPassword();
-  if (passwordError.value) valid = false;
+    chkPassword();
+    if (passwordError.value) valid = false;
 
-  chkPasswordChk();
-  if (passwordChkError.value) valid = false;
+    chkPasswordChk();
+    if (passwordChkError.value) valid = false;
 
-  chkName();
-  if (nameError.value) valid = false;
+    chkName();
+    if (nameError.value) valid = false;
 
-  chkPhone();
-  if (phoneError.value) valid = false;
+    chkPhone();
+    if (phoneError.value) valid = false;
 
-  chkAddress();
-  if (addressError.value) valid = false;
+    chkAddress();
+    if (addressError.value) valid = false;
 
-  chkBirth();
-  if (birthError.value) valid = false;
+    chkBirth();
+    if (birthError.value) valid = false;
 
-  if (valid) {
-    store.dispatch('regist');
-  } else {
-    alert('회원가입에 실패했습니다.');
-  }
+    if (valid) {
+      store.dispatch('regist');
+    } else {
+      alert('회원가입에 실패했습니다.');
+    }
 
 }
 

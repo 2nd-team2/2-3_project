@@ -2,32 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class Admin extends Authenticatable
+
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
-
+    use HasFactory, SoftDeletes; 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'tel',
-        'addr',
-        'det_addr',
-        'post',
-        'birth',
-        // 'age_chk',
+        'account',
+        'adminflg',
     ];
 
     /**
@@ -36,8 +27,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        // 'password',
-        'remember_token',
+        'password',
     ];
 
     /**
@@ -53,5 +43,4 @@ class User extends Authenticatable
         // return $date->format('Y-m-d H:i:s');
         return $date->format('Y-m-d'); //시분초 없어도 괜찮아서 뺐습니다
     }
-
 }

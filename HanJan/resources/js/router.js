@@ -25,9 +25,15 @@ import store from './store';
 import ListComponent from '../components/ListComponent.vue';
 import ListComponentCk from '../components/ListComponentCk.vue';
 import ErrorsComponent from '../components/ErrorsComponent.vue';
-import AdminAppComponent from '../components/admin/AdminAppComponent.vue';
+import AdminMainComponent from '../components/admin/AdminMainComponent.vue';
 import AdminLoginComponent from '../components/admin/AdminLoginComponent.vue';
+import AdminUserComponent from '../components/admin/AdminUserComponent.vue';
+import AdminNoticeComponent from '../components/admin/AdminNoticeComponent.vue';
+import AdminProductQnaComponent from '../components/admin/AdminProductQnaComponent.vue';
+import AdminProductComponent from '../components/admin/AdminProductComponent.vue';
+import AdminOneByOneComponent from '../components/admin/AdminOneByOneComponent.vue';
 import AdminTestComponent from '../components/admin/AdminTestComponent.vue';
+import LoginKakaoComponent from '../components/LoginKakaoComponent.vue';
 
 const routes = [
     {
@@ -42,6 +48,12 @@ const routes = [
         path: '/login',
         component: LoginComponent,
     },
+    {
+        // 카카오로그인 처리 진행중인 component
+        path: '/login/kakao/callback',
+        component: LoginKakaoComponent
+      },
+    
     {
         path: '/agree',
         component: AgreeCompnent,
@@ -235,12 +247,32 @@ const routes = [
     },
     {
         path: '/admin/main',
-        component: AdminAppComponent,
+        component: AdminMainComponent,
         beforeEnter: chkAdmin
     },
     {
-        path: '/admin/test',
-        component: AdminTestComponent,
+        path: '/admin/users',
+        component: AdminUserComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/product',
+        component: AdminProductComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/productqna',
+        component: AdminProductQnaComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/onebyone',
+        component: AdminOneByOneComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/notice',
+        component: AdminNoticeComponent,
         beforeEnter: chkAdmin
     },
     // 에러 페이지
@@ -298,6 +330,7 @@ router.beforeEach((to, from, next) => {
 function chkAdmin(to, from, next) {
     store.commit('setAdminFlg', to.path.includes('admin'));
     console.log('chkAdmin');
+    next();
 }
 
 
