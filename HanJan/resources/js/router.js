@@ -32,7 +32,6 @@ import AdminNoticeComponent from '../components/admin/AdminNoticeComponent.vue';
 import AdminProductQnaComponent from '../components/admin/AdminProductQnaComponent.vue';
 import AdminProductComponent from '../components/admin/AdminProductComponent.vue';
 import AdminOneByOneComponent from '../components/admin/AdminOneByOneComponent.vue';
-import AdminTestComponent from '../components/admin/AdminTestComponent.vue';
 import LoginKakaoComponent from '../components/LoginKakaoComponent.vue';
 
 const routes = [
@@ -329,7 +328,6 @@ router.beforeEach((to, from, next) => {
 // --------------------------------------------------------------------- 관리자 페이지 -------------------------------------------------------------------------
 function chkAdmin(to, from, next) {
     store.commit('setAdminFlg', to.path.includes('admin'));
-    console.log('chkAdmin');
     next();
 }
 

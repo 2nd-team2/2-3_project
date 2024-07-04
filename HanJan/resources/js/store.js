@@ -1439,6 +1439,7 @@ const store = createStore({
                     alert('전체 상품 습득에 실패했습니다.(' + error.response.data.code + ')');
                 });
             },
+
             /**
              * 관리자 페이지 상품 문의 전체 획득
              * 
@@ -1458,6 +1459,7 @@ const store = createStore({
                     alert('전체 상품 습득에 실패했습니다.(' + error.response.data.code + ')');
                 });
             },
+            
             // ----------------------- 호경 끝 ---------------------------
 
     }

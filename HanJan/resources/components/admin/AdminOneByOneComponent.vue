@@ -6,7 +6,7 @@
             <div class="admin_onebyone_list_title">문의 내용</div>
             <div class="admin_onebyone_list_date">작성일</div>
         </div>
-        <div v-for="onebyone in $store.state.adminOneByOneData.data" :key="onebyone.id" class="admin_onebyone_list_container admin_paddingtop">
+        <div v-for="onebyone in $store.state.adminOneByOneData.data" :key="onebyone.qn_id" class="admin_onebyone_list_container admin_paddingtop">
             <div class="admin_onebyone_list_name">{{ onebyone.name }}</div>
             <div class="admin_onebyone_list_title">{{ onebyone.qn_content }}</div>
             <div class="admin_onebyone_list_date">{{ onebyone.created_at }}</div>

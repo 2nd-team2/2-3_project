@@ -188,7 +188,7 @@ class QnaController extends Controller
                 // $adminUserData = Qna::select('qnas.*', 'users.name')
                 //                     ->join('users','qnas.u_id','=','users.id')
                 //                     ->paginate(20);
-                $adminOneByOneData = Qna::withTrashed() // Qna 모델에서 소프트 삭제된 레코드를 포함
+                $adminOneByOneData = Qna::withTrashed()
                                     ->select('qnas.*', 'users.name')
                                     ->join('users','qnas.u_id','=','users.id')
                                     ->paginate(20);
@@ -201,9 +201,10 @@ class QnaController extends Controller
 
                 return response()->json($responseData, 200);
             }
+
             // 관리자 페이지 상품문의 전체 불러오기
             public function adminProductQnaIndex() {
-                $adminProductQnaData = Qnaproduct::withTrashed() // Qna 모델에서 소프트 삭제된 레코드를 포함
+                $adminProductQnaData = Qnaproduct::withTrashed()
                                     ->select('qnaproducts.*', 'users.name')
                                     ->join('users','qnaproducts.u_id','=','users.id')
                                     ->paginate(20);

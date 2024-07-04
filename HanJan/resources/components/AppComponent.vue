@@ -5,42 +5,42 @@
                 <router-link to="/"><img src="/img/logo.png" class="admin_logo"></router-link>
                 <div v-if="$store.state.adminLoginFlg" class="admin_login_flg">
                     <ul class="admin_nav">
-                        <li class="admin_nav_list">
-                            <router-link to="/admin/main" class="admin_nav_title nav_item2">메인</router-link>
+                        <li class="admin_nav_list admin_nav_item1">
+                            <router-link to="/admin/main" class="admin_nav_title">메인</router-link>
                         </li>
-                        <li class="admin_nav_list">
-                            <div @click="openMiniNav1" class="admin_nav_title nav_item2">유저
+                        <li class="admin_nav_list admin_nav_item2">
+                            <div @click="openMiniNav1" class="admin_nav_title">유저
                                 <div :class="{ admin_nav_mini: openFlg1 }" id="admin_nav_mini">
                                     <ul class="admin_nav_mini_box">
-                                        <li><router-link to="/admin/users" class="admin_nav_mini_title">유저 관리</router-link></li>
+                                        <li class="admin_nav_mini_item1"><router-link to="/admin/users" class="admin_nav_mini_title">유저 관리</router-link></li>
                                     </ul>
                                 </div>
                             </div>
                         </li>
-                        <li class="admin_nav_list">
-                            <div @click="openMiniNav2" class="admin_nav_title nav_item2">상품
+                        <li class="admin_nav_list admin_nav_item3">
+                            <div @click="openMiniNav2" class="admin_nav_title">상품
                                 <div :class="{ admin_nav_mini: openFlg2 }" id="admin_nav_mini">
                                     <ul class="admin_nav_mini_box">
-                                        <li><router-link to="/admin/product" class="admin_nav_mini_title">상품 관리</router-link></li>
+                                        <li class="admin_nav_mini_item2"><router-link to="/admin/product" class="admin_nav_mini_title">상품 관리</router-link></li>
                                     </ul>
                                 </div>
                             </div>
                         </li>
-                        <li class="admin_nav_list">
-                            <div @click="openMiniNav3" class="admin_nav_title nav_item2">문의
+                        <li class="admin_nav_list admin_nav_item4">
+                            <div @click="openMiniNav3" class="admin_nav_title">문의
                                 <div :class="{ admin_nav_mini: openFlg3 }" id="admin_nav_mini">
                                     <ul class="admin_nav_mini_box">
-                                        <li><router-link to="/admin/productqna" class="admin_nav_mini_title">상품 문의 관리</router-link></li>
-                                        <li><router-link to="/admin/onebyone" class="admin_nav_mini_title">1:1문의 관리</router-link></li>
+                                        <li class="admin_nav_mini_item3"><router-link to="/admin/productqna" class="admin_nav_mini_title">상품 문의 관리</router-link></li>
+                                        <li class="admin_nav_mini_item4"><router-link to="/admin/onebyone" class="admin_nav_mini_title">1:1문의 관리</router-link></li>
                                     </ul>
                                 </div>
                             </div>
                         </li>
-                        <li class="admin_nav_list">
-                            <router-link to="/admin/notice" class="admin_nav_title nav_item2">공지</router-link>
+                        <li class="admin_nav_list admin_nav_item5">
+                            <router-link to="/admin/notice" class="admin_nav_title">공지</router-link>
                         </li>
-                        <li class="admin_nav_list">
-                            <div @click="$store.dispatch('adminLogout')" class="admin_nav_title nav_item2">로그아웃</div>
+                        <li class="admin_nav_list admin_nav_item6">
+                            <div @click="$store.dispatch('adminLogout')" class="admin_nav_title">로그아웃</div>
                         </li>
                     </ul>
                 </div>
