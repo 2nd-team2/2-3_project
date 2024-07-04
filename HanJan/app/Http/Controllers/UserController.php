@@ -38,7 +38,6 @@ class UserController extends Controller
         public function handleKakaoCallback()
         {
             try {
-                Log::debug('로그인 안됨');
                 $kakaoUser = Socialite::driver('kakao')->user();
             } catch (\Exception $e) {
                 Log::debug($e);
@@ -47,16 +46,22 @@ class UserController extends Controller
 
             // 사용자 정보를 이용해 로그인 처리를 합니다.
             $user = User::where('email', $kakaoUser->getEmail())->first();
+
             Log::debug('카카오 유저정보'.$user);
+            Session::put('data',$kakaoUser->getId());
+
             if (isset($user)) {
+
                 Auth::login($user);
                 return redirect('/');
             } else {
                 // 사용자가 없다면 새로운 사용자 생성
+                // 첫 로그인이기 때문에 카카오톡 email 정보를 회원가입 페이지로 넘겨서 회원 가입 처리 시키기
+
                 $newUser = User::create([
                     'email' => $kakaoUser->getEmail()
                     ,'password' => 1
-                    ,'name' => '카카오 로그인 이용자'
+                    ,'name' => $kakaoUser->getNickname()
                     ,'tel' => '11111111111'
                     ,'addr' => '카카오 로그인 이용자'
                     ,'det_addr' => '카카오 로그인 이용자'

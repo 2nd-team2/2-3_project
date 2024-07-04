@@ -17,11 +17,20 @@
                     <p class="note">* 표시는 반드시 입력하셔야 하는 항목입니다.</p>
                 </div>
                 <hr>
-                <div class="email_box info_item_box">
+                
+                <div v-if='nonekakao' class="email_box info_item_box">
                     <label class="info_item_label" for="email">이메일</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg error">{{ emailError }}</p>
                         <input class="input_width" type="email" name="email" id="email" @input="chkEmail" v-model="emailText">
+                    </div>
+                    <button type="button" class="info_item_btn form_btn email_chk_btn" @click="$store.dispatch('chkEmailOn', emailText)">이메일 중복확인</button>
+                </div>
+                <div v-else class="email_box info_item_box">
+                    <label class="info_item_label" for="email">이메일</label>
+                    <div class="info_item_input">
+                        <p class="info_item_err_msg error">{{ emailError }}</p>
+                        <input class="input_width" type="email" name="email" id="email" readonly @input="chkEmail" v-model="kakaoemail">
                     </div>
                     <button type="button" class="info_item_btn form_btn email_chk_btn" @click="$store.dispatch('chkEmailOn', emailText)">이메일 중복확인</button>
                 </div>
