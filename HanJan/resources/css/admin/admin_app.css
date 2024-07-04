@@ -1,0 +1,280 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+    display: block;
+}
+
+/* 관리자페이지 공통사항 */
+.admin {
+    width: 90%;
+    margin: 20px auto;
+}
+
+.admin_container {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+}
+
+.header {
+    background-color: black;
+    min-height: 100vh;
+}
+
+.admin_logo {
+    width: 100px;
+    margin: 3px 0 3px 50px;
+}
+
+.admin_nav {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    color: white;
+}
+
+.admin_nav_list {
+    margin-top: 10px;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.admin_nav_list:hover {
+    background-color: #5c5c5c;
+    cursor: pointer;
+}
+
+.admin_nav_title {
+    font-weight: 900;
+}
+
+.admin_nav_mini {
+    display: none;
+}
+
+.admin_nav_mini_box {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 200px;
+}
+
+.admin_nav_mini_box:hover {
+    background-color: #5c5c5c;
+}
+
+.admin_nav_mini_title {
+    margin-top: 20px
+}
+
+.admin_nav_mini_title:hover {
+    color: black;
+}
+
+.admin_btn {
+    border: none;
+    border-radius: 20px;
+    background-color: #5c5c5c;
+    color: white;
+    width: 100px;
+    height: 35px;
+    cursor: pointer;
+}
+
+.admin_update_btn:hover
+,.admin_deleted_btn:hover {
+    background-color: black;
+}
+
+/* 페이지네이션 */
+.admin_list_num_item {
+    margin: 80px auto;
+    width: 50%;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+}
+.admin_list_num_item > a {
+    color: #000;
+    font-weight: 500;
+    padding: 0rem 1rem;
+    margin: 0 0.5rem;
+    font-size: 1rem;
+}
+.admin_num {
+    border-bottom: 3px solid #5c5c5c;
+    width: 39px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+}
+.admin_num_none:hover {
+    border-bottom: 3px solid #5c5c5c;
+    width: 41px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+}
+
+/* ---------------------- 로그인 ---------------------- */
+.admin_login_box {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.admin_login {
+    margin: 0 auto;
+    width: 80%;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    justify-items: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin_login_title {
+    font-size: 1.8rem;
+}
+
+.admin_login_input {
+    padding: 10px;
+    width: 300px;
+}
+
+.admin_loginBtn {
+    border: none;
+    border-radius: 20px;
+    background-color: black;
+    color: white;
+    width: 150px;
+    height: 35px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.admin_loginBtn:hover {
+    background-color: #5c5c5c;
+}
+
+.admin_title {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #5c5c5c;
+}
+
+.admin_paddingtop {
+    padding-top: 10px;
+}
+
+/* -------------------- 대시보드 -------------------- */
+.admin_user_box {
+    margin: 30px 0;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 10px;
+}
+
+.admin_user_new {
+    border: 1px solid #5c5c5c;
+    font-size: 1.2rem;
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+}
+
+.admin_user_all {
+    border: 1px solid #5c5c5c;
+    font-size: 1.2rem;
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+}
+
+.admin_user_delete {
+    border: 1px solid #5c5c5c;
+    font-size: 1.2rem;
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+}
+
+.admin_user_avage {
+    border: 1px solid #5c5c5c;
+    font-size: 1.2rem;
+    grid-column: 2 / 3;
+    grid-row: 1 / 4;
+}
+
+.admin_graph {
+    border: 1px solid #5c5c5c;
+    height: 400px;
+}
+/* ---------------------- 유저 ---------------------- */
+.admin_users_list_container {
+    display: grid;
+    grid-template-columns: 0.1fr 0.5fr 0.5fr 0.5fr 1fr 0.3fr 0.3fr 0.3fr 0.3fr 0.4fr 0.4fr;
+    align-items: center;
+    justify-items: center;
+    border-bottom: 1px solid #5c5c5c;
+    padding-bottom: 10px;
+    font-size: 0.8rem;
+}
+
+/* ---------------------- 상품 ---------------------- */
+.admin_product_list_container {
+    display: grid;
+    grid-template-columns: 0.4fr 1fr 0.4fr 0.4fr 0.4fr 0.4fr 0.4fr 0.4fr 0.4fr;
+    align-items: center;
+    justify-items: center;
+    border-bottom: 1px solid #5c5c5c;
+    padding-bottom: 10px;
+}
+
+/* ---------------------- 문의 공지 ---------------------- */
+.admin_notice_list_container,
+.admin_onebyone_list_container,
+.admin_productqna_list_container {
+    display: grid;
+    grid-template-columns: 0.4fr 2fr 0.4fr 0.4fr 0.4fr;
+    align-items: center;
+    justify-items: center;
+    border-bottom: 1px solid #5c5c5c;
+    padding-bottom: 10px;
+}
+
+.admin_notice_list_title,
+.admin_onebyone_list_title,
+.admin_productqna_list_title {
+    text-align: center;
+}
+
+.admin_notice_list_titlename,
+.admin_onebyone_list_titlename,
+.admin_productqna_list_titlename {
+    margin: 0 20px;
+    color: black;
+    text-align: center;
+    text-overflow: ellipsis;
+    display: -webkit-box; /* Flexbox를 사용하여 박스 모델로 표시 */
+    -webkit-box-orient: vertical; /* 수직 방향으로 박스 설정 */
+    -webkit-line-clamp: 1; /* 수직 방향으로 박스 설정 */
+    overflow: hidden;
+}
+
+.admin_notice_list_num,
+.admin_notice_list_date,
+.admin_onebyone_list_num,
+.admin_onebyone_list_date,
+.admin_productqna_list_num,
+.admin_productqna_list_date {
+    text-align: center;
+}

@@ -24,9 +24,13 @@ import NoticeComponent from '../components/NoticeComponent.vue';
 import store from './store';
 import ListComponent from '../components/ListComponent.vue';
 import ErrorsComponent from '../components/ErrorsComponent.vue';
-import AdminAppComponent from '../components/admin/AdminAppComponent.vue';
+import AdminMainComponent from '../components/admin/AdminMainComponent.vue';
 import AdminLoginComponent from '../components/admin/AdminLoginComponent.vue';
-import AdminTestComponent from '../components/admin/AdminTestComponent.vue';
+import AdminUserComponent from '../components/admin/AdminUserComponent.vue';
+import AdminNoticeComponent from '../components/admin/AdminNoticeComponent.vue';
+import AdminProductQnaComponent from '../components/admin/AdminProductQnaComponent.vue';
+import AdminProductComponent from '../components/admin/AdminProductComponent.vue';
+import AdminOneByOneComponent from '../components/admin/AdminOneByOneComponent.vue';
 
 const routes = [
     {
@@ -225,12 +229,32 @@ const routes = [
     },
     {
         path: '/admin/main',
-        component: AdminAppComponent,
+        component: AdminMainComponent,
         beforeEnter: chkAdmin
     },
     {
-        path: '/admin/test',
-        component: AdminTestComponent,
+        path: '/admin/users',
+        component: AdminUserComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/product',
+        component: AdminProductComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/productqna',
+        component: AdminProductQnaComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/onebyone',
+        component: AdminOneByOneComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/notice',
+        component: AdminNoticeComponent,
         beforeEnter: chkAdmin
     },
     // 에러 페이지
@@ -288,6 +312,7 @@ router.beforeEach((to, from, next) => {
 function chkAdmin(to, from, next) {
     store.commit('setAdminFlg', to.path.includes('admin'));
     console.log('chkAdmin');
+    next();
 }
 
 

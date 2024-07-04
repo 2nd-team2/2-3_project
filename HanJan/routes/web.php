@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BagController;
 use App\Http\Controllers\ExchangeController;
 use App\Http\Controllers\NoticeController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\QnaController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TraditionalLiquorController;
+use App\Models\Qna;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -161,4 +163,16 @@ Route::get('/api/traditionalliquor', [TraditionalLiquorController::class, 'tradi
 // ----------------------- 민서 끝 ---------------------------
 // ----------------------- 호경 시작 -------------------------
 // Route::get('/api/admin', [Admin::class, 'adminIndex']);
+// 관리자 로그인 처리
+Route::post('/api/admin/login', [AdminController::class, 'adminLogin']);
+// 관리자 로그아웃 처리
+Route::middleware('auth')->post('/api/admin/logout', [AdminController::class, 'adminLogout']);
+// 관리자페이지 상품 전체 불러오기
+Route::middleware('auth')->get('/api/admin/product', [ProductController::class, 'adminProductIndex']);
+// 관리자페이지 상품 전체 불러오기
+Route::middleware('auth')->get('/api/admin/user', [UserController::class, 'adminUserIndex']);
+// 관리자페이지 1:1문의 전체 불러오기
+Route::middleware('auth')->get('/api/admin/onebyone', [QnaController::class, 'adminOneByOneIndex']);
+// 관리자페이지 상품문의 전체 불러오기
+Route::middleware('auth')->get('/api/admin/productqna', [QnaController::class, 'adminProductQnaIndex']);
 // ----------------------- 호경 끝 ---------------------------
