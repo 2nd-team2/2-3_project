@@ -44,13 +44,15 @@ const store = createStore({
             // 상품 게시물 리스트
             listData: localStorage.getItem('listData') ? JSON.parse(localStorage.getItem('listData')) : {current_page: '1'},
             // 검색 상품 게시물 리스트
-            searchListData: localStorage.getItem('listData') ? JSON.parse(localStorage.getItem('listData')) : null,
+            searchListData: localStorage.getItem('searchListData') ? JSON.parse(localStorage.getItem('searchListData')).data : [],
             // 리뷰 게시물 리스트
             reviewDetail: [],
             // 디테일->장바구니 데이터 보내기
             CountData: [],
             // 리스트페이지 메인 이미지
             currentImage: '',
+            // 키워드
+            products: [],
             // 상세페이지 에서 주문페이지으로 데이터 넘기기(로컬스토리지에 저장하기 - 새로고침 누를시 없어지는 걸 방지)
             // detailedUpdate: localStorage.getItem('detailedUpdate') ? JSON.parse(localStorage.getItem('detailedUpdate')) : null,
             // ----------------------- 민서 끝 ---------------------------
@@ -169,9 +171,9 @@ const store = createStore({
             localStorage.setItem('listData', JSON.stringify(data));
         },
         // 검색 상품리스트
-        searchList(state, data) {
+        setSearchdata(state, data) {
             state.searchListData = data.data;
-            localStorage.setItem('listData', JSON.stringify(data));
+            localStorage.setItem('searchListData', JSON.stringify(data));
         },
         // 베스트리스트
         listBastData(state, data) {
@@ -197,6 +199,10 @@ const store = createStore({
         setdetailedUpdate(state, data) {
             state.orderProductData = data;
             localStorage.setItem('orderProductData', JSON.stringify(data));
+        },
+        // 키워드
+        setProducts(state, products) {
+            state.products = products;
         },
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
@@ -1018,14 +1024,16 @@ const store = createStore({
         },
         // 검색리스트
         searchList(context, data) {
-            const url ='/api/listck?search=' + data.search + '&page=' + data.page + '&type=' + query.type;
+            const url ='/api/listck?search=' + data.search + '&page=' + data.page + '&type=' + data.type;
             axios.get(url)
             .then(response => {
                 if(response.data.data.total !== 0) {
                     console.log(response.data.data);
-                    context.commit('setSearchdata', response.data.data);
+                    context.commit('setSearchdata', response.data);
                     // router.replace('/search/recipe?page=' + data.page);
-                    router.replace('/listck/recipe?search=' + data.search + '&page=' + data.page);
+                    console.log('검색어: ',data.search);
+                    console.log('검색어: ', context.state.searchListData);
+                    router.replace('/listck?search=' + data.search + '&page=' + data.page + '&type=' + data.type);
                 } else {
                     alert('해당 주류가 존재하지 않습니다')
                 }
@@ -1139,6 +1147,33 @@ const store = createStore({
             router.push('/order');
             // router.replace('/order');
         },
+        // 키워드
+        typeChkList(constext) {
+            const url = '/api/typechklist';
+            axios.post(url)
+            .then(response => {
+                // console.log('수량데이터', response.data);
+                // 데이터베이스->서버를 통해 받은 데이터를 CountData 저장
+                constext.commit('detailedCountData', response.data.data);
+                if(confirm('확인을 클릭시 장바구니로 이동 됩니다.')) {
+                    router.push('/bag');
+                }
+            })
+            .catch(error => {
+                // 로그인이 되어있을경우
+                if(store.state.userInfo) {
+                    // console.log(error.response.data);
+                    alert('장바구니 이동 실패했습니다(' + error.response.data.code + ')');
+                }
+                // 로그인이 되어있지 않을경우
+                else if (!store.state.userInfo){
+                    alert('로그인이 필요한 서비스입니다.');
+                    router.push('/login');
+                }
+            });    
+        },
+
+
         // // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
         /**

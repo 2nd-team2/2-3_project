@@ -45,6 +45,7 @@ class UserController extends Controller
                 Log::debug($e);
                 return redirect('/login');
             }
+            Log::debug('Kakao User Data: ', (array) $kakaoUser);
         
             // 카카오에서 받아온 email을 통해 사용자 정보가 있는지 확인
             $user = User::where('email', $kakaoUser->getEmail())->first();

@@ -134,6 +134,8 @@ Route::middleware('auth')->post('/api/detailedtocount', [ProductController::clas
 Route::get('/api/list', [ProductController::class, 'list']);
 // 상세리스트 검색
 Route::get('/api/listck', [ProductController::class, 'listck']);
+// 키워드
+Route::get('/api/typechklist', [ProductController::class, 'typelistchk']);
 // ----------------------- 민서 끝 ---------------------------
 
 

@@ -151,6 +151,9 @@ hr {
 }
 
 /* ------------- 한잔 베스트 ------------- */
+.list_content_cut {
+    margin: 0 18rem 1rem;
+}
 .list_content {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -251,6 +254,9 @@ hr {
 /* 테블릿 */
 
 @media screen and (min-width: 771px) and (max-width: 1200px) {
+    .list_content_cut {
+        margin: 0 10rem 1rem;
+    }
     .list_content {
         grid-template-columns: 1fr 1fr 1fr;
         width: 90%;
@@ -298,6 +304,9 @@ hr {
 
 /* 모바일 */
 @media (max-width: 770px) {
+    .list_content_cut {
+        margin: 0 6rem 1rem;
+    }
     .list_content {
         grid-template-columns: 1fr 1fr;
         width: 90%;
