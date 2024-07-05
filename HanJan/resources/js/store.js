@@ -23,7 +23,7 @@ const store = createStore({
             // 결제하기 > 주문 번호 저장
             exchangeProduct : [],
             // 카카오 로그인 이메일 데이터
-            kakaoInfo: localStorage.getItem('kakaoEamil') ? localStorage.getItem('kakaoEamil') : null,
+            kakaoInfo: localStorage.getItem('kakaoEamil') ? JSON.parse(localStorage.getItem('kakaoEamil')) : null,
             
             // ----------------------- 보원 끝 ---------------------------
             // ----------------------- 성환 시작 -------------------------
@@ -135,7 +135,7 @@ const store = createStore({
         // 카카오 로그인 정보 저장
         kakaoInfo(state, data) {
             state.kakaoInfo = data;
-            localStorage.setItem('kakaoInfo', data);
+            localStorage.setItem('kakaoInfo', JSON.stringify(data));
         },
 
         // ----------------------- 보원 끝 ---------------------------
@@ -748,7 +748,8 @@ const store = createStore({
                 context.commit('setAuthFlg', true);
 
                 localStorage.removeItem('kakaoInfo');
-                router.replace('/');
+
+                router.replace('/'); // 메인 페이지로 이동
             })
             .catch(error => {
                 console.log(error.response); // TODO

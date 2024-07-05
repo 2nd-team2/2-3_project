@@ -17,6 +17,7 @@
                     <p class="note">* 표시는 반드시 입력하셔야 하는 항목입니다.</p>
                 </div>
                 <hr>
+                <div>Test : {{ $store.state.kakaoInfo }}</div>
                 <div v-if="$store.state.kakaoInfo" class="email_box info_item_box">
                     <label class="info_item_label" for="email">이메일</label>
                     <div class="info_item_input">

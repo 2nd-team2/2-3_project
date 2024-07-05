@@ -42,7 +42,7 @@ class UserController extends Controller
             try {
                 $kakaoUser = Socialite::driver('kakao')->user();
                 // 사용자 데이터 확인
-                Log::debug('Kakao User Data: ', (array) $kakaoUser);
+                // Log::debug('Kakao User Data: ', (array) $kakaoUser);
 
                 // 카카오에서 받아온 email을 통해 사용자 정보가 있는지 확인
                 $user = User::where('email', $kakaoUser->getEmail())->first();
