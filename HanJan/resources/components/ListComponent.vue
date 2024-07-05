@@ -4,9 +4,9 @@
             <div class="list_main_img" :style="{ 'background-image': 'url(' + $store.state.currentImage + ')' }"></div>
 
             <!-- 검색 -->
-            <form action="" @submit.prevent="search">
+            <form name="form" onsubmit="return false">
                 <div class="list_search">
-                    <input type="text" class="list_search_text" placeholder="검색어를 입력해주세요" v-memo="data.search">
+                    <input type="text" class="list_search_text" placeholder="검색어를 입력해주세요" v-model="data.search">
                     <button type="button" class="list_search_img" @click="search"><img src="/img/search.png"></button>
                 </div>
             </form>
@@ -30,23 +30,41 @@
             </div>
 
             <!-- 드롭다운 -->
-            <div id="list_app">
+            <input type="checkbox" name="test" id="" value="1" v-model="testChk">
+            <span>1</span>
+            <input type="checkbox" name="test" id="" value="2" v-model="testChk">
+            <span>2</span>
+            <input type="checkbox" name="test" id="" value="3" v-model="testChk">
+            <span>3</span>
+            <p>{{  testChk }}</p>
+            <!-- <div id="list_app">
                 <div class="list_menu-bar">
                     <div class="list_dropdown" v-for="(dropdown, index) in dropdowns" :key="index">
                         <button class="list_dropdown-toggle" @click="toggleDropdown(index)">{{ dropdown.label }}</button>
                         <div v-if="dropdown.isOpen" class="list_dropdown-menu" @click.stop>
-                        <label v-for="option in dropdown.options" :key="option.value" class="list_dropdown-item">
-                            <input type="checkbox" v-model="dropdown.selectedOptions" :value="option.value" />
-                            {{ option.label }}
-                        </label>
+                            <label v-for="option in dropdown.options" :key="option.value" class="list_dropdown-item">
+                                <input type="checkbox" v-model="dropdown.selectedOptions" :value="option.value" />
+                                {{ option.label }}
+                            </label>
                         </div>
                     </div>
                 </div>
                 <div class="selected-options">
-                    <div v-for="(option, index) in selectedKeywords" :key="index" class="selected-option" >
+                    <div v-for="(option, index) in selectedKeywords" :key="index" class="selected-option">
                         {{ option.label }}
                         <button @click="removeOption(option.value)">×</button>
                     </div>
+                </div>
+            </div> -->
+            <div>
+                <div class="selected-options">
+                    <label for="typeChk" class="selected-option">탁주</label>
+                    <input type="checkbox" name="selected-option" id="typeChk" value="0" v-model="typeChk">
+                    <label for="typeChk" class="selected-option">과실주</label>
+                    <input type="checkbox" name="selected-option" id="typeChk" value="1" v-model="typeChk">
+                    <label for="typeChk" class="selected-option">증류주</label>
+                    <input type="checkbox" name="selected-option" id="typeChk" value="2" v-model="typeChk">
+                    <p>{{ '확인 :' + typeChk }}</p>
                 </div>
             </div>
 
@@ -66,8 +84,7 @@
             </div>
             <hr>
 
-            
-            
+            <h3 class="list_content_cut">총 {{ $store.state.listData.total }}개의 주류가 있습니다.</h3>
             <div class="list_content" id="stop">
                 <!-- 저장 -->
                 <div class="list_best" v-for="(item, key) in $store.state.listData.data" :key="key">
@@ -102,16 +119,27 @@
 </template>
 
 <script setup>
-    import { onBeforeMount, computed, ref, defineProps  } from 'vue';
+
+    import { onBeforeMount, computed, ref, defineProps, watch  } from 'vue';
     import { useStore } from 'vuex';
     import router from '../js/router';
     import { onBeforeRouteUpdate } from 'vue-router';
-
     const store = useStore();
     const isType0 = ref(false);
     const isType1 = ref(false);
     const isType2 = ref(false);
     
+const typeChk = ref([]); // TODO 삭제
+watch(typeChk, () => {
+    console.log(typeChk.value);
+    store.dispatch('typeChkList', data);
+});
+
+
+const testChk = ref([]); // TODO 삭제
+watch(testChk, () => {
+    console.log(testChk.value);
+});
     const data = {
         type: '',
         page: '',
@@ -216,79 +244,95 @@
     }
 
     // 드롭다운
-    const dropdowns = ref([
-        {
-            label: '주종',
-            isOpen: false,
-            selectedOptions: [],
-            options: [
-            { value: '1', label: '탁주' },
-            { value: '2', label: '약 . 청주' },
-            { value: '3', label: '과실주' },
-            { value: '4', label: '증류주' },
-            { value: '5', label: '기타주' },
-            ],
-        },
-        {
-            label: '도수',
-            isOpen: false,
-            selectedOptions: [],
-            options: [
-            { value: '0-10', label: '0%-10%' },
-            { value: '10-20', label: '10%-20%' },
-            { value: '20-30', label: '20%-30%' },
-            { value: '30+', label: '30%이상' },
-            ],
-        },
-        {
-            label: '가격대',
-            isOpen: false,
-            selectedOptions: [],
-            options: [
-                { value: '0-10000', label: '10,000원 미만' },
-                { value: '10000-50000', label: '10,000원 - 50,000원' },
-                { value: '50000-100000', label: '50,000원 - 100,000원' },
-                { value: '100000+', label: '100,000원 이상' },
-            ],
-        },
-    ]);
+    // const dropdowns = ref([
+    //     {
+    //         label: '주종',
+    //         isOpen: false,
+    //         selectedOptions: [],
+    //         options: [
+    //             { value: '1', label: '탁주' },
+    //             { value: '2', label: '약 . 청주' },
+    //             { value: '3', label: '과실주' },
+    //             { value: '4', label: '증류주' },
+    //             { value: '5', label: '기타주' },
+    //         ],
+    //     },
+    //     {
+    //         label: '도수',
+    //         isOpen: false,
+    //         selectedOptions: [],
+    //         options: [
+    //             { value: '0-10', label: '0%-10%' },
+    //             { value: '10-20', label: '10%-20%' },
+    //             { value: '20-30', label: '20%-30%' },
+    //             { value: '30+', label: '30%이상' },
+    //         ],
+    //     },
+    //     {
+    //         label: '가격대',
+    //         isOpen: false,
+    //         selectedOptions: [],
+    //         options: [
+    //             { value: '0-10000', label: '10,000원 미만' },
+    //             { value: '10000-50000', label: '10,000원 - 50,000원' },
+    //             { value: '50000-100000', label: '50,000원 - 100,000원' },
+    //             { value: '100000+', label: '100,000원 이상' },
+    //         ],
+    //     },
+    // ]);
 
-    const toggleDropdown = (index) => {
-        dropdowns.value[index].isOpen = !dropdowns.value[index].isOpen;
-        dropdowns.value.forEach((dropdown, i) => {
-            if (i !== index) {
-            dropdown.isOpen = false;
-            }
-        });
-    };
+    // const toggleDropdown = (index) => {
+    //     dropdowns.value[index].isOpen = !dropdowns.value[index].isOpen;
+    //     dropdowns.value.forEach((dropdown, i) => {
+    //         if (i !== index) {
+    //             dropdown.isOpen = false;
+    //         }
+    //     });
+    // };
 
-    const selectedKeywords = computed(() => {
-        return dropdowns.value.flatMap(dropdown => {
-            return dropdown.selectedOptions.map(value => {
-            const option = dropdown.options.find(opt => opt.value === value);
-            return {
-                value,
-                label: option.label
-            };
-            });
-        });
-    });
+    // const selectedKeywords = computed(() => {
+    //     return dropdowns.value.flatMap(dropdown => {
+    //         return dropdown.selectedOptions.map(value => {
+    //             const option = dropdown.options.find(opt => opt.value === value);
+    //             return {
+    //                 value,
+    //                 label: option.label
+    //             };
+    //         });
+    //     });
+    // });
 
-    const removeOption = (value) => {
-        dropdowns.value.forEach(dropdown => {
-            const index = dropdown.selectedOptions.indexOf(value);
-            if (index !== -1) {
-            dropdown.selectedOptions.splice(index, 1);
-            }
-        });
-    };
-    
+    // const removeOption = (value) => {
+    //     dropdowns.value.forEach(dropdown => {
+    //         const index = dropdown.selectedOptions.indexOf(value);
+    //         if (index !== -1) {
+    //             dropdown.selectedOptions.splice(index, 1);
+    //         }
+    //     });
+    // };
+
+    // const applyFilters = () => {
+    //     const filters = {};
+    //     dropdowns.value.forEach(dropdown => {
+    //         if (dropdown.selectedOptions.length) {
+    //             filters[dropdown.label] = dropdown.selectedOptions;
+    //         }
+    //     });
+    //     store.dispatch('fetchFilteredData', filters);
+    // };
+
     // 검색추가
     function search() {
-        data.type = '99';
-        data.page = '1';
+        data.type = 99;
+        data.page = 1;
         store.dispatch('searchList', data);
     }
+    // 엔터키 막기
+    document.addEventListener('keydown', function(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+        };
+    }, true);
 </script>
 
 <style scoped src="../css/list.css">

@@ -6,6 +6,53 @@ hr {
     margin: 4rem auto;
 }
 
+.dark-mode hr {
+    border-color: #5c5c5c;
+}
+
+.dark-mode p {
+    color: white;
+}
+
+.dark-mode .before {
+    color: white;
+}
+
+.dark-mode .num {
+    color: white;
+}
+
+.dark-mode .num_none {
+    color: white;
+}
+
+.dark-mode .next {
+    color: white;
+}
+
+.dark-mode strong {
+    color: white;
+}
+
+.dark-mode input {
+    background-color: #5c5c5c;
+    color: white;
+    border-style: none;
+}
+
+.dark-mode .list_line {
+    border: 1px solid #5c5c5c;
+}
+
+.dark-mode .list_dropdown-toggle {
+    border: 1px solid #5c5c5c;
+}
+
+.dark-mode button {
+    background-color: #121212;
+    color: #ffffff;
+}
+
 /* ------------- 헤더이미지 ------------- */
 .list_main_img {
     width: 100%;
@@ -151,6 +198,9 @@ hr {
 }
 
 /* ------------- 한잔 베스트 ------------- */
+.list_content_cut {
+    margin: 0 18rem 1rem;
+}
 .list_content {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -251,6 +301,9 @@ hr {
 /* 테블릿 */
 
 @media screen and (min-width: 771px) and (max-width: 1200px) {
+    .list_content_cut {
+        margin: 0 10rem 1rem;
+    }
     .list_content {
         grid-template-columns: 1fr 1fr 1fr;
         width: 90%;
@@ -298,6 +351,9 @@ hr {
 
 /* 모바일 */
 @media (max-width: 770px) {
+    .list_content_cut {
+        margin: 0 6rem 1rem;
+    }
     .list_content {
         grid-template-columns: 1fr 1fr;
         width: 90%;

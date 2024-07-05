@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { createStore } from 'vuex';
 import router from './router';
+import Cookies from 'js-cookie';
 
 const store = createStore({
     state() {
@@ -22,10 +23,12 @@ const store = createStore({
             // 결제하기 > 주문 번호 저장
             exchangeProduct : [],
             // 카카오 로그인 이메일 데이터
-            kakaoInfo: localStorage.getItem('kakaoEamil') ? localStorage.getItem('kakaoEamil') : null,
+            kakaoInfo: localStorage.getItem('kakaoEamil') ? JSON.parse(localStorage.getItem('kakaoEamil')) : null,
             
             // ----------------------- 보원 끝 ---------------------------
             // ----------------------- 성환 시작 -------------------------
+            // 다크모드 쿠키
+            isDarkMode: false,
             // 유저정보
             authFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
             userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
@@ -44,13 +47,15 @@ const store = createStore({
             // 상품 게시물 리스트
             listData: localStorage.getItem('listData') ? JSON.parse(localStorage.getItem('listData')) : {current_page: '1'},
             // 검색 상품 게시물 리스트
-            searchListData: localStorage.getItem('listData') ? JSON.parse(localStorage.getItem('listData')) : null,
+            searchListData: localStorage.getItem('searchListData') ? JSON.parse(localStorage.getItem('searchListData')).data : [],
             // 리뷰 게시물 리스트
             reviewDetail: [],
             // 디테일->장바구니 데이터 보내기
             CountData: [],
             // 리스트페이지 메인 이미지
             currentImage: '',
+            // 키워드
+            products: [],
             // 상세페이지 에서 주문페이지으로 데이터 넘기기(로컬스토리지에 저장하기 - 새로고침 누를시 없어지는 걸 방지)
             // detailedUpdate: localStorage.getItem('detailedUpdate') ? JSON.parse(localStorage.getItem('detailedUpdate')) : null,
             // ----------------------- 민서 끝 ---------------------------
@@ -144,11 +149,14 @@ const store = createStore({
         // 카카오 로그인 정보 저장
         kakaoInfo(state, data) {
             state.kakaoInfo = data;
-            localStorage.setItem('kakaoInfo', data);
+            localStorage.setItem('kakaoInfo', JSON.stringify(data));
         },
 
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
+        setDarkMode(state, isDarkMode) {
+            state.isDarkMode = isDarkMode;
+        },
         // 인증 플래그 저장
         setAuthFlg(state, flg) {
             state.authFlg = flg;
@@ -181,9 +189,9 @@ const store = createStore({
             localStorage.setItem('listData', JSON.stringify(data));
         },
         // 검색 상품리스트
-        searchList(state, data) {
+        setSearchdata(state, data) {
             state.searchListData = data.data;
-            localStorage.setItem('listData', JSON.stringify(data));
+            localStorage.setItem('searchListData', JSON.stringify(data));
         },
         // 베스트리스트
         listBastData(state, data) {
@@ -209,6 +217,10 @@ const store = createStore({
         setdetailedUpdate(state, data) {
             state.orderProductData = data;
             localStorage.setItem('orderProductData', JSON.stringify(data));
+        },
+        // 키워드
+        setProducts(state, products) {
+            state.products = products;
         },
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
@@ -778,7 +790,8 @@ const store = createStore({
                 context.commit('setAuthFlg', true);
 
                 localStorage.removeItem('kakaoInfo');
-                router.replace('/');
+
+                router.replace('/'); // 메인 페이지로 이동
             })
             .catch(error => {
                 console.log(error.response); // TODO
@@ -790,6 +803,10 @@ const store = createStore({
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
         
+        toggleDarkMode({ commit }, isDarkMode) {
+            commit('setDarkMode', isDarkMode);
+            Cookies.set('darkMode', isDarkMode.toString(), { expires: 7 });
+        },
         /**
          * 로그인 처리
          * 
@@ -842,6 +859,7 @@ const store = createStore({
             const data = new FormData(document.querySelector('#regist_form'));
             axios.post(url, data)
             .then(responseData => {
+                localStorage.removeItem('kakaoInfo');
                 router.replace('login');
                 alert('회원가입이 완료되었습니다.');
             })
@@ -1054,14 +1072,16 @@ const store = createStore({
         },
         // 검색리스트
         searchList(context, data) {
-            const url ='/api/listck?search=' + data.search + '&page=' + data.page + '&type=' + query.type;
+            const url ='/api/listck?search=' + data.search + '&page=' + data.page + '&type=' + data.type;
             axios.get(url)
             .then(response => {
                 if(response.data.data.total !== 0) {
                     console.log(response.data.data);
-                    context.commit('setSearchdata', response.data.data);
+                    context.commit('setSearchdata', response.data);
                     // router.replace('/search/recipe?page=' + data.page);
-                    router.replace('/listck/recipe?search=' + data.search + '&page=' + data.page);
+                    console.log('검색어: ',data.search);
+                    console.log('검색어: ', context.state.searchListData);
+                    router.replace('/listck?search=' + data.search + '&page=' + data.page + '&type=' + data.type);
                 } else {
                     alert('해당 주류가 존재하지 않습니다')
                 }
@@ -1175,6 +1195,33 @@ const store = createStore({
             router.push('/order');
             // router.replace('/order');
         },
+        // 키워드
+        typeChkList(constext) {
+            const url = '/api/typechklist';
+            axios.post(url)
+            .then(response => {
+                // console.log('수량데이터', response.data);
+                // 데이터베이스->서버를 통해 받은 데이터를 CountData 저장
+                constext.commit('detailedCountData', response.data.data);
+                if(confirm('확인을 클릭시 장바구니로 이동 됩니다.')) {
+                    router.push('/bag');
+                }
+            })
+            .catch(error => {
+                // 로그인이 되어있을경우
+                if(store.state.userInfo) {
+                    // console.log(error.response.data);
+                    alert('장바구니 이동 실패했습니다(' + error.response.data.code + ')');
+                }
+                // 로그인이 되어있지 않을경우
+                else if (!store.state.userInfo){
+                    alert('로그인이 필요한 서비스입니다.');
+                    router.push('/login');
+                }
+            });    
+        },
+
+
         // // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
         /**

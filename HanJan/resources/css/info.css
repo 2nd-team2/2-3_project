@@ -12,6 +12,37 @@
     user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
 
+.dark-mode .black_button {
+    background-color: rgb(201, 199, 199);
+    color: #121212;
+}
+
+.dark-mode .button_a {
+    background-color: rgb(201, 199, 199);
+    color: #121212;
+}
+
+.dark-mode .button_b {
+    background-color: rgb(201, 199, 199);
+    color: #313131;
+}
+
+.dark-mode div {
+    color: #ffffff;
+}
+
+.dark-mode .item_right {
+    border-left: 1px solid #5c5c5c;
+}
+
+.dark-mode .order_item {
+    border: 1px solid #5c5c5c;
+}
+
+.dark-mode .inquiry_item {
+    border: 1px solid #5c5c5c;
+}
+
 main {
     width: 70%;
     margin: 3rem auto;
@@ -169,7 +200,7 @@ main {
     margin-left: 80%;
     grid-column: 3 / 4;
     margin-right: 15px;
-    background-image: url('/img/Vector.png');
+    background-image: url('/img/Vector_white.png');
     background-size: contain;
     background-repeat: no-repeat;
     height: 30px;
@@ -183,7 +214,7 @@ main {
     margin-left: 80%;
     height: 30px;
     width: 30px;
-    background-image: url('/img/Vector.png');
+    background-image: url('/img/Vector_white.png');
     background-size: contain;
     background-repeat: no-repeat;
     border: none;

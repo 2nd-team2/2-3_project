@@ -69,6 +69,7 @@
             <button @click="closeModal" class="btn_yes">YES</button>
         </div>
         <!-- header -->
+        <div :class="{ 'dark-mode': isDarkMode }">
         <header>
             <div class="header_container">
                 <div class="header_content">
@@ -139,6 +140,12 @@
                                 </div>
                             </router-link>
                         </li>
+                        <li>
+                            <label class="darkmode_checkbox">
+                                <input @change="toggleDarkMode" type="checkbox" v-model="isDarkMode" class="darkmode_input" />
+                                <div class="toggle"></div>
+                            </label>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -184,16 +191,27 @@
             </div>
         </footer>
     </div>
-    
+</div>
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount, computed, watch } from 'vue';
 import Cookies from 'js-cookie';
 import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 
 let adminFlg = ref(false);
 const router = useRoute();
+const store = useStore();
+
+const isDarkMode = computed({
+    get: () => store.state.isDarkMode,
+    set: (value) => store.dispatch('toggleDarkMode', value),
+});
+
+function toggleDarkMode() {
+    store.dispatch('toggleDarkMode', isDarkMode.value);
+}
 
 onBeforeUnmount(() => {
    if(router.fullPath.includes('admin')) {
@@ -367,6 +385,21 @@ onBeforeUnmount(() => {
             document.body.style.overflowY = 'scroll';
             document.body.style.height = '';
         }
+
+        const darkModeCookie = Cookies.get('darkMode');
+        if (darkModeCookie) {
+            const isDarkModeOn = JSON.parse(darkModeCookie);
+            store.dispatch('toggleDarkMode', isDarkModeOn);
+        }
+
+        watch(isDarkMode, (newValue) => {
+            if (newValue) {
+                document.body.classList.add('dark-mode');
+            } else {
+                document.body.classList.remove('dark-mode');
+            }
+            Cookies.set('darkMode', newValue);
+        });
     })
 
     // 관리자 페이지
@@ -393,5 +426,28 @@ onBeforeUnmount(() => {
 <style>
     @import url('../css/common.css');
     @import url('../css/admin/admin_app.css');
-    
+.dark-mode {
+  background-color: #121212;
+}
+.darkmode_input {
+    display: none;
+}
+.toggle {
+    background-image: url('/img/toggle_left.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: transparent;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+}
+.dark-mode .toggle {
+    background-image: url('/img/toggle_right.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: transparent;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+}
 </style>

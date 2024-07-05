@@ -36,7 +36,7 @@
                             </div>    
                             <div>총 상품가격 : {{ formatPrice(item.price * item.ba_count) }}원</div>
                         </div>
-                        <button @click="$store.dispatch('bagsDelete', item.ba_id)" class="bag_delete" type="button"></button>
+                        <div @click="$store.dispatch('bagsDelete', item.ba_id)" class="bag_delete"></div>
                     </div>
                 </div>
                 <div v-else>
