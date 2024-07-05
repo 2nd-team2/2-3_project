@@ -5,6 +5,7 @@ use App\Http\Controllers\BagController;
 use App\Http\Controllers\ExchangeController;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\QnaController;
@@ -113,6 +114,8 @@ Route::middleware('auth')->delete('/api/orderProductDelete/{itemId}', [ProductCo
 Route::middleware('auth')->delete('/api/productAskDelete/{qnp_id}', [QnaController::class, 'productAskDelete']);
 // 1대1 문의 삭제
 Route::middleware('auth')->delete('/api/askDelete/{qn_id}', [QnaController::class, 'askDelete']);
+
+Route::post('/payments', [PaymentController::class, 'payment']);
 
 // ----------------------- 성환 끝 ---------------------------
 

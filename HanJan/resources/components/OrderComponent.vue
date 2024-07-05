@@ -70,8 +70,9 @@
                 <input type="hidden" name="orp_id" :value="$store.state.orderProductData.p_id">  
                 <input type="hidden" name="orp_count" :value="$store.state.orderProductData.ba_count">
                 <div class="btn_com_box">
-                    <button type="button" @click="orderComplete(orderCompleteData)" class="btn_ord_com">결제하기</button>
+                    <button type="button"  @click="BeforekakaoPay" class="btn_ord_com">결제하기</button>
                 </div>
+                <div>{{ $store.state.orderProductData }}</div>
             </div>
         </form>
     </main>
@@ -95,6 +96,72 @@ const orderCompleteData = reactive({
     or_sum: computed(() => totalPrice.value.total + deliveryPrice.value)
 });
 
+// ------------------------------------------------
+// 구매자 정보
+const price = store.state.orderProductData.price
+const productName = store.state.orderProductData.name
+
+function BeforekakaoPay() {
+    const email = store.state.userInfo.email;
+    const username = store.state.userInfo.name;
+    const tel = store.state.userInfo.tel;
+    const addr = store.state.userInfo.addr
+    kakaoPay(email, addr, username, tel);
+}
+
+var IMP = window.IMP;
+
+var today = new Date();
+var hours = today.getHours(); // 시
+var minutes = today.getMinutes();  // 분
+var seconds = today.getSeconds();  // 초
+var milliseconds = today.getMilliseconds();
+var makeMerchantUid = `${hours}` + `${minutes}` + `${seconds}` + `${milliseconds}`;
+
+function kakaoPay(email, addr, username, tel) {
+    if (confirm("구매 하시겠습니까?")) { // 구매 클릭시 한번 더 확인하기
+        if (localStorage.getItem("userInfo")) { // 로그인한 상태에서 결제 가능
+
+            IMP.init("imp74725603"); // 고객사 식별코드
+            IMP.request_pay({
+                pg: 'html5_inicis.INIpayTest', // PG사 코드표에서 선택
+                pay_method: 'card', // 결제 방식
+                merchant_uid: "IMP" + makeMerchantUid, // 결제 고유 번호
+                name: productName, // 제품명
+                amount: 100,
+                // amount: price, // 실제가격
+                //구매자 정보 ↓
+                buyer_name: `${orderCompleteData.or_get_name}`,
+                buyer_tel : `${orderCompleteData.or_get_tel}`,
+                buyer_email : `${email}`,
+                buyer_addr : `${orderCompleteData.or_get_addr}`
+            }, async function (rsp) { // callback
+                if (rsp.success) { //결제 성공시
+                    alert('결제 완료!')
+                    store.dispatch('orderComplete', orderCompleteData);
+                    console.log(rsp);
+                    //결제 성공시 프로젝트 DB저장 요청
+
+                    if (response.status == 200) { // DB저장 성공시
+                        // alert('결제 완료!')
+                        // store.dispatch('orderComplete', orderCompleteData);
+                    } else { // 결제완료 후 DB저장 실패시
+                        alert(`error:[${response.status}]\n결제요청이 승인된 경우 관리자에게 문의바랍니다.`);
+                        // DB저장 실패시 status에 따라 추가적인 작업 가능성
+                    }
+                } else if (rsp.success == false) { // 결제 실패시
+                    alert(rsp.error_msg)
+                }
+            });
+        }
+        else { // 비회원 결제 불가
+            alert('로그인이 필요합니다!')
+        }
+    } else { // 구매 확인 알림창 취소 클릭시 돌아가기
+        return false;
+    }
+}
+// ------------------------------------------------
 
 // 배송비 (TODO : 일정 금액 이상일 경우 무료 + 각 상품 마다 배송비 저장할 컬럼 만들기(products 테이블) )
 const deliveryPrice = ref(0);
@@ -137,11 +204,11 @@ const totalPrice = computed(() => {
 });
 
 // 결제하기 재확인 안내
-const orderComplete = (orderCompleteData) => {
-    if (confirm('확인을 누르면 결제가 진행됩니다.')) {
-        store.dispatch('orderComplete', orderCompleteData);
-    }
-}
+// const orderComplete = (orderCompleteData) => {
+//     if (confirm('확인을 누르면 결제가 진행됩니다.')) {
+//         store.dispatch('orderComplete', orderCompleteData);
+//     }
+// }
 
 
 // 실시간 유효성 체크
@@ -162,13 +229,13 @@ const addressError = ref('');
 
 function buyChkName(e) {
   const namePattern = /^[가-힣a-zA-Z\s]+$/;
-  
   if (!namePattern.test(e.target.value)) {
     buyNameError.value = '이름은 영어 대소문자와 한글로만 사용 가능합니다.';
   } else {
     buyNameError.value = '';
   }
 }
+
 function buyChkTel(e) {
   const telPattern = /^\d{10,11}$/;
   if (!telPattern.test(e.target.value)) {
