@@ -21,6 +21,8 @@ const store = createStore({
             orderProductData: localStorage.getItem('orderProductData') ? JSON.parse(localStorage.getItem('orderProductData')) : null,
             // 결제하기 > 주문 번호 저장
             exchangeProduct : [],
+            // 카카오 로그인 이메일 데이터
+            kakaoInfo: localStorage.getItem('kakaoEamil') ? localStorage.getItem('kakaoEamil') : null,
             
             // ----------------------- 보원 끝 ---------------------------
             // ----------------------- 성환 시작 -------------------------
@@ -41,6 +43,8 @@ const store = createStore({
             bastData: [],
             // 상품 게시물 리스트
             listData: localStorage.getItem('listData') ? JSON.parse(localStorage.getItem('listData')) : {current_page: '1'},
+            // 검색 상품 게시물 리스트
+            searchListData: localStorage.getItem('listData') ? JSON.parse(localStorage.getItem('listData')) : null,
             // 리뷰 게시물 리스트
             reviewDetail: [],
             // 디테일->장바구니 데이터 보내기
@@ -84,7 +88,18 @@ const store = createStore({
             // ----------------------- 민서 끝 ---------------------------
 
             // ----------------------- 호경 시작 ---------------------------
+            // 초기 관리자 페이지 입장 플래그
             adminFlg: false,
+            // 로그인 플래그
+            adminLoginFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
+            // 관리자 페이지 전체 상품 리스트
+            adminProductData: localStorage.getItem('adminProductData') ? JSON.parse(localStorage.getItem('adminProductData')) : {current_page: '1'},
+            // 관리자 페이지 전체 유저 리스트
+            adminUserData: localStorage.getItem('adminUserData') ? JSON.parse(localStorage.getItem('adminUserData')) : {current_page: '1'},
+            // 관리자 페이지 전체 1:1문의 리스트
+            adminOneByOneData: localStorage.getItem('adminOneByOneData') ? JSON.parse(localStorage.getItem('adminOneByOneData')) : {current_page: '1'},
+            // 관리자 페이지 전체 상품문의 리스트
+            adminProductQnaData: localStorage.getItem('adminProductQnaData') ? JSON.parse(localStorage.getItem('adminProductQnaData')) : {current_page: '1'},
             // ----------------------- 호경 끝 ---------------------------
         }
 
@@ -113,6 +128,11 @@ const store = createStore({
         },
         exchangeProduct(state, data) {
             state.exchangeProduct = data;
+        },
+        // 카카오 로그인 정보 저장
+        kakaoInfo(state, data) {
+            state.kakaoInfo = data;
+            localStorage.setItem('kakaoInfo', data);
         },
 
         // ----------------------- 보원 끝 ---------------------------
@@ -148,7 +168,11 @@ const store = createStore({
             state.listData = data;
             localStorage.setItem('listData', JSON.stringify(data));
         },
-        
+        // 검색 상품리스트
+        searchList(state, data) {
+            state.searchListData = data.data;
+            localStorage.setItem('listData', JSON.stringify(data));
+        },
         // 베스트리스트
         listBastData(state, data) {
             state.bastData = data;
@@ -242,7 +266,31 @@ const store = createStore({
         // ----------------------- 호경 시작 ---------------------------
         setAdminFlg(state, flg) {
             state.adminFlg = flg;
-        }
+        },
+        // 인증 플래그 저장
+        setAdminLoginFlg(state, flg) {
+            state.adminLoginFlg = flg;
+        },
+        // 전체 상품 정보
+        setAdminProductsData(state, data) {
+            state.adminProductData = data;
+            localStorage.setItem('adminProductData', JSON.stringify(data))
+        },
+        // 전체 유저 정보
+        setAdminUsersData(state, data) {
+            state.adminUserData = data;
+            localStorage.setItem('adminUserData', JSON.stringify(data))
+        },
+        // 전체 1:1문의 정보
+        setAdminOneByOnesData(state, data) {
+            state.adminOneByOneData = data;
+            localStorage.setItem('adminOneByOneData', JSON.stringify(data))
+        },
+        // 전체 상품문의 정보
+        setAdminProductQnasData(state, data) {
+            state.adminProductQnaData = data;
+            localStorage.setItem('adminProductQnaData', JSON.stringify(data))
+        },
         // ----------------------- 호경 끝 ---------------------------
 
     },actions: {
@@ -674,6 +722,33 @@ const store = createStore({
             
             
         },
+        /**
+         * 카카오 로그인 처리
+         * 
+         * @param {*} context 
+         * @param {*} response.data 
+         */
+
+        kakaoLogin(context, data) {
+            const url = '/api/kakaoLogin'
+
+            axios.post(url, data)
+            .then(response => {
+                console.log('카카오 로그인 정보 저장 성공')
+
+                localStorage.setItem('userInfo', JSON.stringify(response.data.data));
+                context.commit('setUserInfo', response.data.data);
+
+                context.commit('setAuthFlg', true);
+
+                localStorage.removeItem('kakaoInfo');
+                router.replace('/');
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert('카카오 로그인 정보 저장 실패.(' + error.response.data.code + ')');
+            });
+        },
   
         
         // ----------------------- 보원 끝 ---------------------------
@@ -708,11 +783,18 @@ const store = createStore({
             .then(responseData => {
             })
             .catch(error => {
-                alert('로그아웃 (' + error.responseData.data.code + ')');
+                if (error.response) {
+                    console.error('로그아웃 오류:', error.response.data.code);
+                    alert('로그아웃 실패 (' + error.response.data.code + ')');
+                } else {
+                    console.error('로그아웃 오류:', error);
+                    alert('로그아웃 중 오류가 발생했습니다.');
+                }
             })
             .finally(() => {
                 localStorage.clear();
-                context.commit('setAuthFlg', null);
+                context.commit('setAuthFlg', false);
+                document.cookie = "auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                 context.commit('setUserInfo', null);
                 router.replace('/login');
             });
@@ -724,6 +806,7 @@ const store = createStore({
             const data = new FormData(document.querySelector('#regist_form'));
             axios.post(url, data)
             .then(responseData => {
+                localStorage.removeItem('kakaoInfo');
                 router.replace('login');
                 alert('회원가입이 완료되었습니다.');
             })
@@ -771,7 +854,7 @@ const store = createStore({
                 axios.delete(url, data)
                 .then(responseData => {
                     localStorage.clear();
-                    context.commit('setAuthFlg', null);
+                    context.commit('setAuthFlg', false);
                     context.commit('setUserInfo', null);
                     store.dispatch('getReviewistData');
                     
@@ -921,7 +1004,7 @@ const store = createStore({
 
             axios.get(url)
             .then(response => {
-                // console.log(response.data);
+                console.log(response.data);
 
                 //type 추가
                 response.data.data.type = query.type;
@@ -933,6 +1016,24 @@ const store = createStore({
                 // console.log(error.response.data);
                 alert('선택한 상품이 없습니다.(' + error.response.data.code + ')' )
             });
+        },
+        // 검색리스트
+        searchList(context, data) {
+            const url ='/api/listck?search=' + data.search + '&page=' + data.page + '&type=' + query.type;
+            axios.get(url)
+            .then(response => {
+                if(response.data.data.total !== 0) {
+                    console.log(response.data.data);
+                    context.commit('setSearchdata', response.data.data);
+                    // router.replace('/search/recipe?page=' + data.page);
+                    router.replace('/listck/recipe?search=' + data.search + '&page=' + data.page);
+                } else {
+                    alert('해당 주류가 존재하지 않습니다')
+                }
+            })
+            .catch(error => { 
+                console.log(error.response);
+            }) 
         },
         /**
          * 베스트 상품 불러오기
@@ -1235,6 +1336,131 @@ const store = createStore({
             // ----------------------- 민서 끝 ---------------------------
 
             // ----------------------- 호경 시작 ---------------------------
+            /**
+             * 관리자 로그인 처리
+             * 
+             * @param {*} context 
+             */
+            adminLogin(context) {
+                const url = '/api/admin/login';
+                const form = document.querySelector('#admin_login_form');
+                const data = new FormData(form);
+                axios.post(url, data)
+                .then(responseData => {
+                    // localStorage.setItem('userInfo', JSON.stringify(responseData.data.data));
+                    // context.commit('setUserInfo', responseData.data.data);
+                    // context.commit('setAuthFlg', true);
+                    localStorage.setItem('adminInfo', JSON.stringify(responseData.data.data));
+                    // context.commit('setAdminInfo', responseData.data.data);
+                    context.commit('setAdminLoginFlg', true);
+                    router.replace('/admin/main');
+                })
+                .catch(responseData => {
+                    alert('로그인을 실패했습니다.');
+                    form.reset();
+                });
+            },
+
+            /**
+             * 관리자 로그아웃 처리
+             * 
+             * @param {*} context 
+             */
+            adminLogout(context) {
+                const url = '/api/admin/logout';
+                axios.post(url)
+                .then(responseData => {
+                })
+                .catch(error => {
+                    alert('로그아웃 (' + error.responseData.data.code + ')');
+                })
+                .finally(() => {
+                    localStorage.clear();
+                    context.commit('setAdminLoginFlg', null);
+                    router.replace('/admin');
+                });
+            },
+
+            /**
+             * 관리자 페이지 상품 전체 획득
+             * 
+             * @param {*} context 
+             */
+            getAdminProductsData(context, page) {
+                const param = page == 1 ? '' : '?page=' + page;
+                const url = '/api/admin/product' + param;
+                
+                axios.get(url)
+                .then(response => {
+                    console.log(response.data);
+                    context.commit('setAdminProductsData', response.data.data);
+                })
+                .catch(error => {
+                    console.log(error.response);
+                    alert('전체 상품 습득에 실패했습니다.(' + error.response.data.code + ')');
+                });
+            },
+
+            /**
+             * 관리자 페이지 유저 전체 획득
+             * 
+             * @param {*} context 
+             */
+            getAdminUsersData(context, page) {
+                const param = page == 1 ? '' : '?page=' + page;
+                const url = '/api/admin/user' + param;
+                
+                axios.get(url)
+                .then(response => {
+                    console.log(response.data);
+                    context.commit('setAdminUsersData', response.data.data);
+                })
+                .catch(error => {
+                    console.log(error.response);
+                    alert('전체 상품 습득에 실패했습니다.(' + error.response.data.code + ')');
+                });
+            },
+
+            /**
+             * 관리자 페이지 1:1문의 전체 획득
+             * 
+             * @param {*} context 
+             */
+            getAdminOneByOnesData(context, page) {
+                const param = page == 1 ? '' : '?page=' + page;
+                const url = '/api/admin/onebyone' + param;
+                
+                axios.get(url)
+                .then(response => {
+                    console.log(response.data);
+                    context.commit('setAdminOneByOnesData', response.data.data);
+                })
+                .catch(error => {
+                    console.log(error.response);
+                    alert('전체 상품 습득에 실패했습니다.(' + error.response.data.code + ')');
+                });
+            },
+
+            /**
+             * 관리자 페이지 상품 문의 전체 획득
+             * 
+             * @param {*} context 
+             */
+            getAdminProductQnasData(context, page) {
+                const param = page == 1 ? '' : '?page=' + page;
+                const url = '/api/admin/productqna' + param;
+                
+                axios.get(url)
+                .then(response => {
+                    console.log(response.data);
+                    context.commit('setAdminProductQnasData', response.data.data);
+                })
+                .catch(error => {
+                    console.log(error.response);
+                    alert('전체 상품 습득에 실패했습니다.(' + error.response.data.code + ')');
+                });
+            },
+            
             // ----------------------- 호경 끝 ---------------------------
 
     }

@@ -171,4 +171,51 @@ class QnaController extends Controller
         ];
         return response()->json($responseData);
     }
+
+    // --------------------------------------------------------------------- 관리자 페이지 -------------------------------------------------------------------------
+            // ----------------------- 보원 시작 ---------------------------
+            // ----------------------- 보원 끝 ---------------------------
+
+            // ----------------------- 성환 시작 ---------------------------
+            // ----------------------- 성환 끝 ---------------------------
+
+            // ----------------------- 민서 시작 ---------------------------
+            // ----------------------- 민서 끝 ---------------------------
+
+            // ----------------------- 호경 시작 ---------------------------
+            // 관리자 페이지 1:1문의 전체 불러오기
+            public function adminOneByOneIndex() {
+                // $adminUserData = Qna::select('qnas.*', 'users.name')
+                //                     ->join('users','qnas.u_id','=','users.id')
+                //                     ->paginate(20);
+                $adminOneByOneData = Qna::withTrashed()
+                                    ->select('qnas.*', 'users.name')
+                                    ->join('users','qnas.u_id','=','users.id')
+                                    ->paginate(20);
+
+                $responseData = [
+                    'code' => '0'
+                    ,'msg' => '1:1 문의 전체 획득 완료'
+                    ,'data' => $adminOneByOneData->toArray()
+                ];
+
+                return response()->json($responseData, 200);
+            }
+
+            // 관리자 페이지 상품문의 전체 불러오기
+            public function adminProductQnaIndex() {
+                $adminProductQnaData = Qnaproduct::withTrashed()
+                                    ->select('qnaproducts.*', 'users.name')
+                                    ->join('users','qnaproducts.u_id','=','users.id')
+                                    ->paginate(20);
+
+                $responseData = [
+                    'code' => '0'
+                    ,'msg' => '1:1 문의 전체 획득 완료'
+                    ,'data' => $adminProductQnaData->toArray()
+                ];
+
+                return response()->json($responseData, 200);
+            }
+            // ----------------------- 호경 끝 ---------------------------
 }

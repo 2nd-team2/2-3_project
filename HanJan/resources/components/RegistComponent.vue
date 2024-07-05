@@ -17,22 +17,23 @@
                     <p class="note">* 표시는 반드시 입력하셔야 하는 항목입니다.</p>
                 </div>
                 <hr>
-                
-                <div v-if='nonekakao' class="email_box info_item_box">
+                <div v-if="$store.state.kakaoInfo" class="email_box info_item_box">
                     <label class="info_item_label" for="email">이메일</label>
                     <div class="info_item_input">
-                        <p class="info_item_err_msg error">{{ emailError }}</p>
-                        <input class="input_width" type="email" name="email" id="email" @input="chkEmail" v-model="emailText">
+                        <p class="info_item_err_msg error">카카오 계정의 이메일 입니다. 변경 불가</p>
+                        <input class="input_width" type="email" name="email" id="email" readonly :value="$store.state.kakaoInfo">
                     </div>
-                    <button type="button" class="info_item_btn form_btn email_chk_btn" @click="$store.dispatch('chkEmailOn', emailText)">이메일 중복확인</button>
                 </div>
                 <div v-else class="email_box info_item_box">
                     <label class="info_item_label" for="email">이메일</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg error">{{ emailError }}</p>
-                        <input class="input_width" type="email" name="email" id="email" readonly @input="chkEmail" v-model="kakaoemail">
+                        <input class="input_width" type="email" name="email" id="email" @input="chkEmail" v-model="emailText">
                     </div>
-                    <button type="button" class="info_item_btn form_btn email_chk_btn" @click="$store.dispatch('chkEmailOn', emailText)">이메일 중복확인</button>
+                    <div>
+                      <button type="button" class="info_item_btn form_btn email_chk_btn" @click="$store.dispatch('chkEmailOn', emailText)">이메일 중복확인</button>
+                      <button type="button" class="info_item_btn form_btn email_chk_btn" >이메일 인증</button>
+                    </div>
                 </div>
                 <hr>
                 <div class="info_item_box">
@@ -58,6 +59,7 @@
                         <input class="input_width" type="text" name="name" id="name" v-model="name" @input="chkName">
                     </div>
                 </div>
+                
                 <hr>
                 <div class="info_item_box">
                     <label class="info_item_label" for="phone">휴대전화번호</label>
@@ -98,7 +100,6 @@
 </template>
 <script setup>
 import { ref } from 'vue';
-import axios from 'axios';
 import { useStore } from 'vuex';
 
 const store = useStore();
@@ -133,7 +134,8 @@ function chkEmail() {
 }
 
 function chkPassword() {
-  if (password.value.length < 8 || password.value.length > 20) {
+  if (password.value.length < 1 || password.value.length > 20) {
+  // if (password.value.length < 8 || password.value.length > 20) {
     passwordError.value = '비밀번호는 8 ~ 20자 사이로 설정 해주세요.';
   } else {
     passwordError.value = '';
@@ -195,34 +197,36 @@ function chkBirth() {
 
 
 function validateForm() {
-  let valid = true;
+    let valid = true;
 
-  chkEmail();
-  if (emailError.value) valid = false;
+    if (!store.state.kakaoInfo) {
+        chkEmail();
+        if (emailError.value) valid = false;
+    }
 
-  chkPassword();
-  if (passwordError.value) valid = false;
+    chkPassword();
+    if (passwordError.value) valid = false;
 
-  chkPasswordChk();
-  if (passwordChkError.value) valid = false;
+    chkPasswordChk();
+    if (passwordChkError.value) valid = false;
 
-  chkName();
-  if (nameError.value) valid = false;
+    chkName();
+    if (nameError.value) valid = false;
 
-  chkPhone();
-  if (phoneError.value) valid = false;
+    chkPhone();
+    if (phoneError.value) valid = false;
 
-  chkAddress();
-  if (addressError.value) valid = false;
+    chkAddress();
+    if (addressError.value) valid = false;
 
-  chkBirth();
-  if (birthError.value) valid = false;
+    chkBirth();
+    if (birthError.value) valid = false;
 
-  if (valid) {
-    store.dispatch('regist');
-  } else {
-    alert('회원가입에 실패했습니다.');
-  }
+    if (valid) {
+      store.dispatch('regist');
+    } else {
+      alert('회원가입에 실패했습니다.');
+    }
 
 }
 

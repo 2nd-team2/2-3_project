@@ -23,10 +23,16 @@ import NoticeListComponent from '../components/NoticeListComponent.vue';
 import NoticeComponent from '../components/NoticeComponent.vue';
 import store from './store';
 import ListComponent from '../components/ListComponent.vue';
+import ListComponentCk from '../components/ListComponentCk.vue';
 import ErrorsComponent from '../components/ErrorsComponent.vue';
-import AdminAppComponent from '../components/admin/AdminAppComponent.vue';
+import AdminMainComponent from '../components/admin/AdminMainComponent.vue';
 import AdminLoginComponent from '../components/admin/AdminLoginComponent.vue';
-import AdminTestComponent from '../components/admin/AdminTestComponent.vue';
+import AdminUserComponent from '../components/admin/AdminUserComponent.vue';
+import AdminNoticeComponent from '../components/admin/AdminNoticeComponent.vue';
+import AdminProductQnaComponent from '../components/admin/AdminProductQnaComponent.vue';
+import AdminProductComponent from '../components/admin/AdminProductComponent.vue';
+import AdminOneByOneComponent from '../components/admin/AdminOneByOneComponent.vue';
+import LoginKakaoComponent from '../components/LoginKakaoComponent.vue';
 
 const routes = [
     {
@@ -41,6 +47,12 @@ const routes = [
         path: '/login',
         component: LoginComponent,
     },
+    {
+        // 카카오로그인 처리 진행중인 component
+        path: '/login/kakao/callback',
+        component: LoginKakaoComponent
+      },
+    
     {
         path: '/agree',
         component: AgreeCompnent,
@@ -139,29 +151,38 @@ const routes = [
         path: '/list',
         component: ListComponent,
         beforeEnter: (to, from, next) => {
-            // 쿼리 파라미터 검증
             // 유효한 type 값들
             const validTypes = ['99', '0', '1', '2']; 
             // 숫자인지 검증
             const validPage = /^\d+$/; 
 
             const pageValue = parseInt(to.query.page, 10);
-    
-            if (
-                validTypes.includes(to.query.type) &&
-                validPage.test(to.query.page) &&
-                pageValue >= 1 &&
-                pageValue <= 68
-            ) {
-                // 유효한 경우
+            const searchQuery = to.search;
+
+            // 기본 조건 검증
+            const isValidType = validTypes.includes(to.query.type);
+            const isValidPage = validPage.test(to.query.page) && pageValue >= 1 && pageValue <= 68;
+            const isValidSearch = typeof searchQuery === 'string' && searchQuery.length > 0;
+
+            if (isValidType && isValidPage) {
+                // type과 page가 유효한 경우
                 store.commit('setCurrentImage', to.query.type);
                 store.dispatch('getList', to.query);
+                next();
+            } else if (isValidSearch) {
+                // 검색 쿼리 파라미터가 유효한 경우
+                store.dispatch('searchList', searchQuery);
                 next();
             } else {
                 // 유효하지 않은 경우 에러 페이지로 리디렉션
                 next({ name: 'NotFound' });
             }
         }
+    },
+    {
+        path: '/listck',
+        component: ListComponentCk,
+        // beforeEnter: chkAuth,
     },
     {
         path: '/order',
@@ -225,12 +246,32 @@ const routes = [
     },
     {
         path: '/admin/main',
-        component: AdminAppComponent,
+        component: AdminMainComponent,
         beforeEnter: chkAdmin
     },
     {
-        path: '/admin/test',
-        component: AdminTestComponent,
+        path: '/admin/users',
+        component: AdminUserComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/product',
+        component: AdminProductComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/productqna',
+        component: AdminProductQnaComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/onebyone',
+        component: AdminOneByOneComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/notice',
+        component: AdminNoticeComponent,
         beforeEnter: chkAdmin
     },
     // 에러 페이지
@@ -287,7 +328,7 @@ router.beforeEach((to, from, next) => {
 // --------------------------------------------------------------------- 관리자 페이지 -------------------------------------------------------------------------
 function chkAdmin(to, from, next) {
     store.commit('setAdminFlg', to.path.includes('admin'));
-    console.log('chkAdmin');
+    next();
 }
 
 
