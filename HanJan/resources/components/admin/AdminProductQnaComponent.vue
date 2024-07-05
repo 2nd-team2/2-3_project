@@ -4,14 +4,19 @@
         <div class="admin_productqna_list_container">
             <div class="admin_productqna_list_name">유저 이름</div>
             <div class="admin_productqna_list_content">문의 내용</div>
+            <div class="admin_productqna_list_answer">답변 내용</div>
             <div class="admin_productqna_list_date">작성일</div>
+            <div class="admin_productqna_list_updated">수정일</div>
+            <div class="admin_productqna_list_deleted">삭제일</div>
         </div>
         <div v-for="productqna in $store.state.adminProductQnaData.data" :key="productqna.qnp_id" class="admin_productqna_list_container admin_paddingtop">
             <div class="admin_productqna_list_name">{{ productqna.name }}</div>
             <div class="admin_productqna_list_content">{{ productqna.qnp_content }}</div>
+            <div class="admin_productqna_list_answer">{{ productqna.qnp_answer }}</div>
             <div class="admin_productqna_list_date">{{ productqna.created_at }}</div>
-            <button class="admin_btn">수정하기</button>
-            <button class="admin_btn">답변하기</button>
+            <div class="admin_productqna_list_updated">{{ productqna.updated_at }}</div>
+            <div class="admin_productqna_list_deleted">{{ productqna.deleted_at }}</div>
+            <button @click="productqnaUpdate(productqna)" class="admin_btn">답변하기</button>
         </div>
     
         <!-- 페이지네이션 -->
@@ -87,6 +92,11 @@ import { onBeforeMount } from 'vue';
         if (store.state.adminProductQnaData.current_page < store.state.adminProductQnaData.last_page) {
             goToPage(store.state.adminProductQnaData.current_page + 1);
         }
+    }
+
+    // 상품문의 답변 페이지로 정보 넘기기
+    function productqnaUpdate(item) {
+        store.dispatch('adminProductQnaToUpdate', item);
     }
 
 </script>

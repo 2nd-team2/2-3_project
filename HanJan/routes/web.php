@@ -180,4 +180,16 @@ Route::middleware('auth')->get('/api/admin/user', [UserController::class, 'admin
 Route::middleware('auth')->get('/api/admin/onebyone', [QnaController::class, 'adminOneByOneIndex']);
 // 관리자페이지 상품문의 전체 불러오기
 Route::middleware('auth')->get('/api/admin/productqna', [QnaController::class, 'adminProductQnaIndex']);
+// 관리자페이지 공지사항 전체 불러오기
+Route::middleware('auth')->get('/api/admin/noticelist', [NoticeController::class, 'adminNoticeIndex']);
+// 공지사항 작성하기
+Route::middleware('auth')->post('/api/admin/notice/create', [NoticeController::class, 'noticeCreate']);
+// 1대1 문의 삭제
+Route::middleware('auth')->delete('/api/admin/notice/delete/{no_id}', [NoticeController::class, 'adminNoticeDeleted']);
+// 공지사항 데이터 수정
+Route::middleware('auth')->post('/api/admin/notice/update', [NoticeController::class, 'noticeUpdateSubmit']);
+// 상품문의 답변 작성하기
+Route::middleware('auth')->post('/api/admin/productqna/update', [QnaController::class, 'productQnaUpdate']);
+// 1:1문의 답변 작성하기
+Route::middleware('auth')->post('/api/admin/onebyone/update', [QnaController::class, 'oneByOneUpdate']);
 // ----------------------- 호경 끝 ---------------------------

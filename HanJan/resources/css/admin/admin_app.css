@@ -98,6 +98,10 @@ a {
     grid-row: 10 / 11;
     grid-column: 1 / 4;
 }
+.admin_nav_item7 {
+    grid-row: 11 / 12;
+    grid-column: 1 / 4;
+}
 .admin_nav_mini_item1 {
     grid-row: 1 / 2;
     grid-column: 1 / 4;
@@ -115,6 +119,17 @@ a {
     grid-column: 1 / 4;
 }
 
+.admin_hr {
+    border-top: 1px solid #5c5c5c;
+    margin-top: 20px;
+}
+
+.admin_btn_box {
+    margin: 20px 0 0 67rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
 .admin_btn {
     border: none;
     border-radius: 20px;
@@ -125,9 +140,29 @@ a {
     cursor: pointer;
 }
 
-.admin_update_btn:hover
-,.admin_deleted_btn:hover {
+.admin_btn:hover {
     background-color: black;
+}
+
+.admin_title_name {
+    margin: 10px;
+}
+
+.admin_item_name {
+    resize: none;
+    width: 100%;
+    padding: 10px;
+}
+
+.admin_title_content {
+    margin: 10px;
+}
+
+.admin_item_content {
+    resize: none;
+    width: 100%;
+    height: 20vh;
+    padding: 10px;
 }
 
 /* 페이지네이션 */
@@ -275,21 +310,61 @@ a {
 }
 
 /* ---------------------- 문의 공지 ---------------------- */
-.admin_notice_list_container,
-.admin_onebyone_list_container,
-.admin_productqna_list_container {
+.admin_notice_box {
+    margin-bottom: 10px;
     display: grid;
-    grid-template-columns: 0.4fr 2fr 0.4fr 0.4fr 0.4fr;
+    grid-template-columns: 4.5fr 0.5fr;
+    border-bottom: 1px solid #5c5c5c;
+    justify-items: stretch;
+    align-items: center;
+}
+
+.admin_notice_title {
+    font-size: 1.8rem;
+    padding-bottom: 15px;
+}
+
+.admin_notice_create {
+    margin-left: 8px;
+    background-color: #5c5c5c;
+    color: white;
+    width: 100px;
+    height: 35px;
+    border-radius: 20px;
+    line-height: 35px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.admin_notice_list_container {
+    display: grid;
+    grid-template-columns: 0.4fr 1fr 1.5fr 0.4fr 0.4fr 0.4fr 0.4fr 0.4fr;
     align-items: center;
     justify-items: center;
     border-bottom: 1px solid #5c5c5c;
     padding-bottom: 10px;
+    font-size: 0.8rem;
+}
+.admin_onebyone_list_container,
+.admin_productqna_list_container {
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 1.5fr 0.4fr 0.4fr 0.4fr 0.4fr;
+    align-items: center;
+    justify-items: center;
+    border-bottom: 1px solid #5c5c5c;
+    padding-bottom: 10px;
+    font-size: 0.8rem;
 }
 
 .admin_notice_list_title,
 .admin_onebyone_list_title,
 .admin_productqna_list_title {
     text-align: center;
+    text-overflow: ellipsis;
+    display: -webkit-box; /* Flexbox를 사용하여 박스 모델로 표시 */
+    -webkit-box-orient: vertical; /* 수직 방향으로 박스 설정 */
+    -webkit-line-clamp: 1; /* 수직 방향으로 박스 설정 */
+    overflow: hidden;
 }
 
 .admin_notice_list_titlename,

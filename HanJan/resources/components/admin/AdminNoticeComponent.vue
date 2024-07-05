@@ -1,19 +1,26 @@
 <template>
     <div class="admin">
-        <h2 class="admin_title">공지사항 관리</h2>
-        <div class="admin_notice_list_container">
-            <div class="admin_notice_list_num">번호</div>
-            <div class="admin_notice_list_title">제목</div>
-            <div class="admin_notice_list_date">작성일</div>
+        <div class="admin_notice_box">
+            <h2 class="admin_notice_title">공지사항 관리</h2>
+            <router-link to="/admin/notice/create" class="admin_notice_create">글 작성</router-link>
         </div>
-        <div v-for="notice in $store.state.noticeData.data" :key="notice.no_id" class="admin_notice_list_container admin_paddingtop">
-            <div class="admin_notice_list_num">{{ notice.no_id }}</div>
-            <div class="admin_notice_list_titlename">
-                {{ notice.no_title }}
-            </div>
+        <div class="admin_notice_list_container">
+            <div class="admin_notice_list_name">작성자</div>
+            <div class="admin_notice_list_title">제목</div>
+            <div class="admin_notice_list_content">내용</div>
+            <div class="admin_notice_list_date">작성일</div>
+            <div class="admin_notice_list_updated">수정일</div>
+            <div class="admin_notice_list_deleted">삭제일</div>
+        </div>
+        <div v-for="notice in $store.state.adminNoticeData.data" :key="notice.no_id" class="admin_notice_list_container admin_paddingtop">
+            <div class="admin_notice_list_name">{{ notice.account }}</div>
+            <div class="admin_notice_list_title">{{ notice.no_title }}</div>
+            <div class="admin_notice_list_content">{{ notice.no_content }}</div>
             <div class="admin_notice_list_date">{{ notice.created_at }}</div>
-            <button class="admin_btn">수정</button>
-            <button class="admin_btn">삭제</button>
+            <div class="admin_notice_list_updated">{{ notice.updated_at }}</div>
+            <div class="admin_notice_list_deleted">{{ notice.deleted_at }}</div>
+            <button type="button" v-if="notice.deleted_at == null" @click="noticeUpdate(notice)" class="admin_btn">수정하기</button>
+            <button type="button" v-if="notice.deleted_at == null" @click="$store.dispatch('adminNoticeDeleted', notice.no_id)" class="admin_btn">삭제하기</button>
         </div>
     
         <!-- 페이지네이션 -->
@@ -23,7 +30,7 @@
                 v-for="page in pages"
                 :key="page"
                 href="#"
-                :class="{'admin_num': page === $store.state.noticeData.current_page, 'admin_num_none': page !== $store.state.noticeData.current_page}"
+                :class="{'admin_num': page === $store.state.adminNoticeData.current_page, 'admin_num_none': page !== $store.state.adminNoticeData.current_page}"
                 @click.prevent="goToPage(page)"
                 >{{ page }}
             </a>
@@ -41,8 +48,8 @@
 
     // notice list 가져오기
     onBeforeMount(() => {
-        if(store.state.noticeData.current_page == 1) {
-            store.dispatch('getNoticeData', 1);
+        if(store.state.adminNoticeData.current_page == 1) {
+            store.dispatch('getAdminNoticeData', 1);
         }
     })
 
@@ -53,18 +60,18 @@
         // 페이지네이션 5개
         const maxPagesToShow = 5;
 
-        // let startPage = store.state.noticeData.current_page - 2;
-        let startPage = store.state.noticeData.last_page <5 ? 1 : store.state.noticeData.current_page - 2;
+        // let startPage = store.state.adminNoticeData.current_page - 2;
+        let startPage = store.state.adminNoticeData.last_page <5 ? 1 : store.state.adminNoticeData.current_page - 2;
         if(startPage < 1) {
             startPage = 1;
         }
         const endPage = startPage + maxPagesToShow - 1;
 
         // 시작페이지 구하기
-        const pagingStart = startPage <= (store.state.noticeData.last_page - maxPagesToShow + 1) || ((store.state.noticeData.last_page - maxPagesToShow + 1) < 1) ? startPage : (store.state.noticeData.last_page - maxPagesToShow + 1);
+        const pagingStart = startPage <= (store.state.adminNoticeData.last_page - maxPagesToShow + 1) || ((store.state.adminNoticeData.last_page - maxPagesToShow + 1) < 1) ? startPage : (store.state.adminNoticeData.last_page - maxPagesToShow + 1);
         
         // 마지막 페이지 구하기
-        const pagingEnd = endPage > store.state.noticeData.last_page ? store.state.noticeData.last_page : endPage;
+        const pagingEnd = endPage > store.state.adminNoticeData.last_page ? store.state.adminNoticeData.last_page : endPage;
 
         for (let i = pagingStart; i <= pagingEnd; i++) {
             pageArray.push(i)
@@ -74,21 +81,26 @@
 
     // 특정 페이지로 이동
     function goToPage(page) {
-        store.dispatch('getNoticeData', page);
+        store.dispatch('getAdminNoticeData', page);
     }
 
     // 이전 페이지로 이동
     function prevPage() {
-        if (store.state.noticeData.current_page > 1) {
-            goToPage(store.state.noticeData.current_page - 1);
+        if (store.state.adminNoticeData.current_page > 1) {
+            goToPage(store.state.adminNoticeData.current_page - 1);
         }
     }
 
     // 다음 페이지로 이동
     function nextPage() {
-        if (store.state.noticeData.current_page < store.state.noticeData.last_page) {
-            goToPage(store.state.noticeData.current_page + 1);
+        if (store.state.adminNoticeData.current_page < store.state.adminNoticeData.last_page) {
+            goToPage(store.state.adminNoticeData.current_page + 1);
         }
+    }
+
+    // 공지사항 수정 페이지로 정보 넘기기
+    function noticeUpdate(item) {
+        store.dispatch('adminNoticeToUpdate', item);
     }
 
 </script>

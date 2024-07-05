@@ -18,8 +18,8 @@
             <div class="admin_product_list_ml">{{ product.ml }}</div>
             <div class="admin_product_list_type">{{ product.type }}</div>
             <div class="admin_product_list_season">{{ product.season }}</div>
-            <button class="admin_btn">수정</button>
-            <button class="admin_btn">삭제</button>
+            <button class="admin_btn">수정하기</button>
+            <button class="admin_btn">삭제하기</button>
         </div>
 
         <!-- 페이지네이션 -->

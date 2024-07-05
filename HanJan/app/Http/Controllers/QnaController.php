@@ -173,49 +173,135 @@ class QnaController extends Controller
     }
 
     // --------------------------------------------------------------------- 관리자 페이지 -------------------------------------------------------------------------
-            // ----------------------- 보원 시작 ---------------------------
-            // ----------------------- 보원 끝 ---------------------------
+    // ----------------------- 보원 시작 ---------------------------
+    // ----------------------- 보원 끝 ---------------------------
 
-            // ----------------------- 성환 시작 ---------------------------
-            // ----------------------- 성환 끝 ---------------------------
+    // ----------------------- 성환 시작 ---------------------------
+    // ----------------------- 성환 끝 ---------------------------
 
-            // ----------------------- 민서 시작 ---------------------------
-            // ----------------------- 민서 끝 ---------------------------
+    // ----------------------- 민서 시작 ---------------------------
+    // ----------------------- 민서 끝 ---------------------------
 
-            // ----------------------- 호경 시작 ---------------------------
-            // 관리자 페이지 1:1문의 전체 불러오기
-            public function adminOneByOneIndex() {
-                // $adminUserData = Qna::select('qnas.*', 'users.name')
-                //                     ->join('users','qnas.u_id','=','users.id')
-                //                     ->paginate(20);
-                $adminOneByOneData = Qna::withTrashed()
-                                    ->select('qnas.*', 'users.name')
-                                    ->join('users','qnas.u_id','=','users.id')
-                                    ->paginate(20);
+    // ----------------------- 호경 시작 ---------------------------
+    // 관리자 페이지 1:1문의 전체 불러오기
+    public function adminOneByOneIndex() {
+        // $adminUserData = Qna::select('qnas.*', 'users.name')
+        //                     ->join('users','qnas.u_id','=','users.id')
+        //                     ->paginate(20);
+        $adminOneByOneData = Qna::withTrashed()
+                            ->select('qnas.*', 'users.name','qnas.deleted_at')
+                            ->join('users','qnas.u_id','=','users.id')
+                            ->orderByRaw('CASE WHEN qnas.deleted_at IS NULL THEN 0 ELSE 1 END')
+                            ->orderBy('qnas.deleted_at', 'DESC')
+                            ->orderBy('qnas.created_at', 'DESC')
+                            ->paginate(15);
 
-                $responseData = [
-                    'code' => '0'
-                    ,'msg' => '1:1 문의 전체 획득 완료'
-                    ,'data' => $adminOneByOneData->toArray()
-                ];
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '1:1 문의 전체 획득 완료'
+            ,'data' => $adminOneByOneData->toArray()
+        ];
 
-                return response()->json($responseData, 200);
-            }
+        return response()->json($responseData, 200);
+    }
 
-            // 관리자 페이지 상품문의 전체 불러오기
-            public function adminProductQnaIndex() {
-                $adminProductQnaData = Qnaproduct::withTrashed()
-                                    ->select('qnaproducts.*', 'users.name')
-                                    ->join('users','qnaproducts.u_id','=','users.id')
-                                    ->paginate(20);
+    // 관리자 페이지 상품문의 전체 불러오기
+    public function adminProductQnaIndex() {
+        $adminProductQnaData = Qnaproduct::withTrashed()
+                            ->select('qnaproducts.*', 'users.name', 'qnaproducts.deleted_at')
+                            ->join('users','qnaproducts.u_id','=','users.id')
+                            ->orderByRaw('CASE WHEN qnaproducts.deleted_at IS NULL THEN 0 ELSE 1 END')
+                            ->orderBy('qnaproducts.deleted_at', 'DESC')
+                            ->orderBy('qnaproducts.created_at', 'DESC')
+                            ->paginate(15);
 
-                $responseData = [
-                    'code' => '0'
-                    ,'msg' => '1:1 문의 전체 획득 완료'
-                    ,'data' => $adminProductQnaData->toArray()
-                ];
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '1:1 문의 전체 획득 완료'
+            ,'data' => $adminProductQnaData->toArray()
+        ];
 
-                return response()->json($responseData, 200);
-            }
-            // ----------------------- 호경 끝 ---------------------------
+        return response()->json($responseData, 200);
+    }
+
+    // 상품문의 답변
+    // 상품문의 페이지에서 버튼 눌렀을때 상품문의 테이블에서 데이터 수정
+    public function productQnaUpdate(Request $request) {
+
+        // 리퀘스트 데이터 받기
+        $requestData = $request->all();
+        
+        // 데이터 유효성 검사
+        $validator = Validator::make(
+            $requestData
+            , [
+                'qnp_answer' => ['required']
+            ]
+        );
+
+        // 유효성 검사 실패 체크
+        if($validator->fails()) {
+            Log::debug('유효성 검사 실패', $validator->errors()->toArray());
+            throw new MyValidateException('E01');
+        }
+        
+        // 데이터 생성
+        $updateData = Qnaproduct::find($request->qnp_id);
+
+        // 수정 처리
+        $updateData->qnp_answer = $request->qnp_answer;
+        
+        // 수정된 데이터 저장
+        $updateData->save();
+
+        // 레스폰스 데이터 생성
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '상품문의 작성 완료'
+            ,'data' => $updateData->toArray()
+        ];
+
+        return response()->json($responseData, 200);
+    }
+
+    // 1:1문의 답변
+    // 1:1문의 페이지에서 버튼 눌렀을때 1:1문의 테이블에서 데이터 수정
+    public function oneByOneUpdate(Request $request) {
+
+        // 리퀘스트 데이터 받기
+        $requestData = $request->all();
+        
+        // 데이터 유효성 검사
+        $validator = Validator::make(
+            $requestData
+            , [
+                'qn_answer' => ['required']
+            ]
+        );
+
+        // 유효성 검사 실패 체크
+        if($validator->fails()) {
+            Log::debug('유효성 검사 실패', $validator->errors()->toArray());
+            throw new MyValidateException('E01');
+        }
+        
+        // 데이터 생성
+        $updateData = Qna::find($request->qn_id);
+
+        // 수정 처리
+        $updateData->qn_answer = $request->qn_answer;
+        
+        // 수정된 데이터 저장
+        $updateData->save();
+
+        // 레스폰스 데이터 생성
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '1:1문의 답변 작성 완료'
+            ,'data' => $updateData->toArray()
+        ];
+
+        return response()->json($responseData, 200);
+    }
+    // ----------------------- 호경 끝 ---------------------------
 }

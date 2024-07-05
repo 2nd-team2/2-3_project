@@ -408,7 +408,7 @@ class ProductController extends Controller
             public function adminProductIndex() {
                 $adminProductData = Product::withTrashed()
                                     ->select('products.*')
-                                    ->paginate(20);
+                                    ->paginate(15);
                 
                 $responseData = [
                     'code' => '0'

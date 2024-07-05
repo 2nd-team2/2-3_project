@@ -33,6 +33,10 @@ import AdminProductQnaComponent from '../components/admin/AdminProductQnaCompone
 import AdminProductComponent from '../components/admin/AdminProductComponent.vue';
 import AdminOneByOneComponent from '../components/admin/AdminOneByOneComponent.vue';
 import LoginKakaoComponent from '../components/LoginKakaoComponent.vue';
+import AdminNoticeCreateComponent from '../components/admin/AdminNoticeCreateComponent.vue';
+import AdminNoticeUpdateComponent from '../components/admin/AdminNoticeUpdateComponent.vue';
+import AdminProductQnaUpdateComponent from '../components/admin/AdminProductQnaUpdateComponent.vue';
+import AdminOneByOneUpdateComponent from '../components/admin/AdminOneByOneUpdateComponent.vue';
 
 const routes = [
     {
@@ -272,6 +276,26 @@ const routes = [
     {
         path: '/admin/notice',
         component: AdminNoticeComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/notice/create',
+        component: AdminNoticeCreateComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/notice/update',
+        component: AdminNoticeUpdateComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/productqna/update',
+        component: AdminProductQnaUpdateComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/onebyone/update',
+        component: AdminOneByOneUpdateComponent,
         beforeEnter: chkAdmin
     },
     // 에러 페이지
