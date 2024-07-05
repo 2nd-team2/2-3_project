@@ -11,6 +11,27 @@
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
+
+.dark-mode .container {
+    background-color: #121212;
+    color: white;
+}
+
+.dark-mode button {
+    background-color: rgb(201, 199, 199);
+    color: #121212;
+}
+
+.dark-mode hr {
+    border-color: #5c5c5c;
+}
+
+.dark-mode input {
+    background-color: #5c5c5c;
+    color: white;
+    border-style: none;
+}
+
 body {
     background-color: #333333;
 }

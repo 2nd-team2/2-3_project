@@ -12,6 +12,11 @@
     user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
 
+.dark-mode button {
+    color: black;
+    background-color: white;
+}
+
 main {
     width: 70%;
     margin: 3rem auto;

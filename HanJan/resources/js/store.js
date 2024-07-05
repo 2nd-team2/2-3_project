@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { createStore } from 'vuex';
 import router from './router';
+import Cookies from 'js-cookie';
 
 const store = createStore({
     state() {
@@ -22,10 +23,12 @@ const store = createStore({
             // 결제하기 > 주문 번호 저장
             exchangeProduct : [],
             // 카카오 로그인 이메일 데이터
-            kakaoInfo: localStorage.getItem('kakaoEamil') ? localStorage.getItem('kakaoEamil') : null,
+            kakaoInfo: localStorage.getItem('kakaoEamil') ? JSON.parse(localStorage.getItem('kakaoEamil')) : null,
             
             // ----------------------- 보원 끝 ---------------------------
             // ----------------------- 성환 시작 -------------------------
+            // 다크모드 쿠키
+            isDarkMode: false,
             // 유저정보
             authFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
             userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
@@ -134,11 +137,14 @@ const store = createStore({
         // 카카오 로그인 정보 저장
         kakaoInfo(state, data) {
             state.kakaoInfo = data;
-            localStorage.setItem('kakaoInfo', data);
+            localStorage.setItem('kakaoInfo', JSON.stringify(data));
         },
 
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
+        setDarkMode(state, isDarkMode) {
+            state.isDarkMode = isDarkMode;
+        },
         // 인증 플래그 저장
         setAuthFlg(state, flg) {
             state.authFlg = flg;
@@ -748,7 +754,8 @@ const store = createStore({
                 context.commit('setAuthFlg', true);
 
                 localStorage.removeItem('kakaoInfo');
-                router.replace('/');
+
+                router.replace('/'); // 메인 페이지로 이동
             })
             .catch(error => {
                 console.log(error.response); // TODO
@@ -760,6 +767,10 @@ const store = createStore({
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
         
+        toggleDarkMode({ commit }, isDarkMode) {
+            commit('setDarkMode', isDarkMode);
+            Cookies.set('darkMode', isDarkMode.toString(), { expires: 7 });
+        },
         /**
          * 로그인 처리
          * 
@@ -812,6 +823,7 @@ const store = createStore({
             const data = new FormData(document.querySelector('#regist_form'));
             axios.post(url, data)
             .then(responseData => {
+                localStorage.removeItem('kakaoInfo');
                 router.replace('login');
                 alert('회원가입이 완료되었습니다.');
             })

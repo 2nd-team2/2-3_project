@@ -41,40 +41,44 @@ class UserController extends Controller
         {
             try {
                 $kakaoUser = Socialite::driver('kakao')->user();
+                // 사용자 데이터 확인
+                // Log::debug('Kakao User Data: ', (array) $kakaoUser);
+            Log::debug('Kakao User Data: ', (array) $kakaoUser);
+
+                // 카카오에서 받아온 email을 통해 사용자 정보가 있는지 확인
+                $user = User::where('email', $kakaoUser->getEmail())->first();
+
+
+                if (isset($user)) {
+                    // 사용자가 있으면 로그인 처리
+                    Auth::login($user);
+    
+                    $responseData = [
+                        'code' => '1',
+                        'msg' => '카카오 로그인 완료',
+                        'data' => $user->toArray() // 사용자 데이터를 배열로 변환
+                    ];
+                } else {
+                    // 없을 경우 카카오에서 가져온 email 넘겨주기
+
+                    $responseData = [
+                        'code' => '0',
+                        'msg' => '카카오 첫 로그인 완료',
+                        'data' => ['email' => $kakaoUser->getEmail()]
+                    ];
+                }
+
+                // 레스폰스 데이터 가공처리
+                $encodedResponseData = urlencode(json_encode($responseData));
+
+                // 로그인 처리중 페이지로 이동
+                return redirect("/login/kakao/callback?data=$encodedResponseData");
+
             } catch (\Exception $e) {
                 Log::debug($e);
-                return redirect('/login');
+                return redirect('/login')->with('error', '카카오 로그인 실패: ' . $e->getMessage());
             }
-            Log::debug('Kakao User Data: ', (array) $kakaoUser);
-        
-            // 카카오에서 받아온 email을 통해 사용자 정보가 있는지 확인
-            $user = User::where('email', $kakaoUser->getEmail())->first();
-            Log::debug('비밀번호 받아오나?');
-            Log::debug($user);
-        
-            if (isset($user)) {
 
-                Auth::login($user);
-
-                $responseData = [
-                    'code' => '1',
-                    'msg' => '카카오 로그인 완료',
-                    'data' => $user->toArray() // 사용자 데이터를 배열로 변환
-                ];
-            } else {
-                // 없을 경우 카카오에서 가져온 email만 넘겨주기
-                $responseData = [
-                    'code' => '0',
-                    'msg' => '카카오 첫 로그인 완료',
-                    'data' => ['email' => $kakaoUser->getEmail()]
-                ];
-            }
-            
-            // 레스폰스 데이터 가공처리
-            $encodedResponseData = urlencode(json_encode($responseData));
-
-            // 로그인 처리중 페이지로 이동
-            return redirect("/login/kakao/callback?data=$encodedResponseData");
         }
 
         // 카카오 로그인
@@ -83,7 +87,7 @@ class UserController extends Controller
             Log::debug('백처리 : 로그인 했을때 가져오는 request 값 확인');
             Log::debug($request);
             
-            $userInfo = User::select('users.*', 'users.password')
+            $userInfo = User::select('users.*')
                         ->where('email', $request->email)
                         ->first();
             
@@ -192,7 +196,7 @@ class UserController extends Controller
                 $requestData,
                 [
                     'email' => ['required', 'min:5', 'max:30', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
-                    'password' => ['required', 'min:8', 'max:20', 'regex:/^[a-zA-Z0-9!@]+$/u'], 
+                    'password' => ['required', 'min:1', 'max:20', 'regex:/^[a-zA-Z0-9!@]+$/u'], 
                     'password_chk' => ['same:password'],
                     'tel' => ['required', 'min:10','max:11', 'regex:/^[0-9]+$/'],
                     'addr' => ['required'],

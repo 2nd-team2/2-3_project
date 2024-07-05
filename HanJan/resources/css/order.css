@@ -8,6 +8,21 @@ main {
     margin: 3rem auto;
 }
 
+.dark-mode input {
+    background-color: #5c5c5c;
+    color: white;
+    border-style: none;
+}
+
+.dark-mode .header {
+    background-color: #121212;
+}
+
+.dark-mode button {
+    background-color: rgb(201, 199, 199);
+    color: #121212;
+}
+
 input {
     padding: 5px;
 }
