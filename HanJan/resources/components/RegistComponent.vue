@@ -20,7 +20,7 @@
                 <div v-if="$store.state.kakaoInfo" class="email_box info_item_box">
                     <label class="info_item_label" for="email">이메일</label>
                     <div class="info_item_input">
-                        <p class="info_item_err_msg error">카카오 이메일 입니다. 변경 불가</p>
+                        <p class="info_item_err_msg error">카카오 계정의 이메일 입니다. 변경 불가</p>
                         <input class="input_width" type="email" name="email" id="email" readonly :value="$store.state.kakaoInfo">
                     </div>
                 </div>
@@ -30,7 +30,10 @@
                         <p class="info_item_err_msg error">{{ emailError }}</p>
                         <input class="input_width" type="email" name="email" id="email" @input="chkEmail" v-model="emailText">
                     </div>
-                    <button type="button" class="info_item_btn form_btn email_chk_btn" @click="$store.dispatch('chkEmailOn', emailText)">이메일 중복확인</button>
+                    <div>
+                      <button type="button" class="info_item_btn form_btn email_chk_btn" @click="$store.dispatch('chkEmailOn', emailText)">이메일 중복확인</button>
+                      <button type="button" class="info_item_btn form_btn email_chk_btn" >이메일 인증</button>
+                    </div>
                 </div>
                 <hr>
                 <div class="info_item_box">
@@ -56,6 +59,7 @@
                         <input class="input_width" type="text" name="name" id="name" v-model="name" @input="chkName">
                     </div>
                 </div>
+                
                 <hr>
                 <div class="info_item_box">
                     <label class="info_item_label" for="phone">휴대전화번호</label>
@@ -130,7 +134,8 @@ function chkEmail() {
 }
 
 function chkPassword() {
-  if (password.value.length < 8 || password.value.length > 20) {
+  if (password.value.length < 1 || password.value.length > 20) {
+  // if (password.value.length < 8 || password.value.length > 20) {
     passwordError.value = '비밀번호는 8 ~ 20자 사이로 설정 해주세요.';
   } else {
     passwordError.value = '';

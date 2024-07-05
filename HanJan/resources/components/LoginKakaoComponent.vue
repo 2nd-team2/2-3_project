@@ -25,12 +25,14 @@
             store.dispatch('kakaoLogin', responseData.data);
             
             console.log('카카오 로그인 성공');
-            router.push('/'); // 메인 페이지로 이동
+            router.replace('/'); // 메인 페이지로 이동
         } else if (responseData.code === '0') {
-            // 첫 로그인 시 이메일 정보를 로컬 스토리지에 저장하고 회원가입 페이지로 이동
+
+            // 첫 로그인 시 이메일 정보를 저장하기
             store.commit('kakaoInfo', responseData.data.email);
             console.log('카카오 첫 로그인 성공 > 회원 가입 페이지 이동')
 
+            // 저장한 이름, 이메일을 가지고 회원가입 페이지로 넘어가기
             router.push('/regist');
         }
         } catch (error) {

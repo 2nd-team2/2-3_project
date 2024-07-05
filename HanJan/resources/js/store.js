@@ -806,6 +806,7 @@ const store = createStore({
             const data = new FormData(document.querySelector('#regist_form'));
             axios.post(url, data)
             .then(responseData => {
+                localStorage.removeItem('kakaoInfo');
                 router.replace('login');
                 alert('회원가입이 완료되었습니다.');
             })
