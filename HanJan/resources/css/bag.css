@@ -8,8 +8,37 @@
     font-family: "Noto Sans KR", sans-serif;
 }
 
+.dark-mode .main {
+    background-color: #121212;
+}
+
+.dark-mode div {
+    color: white;
+}
+
+.dark-mode .bag_cancel {
+    background-color: #5c5c5c;
+    color: white;
+}
+
+.dark-mode .checkbox {
+    border: 1px solid white;
+}
+
+.dark-mode button {
+    background-color: rgb(201, 199, 199);
+    color: #121212;
+}
+
+.dark-mode input {
+    background-color: #5c5c5c;
+    color: white;
+    border-style: none;
+}
+
 main {
     width: 70%;
+    height: 39vh;
     margin: 3rem auto;
 }
 
@@ -164,7 +193,7 @@ main {
 
 /* 휴지통 이미지 */
 .bag_delete {
-    background-image: url('/img/Vector.png');
+    background-image: url('/img/Vector_white.png');
     background-repeat: no-repeat;
     background-size: contain;
     background-color: transparent;

@@ -3,6 +3,25 @@ main {
     margin: 3rem auto;
 }
 
+.dark-mode input {
+    background-color: #5c5c5c;
+    color: white;
+    border-style: none;
+}
+
+.dark-mode .detailed_haeder_a:hover .detailed_haeder_bag{
+    color: black;
+}
+
+.dark-mode .detailed_haeder_bay {
+    color: white;
+}
+
+.dark-mode button {
+    background-color: rgb(201, 199, 199);
+    color: #121212;
+}
+
 hr {
     margin: 5rem auto;
 }

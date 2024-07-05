@@ -15,6 +15,18 @@ main {
     margin: 3rem auto;
 }
 
+.dark-mode div {
+    color: white;
+}
+
+.dark-mode h2 {
+    color: white;
+}
+
+.dark-mode .list_num_item > a {
+    color: white;
+}
+
 /* noticelist 페이지 */
 .noticelist_title {
     font-size: 1.8rem;

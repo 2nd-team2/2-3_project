@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { createStore } from 'vuex';
 import router from './router';
+import Cookies from 'js-cookie';
 
 const store = createStore({
     state() {
@@ -26,6 +27,8 @@ const store = createStore({
             
             // ----------------------- 보원 끝 ---------------------------
             // ----------------------- 성환 시작 -------------------------
+            // 다크모드 쿠키
+            isDarkMode: false,
             // 유저정보
             authFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
             userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
@@ -137,6 +140,9 @@ const store = createStore({
 
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
+        setDarkMode(state, isDarkMode) {
+            state.isDarkMode = isDarkMode;
+        },
         // 인증 플래그 저장
         setAuthFlg(state, flg) {
             state.authFlg = flg;
@@ -754,6 +760,10 @@ const store = createStore({
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
         
+        toggleDarkMode({ commit }, isDarkMode) {
+            commit('setDarkMode', isDarkMode);
+            Cookies.set('darkMode', isDarkMode.toString(), { expires: 7 });
+        },
         /**
          * 로그인 처리
          * 

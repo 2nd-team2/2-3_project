@@ -6,6 +6,53 @@ hr {
     margin: 4rem auto;
 }
 
+.dark-mode hr {
+    border-color: #5c5c5c;
+}
+
+.dark-mode p {
+    color: white;
+}
+
+.dark-mode .before {
+    color: white;
+}
+
+.dark-mode .num {
+    color: white;
+}
+
+.dark-mode .num_none {
+    color: white;
+}
+
+.dark-mode .next {
+    color: white;
+}
+
+.dark-mode strong {
+    color: white;
+}
+
+.dark-mode input {
+    background-color: #5c5c5c;
+    color: white;
+    border-style: none;
+}
+
+.dark-mode .list_line {
+    border: 1px solid #5c5c5c;
+}
+
+.dark-mode .list_dropdown-toggle {
+    border: 1px solid #5c5c5c;
+}
+
+.dark-mode button {
+    background-color: #121212;
+    color: #ffffff;
+}
+
 /* ------------- 헤더이미지 ------------- */
 .list_main_img {
     width: 100%;

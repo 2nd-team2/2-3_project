@@ -72,7 +72,6 @@
                 <div class="btn_com_box">
                     <button type="button"  @click="BeforekakaoPay" class="btn_ord_com">결제하기</button>
                 </div>
-                <div>{{ $store.state.orderProductData }}</div>
             </div>
         </form>
     </main>

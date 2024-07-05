@@ -12,6 +12,17 @@
     user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
 
+.dark-mode .main {
+    background-color: #121212;
+    color: white;
+}
+
+.dark-mode button {
+    background-color: rgb(201, 199, 199);
+    color: #121212;
+}
+
+
 ul {
     list-style: none;
 }

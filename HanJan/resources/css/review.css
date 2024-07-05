@@ -9,6 +9,26 @@
     font-family: "Noto Sans KR", sans-serif;
 }
 
+.dark-mode hr {
+    border-color: #5c5c5c;
+}
+
+.dark-mode textarea {
+    background-color: #5c5c5c;
+    color: white;
+    border-style: none;
+}
+
+.dark-mode button {
+    background-color: rgb(201, 199, 199);
+    color: #121212;
+}
+
+.dark-mode .reviewC_cancel {
+    background-color: rgb(201, 199, 199);
+    color: #121212;
+}
+
 main {
     width: 70%;
     margin: 3rem auto;

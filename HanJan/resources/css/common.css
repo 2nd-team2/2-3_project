@@ -601,7 +601,7 @@ footer {
     
     .nav {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 0.4fr 0.4fr 0.4fr;
+        grid-template-columns: 1fr 1fr 1fr 0.4fr 0.4fr 0.4fr 0.4fr;
         margin-left: 50px;
     }
     
