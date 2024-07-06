@@ -4,7 +4,7 @@
             <h2 class="admin_title">상품문의 답변</h2>
                 <input type="hidden" name="qnp_id" :value="$store.state.adminProductQnaToUpdate.qnp_id">
                 <h3 class="admin_title_name">상품문의 내용</h3>
-                <textarea name="qnp_content" class="admin_item_name">{{ $store.state.adminProductQnaToUpdate.qnp_content }}</textarea>
+                <textarea name="qnp_content" class="admin_item_name" readonly>{{ $store.state.adminProductQnaToUpdate.qnp_content }}</textarea>
                 <h3 class="admin_title_content">상품문의 답변 내용</h3>
                 <textarea name="qnp_answer" class="admin_item_content">{{ $store.state.adminProductQnaToUpdate.qnp_answer }}</textarea>
             <div class="admin_hr"></div>

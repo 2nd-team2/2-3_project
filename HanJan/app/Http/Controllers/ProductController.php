@@ -414,29 +414,144 @@ class ProductController extends Controller
     // ----------------------- 호경 끝 ---------------------------
 
     // --------------------------------------------------------------------- 관리자 페이지 -------------------------------------------------------------------------
-            // ----------------------- 보원 시작 ---------------------------
-            // ----------------------- 보원 끝 ---------------------------
+    // ----------------------- 보원 시작 ---------------------------
+    // ----------------------- 보원 끝 ---------------------------
 
-            // ----------------------- 성환 시작 ---------------------------
-            // ----------------------- 성환 끝 ---------------------------
+    // ----------------------- 성환 시작 ---------------------------
+    // ----------------------- 성환 끝 ---------------------------
 
-            // ----------------------- 민서 시작 ---------------------------
-            // ----------------------- 민서 끝 ---------------------------
+    // ----------------------- 민서 시작 ---------------------------
+    // ----------------------- 민서 끝 ---------------------------
 
-            // ----------------------- 호경 시작 ---------------------------
-            // 관리자 페이지 상품 전체 불러오기
-            public function adminProductIndex() {
-                $adminProductData = Product::withTrashed()
-                                    ->select('products.*')
-                                    ->paginate(15);
-                
-                $responseData = [
-                    'code' => '0'
-                    ,'msg' => '상품 전체 획득 완료'
-                    ,'data' => $adminProductData->toArray()
-                ];
+    // ----------------------- 호경 시작 ---------------------------
+    // 관리자 페이지 상품 전체 불러오기
+    public function adminProductIndex() {
+        $adminProductData = Product::withTrashed()
+                            ->select('products.*')
+                            ->orderBy('products.created_at', 'DESC')
+                            ->paginate(15);
+        
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '상품 전체 획득 완료'
+            ,'data' => $adminProductData->toArray()
+        ];
 
-                return response()->json($responseData, 200);
-            }
-            // ----------------------- 호경 끝 ---------------------------
+        return response()->json($responseData, 200);
+    }
+
+   // 상품 추가
+    public function productCreate(Request $request) {
+        $requestData = $request->all();
+        $validator = Validator::make(
+            $requestData,
+                [
+                    // 'name' => ['required', 'regex:/^[가-힣0-9%()[]\s]+$/'],
+                    'name' => ['required', 'regex:/^[가-힣0-9%\s]+$/'],
+                    'price' => ['required', 'regex:/^[0-9]+$/'],
+                    'count' => ['required', 'regex:/^[0-9]+$/'],
+                    'ml' => ['required', 'regex:/^[0-9]+$/'],
+                    'img' => ['required', 'mimes:jpeg,png,jpg,gif,svg'],
+                    'info' => ['required', 'mimes:jpeg,png,gif'],
+                    'type' => ['required', 'regex:/^[0-9]+$/'],
+                    'season' => ['required', 'regex:/^[0-9]+$/'],
+                ] 
+        );
+        // 유효성 검사 실패 체크
+        if($validator->fails()) {
+            throw new MyValidateException('E01');
+        }
+
+        // 작성 데이터 생성
+        $insertData = $request->all();
+
+        // 파일을 이동시키고 경로를 저장
+        $imgPath =  $request->file('img')->move(public_path('/img/DB_img'));
+        $infoPath =  $request->file('info')->move(public_path('/img/DB_img'));
+        // $imgPath = $request->file('img')->store('/img/DB_img', 'public');
+        // $infoPath = $request->file('info')->store('/img/DB_img', 'public');
+
+        $insertData['img'] = $imgPath;
+        $insertData['info'] = $infoPath;
+
+        // 인서트 처리
+        $productInfo = Product::create($insertData);
+
+        // 레스폰스 처리
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '상품 작성 완료'
+            ,'data' => $productInfo->toArray()
+        ];
+        return response()->json($responseData, 200);
+    }
+
+    // 상품 삭제처리
+    public function adminProductDeleted($id) {
+
+        Product::destroy($id);
+
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '삭제 완료'
+            ,'data' => $id
+        ];
+        return response()->json($responseData);
+    }
+
+     // 상품 수정
+    // 상품 수정 페이지에서 버튼 눌렀을때 상품 테이블에서 데이터 수정
+    public function productUpdateSubmit(Request $request) {
+
+        // 리퀘스트 데이터 받기
+        $requestData = $request->all();
+        
+        // 데이터 유효성 검사
+        $validator = Validator::make(
+            $requestData
+            , [
+                'name' => ['required', 'regex:/^[가-힣0-9%\s]+$/'],
+                'price' => ['required', 'regex:/^[0-9]+$/'],
+                'count' => ['required', 'regex:/^[0-9]+$/'],
+                'ml' => ['required', 'regex:/^[0-9]+$/'],
+                'img' => ['required', 'mimes:jpeg,png,jpg,gif,svg'],
+                'info' => ['required', 'mimes:jpeg,png,gif'],
+                'type' => ['required', 'regex:/^[0-9]+$/'],
+                'season' => ['required', 'regex:/^[0-9]+$/'],
+            ]
+        );
+
+        // 유효성 검사 실패 체크
+        if($validator->fails()) {
+            Log::debug('유효성 검사 실패', $validator->errors()->toArray());
+            throw new MyValidateException('E01');
+        }
+        
+        // 데이터 생성
+        $updateData = Product::find($request->id);
+
+        // 수정 처리
+        $updateData->name = $request->name;
+        $updateData->price = $request->price;
+        $updateData->count = $request->count;
+        $updateData->ml = $request->ml;
+        $updateData->img = $request->img;
+        $updateData->info = $request->info;
+        $updateData->type = $request->type;
+        $updateData->season = $request->season;
+        
+        // 수정된 데이터 저장
+        $updateData->save();
+
+        // 레스폰스 데이터 생성
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '상품 수정 완료'
+            ,'data' => $updateData->toArray()
+        ];
+
+        return response()->json($responseData, 200);
+    }
+
+    // ----------------------- 호경 끝 ---------------------------
 }

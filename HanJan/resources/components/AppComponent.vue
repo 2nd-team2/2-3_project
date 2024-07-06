@@ -12,7 +12,7 @@
                             <div @click="openMiniNav1" class="admin_nav_title">유저
                                 <div :class="{ admin_nav_mini: openFlg1 }" id="admin_nav_mini">
                                     <ul class="admin_nav_mini_box">
-                                        <li class="admin_nav_mini_item1"><router-link to="/admin/users" class="admin_nav_mini_title">유저 관리</router-link></li>
+                                        <li class="admin_nav_mini_item1"><router-link to="/admin/user" class="admin_nav_mini_title">유저 관리</router-link></li>
                                     </ul>
                                 </div>
                             </div>
@@ -30,7 +30,10 @@
                             <div @click="openMiniNav3" class="admin_nav_title">주문
                                 <div :class="{ admin_nav_mini: openFlg3 }" id="admin_nav_mini">
                                     <ul class="admin_nav_mini_box">
-                                        <li class="admin_nav_mini_item3"><router-link to="/admin/product" class="admin_nav_mini_title">주문 관리</router-link></li>
+                                        <li class="admin_nav_mini_item3"><router-link to="/admin/order" class="admin_nav_mini_title">주문 관리</router-link></li>
+                                    </ul>
+                                    <ul class="admin_nav_mini_box">
+                                        <li class="admin_nav_mini_item3"><router-link to="/admin/exchange" class="admin_nav_mini_title">교환 및 반품 관리</router-link></li>
                                     </ul>
                                 </div>
                             </div>

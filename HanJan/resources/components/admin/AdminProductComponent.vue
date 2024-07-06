@@ -1,14 +1,20 @@
 <template>
     <div class="admin">
-        <h2 class="admin_title">상품 관리</h2>
+        <div class="admin_title_box">
+            <h2 class="admin_title2">상품 관리</h2>
+            <router-link to="/admin/product/create" class="admin_create_btn">상품 추가</router-link>
+        </div>
         <div class="admin_product_list_container">
-            <div class="admin_product_list_num">번호</div>
-            <div class="admin_product_list_name">상품 이름</div>
-            <div class="admin_product_list_price">가격</div>
-            <div class="admin_product_list_count">재고 갯수</div>
-            <div class="admin_product_list_ml">용량</div>
-            <div class="admin_product_list_type">주종</div>
-            <div class="admin_product_list_season">추천 계절</div>
+            <div class="admin_product_list_num admin_weight">번호</div>
+            <div class="admin_product_list_name admin_weight">상품 이름</div>
+            <div class="admin_product_list_price admin_weight">가격</div>
+            <div class="admin_product_list_count admin_weight">재고 갯수</div>
+            <div class="admin_product_list_ml admin_weight">용량</div>
+            <div class="admin_product_list_type admin_weight">주종</div>
+            <div class="admin_product_list_season admin_weight">추천 계절</div>
+            <div class="admin_product_list_create admin_weight">출시일</div>
+            <div class="admin_product_list_update admin_weight">수정일</div>
+            <div class="admin_product_list_delete admin_weight">삭제일</div>
         </div>
         <div v-for="product in $store.state.adminProductData.data" :key="product.id" class="admin_product_list_container admin_paddingtop">
             <div class="admin_product_list_num">{{ product.id }}</div>
@@ -18,8 +24,11 @@
             <div class="admin_product_list_ml">{{ product.ml }}</div>
             <div class="admin_product_list_type">{{ product.type }}</div>
             <div class="admin_product_list_season">{{ product.season }}</div>
-            <button class="admin_btn">수정하기</button>
-            <button class="admin_btn">삭제하기</button>
+            <div class="admin_product_list_created">{{ product.created_at }}</div>
+            <div class="admin_product_list_updated">{{ product.updated_at }}</div>
+            <div class="admin_product_list_deleted">{{ product.deleted_at }}</div>
+            <button v-if="product.deleted_at == null" type="button" @click="productUpdate(product)" class="admin_btn">수정하기</button>
+            <button v-if="product.deleted_at == null" type="button" @click="$store.dispatch('adminProductDeleted', product.id)" class="admin_btn">삭제하기</button>
         </div>
 
         <!-- 페이지네이션 -->
@@ -94,6 +103,11 @@
         if (store.state.adminProductData.current_page < store.state.adminProductData.last_page) {
             goToPage(store.state.adminProductData.current_page + 1);
         }
+    }
+
+    // 상품 수정 페이지로 정보 넘기기
+    function productUpdate(item) {
+        store.dispatch('adminProductToUpdate', item);
     }
 
 </script>

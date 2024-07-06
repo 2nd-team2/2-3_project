@@ -41,6 +41,8 @@ class NoticeController extends Controller
         
         return response()->json($responseData, 200);
     }
+    
+    // --------------------------------------------------------------------- 관리자 페이지 -------------------------------------------------------------------------
 
     // 관리자 페이지 공지사항 획득
     public function adminNoticeIndex() {

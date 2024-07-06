@@ -1,16 +1,16 @@
 <template>
     <div class="admin">
-        <div class="admin_notice_box">
-            <h2 class="admin_notice_title">공지사항 관리</h2>
-            <router-link to="/admin/notice/create" class="admin_notice_create">글 작성</router-link>
+        <div class="admin_title_box">
+            <h2 class="admin_title2">공지사항 관리</h2>
+            <router-link to="/admin/notice/create" class="admin_create_btn">글 작성</router-link>
         </div>
         <div class="admin_notice_list_container">
-            <div class="admin_notice_list_name">작성자</div>
-            <div class="admin_notice_list_title">제목</div>
-            <div class="admin_notice_list_content">내용</div>
-            <div class="admin_notice_list_date">작성일</div>
-            <div class="admin_notice_list_updated">수정일</div>
-            <div class="admin_notice_list_deleted">삭제일</div>
+            <div class="admin_notice_list_name admin_weight">작성자</div>
+            <div class="admin_notice_list_title admin_weight">제목</div>
+            <div class="admin_notice_list_content admin_weight">내용</div>
+            <div class="admin_notice_list_date admin_weight">작성일</div>
+            <div class="admin_notice_list_updated admin_weight">수정일</div>
+            <div class="admin_notice_list_deleted admin_weight">삭제일</div>
         </div>
         <div v-for="notice in $store.state.adminNoticeData.data" :key="notice.no_id" class="admin_notice_list_container admin_paddingtop">
             <div class="admin_notice_list_name">{{ notice.account }}</div>
