@@ -6,6 +6,7 @@
         </div>
         <div class="admin_product_list_container">
             <div class="admin_product_list_num admin_weight">번호</div>
+            <div class="admin_product_list_img admin_weight">이미지</div>
             <div class="admin_product_list_name admin_weight">상품 이름</div>
             <div class="admin_product_list_price admin_weight">가격</div>
             <div class="admin_product_list_count admin_weight">재고 갯수</div>
@@ -18,6 +19,7 @@
         </div>
         <div v-for="product in $store.state.adminProductData.data" :key="product.id" class="admin_product_list_container admin_paddingtop">
             <div class="admin_product_list_num">{{ product.id }}</div>
+            <img :src="product.img" class="admin_product_list_img1">
             <div class="admin_product_list_name">{{ product.name }}</div>
             <div class="admin_product_list_price">{{ product.price }}</div>
             <div class="admin_product_list_count">{{ product.count }}</div>

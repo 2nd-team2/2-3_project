@@ -110,7 +110,7 @@ class ExchangeController extends Controller
         //                     ->where('orderproducts.orp_id', '=', 'exchanges.orp_id')
         //                     // ->groupBy('exchanges.*', 'orders.or_buy_name', 'orders.or_buy_tel', 'orders.or_id', 'orders.or_sum', 'orders.created_at')
         //                     ->orderBy('exchanges.created_at', 'DESC')
-        //                     ->paginate(20);
+        //                     ->paginate(15);
         $ExchangeData = Exchange::withTrashed()
                             ->select('exchanges.*',)
                             ->orderBy('exchanges.created_at', 'DESC')

@@ -54,7 +54,7 @@ class QnaController extends Controller
         $validator = Validator::make(
             $request->only('qnp_content')
             ,[
-                'qnp_content'=> ['required']
+                'qnp_content'=> ['required', 'max:1000', 'regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
             ]
         );
         // 유효성 검사 실패 체크
@@ -82,7 +82,7 @@ class QnaController extends Controller
         $validator = Validator::make(
             $request->only('qn_content')
             ,[
-                'qn_content'=> ['required']
+                'qn_content'=> ['required', 'max:1000', 'regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
             ]
         );
         // 유효성 검사 실패 체크
@@ -235,7 +235,7 @@ class QnaController extends Controller
         $validator = Validator::make(
             $requestData
             , [
-                'qnp_answer' => ['required']
+                'qnp_answer' => ['required', 'max:1000', 'regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
             ]
         );
 
@@ -275,7 +275,7 @@ class QnaController extends Controller
         $validator = Validator::make(
             $requestData
             , [
-                'qn_answer' => ['required']
+                'qn_answer' => ['required', 'max:1000', 'regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
             ]
         );
 

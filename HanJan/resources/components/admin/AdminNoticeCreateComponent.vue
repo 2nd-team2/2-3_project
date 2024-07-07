@@ -4,9 +4,9 @@
             <h2 class="admin_title">공지사항 작성</h2>
                 <div class="admin_box">
                     <h3 class="admin_title_name">제목</h3>
-                    <textarea name="no_title" class="admin_item_name"></textarea>
+                    <textarea name="no_title" placeholder="영어, 숫자, 한글, 공백 포함 50자 이내로 작성해주세요" class="admin_item_name"></textarea>
                     <h3 class="admin_title_content">내용</h3>
-                    <textarea name="no_content" class="admin_item_content"></textarea>
+                    <textarea name="no_content" placeholder="영어, 숫자, 한글, 공백 포함 1000자 이내로 작성해주세요" class="admin_item_content"></textarea>
                 </div>
             <div class="admin_hr"></div>
             <div class="admin_btn_box">

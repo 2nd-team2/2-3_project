@@ -16,7 +16,7 @@
             <div class="admin_onebyone_list_created">{{ onebyone.created_at }}</div>
             <div class="admin_onebyone_list_updated">{{ onebyone.updated_at }}</div>
             <div class="admin_onebyone_list_deleted">{{ onebyone.deleted_at }}</div>
-            <button @click="oneByOneUpdate(onebyone)" class="admin_btn">답변하기</button>
+            <button v-if="onebyone.deleted_at == null" @click="oneByOneUpdate(onebyone)" class="admin_btn">답변하기</button>
         </div>
     
         <!-- 페이지네이션 -->

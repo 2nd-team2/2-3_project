@@ -179,6 +179,8 @@ Route::post('/api/admin/login', [AdminController::class, 'adminLogin']);
 Route::middleware('auth')->post('/api/admin/logout', [AdminController::class, 'adminLogout']);
 // 관리자페이지 유저 목록 전체 불러오기
 Route::middleware('auth')->get('/api/admin/user', [UserController::class, 'adminUserIndex']);
+// 관리자페이지 유저 목록 전체 불러오기
+Route::middleware('auth')->get('/api/admin/user/new', [UserController::class, 'adminNewUserStats']);
 // 관리자페이지 상품 목록 전체 불러오기
 Route::middleware('auth')->get('/api/admin/product', [ProductController::class, 'adminProductIndex']);
 // 관리자페이지 주문 목록 전체 불러오기
@@ -196,11 +198,11 @@ Route::middleware('auth')->post('/api/admin/product/create', [ProductController:
 // 공지사항 작성하기
 Route::middleware('auth')->post('/api/admin/notice/create', [NoticeController::class, 'noticeCreate']);
 // 상품 삭제
-Route::middleware('auth')->delete('/api/admin/product/delete/{no_id}', [ProductController::class, 'adminProductDeleted']);
+Route::middleware('auth')->delete('/api/admin/product/delete/{id}', [ProductController::class, 'adminProductDeleted']);
 // 공지사항 삭제
 Route::middleware('auth')->delete('/api/admin/notice/delete/{no_id}', [NoticeController::class, 'adminNoticeDeleted']);
 // 유저 정보 수정
-Route::middleware('auth')->post('/api/admin/user/update', [UserController::class, 'adminUserUpdate']);
+Route::middleware('auth')->post('/api/admin/user/update/{id}', [UserController::class, 'adminUserUpdate']);
 // 상품 수정
 Route::middleware('auth')->post('/api/admin/product/update', [ProductController::class, 'productUpdateSubmit']);
 // 상품문의 답변 작성하기

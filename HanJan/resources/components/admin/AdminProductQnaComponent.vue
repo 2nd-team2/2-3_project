@@ -16,7 +16,7 @@
             <div class="admin_productqna_list_date">{{ productqna.created_at }}</div>
             <div class="admin_productqna_list_updated">{{ productqna.updated_at }}</div>
             <div class="admin_productqna_list_deleted">{{ productqna.deleted_at }}</div>
-            <button @click="productqnaUpdate(productqna)" class="admin_btn">답변하기</button>
+            <button v-if="productqna.deleted_at == null" @click="productqnaUpdate(productqna)" class="admin_btn">답변하기</button>
         </div>
     
         <!-- 페이지네이션 -->

@@ -346,6 +346,7 @@ class UserController extends Controller
         public function adminUserIndex() {
             $adminUserData = User::withTrashed()
                                 ->select('users.*')
+                                ->orderBy('users.created_at', 'DESC')
                                 ->paginate(20);
             
             $responseData = [
@@ -358,14 +359,30 @@ class UserController extends Controller
         }
         
         // 관리자 페이지에서 유저 정보 수정
-        public function adminUserUpdate(Request $request) {
+        public function adminUserUpdate(Request $request, $id) {
             
-            $userInfo = Auth::user();
+            $userInfo = User::find($id);
+
+            if (!$userInfo) {
+                return response()->json([
+                    'code' => 1,
+                    'msg' => '해당 사용자를 찾을 수 없습니다.'
+                ], 404);
+            }
 
             // 비밀번호와 비밀번호 확인이 일치하는지 확인
             if ($request->password !== $request->password_chk) {
                 throw new MyAuthException('E21');
             }
+
+            // // 이메일 중복 체크
+            // $existingUser = User::where('email', $request->email)->where('id', '!=', $userInfo->id)->first();
+            // if ($existingUser) {
+            //     return response()->json([
+            //         'code' => 1,
+            //         'msg' => '해당 이메일은 이미 사용 중입니다.'
+            //     ], 400);
+            // }
 
             // 업데이트 할 리퀘스트 데이터 셋팅
             $userInfo->name = $request->name;
@@ -384,6 +401,23 @@ class UserController extends Controller
                 'msg' => '회원 정보 수정 완료',
                 'data' => $userInfo
             ];
+            return response()->json($responseData, 200);
+        }
+
+        // 관리자 페이지 매 달 신규 유저 통계 불러오기
+        public function adminNewUserStats() {
+            $adminNewUserData = User::selectRaw('DATE_FORMAT(created_at, "%Y-%m") AS month')
+                                    ->selectRaw('COUNT(*) AS new_users')
+                                    ->whereNull('deleted_at')
+                                    ->groupBy('month')
+                                    ->orderBy('month')
+                                    ->get();
+            $responseData = [
+                'code' => '0'
+                ,'msg' => '신규 가입자 획득 완료'
+                ,'data' => $adminNewUserData->toArray()
+            ];
+
             return response()->json($responseData, 200);
         }
         // ----------------------- 호경 끝 ---------------------------

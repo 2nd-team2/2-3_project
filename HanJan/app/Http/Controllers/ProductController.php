@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 // ************************************************
 
@@ -440,7 +441,7 @@ class ProductController extends Controller
         return response()->json($responseData, 200);
     }
 
-   // 상품 추가
+    // 상품 추가
     public function productCreate(Request $request) {
         $requestData = $request->all();
         $validator = Validator::make(
@@ -465,14 +466,21 @@ class ProductController extends Controller
         // 작성 데이터 생성
         $insertData = $request->all();
 
-        // 파일을 이동시키고 경로를 저장
-        $imgPath =  $request->file('img')->move(public_path('/img/DB_img'));
-        $infoPath =  $request->file('info')->move(public_path('/img/DB_img'));
-        // $imgPath = $request->file('img')->store('/img/DB_img', 'public');
-        // $infoPath = $request->file('info')->store('/img/DB_img', 'public');
+        // 새로운 파일 이름 생성 (UUID 사용)
+        $imgName = Str::uuid().'.'.$request->file('img')->getClientOriginalExtension();
+        $infoName = Str::uuid().'.'.$request->file('info')->getClientOriginalExtension();
 
-        $insertData['img'] = $imgPath;
-        $insertData['info'] = $infoPath;
+        // 파일 저장 경로 설정
+        $imgPath = 'img/DB_img/' . $imgName;
+        $infoPath = 'img/DB_img/' . $infoName;
+
+        // 파일 이동 및 저장
+        $request->file('img')->move(public_path('/img/DB_img'), $imgName);
+        $request->file('info')->move(public_path('/img/DB_img'), $infoName);
+
+        // 데이터 준비 및 삽입
+        $insertData['img'] ='/' . $imgPath;
+        $insertData['info'] = '/' . $infoPath;
 
         // 인서트 처리
         $productInfo = Product::create($insertData);
@@ -499,7 +507,7 @@ class ProductController extends Controller
         return response()->json($responseData);
     }
 
-     // 상품 수정
+    // 상품 수정
     // 상품 수정 페이지에서 버튼 눌렀을때 상품 테이블에서 데이터 수정
     public function productUpdateSubmit(Request $request) {
 
@@ -530,13 +538,27 @@ class ProductController extends Controller
         // 데이터 생성
         $updateData = Product::find($request->id);
 
+        // 새로운 파일 이름 생성 (UUID 사용)
+        $imgName = Str::uuid().'.'.$request->file('img')->getClientOriginalExtension();
+        $infoName = Str::uuid().'.'.$request->file('info')->getClientOriginalExtension();
+
+        // 파일 저장 경로 설정
+        $imgPath = 'img/DB_img/' . $imgName;
+        $infoPath = 'img/DB_img/' . $infoName;
+
+        // 파일 이동 및 저장
+        $request->file('img')->move(public_path('/img/DB_img'), $imgName);
+        $request->file('info')->move(public_path('/img/DB_img'), $infoName);
+
+        // 데이터 준비 및 삽입
+        $updateData['img'] ='/' . $imgPath;
+        $updateData['info'] = '/' . $infoPath;
+
         // 수정 처리
         $updateData->name = $request->name;
         $updateData->price = $request->price;
         $updateData->count = $request->count;
         $updateData->ml = $request->ml;
-        $updateData->img = $request->img;
-        $updateData->info = $request->info;
         $updateData->type = $request->type;
         $updateData->season = $request->season;
         

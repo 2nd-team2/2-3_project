@@ -97,6 +97,8 @@ const store = createStore({
             adminFlg: false,
             // 로그인 플래그
             adminLoginFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
+            // 신규 유저 통계
+            newUserData: [],
             // 관리자 페이지 전체 유저 리스트
             adminUserData: localStorage.getItem('adminUserData') ? JSON.parse(localStorage.getItem('adminUserData')) : {current_page: '1'},
             // 관리자 페이지 전체 상품 리스트
@@ -302,6 +304,10 @@ const store = createStore({
         // 인증 플래그 저장
         setAdminLoginFlg(state, flg) {
             state.adminLoginFlg = flg;
+        },
+        // 신규 유저 통계
+        setNewUserData(state, data) {
+            state.newUserData = data;
         },
         // 전체 유저 정보
         setAdminUsersData(state, data) {
@@ -1497,6 +1503,23 @@ const store = createStore({
         },
 
         /**
+         * 신규 유저 통계 획득
+         * 
+         * @param {*} context 
+         */
+        getNewUserData(context) {
+            const url = '/api/admin/user/new';
+            
+            axios.get(url)
+            .then(response => {
+                context.commit('setNewUserData', response.data.data);
+            })
+            .catch(error => {
+                alert('신규 유저 통계 습득에 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
+
+        /**
          * 관리자 페이지 유저 전체 획득
          * 
          * @param {*} context 
@@ -1536,8 +1559,8 @@ const store = createStore({
          * 
          * @param {*} context
         */
-        userUpdateSubmit(context) {
-            const url = '/api/admin/user/update';
+        userUpdateSubmit(context, id) {
+            const url = '/api/admin/user/update/' + id;
             const data = new FormData(document.querySelector('#adminUserUpdateForm'));
 
             axios.post(url, data)
@@ -1853,10 +1876,13 @@ const store = createStore({
                 
                 console.log(response.data); 
                 router.replace('/admin/notice');
+
+                // 폼 초기화
+                form.reset();
             })
             .catch(error => {
                 console.log(error.response);
-                alert('글 작성에 실패했습니다.(' + error.response.data.code + ')');
+                alert('공지사항 작성에 실패했습니다.(' + error.response.data.code + ')');
             });
         },
         
