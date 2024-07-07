@@ -13,6 +13,7 @@ use App\Http\Controllers\QnaController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TraditionalLiquorController;
 use App\Models\Qna;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -79,6 +80,8 @@ Route::middleware('auth')->delete('/api/reviewDelete/{re_id}', [ReviewController
 Route::middleware('auth')->get('/api/exchangeProduct/{id}', [ExchangeController::class, 'exchangeProduct']);
 Route::middleware('auth')->post('/api/exchage', [ExchangeController::class, 'exchage']);
 
+// 이메일 인증 라우터
+// Auth::routes(['verify' => true]);
 
 // 카카오 로그인
 Route::get('/api/kakao', [UserController::class, 'redirectToKakao']);

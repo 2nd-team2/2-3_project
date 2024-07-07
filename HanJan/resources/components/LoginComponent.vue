@@ -14,7 +14,7 @@
                 <button type="button" class="loginBtn" @click="login">로그인</button>
                 <button type="button" class="registBtn" @click="$router.push('agree')">회원가입</button>
                 <a href="/api/kakao" class="kakaoBtn"><img src="/img/kakao_login_large_wide.png" class="kakaoBtn_img"></a>
-                <img class="rightPoto" src="/img/IE002927310_STD.png"></img>
+                <img class="rightPoto" src="/img/IE002927310_STD.png">
             </div>
         </form>
     </main>

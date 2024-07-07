@@ -23,7 +23,7 @@ const store = createStore({
             // 결제하기 > 주문 번호 저장
             exchangeProduct : [],
             // 카카오 로그인 이메일 데이터
-            kakaoInfo: localStorage.getItem('kakaoEamil') ? JSON.parse(localStorage.getItem('kakaoEamil')) : null,
+            kakaoInfo: localStorage.getItem('kakaoInfo') ? JSON.parse(localStorage.getItem('kakaoInfo')) : null,
             
             // ----------------------- 보원 끝 ---------------------------
             // ----------------------- 성환 시작 -------------------------
@@ -796,6 +796,35 @@ const store = createStore({
             .catch(error => {
                 console.log(error.response); // TODO
                 alert('카카오 로그인 정보 저장 실패.(' + error.response.data.code + ')');
+            });
+        },
+
+        /**
+         * 이메일 인증
+         *  >> 이메일 중복체크 먼저 진행 후 인증 처리
+         * 
+         * @param {*} context 
+         * @param {*} emailText
+         */
+        emailChk(context, emailText) {
+            if (!emailText) {
+                alert('이메일을 입력해 주세요.');
+                return;
+            }
+            const url = '/api/regist/' + emailText;
+            
+            axios.get(url)
+            .then(responseData => {
+                if (responseData.data.code === '2') {
+                    alert('이미 사용 중인 이메일입니다.');
+                } else if(responseData.data.code === '1') {
+                    alert('유효하지 않은 이메일입니다. ');
+                } else {
+                    alert('사용 가능한 이메일입니다.');
+                }
+            })
+            .catch(error => {
+                error.value = '이메일 중복 확인 중 오류가 발생했습니다.';
             });
         },
   
