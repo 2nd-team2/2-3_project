@@ -97,26 +97,36 @@ const store = createStore({
             adminFlg: false,
             // 로그인 플래그
             adminLoginFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
-            // 관리자 페이지 전체 상품 리스트
-            adminProductData: localStorage.getItem('adminProductData') ? JSON.parse(localStorage.getItem('adminProductData')) : {current_page: '1'},
+            // 신규 유저 통계
+            newUserData: [],
             // 관리자 페이지 전체 유저 리스트
             adminUserData: localStorage.getItem('adminUserData') ? JSON.parse(localStorage.getItem('adminUserData')) : {current_page: '1'},
+            // 관리자 페이지 전체 상품 리스트
+            adminProductData: localStorage.getItem('adminProductData') ? JSON.parse(localStorage.getItem('adminProductData')) : {current_page: '1'},
+            // 관리자 페이지 전체 주문 리스트
+            adminOrderData: localStorage.getItem('adminOrderData') ? JSON.parse(localStorage.getItem('adminOrderData')) : {current_page: '1'},
+            // 관리자 페이지 전체 교환 및 반품 리스트
+            adminExchangeData: localStorage.getItem('adminExchangeData') ? JSON.parse(localStorage.getItem('adminExchangeData')) : {current_page: '1'},
             // 관리자 페이지 전체 1:1문의 리스트
             adminOneByOneData: localStorage.getItem('adminOneByOneData') ? JSON.parse(localStorage.getItem('adminOneByOneData')) : {current_page: '1'},
             // 관리자 페이지 전체 상품문의 리스트
             adminProductQnaData: localStorage.getItem('adminProductQnaData') ? JSON.parse(localStorage.getItem('adminProductQnaData')) : {current_page: '1'},
             // 관리자 페이지 전체 공지사항 리스트
             adminNoticeData: localStorage.getItem('adminNoticeData') ? JSON.parse(localStorage.getItem('adminNoticeData')) : {current_page: '1'},
+            // 상품 디테일
+            adminProdcutDetailData: [],
             // 공지사항 디테일
             adminNoticeDetailData: [],
-            // 공지사항 수정
-            adminNoticeToUpdate: localStorage.getItem('adminNoticeToUpdate') ? JSON.parse(localStorage.getItem('adminNoticeToUpdate')) : null,
+            // 유저 정보 수정
+            adminUserToUpdate: localStorage.getItem('adminUserToUpdate') ? JSON.parse(localStorage.getItem('adminUserToUpdate')) : null,
+            // 상품 수정
+            adminProductToUpdate: localStorage.getItem('adminProductToUpdate') ? JSON.parse(localStorage.getItem('adminProductToUpdate')) : null,
             // 상품문의 답변 작성
             adminProductQnaToUpdate: localStorage.getItem('adminProductQnaToUpdate') ? JSON.parse(localStorage.getItem('adminProductQnaToUpdate')) : null,
-            // 상품문의 디테일
-            adminProductQnaDetailData: [],
             // 1:1문의 답변 작성
             adminOneByOneToUpdate: localStorage.getItem('adminOneByOneToUpdate') ? JSON.parse(localStorage.getItem('adminOneByOneToUpdate')) : null,
+            // 공지사항 수정
+            adminNoticeToUpdate: localStorage.getItem('adminNoticeToUpdate') ? JSON.parse(localStorage.getItem('adminNoticeToUpdate')) : null,
             // ----------------------- 호경 끝 ---------------------------
         }
 
@@ -295,15 +305,29 @@ const store = createStore({
         setAdminLoginFlg(state, flg) {
             state.adminLoginFlg = flg;
         },
-        // 전체 상품 정보
-        setAdminProductsData(state, data) {
-            state.adminProductData = data;
-            localStorage.setItem('adminProductData', JSON.stringify(data))
+        // 신규 유저 통계
+        setNewUserData(state, data) {
+            state.newUserData = data;
         },
         // 전체 유저 정보
         setAdminUsersData(state, data) {
             state.adminUserData = data;
             localStorage.setItem('adminUserData', JSON.stringify(data))
+        },
+        // 전체 상품 정보
+        setAdminProductsData(state, data) {
+            state.adminProductData = data;
+            localStorage.setItem('adminProductData', JSON.stringify(data))
+        },
+        // 전체 주문 정보
+        setAdminOrdersData(state, data) {
+            state.adminOrderData = data;
+            localStorage.setItem('adminOrderData', JSON.stringify(data))
+        },
+        // 전체 교환 및 반품 정보
+        setAdminExchangesData(state, data) {
+            state.adminExchangeData = data;
+            localStorage.setItem('adminExchangeData', JSON.stringify(data))
         },
         // 전체 1:1문의 정보
         setAdminOneByOnesData(state, data) {
@@ -320,14 +344,23 @@ const store = createStore({
             state.adminNoticeData = data;
             localStorage.setItem('adminNoticeData', JSON.stringify(data))
         },
+        // 상품 목록 게시글 가장 앞에 추가
+        setUnshiftAdminProductData(state, data) {
+            state.adminProdcutDetailData.unshift(data);
+        },
         // 공지사항 작성 게시글 가장 앞에 추가
         setUnshiftAdminNoticeData(state, data) {
             state.adminNoticeDetailData.unshift(data);
         },
-        // 공지사항 리스트에서 수정 페이지로 넘어갈때 데이터 전달
-        setAdminNoticeToUpdate(state, data) {
-            state.adminNoticeToUpdate = data;
-            localStorage.setItem('adminNoticeToUpdate', JSON.stringify(data));
+        // 유저 목록에서 수정 페이지로 넘어갈때 데이터 전달
+        setAdminUserToUpdate(state, data) {
+            state.adminUserToUpdate = data;
+            localStorage.setItem('adminUserToUpdate', JSON.stringify(data));
+        },
+        // 상품 목록에서 수정 페이지로 넘어갈때 데이터 전달
+        setAdminProductToUpdate(state, data) {
+            state.adminProductToUpdate = data;
+            localStorage.setItem('adminProductToUpdate', JSON.stringify(data));
         },
         // 상품문의 리스트에서 답변 페이지로 넘어갈때 데이터 전달
         setadminProductQnaToUpdate(state, data) {
@@ -338,6 +371,11 @@ const store = createStore({
         setadminOneByOneToUpdate(state, data) {
             state.adminOneByOneToUpdate = data;
             localStorage.setItem('adminOneByOneToUpdate', JSON.stringify(data));
+        },
+        // 공지사항 리스트에서 수정 페이지로 넘어갈때 데이터 전달
+        setAdminNoticeToUpdate(state, data) {
+            state.adminNoticeToUpdate = data;
+            localStorage.setItem('adminNoticeToUpdate', JSON.stringify(data));
         },
         // ----------------------- 호경 끝 ---------------------------
 
@@ -1438,322 +1476,503 @@ const store = createStore({
         // ----------------------- 호경 끝 ---------------------------
 
         // --------------------------------------------------------------------- 관리자 페이지 -------------------------------------------------------------------------
-            // ----------------------- 보원 시작 ---------------------------
-            // ----------------------- 보원 끝 ---------------------------
+        // ----------------------- 보원 시작 ---------------------------
+        // ----------------------- 보원 끝 ---------------------------
 
-            // ----------------------- 성환 시작 ---------------------------
-            // ----------------------- 성환 끝 ---------------------------
+        // ----------------------- 성환 시작 ---------------------------
+        // ----------------------- 성환 끝 ---------------------------
 
-            // ----------------------- 민서 시작 ---------------------------
-            // ----------------------- 민서 끝 ---------------------------
+        // ----------------------- 민서 시작 ---------------------------
+        // ----------------------- 민서 끝 ---------------------------
 
-            // ----------------------- 호경 시작 ---------------------------
-            /**
-             * 관리자 로그인 처리
-             * 
-             * @param {*} context 
-             */
-            adminLogin(context) {
-                const url = '/api/admin/login';
-                const form = document.querySelector('#admin_login_form');
-                const data = new FormData(form);
-                axios.post(url, data)
-                .then(responseData => {
-                    // localStorage.setItem('userInfo', JSON.stringify(responseData.data.data));
-                    // context.commit('setUserInfo', responseData.data.data);
-                    // context.commit('setAuthFlg', true);
-                    localStorage.setItem('adminInfo', JSON.stringify(responseData.data.data));
-                    // context.commit('setAdminInfo', responseData.data.data);
-                    context.commit('setAdminLoginFlg', true);
-                    router.replace('/admin/main');
-                })
-                .catch(responseData => {
-                    alert('로그인을 실패했습니다.');
-                    form.reset();
-                });
-            },
+        // ----------------------- 호경 시작 ---------------------------
+        /**
+         * 관리자 로그인 처리
+         * 
+         * @param {*} context 
+         */
+        adminLogin(context) {
+            const url = '/api/admin/login';
+            const form = document.querySelector('#admin_login_form');
+            const data = new FormData(form);
+            axios.post(url, data)
+            .then(responseData => {
+                // localStorage.setItem('userInfo', JSON.stringify(responseData.data.data));
+                // context.commit('setUserInfo', responseData.data.data);
+                // context.commit('setAuthFlg', true);
+                localStorage.setItem('adminInfo', JSON.stringify(responseData.data.data));
+                // context.commit('setAdminInfo', responseData.data.data);
+                context.commit('setAdminLoginFlg', true);
+                router.replace('/admin/main');
+            })
+            .catch(responseData => {
+                alert('로그인을 실패했습니다.');
+                form.reset();
+            });
+        },
 
-            /**
-             * 관리자 로그아웃 처리
-             * 
-             * @param {*} context 
-             */
-            adminLogout(context) {
-                const url = '/api/admin/logout';
-                axios.post(url)
-                .then(responseData => {
-                })
-                .catch(error => {
-                    alert('로그아웃 (' + error.responseData.data.code + ')');
-                })
-                .finally(() => {
-                    localStorage.clear();
-                    context.commit('setAdminLoginFlg', null);
-                    router.replace('/admin');
-                });
-            },
+        /**
+         * 관리자 로그아웃 처리
+         * 
+         * @param {*} context 
+         */
+        adminLogout(context) {
+            const url = '/api/admin/logout';
+            axios.post(url)
+            .then(responseData => {
+            })
+            .catch(error => {
+                alert('로그아웃 (' + error.responseData.data.code + ')');
+            })
+            .finally(() => {
+                localStorage.clear();
+                context.commit('setAdminLoginFlg', null);
+                router.replace('/admin');
+            });
+        },
 
-            /**
-             * 관리자 페이지 상품 전체 획득
-             * 
-             * @param {*} context 
-             */
-            getAdminProductsData(context, page) {
-                const param = page == 1 ? '' : '?page=' + page;
-                const url = '/api/admin/product' + param;
-                
-                axios.get(url)
-                .then(response => {
-                    console.log(response.data);
-                    context.commit('setAdminProductsData', response.data.data);
-                })
-                .catch(error => {
-                    console.log(error.response);
-                    alert('전체 상품 습득에 실패했습니다.(' + error.response.data.code + ')');
-                });
-            },
+        /**
+         * 신규 유저 통계 획득
+         * 
+         * @param {*} context 
+         */
+        getNewUserData(context) {
+            const url = '/api/admin/user/new';
+            
+            axios.get(url)
+            .then(response => {
+                context.commit('setNewUserData', response.data.data);
+            })
+            .catch(error => {
+                alert('신규 유저 통계 습득에 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
 
-            /**
-             * 관리자 페이지 유저 전체 획득
-             * 
-             * @param {*} context 
-             */
-            getAdminUsersData(context, page) {
-                const param = page == 1 ? '' : '?page=' + page;
-                const url = '/api/admin/user' + param;
-                
-                axios.get(url)
-                .then(response => {
-                    console.log(response.data);
-                    context.commit('setAdminUsersData', response.data.data);
-                })
-                .catch(error => {
-                    console.log(error.response);
-                    alert('전체 상품 습득에 실패했습니다.(' + error.response.data.code + ')');
-                });
-            },
+        /**
+         * 관리자 페이지 유저 전체 획득
+         * 
+         * @param {*} context 
+         */
+        getAdminUsersData(context, page) {
+            const param = page == 1 ? '' : '?page=' + page;
+            const url = '/api/admin/user' + param;
+            
+            axios.get(url)
+            .then(response => {
+                console.log(response.data);
+                context.commit('setAdminUsersData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response);
+                alert('전체 유저 목록 습득에 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
 
-            /**
-             * 관리자 페이지 1:1문의 전체 획득
-             * 
-             * @param {*} context 
-             */
-            getAdminOneByOnesData(context, page) {
-                const param = page == 1 ? '' : '?page=' + page;
-                const url = '/api/admin/onebyone' + param;
-                
-                axios.get(url)
-                .then(response => {
-                    console.log(response.data);
-                    context.commit('setAdminOneByOnesData', response.data.data);
-                })
-                .catch(error => {
-                    console.log(error.response);
-                    alert('전체 상품 습득에 실패했습니다.(' + error.response.data.code + ')');
-                });
-            },
+        /**
+         * 유저 목록에서 유저 수정페이지로 이동
+         * 
+         * @param {*} context
+         * @param {*} item
+        */
+        adminUserToUpdate(context, item) {
+            const updateData = item;
 
-            /**
-             * 관리자 페이지 상품 문의 전체 획득
-             * 
-             * @param {*} context 
-             */
-            getAdminProductQnasData(context, page) {
-                const param = page == 1 ? '' : '?page=' + page;
-                const url = '/api/admin/productqna' + param;
-                
-                axios.get(url)
-                .then(response => {
-                    console.log(response.data);
-                    context.commit('setAdminProductQnasData', response.data.data);
-                })
-                .catch(error => {
-                    console.log(error.response);
-                    alert('전체 상품 습득에 실패했습니다.(' + error.response.data.code + ')');
-                });
-            },
+            context.commit('setAdminUserToUpdate', updateData);
+            localStorage.setItem('adminUserToUpdate', JSON.stringify(updateData));
 
-            /**
-             * 관리자 페이지 공지사항 전체 획득
-             * 
-             * @param {*} context 
-             */
-            getAdminNoticeData(context, page) {
-                const param = page == 1 ? '' : '?page=' + page;
-                const url = '/api/admin/noticelist' + param;
-                
-                axios.get(url)
-                .then(response => {
-                    console.log(response.data);
-                    context.commit('setAdminNoticesData', response.data.data);
-                })
-                .catch(error => {
-                    console.log(error.response);
-                    alert('전체 상품 습득에 실패했습니다.(' + error.response.data.code + ')');
-                });
-            },
+            router.push('/admin/user/update');
+        },
 
-            /**
-             * 공지사항 작성
-             * 
-             * @param {*} context
-             */
-            adminNoticeCreate(context) {
-                const url = '/api/admin/notice/create';
-                const data = new FormData(document.querySelector('#adminNoticeCreateForm'));
+        /**
+         * 유저 정보 수정 페이지에서 수정 완료
+         * 
+         * @param {*} context
+        */
+        userUpdateSubmit(context, id) {
+            const url = '/api/admin/user/update/' + id;
+            const data = new FormData(document.querySelector('#adminUserUpdateForm'));
 
-                axios.post(url, data)
-                .then(response => {
-                    if(context.state.adminNoticeData.length > 1) {
-                        context.commit('setUnshiftAdminNoticeData', response.data.data);
-                        context.commit('getAdminNoticeData', context.state.adminNoticeData.current_page);
-                    }
-                    
-                    console.log(response.data); 
-                    router.replace('/admin/notice');
-                })
-                .catch(error => {
-                    console.log(error.response);
-                    alert('글 작성에 실패했습니다.(' + error.response.data.code + ')');
-                });
-            },
+            axios.post(url, data)
+            .then(response => {
 
-            /**
-             * 공지사항 삭제
-             * 
-             * @param {*} context
-             */
-            adminNoticeDeleted(context, no_id) {
-                const url = '/api/admin/notice/delete/' + no_id;
-                if (confirm('확인을 누르면 작성한 공지사항이 삭제됩니다.')) {
-                    axios.delete(url)
-                    .then(responseData => {
-                        context.dispatch('getAdminNoticeData', lastItemPaginate(context.state.adminNoticeData));
-                    })
-                    .catch(error => {
-                        alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
-                    });
+                context.commit('setAdminUserToUpdate', response.data.data);
+                localStorage.setItem('adminUserToUpdate', JSON.stringify(response.data.data));
+
+                if(confirm('유저 정보를 수정 완료하였습니다. \n확인을 누르면 리스트로 돌아갑니다.')){
+                    router.push('/admin/user');
                 }
-            },
+            })
+            .catch(error => {
+                alert('공지사항 수정에 실패하였습니다.(' + error.response.data.code + ')' )
+            });
+        }, 
+
+        /**
+         * 관리자 페이지 상품 전체 획득
+         * 
+         * @param {*} context 
+         */
+        getAdminProductsData(context, page) {
+            const param = page == 1 ? '' : '?page=' + page;
+            const url = '/api/admin/product' + param;
             
-            /**
-             * 공지사항 리스트에서 공지사항 수정페이지로 이동
-             * 
-             * @param {*} context
-             * @param {*} item
-            */
-            adminNoticeToUpdate(context, item) {
-                const noticeUpdateData = item;
+            axios.get(url)
+            .then(response => {
+                console.log(response.data);
+                context.commit('setAdminProductsData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response);
+                alert('전체 상품 목록 습득에 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
 
-                context.commit('setAdminNoticeToUpdate', noticeUpdateData);
-                localStorage.setItem('adminNoticeToUpdate', JSON.stringify(noticeUpdateData));
+        /**
+         * 상품 추가
+         * 
+         * @param {*} context
+         */
+        adminProductCreate(context) {
+            const url = '/api/admin/product/create';
+            const data = new FormData(document.querySelector('#adminProductCreateForm'));
 
-                router.push('/admin/notice/update');
-            },
+            axios.post(url, data)
+            .then(response => {
+                if(context.state.adminProductData.length > 1) {
+                    context.commit('setUnshiftAdminProductData', response.data.data);
+                    context.commit('getAdminProductsData', context.state.adminProductData.current_page);
+                }
+                
+                console.log(response.data); 
+                router.replace('/admin/product');
+            })
+            .catch(error => {
+                console.log(error.response);
+                alert('글 작성에 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
 
-            /**
-             * 공지사항 수정 페이지에서 수정 완료
-             * 
-             * @param {*} context
-            */
-            noticeUpdateSubmit(context) {
-                const url = '/api/admin/notice/update';
-                const data = new FormData(document.querySelector('#adminNoticeUpdateForm'));
+        /**
+         * 상품 목록에서 상품 수정페이지로 이동
+         * 
+         * @param {*} context
+         * @param {*} item
+        */
+        adminProductToUpdate(context, item) {
+            const updateData = item;
 
-                axios.post(url, data)
-                .then(response => {
+            context.commit('setAdminProductToUpdate', updateData);
+            localStorage.setItem('adminProductToUpdate', JSON.stringify(updateData));
 
-                    context.commit('setAdminNoticeToUpdate', response.data.data);
-                    localStorage.setItem('adminNoticeToUpdate', JSON.stringify(response.data.data));
+            router.push('/admin/product/update');
+        },
 
-                    if(confirm('공지사항 수정을 완료하였습니다. \n확인을 누르면 공지사항으로 돌아갑니다.')){
-                        router.replace('/admin/notice/update');
-                    }
+        /**
+        * 상품 수정 페이지에서 수정 완료
+        * 
+        * @param {*} context
+        */
+            productUpdateSubmit(context) {
+            const url = '/api/admin/product/update';
+            const data = new FormData(document.querySelector('#adminProducUpdateForm'));
+
+            axios.post(url, data)
+            .then(response => {
+
+                context.commit('setAdminUserToUpdate', response.data.data);
+                localStorage.setItem('adminProductToUpdate', JSON.stringify(response.data.data));
+
+                if(confirm('공지사항 수정을 완료하였습니다. \n확인을 누르면 리스트로 돌아갑니다.')){
+                    router.push('/admin/product');
+                }
+            })
+            .catch(error => {
+                alert('상품 수정에 실패하였습니다.(' + error.response.data.code + ')' )
+            });
+        },
+
+        /**
+         * 상품 삭제
+         * 
+         * @param {*} context
+         */
+        adminProductDeleted(context, id) {
+            const url = '/api/admin/product/delete/' + id;
+            if (confirm('확인을 누르면 상품이 삭제됩니다.')) {
+                axios.delete(url)
+                .then(responseData => {
+                    context.dispatch('getAdminProductsData', lastItemPaginate(context.state.adminProductData));
                 })
                 .catch(error => {
-                    alert('공지사항 수정에 실패하였습니다.(' + error.response.data.code + ')' )
+                    alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
                 });
-            }, 
+            }
+        },
 
-            /**
-             * 상품문의 리스트에서 상품문의 답변페이지로 이동
-             * 
-             * @param {*} context
-             * @param {*} item
-            */
-            adminProductQnaToUpdate(context, item) {
-                const UpdateData = item;
-
-                context.commit('setadminProductQnaToUpdate', UpdateData);
-                localStorage.setItem('adminProductQnaToUpdate', JSON.stringify(UpdateData));
-
-                router.push('/admin/productqna/update');
-            },
-
-            /**
-             * 상품문의 답변 페이지에서 답변 완료
-             * 
-             * @param {*} context
-            */
-            productQnaUpdateSubmit(context) {
-                const url = '/api/admin/productqna/update';
-                const data = new FormData(document.querySelector('#adminProductQnaUpdateForm'));
-
-                axios.post(url, data)
-                .then(response => {
-
-                    context.commit('setadminProductQnaToUpdate', response.data.data);
-                    localStorage.setItem('adminProductQnaToUpdate', JSON.stringify(response.data.data));
-
-                    if(confirm('상품문의 수정을 완료하였습니다. \n확인을 누르면 상품문의 페이지로 돌아갑니다.')){
-                        router.replace('/admin/productqna/update');
-                    }
-                })
-                .catch(error => {
-                    alert('상품문의 수정에 실패하였습니다.(' + error.response.data.code + ')' )
-                });
-            },
+        /**
+         * 관리자 페이지 주문 전체 획득
+         * 
+         * @param {*} context 
+         */
+        getAdminOrdersData(context, page) {
+            const param = page == 1 ? '' : '?page=' + page;
+            const url = '/api/admin/order' + param;
             
-            /**
-             * 1:1문의 리스트에서 1:1문의 답변페이지로 이동
-             * 
-             * @param {*} context
-             * @param {*} item
-            */
-            adminOneByOneToUpdate(context, item) {
-                const UpdateData = item;
+            axios.get(url)
+            .then(response => {
+                console.log(response.data);
+                context.commit('setAdminOrdersData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response);
+                alert('전체 주문 목록 습득에 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
 
-                context.commit('setadminOneByOneToUpdate', UpdateData);
-                localStorage.setItem('adminOneByOneToUpdate', JSON.stringify(UpdateData));
+        /**
+         * 관리자 페이지 교환 및 반품 전체 획득
+         * 
+         * @param {*} context 
+         */
+        getAdminExchangesData(context, page) {
+            const param = page == 1 ? '' : '?page=' + page;
+            const url = '/api/admin/exchange' + param;
+            
+            axios.get(url)
+            .then(response => {
+                console.log(response.data);
+                context.commit('setAdminExchangesData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response);
+                alert('전체 교환 및 반품 목록 습득에 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
 
-                router.push('/admin/onebyone/update');
-            },
+        /**
+         * 관리자 페이지 1:1문의 전체 획득
+         * 
+         * @param {*} context 
+         */
+        getAdminOneByOnesData(context, page) {
+            const param = page == 1 ? '' : '?page=' + page;
+            const url = '/api/admin/onebyone' + param;
+            
+            axios.get(url)
+            .then(response => {
+                console.log(response.data);
+                context.commit('setAdminOneByOnesData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response);
+                alert('전체 1:1문의 목록 습득에 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
 
-            /**
-             * 1:1문의 답변 페이지에서 답변 완료
-             * 
-             * @param {*} context
-            */
-            oneByOneUpdate(context) {
-                const url = '/api/admin/onebyone/update';
-                const data = new FormData(document.querySelector('#adminOneByOneUpdateForm'));
+        /**
+         * 1:1문의 리스트에서 1:1문의 답변페이지로 이동
+         * 
+         * @param {*} context
+         * @param {*} item
+        */
+        adminOneByOneToUpdate(context, item) {
+            const UpdateData = item;
 
-                axios.post(url, data)
-                .then(response => {
+            context.commit('setadminOneByOneToUpdate', UpdateData);
+            localStorage.setItem('adminOneByOneToUpdate', JSON.stringify(UpdateData));
 
-                    context.commit('setadminOneByOneToUpdate', response.data.data);
-                    localStorage.setItem('adminOneByOneToUpdate', JSON.stringify(response.data.data));
+            router.push('/admin/onebyone/update');
+        },
 
-                    if(confirm('1:1문의 답변을 완료하였습니다. \n확인을 누르면 1:1문의 페이지로 돌아갑니다.')){
-                        router.replace('/admin/onebyone/update');
-                    }
+        /**
+         * 1:1문의 답변 페이지에서 답변 완료
+         * 
+         * @param {*} context
+        */
+        oneByOneUpdate(context) {
+            const url = '/api/admin/onebyone/update';
+            const data = new FormData(document.querySelector('#adminOneByOneUpdateForm'));
+
+            axios.post(url, data)
+            .then(response => {
+
+                context.commit('setadminOneByOneToUpdate', response.data.data);
+                localStorage.setItem('adminOneByOneToUpdate', JSON.stringify(response.data.data));
+
+                if(confirm('1:1문의 답변을 완료하였습니다. \n확인을 누르면 리스트로 돌아갑니다.')){
+                    router.push('/admin/onebyone');
+                }
+            })
+            .catch(error => {
+                alert('1:1문의 작성에 실패하였습니다.(' + error.response.data.code + ')' )
+            });
+        }, 
+
+        /**
+         * 관리자 페이지 상품 문의 전체 획득
+         * 
+         * @param {*} context 
+         */
+        getAdminProductQnasData(context, page) {
+            const param = page == 1 ? '' : '?page=' + page;
+            const url = '/api/admin/productqna' + param;
+            
+            axios.get(url)
+            .then(response => {
+                console.log(response.data);
+                context.commit('setAdminProductQnasData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response);
+                alert('전체 상품 문의 목록 습득에 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
+
+        /**
+         * 상품문의 리스트에서 상품문의 답변페이지로 이동
+         * 
+         * @param {*} context
+         * @param {*} item
+        */
+        adminProductQnaToUpdate(context, item) {
+            const UpdateData = item;
+
+            context.commit('setadminProductQnaToUpdate', UpdateData);
+            localStorage.setItem('adminProductQnaToUpdate', JSON.stringify(UpdateData));
+
+            router.push('/admin/productqna/update');
+        },
+
+        /**
+         * 상품문의 답변 페이지에서 답변 완료
+         * 
+         * @param {*} context
+        */
+        productQnaUpdateSubmit(context) {
+            const url = '/api/admin/productqna/update';
+            const data = new FormData(document.querySelector('#adminProductQnaUpdateForm'));
+
+            axios.post(url, data)
+            .then(response => {
+
+                context.commit('setadminProductQnaToUpdate', response.data.data);
+                localStorage.setItem('adminProductQnaToUpdate', JSON.stringify(response.data.data));
+
+                if(confirm('상품문의 작성 완료하였습니다. \n확인을 누르면 리스트로 돌아갑니다.')){
+                    router.push('/admin/productqna');
+                }
+            })
+            .catch(error => {
+                alert('상품문의 작성 실패하였습니다.(' + error.response.data.code + ')' )
+            });
+        },
+
+        /**
+         * 관리자 페이지 공지사항 전체 획득
+         * 
+         * @param {*} context 
+         */
+        getAdminNoticeData(context, page) {
+            const param = page == 1 ? '' : '?page=' + page;
+            const url = '/api/admin/noticelist' + param;
+            
+            axios.get(url)
+            .then(response => {
+                console.log(response.data);
+                context.commit('setAdminNoticesData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response);
+                alert('전체 공지사항 목록 습득에 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
+
+        /**
+         * 공지사항 작성
+         * 
+         * @param {*} context
+         */
+        adminNoticeCreate(context) {
+            const url = '/api/admin/notice/create';
+            const data = new FormData(document.querySelector('#adminNoticeCreateForm'));
+
+            axios.post(url, data)
+            .then(response => {
+                if(context.state.adminNoticeData.length > 1) {
+                    context.commit('setUnshiftAdminNoticeData', response.data.data);
+                    context.commit('getAdminNoticeData', context.state.adminNoticeData.current_page);
+                }
+                
+                console.log(response.data); 
+                router.replace('/admin/notice');
+
+                // 폼 초기화
+                form.reset();
+            })
+            .catch(error => {
+                console.log(error.response);
+                alert('공지사항 작성에 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
+        
+        /**
+         * 공지사항 리스트에서 공지사항 수정페이지로 이동
+         * 
+         * @param {*} context
+         * @param {*} item
+        */
+        adminNoticeToUpdate(context, item) {
+            const updateData = item;
+
+            context.commit('setAdminNoticeToUpdate', updateData);
+            localStorage.setItem('adminNoticeToUpdate', JSON.stringify(updateData));
+
+            router.push('/admin/notice/update');
+        },
+
+        /**
+         * 공지사항 수정 페이지에서 수정 완료
+         * 
+         * @param {*} context
+        */
+        noticeUpdateSubmit(context) {
+            const url = '/api/admin/notice/update';
+            const data = new FormData(document.querySelector('#adminNoticeUpdateForm'));
+
+            axios.post(url, data)
+            .then(response => {
+
+                context.commit('setAdminNoticeToUpdate', response.data.data);
+                localStorage.setItem('adminNoticeToUpdate', JSON.stringify(response.data.data));
+
+                if(confirm('공지사항 수정을 완료하였습니다. \n확인을 누르면 리스트로 돌아갑니다.')){
+                    router.push('/admin/notice');
+                }
+            })
+            .catch(error => {
+                alert('공지사항 수정에 실패하였습니다.(' + error.response.data.code + ')' )
+            });
+        }, 
+
+        /**
+         * 공지사항 삭제
+         * 
+         * @param {*} context
+         */
+        adminNoticeDeleted(context, no_id) {
+            const url = '/api/admin/notice/delete/' + no_id;
+            if (confirm('확인을 누르면 작성한 공지사항이 삭제됩니다.')) {
+                axios.delete(url)
+                .then(responseData => {
+                    context.dispatch('getAdminNoticeData', lastItemPaginate(context.state.adminNoticeData));
                 })
                 .catch(error => {
-                    alert('상품문의 수정에 실패하였습니다.(' + error.response.data.code + ')' )
+                    alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
                 });
-            }, 
+            }
+        },
 
-            // ----------------------- 호경 끝 ---------------------------
+        // ----------------------- 호경 끝 ---------------------------
 
     }
 })

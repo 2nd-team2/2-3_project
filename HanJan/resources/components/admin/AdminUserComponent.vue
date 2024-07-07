@@ -2,16 +2,16 @@
     <div class="admin">
         <h2 class="admin_title">유저 관리</h2>
         <div class="admin_users_list_container">
-            <div class="admin_users_list_num">번호</div>
-            <div class="admin_users_list_name">이름</div>
-            <div class="admin_users_list_email">이메일</div>
-            <div class="admin_users_list_tell">휴대전화</div>
-            <div class="admin_users_list_adds">주소</div>
-            <div class="admin_users_list_post">우편번호</div>
-            <div class="admin_users_list_birth">생일</div>
-            <div class="admin_users_list_created">가입일</div>
-            <div class="admin_users_list_updated">수정일</div>
-            <div class="admin_users_list_deleted">탈퇴일</div>
+            <div class="admin_users_list_num admin_weight">번호</div>
+            <div class="admin_users_list_name admin_weight">이름</div>
+            <div class="admin_users_list_email admin_weight">이메일</div>
+            <div class="admin_users_list_tell admin_weight">휴대전화</div>
+            <div class="admin_users_list_adds admin_weight">주소</div>
+            <div class="admin_users_list_post admin_weight">우편번호</div>
+            <div class="admin_users_list_birth admin_weight">생일</div>
+            <div class="admin_users_list_created admin_weight">가입일</div>
+            <div class="admin_users_list_updated admin_weight">수정일</div>
+            <div class="admin_users_list_deleted admin_weight">탈퇴일</div>
         </div>
         <div v-for="user in $store.state.adminUserData.data" :key="user.id" class="admin_users_list_container admin_paddingtop">
             <div class="admin_users_list_num">{{ user.id }}</div>
@@ -24,7 +24,7 @@
             <div class="admin_users_list_created">{{ user.created_at }}</div>
             <div class="admin_users_list_updated">{{ user.updated_at }}</div>
             <div class="admin_users_list_deleted">{{ user.deleted_at }}</div>
-            <button class="admin_btn">수정하기</button>
+            <button v-if="user.deleted_at == null" @click="userUpdate(user)" type="button" class="admin_btn">수정하기</button>
         </div>
 
         <!-- 페이지네이션 -->
@@ -101,8 +101,13 @@ import { onBeforeMount } from 'vue';
         }
     }
 
+    // 공지사항 수정 페이지로 정보 넘기기
+    function userUpdate(item) {
+        store.dispatch('adminUserToUpdate', item);
+    }
+
 </script>
 
 <style>
-
+    
 </style>

@@ -2,12 +2,12 @@
     <div class="admin">
         <h2 class="admin_title">상품 문의 관리</h2>
         <div class="admin_productqna_list_container">
-            <div class="admin_productqna_list_name">유저 이름</div>
-            <div class="admin_productqna_list_content">문의 내용</div>
-            <div class="admin_productqna_list_answer">답변 내용</div>
-            <div class="admin_productqna_list_date">작성일</div>
-            <div class="admin_productqna_list_updated">수정일</div>
-            <div class="admin_productqna_list_deleted">삭제일</div>
+            <div class="admin_productqna_list_name admin_weight">유저 이름</div>
+            <div class="admin_productqna_list_content admin_weight">문의 내용</div>
+            <div class="admin_productqna_list_answer admin_weight">답변 내용</div>
+            <div class="admin_productqna_list_date admin_weight">작성일</div>
+            <div class="admin_productqna_list_updated admin_weight">수정일</div>
+            <div class="admin_productqna_list_deleted admin_weight">삭제일</div>
         </div>
         <div v-for="productqna in $store.state.adminProductQnaData.data" :key="productqna.qnp_id" class="admin_productqna_list_container admin_paddingtop">
             <div class="admin_productqna_list_name">{{ productqna.name }}</div>
@@ -16,7 +16,7 @@
             <div class="admin_productqna_list_date">{{ productqna.created_at }}</div>
             <div class="admin_productqna_list_updated">{{ productqna.updated_at }}</div>
             <div class="admin_productqna_list_deleted">{{ productqna.deleted_at }}</div>
-            <button @click="productqnaUpdate(productqna)" class="admin_btn">답변하기</button>
+            <button v-if="productqna.deleted_at == null" @click="productqnaUpdate(productqna)" class="admin_btn">답변하기</button>
         </div>
     
         <!-- 페이지네이션 -->

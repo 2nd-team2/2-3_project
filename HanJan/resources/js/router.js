@@ -37,6 +37,11 @@ import AdminNoticeCreateComponent from '../components/admin/AdminNoticeCreateCom
 import AdminNoticeUpdateComponent from '../components/admin/AdminNoticeUpdateComponent.vue';
 import AdminProductQnaUpdateComponent from '../components/admin/AdminProductQnaUpdateComponent.vue';
 import AdminOneByOneUpdateComponent from '../components/admin/AdminOneByOneUpdateComponent.vue';
+import AdminExchangeComponent from '../components/admin/AdminExchangeComponent.vue';
+import AdminOrderComponent from '../components/admin/AdminOrderComponent.vue';
+import AdminProductCreateComponent from '../components/admin/AdminProductCreateComponent.vue';
+import AdminProductUpdateComponent from '../components/admin/AdminProductUpdateComponent.vue';
+import AdminUserUpdateComponent from '../components/admin/AdminUserUpdateComponent.vue';
 
 const routes = [
     {
@@ -281,8 +286,13 @@ const routes = [
         beforeEnter: chkAdmin
     },
     {
-        path: '/admin/users',
+        path: '/admin/user',
         component: AdminUserComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/user/update',
+        component: AdminUserUpdateComponent,
         beforeEnter: chkAdmin
     },
     {
@@ -291,13 +301,33 @@ const routes = [
         beforeEnter: chkAdmin
     },
     {
+        path: '/admin/product/create',
+        component: AdminProductCreateComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/product/update',
+        component: AdminProductUpdateComponent,
+        beforeEnter: chkAdmin
+    },
+    {
         path: '/admin/productqna',
         component: AdminProductQnaComponent,
         beforeEnter: chkAdmin
     },
     {
+        path: '/admin/productqna/update',
+        component: AdminProductQnaUpdateComponent,
+        beforeEnter: chkAdmin
+    },
+    {
         path: '/admin/onebyone',
         component: AdminOneByOneComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/onebyone/update',
+        component: AdminOneByOneUpdateComponent,
         beforeEnter: chkAdmin
     },
     {
@@ -316,15 +346,16 @@ const routes = [
         beforeEnter: chkAdmin
     },
     {
-        path: '/admin/productqna/update',
-        component: AdminProductQnaUpdateComponent,
+        path: '/admin/exchange',
+        component: AdminExchangeComponent,
         beforeEnter: chkAdmin
     },
     {
-        path: '/admin/onebyone/update',
-        component: AdminOneByOneUpdateComponent,
+        path: '/admin/order',
+        component: AdminOrderComponent,
         beforeEnter: chkAdmin
     },
+
     // 에러 페이지
     {
         path: '/:pathMatch(.*)*',

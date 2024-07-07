@@ -41,6 +41,8 @@ class NoticeController extends Controller
         
         return response()->json($responseData, 200);
     }
+    
+    // --------------------------------------------------------------------- 관리자 페이지 -------------------------------------------------------------------------
 
     // 관리자 페이지 공지사항 획득
     public function adminNoticeIndex() {
@@ -64,8 +66,8 @@ class NoticeController extends Controller
         $validator = Validator::make(
             $request->only('no_title', 'no_content')
             ,[
-                'no_title'=> ['required'],
-                'no_content'=> ['required']
+                'no_title'=> ['required', 'max:50', 'regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u'],
+                'no_content'=> ['required', 'max:1000', 'regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
             ]
         );
         // 유효성 검사 실패 체크
@@ -112,8 +114,8 @@ class NoticeController extends Controller
         $validator = Validator::make(
             $requestData
             , [
-                'no_title' => ['required']
-                ,'no_content' => ['required']
+                'no_title' => ['required', 'max:50', 'regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
+                ,'no_content' => ['required', 'max:1000', 'regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
             ]
         );
 

@@ -16,9 +16,13 @@ a {
     display: block;
 }
 
+input {
+    padding: 10px;
+}
+
 /* 관리자페이지 공통사항 */
 .admin {
-    width: 90%;
+    width: 95%;
     margin: 20px auto;
 }
 
@@ -125,12 +129,13 @@ a {
 }
 
 .admin_btn_box {
-    margin: 20px 0 0 67rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    margin: 20px 0;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .admin_btn {
+    margin: 0 10px;
     border: none;
     border-radius: 20px;
     background-color: #5c5c5c;
@@ -141,6 +146,22 @@ a {
 }
 
 .admin_btn:hover {
+    background-color: black;
+}
+
+.admin_create_btn {
+    margin-left: 8px;
+    background-color: #5c5c5c;
+    color: white;
+    width: 100px;
+    height: 35px;
+    border-radius: 20px;
+    line-height: 35px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.admin_create_btn:hover {
     background-color: black;
 }
 
@@ -156,6 +177,10 @@ a {
 
 .admin_title_content {
     margin: 10px;
+}
+
+.admin_weight{
+    font-weight: 800;
 }
 
 .admin_item_content {
@@ -188,12 +213,19 @@ a {
     text-align: center;
     line-height: 40px;
 }
+
 .admin_num_none:hover {
     border-bottom: 3px solid #5c5c5c;
     width: 41px;
     height: 40px;
     text-align: center;
     line-height: 40px;
+}
+
+.admin_error {
+    color: red;
+    font-weight: 600;
+    grid-column: 2 / 3;
 }
 
 /* ---------------------- 로그인 ---------------------- */
@@ -237,11 +269,25 @@ a {
     background-color: #5c5c5c;
 }
 
+.admin_title_box {
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: 6fr 0.5fr;
+    border-bottom: 1px solid #5c5c5c;
+    justify-items: stretch;
+    align-items: center;
+}
+
 .admin_title {
     font-size: 1.8rem;
     margin-bottom: 10px;
     padding-bottom: 15px;
     border-bottom: 1px solid #5c5c5c;
+}
+
+.admin_title2 {
+    font-size: 1.8rem;
+    padding-bottom: 15px;
 }
 
 .admin_paddingtop {
@@ -259,8 +305,6 @@ a {
 .admin_user_new {
     border: 1px solid #5c5c5c;
     font-size: 1.2rem;
-    grid-column: 1 / 2;
-    grid-row: 1 / 2;
 }
 
 .admin_user_all {
@@ -288,6 +332,7 @@ a {
     border: 1px solid #5c5c5c;
     height: 400px;
 }
+
 /* ---------------------- 유저 ---------------------- */
 .admin_users_list_container {
     display: grid;
@@ -296,46 +341,180 @@ a {
     justify-items: center;
     border-bottom: 1px solid #5c5c5c;
     padding-bottom: 10px;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
+}
+
+.admin_user_input_box {
+    margin: 20px 100px;
+    display: grid;
+    grid-template-columns: 1fr 10fr;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin_user_info0 {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+}
+ 
+.admin_user_info1,
+.admin_user_info3,
+.admin_user_info5,
+.admin_user_info7,
+.admin_user_info9,
+.admin_user_info11,
+.admin_user_info13 {
+    grid-column: 2 / 3;
+}
+ 
+.admin_user_info2 {
+    grid-column: 1 / 2;
+    grid-row: 4 / 5;
+}
+ 
+.admin_user_info4 {
+    grid-column: 1 / 2;
+    grid-row: 6 / 7;
+}
+
+.admin_user_info6 {
+    grid-column: 1 / 2;
+    grid-row: 8 / 9;
+}
+
+.admin_user_info8,
+.admin_user_info10 {
+    grid-column: 1 / 2;
+}
+
+.admin_user_info12 {
+    grid-column: 1 / 2;
+    grid-row:  13 / 14;
+}
+
+.admin_user_input_box > label,
+.admin_input_box > label {
+    margin-right: 20px;
+}
+
+.admin_user_date {
+    width: 200px;
 }
 
 /* ---------------------- 상품 ---------------------- */
 .admin_product_list_container {
     display: grid;
-    grid-template-columns: 0.4fr 1fr 0.4fr 0.4fr 0.4fr 0.4fr 0.4fr 0.4fr 0.4fr;
+    grid-template-columns: 0.2fr 0.5fr 0.8fr 0.4fr 0.3fr 0.2fr 0.2fr 0.2fr 0.4fr 0.4fr 0.4fr 0.4fr 0.4fr;
     align-items: center;
     justify-items: center;
     border-bottom: 1px solid #5c5c5c;
     padding-bottom: 10px;
+    font-size: 0.9rem;
+    gap: 10px;
+}
+
+.admin_input_box {
+    margin: 20px 100px;
+    display: grid;
+    grid-template-columns: 1fr 10fr;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin_type_container {
+    grid-column: 1 / 3;
+    display: grid;
+    grid-template-columns: 1fr 2.5fr 2.5fr 2.5fr 2.5fr;
+    gap: 10px;
+}
+
+.admin_type_box {
+    margin-left: 5px;
+}
+
+.admin_type_box > input {
+    margin-right: 5px;
+}
+
+.admin_season_container {
+    grid-column: 1 / 3;
+    display: grid;
+    grid-template-columns: 1fr 2.5fr 2.5fr 2.5fr 2.5fr;
+    gap: 10px;
+}
+
+.admin_season_box {
+    margin-left: 5px;
+}
+
+.admin_season_box > input {
+    margin-right: 5px;
+}
+
+.admin_product_list_img1 {
+    width: 100px;
+}
+
+.admin_prodcut_info0 {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+}
+ 
+.admin_prodcut_info2 {
+    grid-column: 1 / 2 ;
+    grid-row: 4 / 5;
+}
+ 
+.admin_prodcut_info4 {
+    grid-column: 1 / 2;
+    grid-row: 6 / 7;
+}
+
+.admin_prodcut_info6 {
+    grid-column: 1 / 2;
+    grid-row: 8 / 9;
+}
+
+.admin_prodcut_info1,
+.admin_prodcut_info3,
+.admin_prodcut_info5,
+.admin_prodcut_info7,
+.admin_prodcut_info9,
+.admin_prodcut_info11{
+    grid-column: 2 / 3;
+}
+ 
+.admin_prodcut_info8,
+.admin_prodcut_info10 {
+    grid-column: 1 / 2;
+}
+
+ 
+/* ---------------------- 교환 반품 ---------------------- */
+.admin_exchange_list_container {
+    display: grid;
+    grid-template-columns: 0.5fr 0.4fr 1fr 0.4fr 0.5fr 0.3fr 0.4fr 0.3fr 0.4fr 0.4fr;
+    align-items: center;
+    justify-items: center;
+    border-bottom: 1px solid #5c5c5c;
+    padding-bottom: 10px;
+    font-size: 0.9rem;
+    gap: 10px;
+}
+/* ---------------------- 주문 ---------------------- */
+
+.admin_order_list_container {
+    display: grid;
+    grid-template-columns: 0.2fr 0.5fr 0.4fr 0.5fr 0.4fr 1fr 0.4fr 0.4fr 0.4fr;
+    align-items: center;
+    justify-items: center;
+    border-bottom: 1px solid #5c5c5c;
+    padding-bottom: 10px;
+    font-size: 0.9rem;
+    gap: 10px;
 }
 
 /* ---------------------- 문의 공지 ---------------------- */
-.admin_notice_box {
-    margin-bottom: 10px;
-    display: grid;
-    grid-template-columns: 4.5fr 0.5fr;
-    border-bottom: 1px solid #5c5c5c;
-    justify-items: stretch;
-    align-items: center;
-}
-
-.admin_notice_title {
-    font-size: 1.8rem;
-    padding-bottom: 15px;
-}
-
-.admin_notice_create {
-    margin-left: 8px;
-    background-color: #5c5c5c;
-    color: white;
-    width: 100px;
-    height: 35px;
-    border-radius: 20px;
-    line-height: 35px;
-    cursor: pointer;
-    text-align: center;
-}
-
 .admin_notice_list_container {
     display: grid;
     grid-template-columns: 0.4fr 1fr 1.5fr 0.4fr 0.4fr 0.4fr 0.4fr 0.4fr;
@@ -343,7 +522,8 @@ a {
     justify-items: center;
     border-bottom: 1px solid #5c5c5c;
     padding-bottom: 10px;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
+    gap: 10px;
 }
 .admin_onebyone_list_container,
 .admin_productqna_list_container {
@@ -353,12 +533,18 @@ a {
     justify-items: center;
     border-bottom: 1px solid #5c5c5c;
     padding-bottom: 10px;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
+    gap: 10px;
 }
 
 .admin_notice_list_title,
+.admin_notice_list_content,
 .admin_onebyone_list_title,
-.admin_productqna_list_title {
+.admin_productqna_list_title,
+.admin_onebyone_list_answer,
+.admin_onebyone_list_title,
+.admin_productqna_list_content,
+.admin_productqna_list_answer {
     text-align: center;
     text-overflow: ellipsis;
     display: -webkit-box; /* Flexbox를 사용하여 박스 모델로 표시 */

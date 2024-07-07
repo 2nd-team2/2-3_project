@@ -373,4 +373,20 @@ class OrderController extends Controller
     //     return response()->json($responseData);
     // }
     
+    // --------------------------------------------------------------------- 관리자 페이지 -------------------------------------------------------------------------
+    // 관리자 페이지 주문목록 획득
+    public function adminOrderIndex() {
+        $orderData = Order::withTrashed()
+                            ->select('orders.*', 'users.name', 'users.tel')
+                            ->join('users','orders.u_id','=','users.id')
+                            ->orderBy('orders.created_at', 'DESC')
+                            ->paginate(15);
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '주문목록 획득 완료'
+            ,'data' => $orderData->toArray()
+        ];
+
+        return response()->json($responseData, 200);
+    }
 }

@@ -54,7 +54,7 @@ class QnaController extends Controller
         $validator = Validator::make(
             $request->only('qnp_content')
             ,[
-                'qnp_content'=> ['required']
+                'qnp_content'=> ['required', 'max:1000', 'regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
             ]
         );
         // 유효성 검사 실패 체크
@@ -82,7 +82,7 @@ class QnaController extends Controller
         $validator = Validator::make(
             $request->only('qn_content')
             ,[
-                'qn_content'=> ['required']
+                'qn_content'=> ['required', 'max:1000', 'regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
             ]
         );
         // 유효성 검사 실패 체크
@@ -191,8 +191,8 @@ class QnaController extends Controller
         $adminOneByOneData = Qna::withTrashed()
                             ->select('qnas.*', 'users.name','qnas.deleted_at')
                             ->join('users','qnas.u_id','=','users.id')
-                            ->orderByRaw('CASE WHEN qnas.deleted_at IS NULL THEN 0 ELSE 1 END')
-                            ->orderBy('qnas.deleted_at', 'DESC')
+                            ->orderBy('qnas.deleted_at', 'ASC')
+                            ->orderBy('qnas.qn_answer', 'ASC')
                             ->orderBy('qnas.created_at', 'DESC')
                             ->paginate(15);
 
@@ -210,8 +210,8 @@ class QnaController extends Controller
         $adminProductQnaData = Qnaproduct::withTrashed()
                             ->select('qnaproducts.*', 'users.name', 'qnaproducts.deleted_at')
                             ->join('users','qnaproducts.u_id','=','users.id')
-                            ->orderByRaw('CASE WHEN qnaproducts.deleted_at IS NULL THEN 0 ELSE 1 END')
-                            ->orderBy('qnaproducts.deleted_at', 'DESC')
+                            ->orderBy('qnaproducts.deleted_at', 'ASC')
+                            ->orderBy('qnaproducts.qnp_answer', 'ASC')
                             ->orderBy('qnaproducts.created_at', 'DESC')
                             ->paginate(15);
 
@@ -235,7 +235,7 @@ class QnaController extends Controller
         $validator = Validator::make(
             $requestData
             , [
-                'qnp_answer' => ['required']
+                'qnp_answer' => ['required', 'max:1000', 'regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
             ]
         );
 
@@ -275,7 +275,7 @@ class QnaController extends Controller
         $validator = Validator::make(
             $requestData
             , [
-                'qn_answer' => ['required']
+                'qn_answer' => ['required', 'max:1000', 'regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
             ]
         );
 
