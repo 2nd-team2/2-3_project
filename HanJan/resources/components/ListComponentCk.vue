@@ -4,6 +4,7 @@
             <div class="list_main_img" :style="{ 'background-image': 'url(' + $store.state.currentImage + ')' }"></div>
 
             <!-- 검색 -->
+            <!-- 검색했을때 타입을 가져와 추천카테고리에 5개만 불러오기 -->
             <form name="form" onsubmit="return false">
                 <div class="list_search">
                     <input type="text" class="list_search_text" placeholder="검색어를 입력해주세요" v-model="data.search">
@@ -11,8 +12,10 @@
                 </div>
                 <!-- 추천카테고리 : 타입별 추천 리스트 불러오기 5개씩 -->
                 <ul class="list_proposal">
-                    <li class="list_pro_mun" v-for="(item, key) in $store.state.searchListData.data" :key="key.id">
-                        <div @click="productDetail(item.id)">{{item.type}} > {{item.name}}</div>
+                    <span>추천 카테고리 : </span>
+                    <li class="list_pro_mun" v-for="(item, key) in $store.state.listData.data.slice(0, 5)" :key="key.id">
+                        <div>{{item.type}}</div>
+                        <div @click="productDetail(item.id)">{{item.name}}</div>
                     </li>
                 </ul>
             </form>

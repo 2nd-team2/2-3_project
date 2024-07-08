@@ -91,9 +91,9 @@ hr {
     margin: 1rem;
     flex-direction: row;
     flex-wrap: wrap;
-    cursor: pointer;
 }
 .list_pro_mun:hover {
+    cursor: pointer;
     color: #FAC91D;
 }
 /* ------------- 메뉴 ------------- */
