@@ -31,8 +31,7 @@
                         <input class="input_width" type="email" name="email" id="email" @input="chkEmail" v-model="emailText">
                     </div>
                     <div>
-                      <button type="button" class="info_item_btn form_btn email_chk_btn" @click="$store.dispatch('chkEmailOn', emailText)">이메일 중복확인</button>
-                      <button type="button" class="info_item_btn form_btn email_chk_btn" @click="$store.dispatch('emailChk', emailText)">이메일 인증</button>
+                      <button type="button" class="info_item_btn form_btn email_chk_btn" @click="emailChk ">이메일 중복 및 인증 체크</button>
                     </div>
                 </div>
                 <hr>
@@ -195,7 +194,6 @@ function chkBirth() {
   }
 }
 
-
 function validateForm() {
     let valid = true;
 
@@ -229,6 +227,14 @@ function validateForm() {
     }
 
 }
+
+const emailChk = () => {
+    if (!emailText.value) {
+        alert('이메일을 입력해 주세요.');
+        return;
+    }
+    store.dispatch('chkEmailOn', emailText.value);
+};
 
 // 카카오 주소 API
 function kakaoPostcode() {

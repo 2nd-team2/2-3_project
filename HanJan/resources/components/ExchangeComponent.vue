@@ -42,8 +42,11 @@
                     <label for="ex_reason3" class="checkbox radio3"></label>
                     <p class="radio_p3">상품의 구성품 / 부속품이 들어있지 않음</p>
                     <input type="radio" name="ex_reason" id="ex_reason4" value="3">
-                    <label for="ex_reason4" class="checkbox radio14"></label>
+                    <label for="ex_reason4" class="checkbox radio4"></label>
                     <p class="radio_p4">상품이 파손 / 결함 되어 배송됨</p>
+                    <input type="radio" name="ex_reason" id="ex_reason5" value="4">
+                    <label for="ex_reason5" class="checkbox radio5"></label>
+                    <textarea name="ex_reason_etc" id="ex_reason_etc" rows="4" placeholder="기타 교환 및 반품 사유를 작성해주세요.(500자 이내)"></textarea>
                 </div>
             </div>
 
@@ -54,10 +57,10 @@
                 <div class="main_bottom">
                     <div class="main_bottom_name">이름</div>
                     <p class="info_item_err_msg1">{{ nameError }}</p>
-                    <input type="text" name="or_get_name" id="or_get_name" @input="chkName" v-model="name" class="main_bottom_input1">
+                    <input type="text" name="ex_name" id="ex_name" @input="chkName" v-model="name" class="main_bottom_input1">
                     <div class="main_bottom_tell">휴대폰번호</div>
                     <p class="info_item_err_msg2 ">{{ telError }}</p>
-                    <input type="text" name="or_get_tel" id="or_get_tel" @input="chkTel" v-model="tel" class="main_bottom_input2">
+                    <input type="text" name="ex_tel" id="ex_tel" @input="chkTel" v-model="tel" class="main_bottom_input2">
                     <label class="main_bottom_adds" for="address">주소</label>
                     <p class="info_item_err_msg3">{{ addressError }}</p>
                     <input type="text"  name="ex_addr" id="address" @input="chkAddress" readonly @click="kakaoPostcode" class="main_bottom_input3" v-model="address" >

@@ -120,7 +120,7 @@
 
 <script setup>
 
-    import { onBeforeMount, computed, ref, defineProps, watch  } from 'vue';
+    import { onBeforeMount, computed, ref, watch  } from 'vue';
     import { useStore } from 'vuex';
     import router from '../js/router';
     import { onBeforeRouteUpdate } from 'vue-router';

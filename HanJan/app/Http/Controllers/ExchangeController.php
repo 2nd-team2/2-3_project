@@ -44,22 +44,30 @@ class ExchangeController extends Controller
 
         // 리퀘스트 데이터 받기
         $requestData = [
-            'ex_addr' => $request->ex_addr
+            'ex_name' => $request->ex_name
+            ,'ex_tel' => $request->ex_tel
+            ,'ex_addr' => $request->ex_addr
             ,'ex_det_addr' => $request->ex_det_addr
-            ,'ex_post' => $request->or_get_tel
+            ,'ex_post' => $request->ex_post
             ,'ex_reason' => (int)$request->ex_reason
+            ,'ex_reason_etc' => $request->ex_reason_etc
         ];
 
         // 데이터 유효성 검사
-        $validator = Validator::make(
-            $requestData
-            , [
-                'ex_addr' => ['required']
-                ,'ex_det_addr' => ['required']
-                ,'ex_post' => ['required']
-                ,'ex_reason' => ['required','regex:/^[0-3]+$/']
-            ],
-        );
+        $rules = [
+            'ex_name' => ['required'],
+            'ex_tel' => ['required'],
+            'ex_addr' => ['required'],
+            'ex_det_addr' => ['required'],
+            'ex_post' => ['required'],
+            'ex_reason' => ['required', 'regex:/^[0-4]+$/']
+        ];
+        // ex_reason이 4인 경우에만 ex_reason_etc를 추가
+        if ((int)$request->ex_reason === 4) {
+            $rules['ex_reason_etc'] = ['required', 'max:500', 'regex:/^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u'];
+        }
+
+        $validator = Validator::make($requestData, $rules);
 
         // 유효성 검사 실패 체크
         if($validator->fails()) {
@@ -68,31 +76,33 @@ class ExchangeController extends Controller
         }
 
         // 주문 데이터 생성
-        $exchangData = $request->all();
-        
-        Log::debug($exchangData);
-        
-        // 작성 데이터 입력 처리
+        $exchangData = $request->only([
+            'ex_name',
+            'ex_tel',
+            'ex_addr',
+            'ex_det_addr',
+            'ex_post',
+            'ex_reason'
+        ]);
+        // ex_reason이 4인 경우에만 ex_reason_etc를 추가
+        if ((int)$request->ex_reason === 4) {
+            $exchangData['ex_reason_etc'] = $request->ex_reason_etc;
+        } else {
+            $exchangData['ex_reason_etc'] = null;
+        }
         $exchangData['u_id'] = Auth::id();
         $exchangData['orp_id'] = $request->orp_id;
-        $exchangData['ex_addr'] = $request->ex_addr; 
-        $exchangData['ex_det_addr'] = $request->ex_det_addr;
-        $exchangData['ex_post'] = $request->ex_post;
-        $exchangData['ex_reason'] = (int)$request->ex_reason;
         $exchangData['ex_flg'] = 1;
         $exchangData['created_at'] = Carbon::now();
-        
-        
+
         // 작성 저장 처리
         $exchangeCreate = Exchange::updateOrCreate(['orp_id' => $request->orp_id], $exchangData);
-
-        Log::debug($exchangeCreate);
-        
+    
         // 레스폰스 데이터 생성
         $responseData = [
-            'code' => '0'
-            ,'msg' => '주문 완료'
-            ,'data' => $exchangeCreate
+            'code' => '0',
+            'msg' => '주문 완료',
+            'data' => $exchangeCreate
         ];
 
         return response()->json($responseData, 200);

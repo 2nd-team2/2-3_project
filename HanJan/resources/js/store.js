@@ -24,6 +24,9 @@ const store = createStore({
             exchangeProduct : [],
             // 카카오 로그인 이메일 데이터
             kakaoInfo: localStorage.getItem('kakaoInfo') ? JSON.parse(localStorage.getItem('kakaoInfo')) : null,
+            // 이메일 인증
+            email: '',
+            emailVerified: false,
             
             // ----------------------- 보원 끝 ---------------------------
             // ----------------------- 성환 시작 -------------------------
@@ -160,6 +163,13 @@ const store = createStore({
         kakaoInfo(state, data) {
             state.kakaoInfo = data;
             localStorage.setItem('kakaoInfo', JSON.stringify(data));
+        },
+        // 이메일 인증
+        setEmail(state, email) {
+            state.email = email;
+        },
+        setEmailVerified(state, verified) {
+            state.emailVerified = verified;
         },
 
         // ----------------------- 보원 끝 ---------------------------
@@ -844,13 +854,10 @@ const store = createStore({
          * @param {*} context 
          * @param {*} emailText
          */
-        emailChk(context, emailText) {
-            if (!emailText) {
-                alert('이메일을 입력해 주세요.');
-                return;
-            }
+        chkEmailOn(context, emailText) {
+            // 1. 이메일 중복 체크
             const url = '/api/regist/' + emailText;
-            
+
             axios.get(url)
             .then(responseData => {
                 if (responseData.data.code === '2') {
@@ -859,13 +866,21 @@ const store = createStore({
                     alert('유효하지 않은 이메일입니다. ');
                 } else {
                     alert('사용 가능한 이메일입니다.');
+                    // 2. 이메일 인증 처리
+                    axios.post('/api/send-verification-email', emailText)
+                    .then(response => {
+                        console.log('인증 메일을 성공적으로 보냈습니다.');
+                      })
+                      .catch(error => {
+                        console.error('인증 메일을 보내는 도중 에러가 발생했습니다.', error);
+                      });
                 }
             })
             .catch(error => {
                 error.value = '이메일 중복 확인 중 오류가 발생했습니다.';
             });
         },
-  
+
         
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
@@ -932,27 +947,27 @@ const store = createStore({
             })
         },
 
-        // 이메일 중복체크
-        chkEmailOn(context, emailText) {
-            if (!emailText) {
-                alert('이메일을 입력해 주세요.');
-                return;
-            }
-            const url = '/api/regist/' + emailText;
-            axios.get(url)
-            .then(responseData => {
-                if (responseData.data.code === '2') {
-                    alert('이미 사용 중인 이메일입니다.');
-                } else if(responseData.data.code === '1') {
-                    alert('유효하지 않은 이메일입니다. ');
-                } else {
-                    alert('사용 가능한 이메일입니다.');
-                }
-            })
-            .catch(error => {
-                error.value = '이메일 중복 확인 중 오류가 발생했습니다.';
-            });
-        },
+        // // 이메일 중복체크
+        // chkEmailOn(context, emailText) {
+        //     if (!emailText) {
+        //         alert('이메일을 입력해 주세요.');
+        //         return;
+        //     }
+        //     const url = '/api/regist/' + emailText;
+        //     axios.get(url)
+        //     .then(responseData => {
+        //         if (responseData.data.code === '2') {
+        //             alert('이미 사용 중인 이메일입니다.');
+        //         } else if(responseData.data.code === '1') {
+        //             alert('유효하지 않은 이메일입니다. ');
+        //         } else {
+        //             alert('사용 가능한 이메일입니다.');
+        //         }
+        //     })
+        //     .catch(error => {
+        //         error.value = '이메일 중복 확인 중 오류가 발생했습니다.';
+        //     });
+        // },
 
         // 회원정보 수정
         userUpdate(context) {

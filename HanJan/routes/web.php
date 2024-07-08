@@ -80,12 +80,15 @@ Route::middleware('auth')->delete('/api/reviewDelete/{re_id}', [ReviewController
 Route::middleware('auth')->get('/api/exchangeProduct/{id}', [ExchangeController::class, 'exchangeProduct']);
 Route::middleware('auth')->post('/api/exchage', [ExchangeController::class, 'exchage']);
 
-// 이메일 인증 라우터
-// Auth::routes(['verify' => true]);
+// 이메일 인증 메일 발송
+Route::post('/api/send-verification-email', [UserController::class, 'sendVerificationEmail']);
+// 이메일 인증 확인
+Route::get('/verify/{token}', [UserController::class, 'verifyEmail']);
 
 // 카카오 로그인
 Route::get('/api/kakao', [UserController::class, 'redirectToKakao']);
 Route::get('/api/login/kakao/callback', [UserController::class, 'handleKakaoCallback']);
+
 // 카카오 로그인 유저 정보 저장
 Route::post('/api/kakaoLogin', [UserController::class, 'kakaoLogin']);
 
