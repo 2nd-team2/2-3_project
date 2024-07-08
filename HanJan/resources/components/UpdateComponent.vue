@@ -74,8 +74,31 @@
                 <div class="buttons twobuttons">
                     <button type="reset" class="info_item_btn form_btn" @click="$router.back()">취소</button>
                     <button type="submit" class="info_item_btn form_btn">확인</button>
-                    <button type="button" class="info_item_btn form_btn" @click="$store.dispatch('userDelete')">탈퇴</button>
+                    <button type="button" class="info_item_btn form_btn" @click=deleteUser>탈퇴</button>
                 </div>
+                <transition name="down">
+                    <div class="agree_box modal_second_overlay" v-show="showSubmitModal">
+                        <div class="modal_second_window">
+                            <div class="second_content">
+                                <p>필수 입력사항을 확인해주세요.</p>
+                                <br>
+                                <img @click="closeSubmitModal" src="../../public/img/complete.png" class="complete_btn">
+                            </div>
+                        </div>
+                    </div>
+                </transition>
+                <transition name="down">
+                    <div class="agree_box modal_second_overlay" v-show="showDeleteModal">
+                        <div class="modal_second_window">
+                            <div class="second_content">
+                                <p>정말로 탈퇴하시겠습니까?</p>
+                                <br>
+                                <button type="button" @click="confirmDelete" class="modal_btn">확인</button>
+                                <button type="button" @click="closeDeleteModal" class="modal_btn">취소</button>
+                            </div>
+                        </div>
+                    </div>
+                </transition>
             </form>
         </div>
     </main>
@@ -98,6 +121,9 @@ const passwordError = ref('');
 const passwordChkError = ref('');
 const phoneError = ref('');
 const addressError = ref('');
+
+const showSubmitModal = ref(false);
+const showDeleteModal = ref(false);
 
 function chkPassword() {
   if (!password.value || password.value.length < 8 || password.value.length > 20) {
@@ -126,21 +152,20 @@ function chkPhone() {
   }
 }
 
-function validateForm() {
-  let valid = true;
+function deleteUser() {
+    showDeleteModal.value = true;
+}
 
-  chkPassword();
-  if (passwordError.value) valid = false;
+function closeSubmitModal() {
+    showSubmitModal.value = false;
+}
 
-  chkPasswordChk();
-  if (passwordChkError.value) valid = false;
+function closeDeleteModal() {
+    showDeleteModal.value = false;
+}
 
-  chkPhone();
-  if (phoneError.value) valid = false;
-
-  if (valid) {
-    store.dispatch('userUpdate');
-  }
+function confirmDelete() {
+    store.dispatch('userDelete');
 }
 
 // 카카오 주소 API
@@ -190,6 +215,26 @@ function kakaoPostcode() {
             document.querySelector('#address_detail').focus();
         }
     }).open();
+}
+
+
+function validateForm() {
+  let valid = true;
+
+  chkPassword();
+  if (passwordError.value) valid = false;
+
+  chkPasswordChk();
+  if (passwordChkError.value) valid = false;
+
+  chkPhone();
+  if (phoneError.value) valid = false;
+
+  if (valid) {
+    store.dispatch('userUpdate');
+  } else {
+      showSubmitModal.value = true;
+    }
 }
 </script>
 

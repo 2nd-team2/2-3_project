@@ -20,7 +20,7 @@
                                     <span class="yellow_span" v-if="item.co_flg === '1'">{{ formatDate(item.completeOn) }}</span>
                                 </span>                            
                             </span>
-                            <div class="order_delete" @click="$store.dispatch('orderItemDelete', item.orp_id)" v-if="item.co_flg === '1'"></div>
+                            <div class="order_delete" @click=deleteUser(item.orp_id) v-if="item.co_flg === '1'"></div>
                             <img class="order_img" :src="item.img">
                             <p class="order_name">{{ item.name + ' ' + item.ml +'ml' }}</p>
                             <p class="order_price">{{ '금액 : ' + formatPrice(item.price) + '원 / ' + item.orp_count + '개' }}</p>
@@ -37,6 +37,20 @@
                             <div @click="infoReviewCreate(item)" type="button" class="button_a" v-if="item.re_id === null && item.co_flg === '1'">리뷰 작성하기</div>
                             <div type="button" class="button_b button_complete_color" v-else-if="item.re_id">리뷰 작성 완료</div>
                         </div>
+                        <transition name="down">
+                        <div class="agree_box modal_second_overlay" v-show="showDeleteModal">
+                            <div class="modal_second_window">
+                                <div class="second_content">
+                                    <p class="second_content">확인을 누르면 구매한 상품이 삭제됩니다.</p>
+                                    <br>
+                                    <div>
+                                        <button type="button" @click="confirmDelete" class="modal_btn">확인</button>
+                                        <button type="button" @click="closeDeleteModal" class="modal_btn">취소</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </transition>
                     </div>
                     <div v-else>
                         <h2 class="h2_center">
@@ -73,11 +87,25 @@
                             <p class="inquiry_date">{{ item.created_at }}</p>
                         </div>
                         <div class="inquiry_item_right_list">
-                            <div type="submit" class="inquiry_delete" @click="$store.dispatch('productAskDelete', item.qnp_id)"></div>
+                            <div type="submit" class="inquiry_delete" @click=deleteProductAsk(item.qnp_id)></div>
                             <div class="keep_shoping_btn qna_answer_complete" v-if="item.qnp_answer">답변완료</div>
                             <div class="keep_shoping_btn qna_answer" v-else>답변진행중</div>
                         </div>
                     </div>
+                    <transition name="down">
+                        <div class="agree_box modal_second_overlay" v-show="showProductDeleteModal">
+                            <div class="modal_second_window">
+                                <div class="second_content">
+                                    <p class="second_content">확인을 누르면 상품 문의 내역이 삭제됩니다.</p>
+                                    <br>
+                                    <div>
+                                        <button type="button" @click="confirmProductDelete" class="modal_btn">확인</button>
+                                        <button type="button" @click="closeProductDeleteModal" class="modal_btn">취소</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </transition>
                 </div>
                 <div v-else>
                     <h2 class="h2_center">
@@ -116,11 +144,26 @@
                             <p class="one_date">{{ item.created_at }}</p>
                         </div>
                         <div class="inquiry_item_right_list">
-                            <button type="submit" class="inquiry_delete" @click="$store.dispatch('askDelete', item.qn_id)"></button>
+                            <!-- <button type="submit" class="inquiry_delete" @click="$store.dispatch('askDelete', item.qn_id)"></button> -->
+                            <button type="submit" class="inquiry_delete" @click=deleteAsk(item.qn_id)></button>
                             <div class="in_progress qna_answer_complete" v-if="item.qn_answer">답변완료</div>
                             <div class="in_progress qna_answer" v-else>답변진행중</div>
                         </div>
                     </div>
+                    <transition name="down">
+                        <div class="agree_box modal_second_overlay" v-show="showAskDeleteModal">
+                            <div class="modal_second_window">
+                                <div class="second_content">
+                                    <p class="second_content">확인을 누르면 1:1 문의내역이 삭제됩니다.</p>
+                                    <br>
+                                    <div>
+                                        <button type="button" @click="confirmAskDelete" class="modal_btn">확인</button>
+                                        <button type="button" @click="closeAskDeleteModal" class="modal_btn">취소</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </transition>
                 </div>
                 <div v-else>
                     <h2 class="h2_center">
@@ -151,11 +194,51 @@
 </template>
 
 <script setup>
-    import { onBeforeMount ,computed } from 'vue';
+    import { onBeforeMount ,computed, ref } from 'vue';
     import { useStore } from 'vuex';
     import router from '../js/router';
 
     const store = useStore();
+    const showDeleteModal = ref(false);
+    const showProductDeleteModal = ref(false);
+    const showAskDeleteModal = ref(false);
+    let deleteItemId = ref(null);
+
+    function deleteUser(item) {
+        deleteItemId.value = item;
+        showDeleteModal.value = true;
+    }
+    function deleteProductAsk(item) {
+        deleteItemId.value = item;
+        showProductDeleteModal.value = true;
+    }
+    function deleteAsk(item) {
+        deleteItemId.value = item;
+        showAskDeleteModal.value = true;
+    }
+
+    function closeDeleteModal() {
+        showDeleteModal.value = false;
+    }
+    function closeProductDeleteModal() {
+        showProductDeleteModal.value = false;
+    }
+    function closeAskDeleteModal() {
+        showAskDeleteModal.value = false;
+    }
+
+    function confirmDelete() {
+        store.dispatch('orderItemDelete', deleteItemId.value);
+        showDeleteModal.value = false;
+    }
+    function confirmProductDelete() {
+        store.dispatch('productAskDelete', deleteItemId.value);
+        showProductDeleteModal.value = false;
+    }
+    function confirmAskDelete() {
+        store.dispatch('askDelete', deleteItemId.value);
+        showAskDeleteModal.value = false;
+    }
 
     // 날짜 포맷 (YYYY-MM-DD)
     function formatDate(dateString) {
