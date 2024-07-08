@@ -13,6 +13,16 @@ main {
     margin: 3rem auto;
 }
 
+.dark-mode button {
+    background-color: rgb(201, 199, 199);
+    color: #121212;
+}
+
+.dark-mode .errors_link {
+    background-color: rgb(201, 199, 199);
+    color: #121212;
+}
+
 .errors_title {
     font-size: 1.8rem;
     margin-bottom: 10px;

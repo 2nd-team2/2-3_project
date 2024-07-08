@@ -30,6 +30,7 @@
             <div class="main">
                 <div class="main_top">
                     <h2>받는 사람정보</h2>
+                    <div>{{ productName }}</div>
                 </div>
                 <div class="main_bottom">
                     <div class="main_bottom_name">이름</div>
@@ -73,6 +74,29 @@
                     <button type="button"  @click="BeforekakaoPay" class="btn_ord_com">결제하기</button>
                 </div>
             </div>
+            <transition name="down">
+                <div class="agree_box modal_second_overlay" v-show="showModal">
+                    <div class="modal_second_window">
+                        <div class="second_content">
+                            <p>구매 하시겠습니까?</p>
+                            <br>
+                            <button type="button" @click="confirm" class="modal_btn">확인</button>
+                            <button type="button" @click="closeModal" class="modal_btn">취소</button>
+                        </div>
+                    </div>
+                </div>
+            </transition>
+            <transition name="down">
+                <div class="agree_box modal_second_overlay" v-show="showFailModal">
+                    <div class="modal_second_window">
+                        <div class="second_content">
+                            <p>결제를 취소하였습니다.</p>
+                            <br>
+                            <img @click="closeFailModal" src="../../public/img/complete.png" class="complete_btn">
+                        </div>
+                    </div>
+                </div>
+            </transition>
         </form>
     </main>
 </template>
@@ -82,6 +106,9 @@ import { ref, computed, reactive } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
+const showModal = ref(false);
+const showFailModal = ref(false);
+
 
 // axios 처리할 데이터 가공
 const orderCompleteData = reactive({
@@ -98,14 +125,27 @@ const orderCompleteData = reactive({
 // ------------------------------------------------
 // 구매자 정보
 const price = store.state.orderProductData.price
-const productName = store.state.orderProductData.name
+const productName = store.state.orderProductData[0].products_name + ' 외 ' + (store.state.orderProductData.length - 1) + '개'
 
 function BeforekakaoPay() {
+    showModal.value = true;
+}
+
+function confirm() {
     const email = store.state.userInfo.email;
     const username = store.state.userInfo.name;
     const tel = store.state.userInfo.tel;
     const addr = store.state.userInfo.addr
     kakaoPay(email, addr, username, tel);
+    showModal.value = false;
+} 
+
+function closeModal() {
+    showModal.value = false;
+}
+
+function closeFailModal() {
+    showFailModal.value = false;
 }
 
 var IMP = window.IMP;
@@ -118,46 +158,41 @@ var milliseconds = today.getMilliseconds();
 var makeMerchantUid = `${hours}` + `${minutes}` + `${seconds}` + `${milliseconds}`;
 
 function kakaoPay(email, addr, username, tel) {
-    if (confirm("구매 하시겠습니까?")) { // 구매 클릭시 한번 더 확인하기
-        if (localStorage.getItem("userInfo")) { // 로그인한 상태에서 결제 가능
+    if (localStorage.getItem("userInfo")) { // 로그인한 상태에서 결제 가능
 
-            IMP.init("imp74725603"); // 고객사 식별코드
-            IMP.request_pay({
-                pg: 'html5_inicis.INIpayTest', // PG사 코드표에서 선택
-                pay_method: 'card', // 결제 방식
-                merchant_uid: "IMP" + makeMerchantUid, // 결제 고유 번호
-                name: productName, // 제품명
-                amount: 100,
-                // amount: price, // 실제가격
-                //구매자 정보 ↓
-                buyer_name: `${orderCompleteData.or_get_name}`,
-                buyer_tel : `${orderCompleteData.or_get_tel}`,
-                buyer_email : `${email}`,
-                buyer_addr : `${orderCompleteData.or_get_addr}`
-            }, async function (rsp) { // callback
-                if (rsp.success) { //결제 성공시
-                    alert('결제 완료!')
-                    store.dispatch('orderComplete', orderCompleteData);
-                    console.log(rsp);
-                    //결제 성공시 프로젝트 DB저장 요청
+        IMP.init("imp74725603"); // 고객사 식별코드
+        IMP.request_pay({
+            pg: 'html5_inicis.INIpayTest', // PG사 코드표에서 선택
+            pay_method: 'card', // 결제 방식
+            merchant_uid: "IMP" + makeMerchantUid, // 결제 고유 번호
+            name: productName, // 제품명
+            amount: 100,
+            // amount: price, // 실제가격
+            //구매자 정보 ↓
+            buyer_name: `${orderCompleteData.or_get_name}`,
+            buyer_tel : `${orderCompleteData.or_get_tel}`,
+            buyer_email : `${email}`,
+            buyer_addr : `${orderCompleteData.or_get_addr}`
+        }, async function (rsp) { // callback
+            if (rsp.success) { //결제 성공시
+                store.dispatch('orderComplete', orderCompleteData);
+                console.log(rsp);
+                //결제 성공시 프로젝트 DB저장 요청
 
-                    if (response.status == 200) { // DB저장 성공시
-                        // alert('결제 완료!')
-                        // store.dispatch('orderComplete', orderCompleteData);
-                    } else { // 결제완료 후 DB저장 실패시
-                        alert(`error:[${response.status}]\n결제요청이 승인된 경우 관리자에게 문의바랍니다.`);
-                        // DB저장 실패시 status에 따라 추가적인 작업 가능성
-                    }
-                } else if (rsp.success == false) { // 결제 실패시
-                    alert(rsp.error_msg)
+                if (response.status == 200) { // DB저장 성공시
+                    // alert('결제 완료!')
+                    // store.dispatch('orderComplete', orderCompleteData);
+                } else { // 결제완료 후 DB저장 실패시
+                    alert(`error:[${response.status}]\n결제요청이 승인된 경우 관리자에게 문의바랍니다.`);
+                    // DB저장 실패시 status에 따라 추가적인 작업 가능성
                 }
-            });
-        }
-        else { // 비회원 결제 불가
-            alert('로그인이 필요합니다!')
-        }
-    } else { // 구매 확인 알림창 취소 클릭시 돌아가기
-        return false;
+            } else if (rsp.success == false) { // 결제 실패시
+                showFailModal.value = true;
+            }
+        });
+    }
+    else { // 비회원 결제 불가
+        alert('로그인이 필요합니다!')
     }
 }
 // ------------------------------------------------

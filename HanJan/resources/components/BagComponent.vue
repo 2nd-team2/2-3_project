@@ -235,7 +235,9 @@ const bagsToOrder = () => {
             ,ba_count: item.ba_count
             ,price: item.price
             ,buy_type: "bags"
+            ,products_name: item.name
         }));
+        console.log(orderItems);
 
 
         store.dispatch('bagsToOrder', orderItems);

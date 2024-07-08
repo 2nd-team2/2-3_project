@@ -10,7 +10,7 @@
                     <img src="/img/detailed_star.png">
                     <p>{{ store.state.productDetail.star_avg !== null ? store.state.productDetail.star_avg : 0 }}</p>
                     <a href="#detailed_review_list" >
-                        <p class="detailed_review">리뷰 {{ store.state.productDetail.total_star !== null ? store.state.productDetail.total_star : 0 }} 	&#62;</p>
+                        <p class="detailed_review">리뷰 {{ store.state.productDetail.total_star !== null ? store.state.productDetail.total_star : 0 }}</p>
                     </a>
                 </div>
                 <p id="app">수량</p>

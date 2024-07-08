@@ -31,8 +31,7 @@
                         <input class="input_width" type="email" name="email" id="email" @input="chkEmail" v-model="emailText">
                     </div>
                     <div>
-                      <button type="button" class="info_item_btn form_btn email_chk_btn" @click="$store.dispatch('chkEmailOn', emailText)">이메일 중복확인</button>
-                      <button type="button" class="info_item_btn form_btn email_chk_btn" @click="$store.dispatch('emailChk', emailText)">이메일 인증</button>
+                      <button type="button" class="info_item_btn form_btn email_chk_btn" @click="emailChk ">이메일 중복 및 인증 체크</button>
                     </div>
                 </div>
                 <hr>
@@ -92,8 +91,28 @@
                 <br>
                 <div class="buttons twobuttons">
                     <button type="button" class="info_item_btn form_btn" @click="$router.push('/')">취소</button>
-                    <button type="submit" class="info_item_btn form_btn" >확인</button>
+                    <button type="submit" class="info_item_btn form_btn">확인</button>
                 </div>
+                <transition name="down">
+                    <div class="agree_box modal_second_overlay" v-show="showSubmitModal">
+                        <div class="modal_second_window">
+                            <div class="second_content">
+                                <p>필수 입력사항을 확인해주세요.</p>
+                                <br>
+                                <img @click="closeSubmitModal" src="../../public/img/complete.png" class="complete_btn">
+                            </div>
+                        </div>
+                    </div>
+                </transition>
+                <transition name="down_complete">
+                    <div class="agree_box modal_second_overlay" v-show="showCompleteModal">
+                        <div class="modal_second_window">
+                            <div class="second_content">
+                                <p>회원가입 완료!</p>
+                            </div>
+                        </div>
+                    </div>
+                </transition>
             </form>
         </div>
     </main>
@@ -195,7 +214,6 @@ function chkBirth() {
   }
 }
 
-
 function validateForm() {
     let valid = true;
 
@@ -224,11 +242,26 @@ function validateForm() {
 
     if (valid) {
       store.dispatch('regist');
+      showCompleteModal.value = true;
     } else {
-      alert('회원가입에 실패했습니다.');
+      showSubmitModal.value = true;
     }
-
 }
+
+const showSubmitModal = ref(false);
+const showCompleteModal = ref(false);
+
+function closeSubmitModal() {
+    showSubmitModal.value = false;
+}
+
+const emailChk = () => {
+    if (!emailText.value) {
+        alert('이메일을 입력해 주세요.');
+        return;
+    }
+    store.dispatch('chkEmailOn', emailText.value);
+};
 
 // 카카오 주소 API
 function kakaoPostcode() {
@@ -276,8 +309,6 @@ function kakaoPostcode() {
         }
     }).open();
 }
-
-
 
 </script>
 <style scoped src="../css/regist.css">

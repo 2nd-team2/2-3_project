@@ -187,7 +187,7 @@ class ProductController extends Controller
     public function listck(Request $request) {
         $query = $request->search;
         Log::debug('상품검색 req', $request->all());
-        $productQuery = Product::select('products.price','products.img', 'products.name', 'products.id')
+        $productQuery = Product::select('products.price','products.img', 'products.name', 'products.id', 'products.type')
                         ->where('products.name','like', "%{$query}%")
                         ->orderBy('products.created_at', 'DESC');
                         // ->paginate(20);
@@ -256,10 +256,6 @@ class ProductController extends Controller
         //             ->whereNull('reviews.deleted_at')
         //             ->groupBy('orderproducts.p_id')
         //             ->get();
-
-
-        Log::debug('#######################');
-        Log::debug($productData);
 
         $responseData = [
                 'code' => '0'
@@ -338,19 +334,24 @@ class ProductController extends Controller
     }
 
     // 키워드 데이터
-    public function typelistchk() {
-        $productData = Product::select('products.price', 'products.img', 'products.name', 'products.id', 'products.type')
-                                ->orderBy('products.created_at', 'DESC')
-                                ->limit(20)
-                                ->get();
+    public function typelistchk(Request $request) {
+        $productQuery = Product::select('products.name', 'products.id', 'products.type')
+                                ->orderBy('products.created_at', 'DESC');
+                                // ->get();
+        if($request->type != '99') {
+            $productQuery->where('products.type', $request->type);
+        }
+        
+        // $productData = $productQuery->dd(); 화면에 출력해서 코드 확인용
+        $productData = $productQuery->paginate(5);
 
-        // $productData = $productQuery->paginate(20);
+        
+        Log::debug('상품검색 완', $productData->toArray());
         $responseData = [
                 'code' => '0'
                 ,'msg' => '초기 상품값 획득 완료'
                 ,'data' => $productData
         ];
-        // Log::debug($responseData);
         
         return response()->json($responseData, 200);
     }

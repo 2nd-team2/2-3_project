@@ -5,17 +5,28 @@
                 <h2>로그인 / 회원가입</h2>
                 <div class="inputGroup1">
                     <img :src="otterImg" class="face" @click="toggleImg('otterImg')">
-                    <input type="text" name="email" class="login_input" placeholder="아이디">
+                    <input type="text" name="email" class="login_input" placeholder="아이디" v-model="id">
                 </div>
                 <div class="inputGroup2">
                     <img :src="otterImg2" class="face" @click="toggleImg('otterImg2')">
-                    <input type="password" name="password" id="password" class="login_input" placeholder="비밀번호" autocomplete="off">
+                    <input type="password" name="password" id="password" class="login_input" placeholder="비밀번호" autocomplete="off" v-model="password">
                 </div>
                 <button type="button" class="loginBtn" @click="login">로그인</button>
                 <button type="button" class="registBtn" @click="$router.push('agree')">회원가입</button>
                 <a href="/api/kakao" class="kakaoBtn"><img src="/img/kakao_login_large_wide.png" class="kakaoBtn_img"></a>
                 <img class="rightPoto" src="/img/IE002927310_STD.png">
             </div>
+            <transition name="down">
+              <div class="agree_box modal_second_overlay" v-show="showCompleteModal">
+                  <div class="modal_second_window">
+                      <div class="second_content">
+                          <p>로그인 실패</p>
+                          <br>
+                          <img @click="closeSubmitModal" src="../../public/img/complete.png" class="complete_btn">
+                      </div>
+                  </div>
+              </div>
+            </transition>
         </form>
     </main>
 </template>
@@ -26,8 +37,20 @@ import { useStore } from 'vuex';
 
 const store = useStore();
 
+const showCompleteModal = ref(false);
+const id = ref('');
+const password = ref('');
+
 function login() {
-  store.dispatch('login');
+  if(!id.value.trim() || !password.value.trim()) {
+    showCompleteModal.value = true;
+  } else {
+    store.dispatch('login');
+  }
+}
+
+function closeSubmitModal() {
+  showCompleteModal.value = false;
 }
 
 function resetForm() {
