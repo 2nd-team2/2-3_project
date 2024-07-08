@@ -12,15 +12,18 @@ class VerificationEmail extends Mailable
 
     public $token;
 
-    public function __construct($token)
-    {
+    
+
+    public function __construct($token) {
         $this->token = $token;
     }
 
-    public function build()
-    {
-        return $this->subject('이메일 인증')
-            ->view('emails.verify')
-            ->with(['token' => $this->token]);
+    public function build() {
+        return $this->from('hanjan.6425@gmail.com', 'HanJan')
+                ->subject('이메일 인증')
+                ->view('emails.verification')
+                ->with([
+                    'token' => $this->token,
+                ]);
     }
 }

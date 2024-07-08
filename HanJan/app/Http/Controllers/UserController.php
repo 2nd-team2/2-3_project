@@ -178,6 +178,7 @@ class UserController extends Controller
         public function sendVerificationEmail(Request $request) {
             $email = $request->input('email');
 
+            Log::debug($request);
             Log::debug('인증메일 발송할 유저의 이메일- 본인이 작성한 이메일');
             Log::debug($email);
 
@@ -188,12 +189,14 @@ class UserController extends Controller
             );
 
             if ($validator->fails()) {
+                Log::debug('유효하지 않은 이메일 형식');
                 return response()->json(['code' => '1', 'msg' => '유효하지 않은 이메일입니다.']);
             }
 
             // 이메일 중복 체크
             $user = User::where('email', $email)->first();
             if ($user) {
+                Log::debug('이미 사용 중인 이메일');
                 return response()->json(['code' => '2', 'msg' => '이미 사용 중인 이메일입니다.']);
             }
 
@@ -204,10 +207,16 @@ class UserController extends Controller
                 ['email' => $email],
                 ['token' => $token]
             );
-
+            
+            Log::debug('인증 메일 발송 시작');
             // 인증 메일 발송
-            Mail::to($email)->send(new VerificationEmail($token));
-
+            try {
+                Mail::to($email)->send(new VerificationEmail($token));
+                Log::debug('인증 메일 발송 완료');
+            } catch (\Exception $e) {
+                Log::error('인증 메일 발송 중 오류 발생: ' . $e->getMessage());
+            }
+        
             return response()->json(['message' => '인증 메일이 발송되었습니다.']);
         }
 

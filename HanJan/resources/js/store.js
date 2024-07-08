@@ -879,7 +879,7 @@ const store = createStore({
                 } else {
                     alert('사용 가능한 이메일입니다.');
                     // 2. 이메일 인증 처리
-                    axios.post('/api/send-verification-email', emailText)
+                    axios.post('/api/send-verification-email', {email : emailText})
                     .then(response => {
                         console.log('인증 메일을 성공적으로 보냈습니다.');
                       })

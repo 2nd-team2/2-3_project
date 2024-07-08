@@ -255,6 +255,7 @@ function closeSubmitModal() {
     showSubmitModal.value = false;
 }
 
+// 이메일 인증 처리
 const emailChk = () => {
     if (!emailText.value) {
         alert('이메일을 입력해 주세요.');
