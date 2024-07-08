@@ -389,4 +389,48 @@ class OrderController extends Controller
 
         return response()->json($responseData, 200);
     }
+
+    // 관리자 페이지 매출 통계 획득
+    public function salesStatistics() {
+        $salesStatisticsData = Order::selectRaw("'daily' AS period")
+        ->selectRaw('DATE(created_at) AS period_value')
+        ->selectRaw('SUM(or_sum) AS total_sales')
+        ->groupBy('period_value');
+        $salesStatisticsData->union(
+            Order::selectRaw("'weekly' AS period")
+                ->selectRaw('YEARWEEK(created_at, 1) AS period_value')
+                ->selectRaw('SUM(or_sum) AS total_sales')
+                ->groupBy('period_value')
+        );
+        $salesStatisticsData ->union(
+            Order::selectRaw("'monthly' AS period")
+                ->selectRaw('DATE_FORMAT(created_at, "%Y-%m") AS period_value')
+                ->selectRaw('SUM(or_sum) AS total_sales')
+                ->groupBy('period_value')
+        );
+        $salesStatisticsData->union(
+            Order::selectRaw("'yearly' AS period")
+                ->selectRaw('YEAR(created_at) AS period_value')
+                ->selectRaw('SUM(or_sum) AS total_sales')
+                ->groupBy('period_value')
+        );
+        $salesStatisticsData = $salesStatisticsData->orderBy('period')
+        ->orderBy('period_value')
+        ->get();
+
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '주문목록 획득 완료'
+            ,'data' => [
+                'daily' =>$salesStatisticsData->toArray() 
+                ,'weekly' =>$salesStatisticsData->toArray() 
+                ,'month' =>$salesStatisticsData->toArray() 
+                ,'year' =>$salesStatisticsData->toArray() 
+            ]
+        ];
+
+        return response()->json($responseData, 200);
+    }
+
+
 }

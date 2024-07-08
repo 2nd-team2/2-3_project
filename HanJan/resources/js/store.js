@@ -97,8 +97,12 @@ const store = createStore({
             adminFlg: false,
             // 로그인 플래그
             adminLoginFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
-            // 신규 유저 통계
-            newUserData: [],
+            // 월별 유저 통계
+            userTatisticsData: [],
+            // 유저 연령대 통계
+            userAgeRangeData: [],
+            // 매출 통계
+            salesStatisticsData: [],
             // 관리자 페이지 전체 유저 리스트
             adminUserData: localStorage.getItem('adminUserData') ? JSON.parse(localStorage.getItem('adminUserData')) : {current_page: '1'},
             // 관리자 페이지 전체 상품 리스트
@@ -305,9 +309,17 @@ const store = createStore({
         setAdminLoginFlg(state, flg) {
             state.adminLoginFlg = flg;
         },
-        // 신규 유저 통계
-        setNewUserData(state, data) {
-            state.newUserData = data;
+        // 월별 유저 통계
+        setUserTatisticsData(state, data) {
+            state.userTatisticsData = data;
+        },
+        // 유저 연령대 통계
+        setUserAgeRangeData(state, data) {
+            state.userAgeRangeData = data;
+        },
+        // 매출 통계
+        setSalesStatisticsData(state, data) {
+            state.salesStatisticsData = data;
         },
         // 전체 유저 정보
         setAdminUsersData(state, data) {
@@ -1104,6 +1116,10 @@ const store = createStore({
             // console.log(url);
             axios.get(url)
             .then(response => {
+                if(!response.data.data) {
+                    // 에러 페이지 이동
+                    router.replace({name: 'NotFound'})
+                }
                 // console.log('디테일 데이터', response.data);
                 context.commit('detailedNumData', response.data.data);
             })
@@ -1310,6 +1326,7 @@ const store = createStore({
                 alert('계절 별 추천 데이터 습득에 실패했습니다.(' + error.response.data.code + ')');
             });
         },
+
         /**
          * 리뷰 데이터 획득
          * 
@@ -1328,6 +1345,7 @@ const store = createStore({
                 alert('리뷰 데이터 습득에 실패했습니다.(' + error.response.data.code + ')');
             });
         },
+
         /**
          * 공지사항 리스트 획득
          * 
@@ -1347,6 +1365,7 @@ const store = createStore({
                 alert('공지사항 습득에 실패했습니다.(' + error.response.data.code + ')');
             });
         },
+
         /**
          * 공지사항 상세페이지 값 획득
          * 
@@ -1365,6 +1384,7 @@ const store = createStore({
                 alert('공지사항 불러오기 실패했습니다.(' + error.response.data.code + ')');
             });
         },
+
         /**
          * 상품문의 상세페이지 값 획득
          * 
@@ -1429,7 +1449,6 @@ const store = createStore({
             });
         },
         
-
         /**
          * 1:1 문의 작성
          * 
@@ -1532,20 +1551,148 @@ const store = createStore({
         },
 
         /**
-         * 신규 유저 통계 획득
+         * 월별 유저 통계 획득
          * 
          * @param {*} context 
          */
-        getNewUserData(context) {
-            const url = '/api/admin/user/new';
+        async getUserTatisticsData(context) {
+            const url = '/api/admin/user/statistics';
             
-            axios.get(url)
-            .then(response => {
-                context.commit('setNewUserData', response.data.data);
-            })
-            .catch(error => {
-                alert('신규 유저 통계 습득에 실패했습니다.(' + error.response.data.code + ')');
-            });
+            try {
+                const response = await axios.get(url);
+    
+                const now = new Date();
+                // console.log('가공전:', response.data.data)
+                let tatisticsData = [];
+                for(let i = 1; i <= 12; i++) {
+                    const month = now.getFullYear() + '-' + i.toString().padStart(2, '0');
+                    const arr_new_users = response.data.data.filter(item => {
+                        return item.month == month;
+                    });
+                    tatisticsData.push({
+                        month: month
+                        ,new_users: arr_new_users.length > 0 ? arr_new_users[0].new_users : 0
+                        ,withdraw_users: arr_new_users.length > 0 ? arr_new_users[0].withdraw_users : 0
+                    });
+                }
+                // console.log('가공후:', tatisticsData)
+                context.commit('setUserTatisticsData', tatisticsData);
+                return response;
+            } catch (error) {
+                alert('유저 통계 습득에 실패했습니다.(' + error.response.data.code + ')');
+            }
+
+            // axios.get(url)
+            // .then(response => {
+            //     //  // 데이터 형식 변경
+            //     // const formattedData = response.data.data.map(item => ({
+            //     //     month: item.month, // 월은 그대로 유지
+            //     //     new_users: parseInt(item.new_users), // new_users를 숫자로 변환
+            //     //     withdraw_users: parseInt(item.withdraw_users) // withdraw_users를 숫자로 변환
+            //     // }));
+
+            //     const now = new Date();
+            //     let tatisticsData = [];
+            //     for(let i = 1; i <= 12; i++) {
+            //         const month = now.getFullYear() + '-' + i.toString().padStart(2, '0');
+            //         const arr_new_users = response.data.data.filter(item => {
+            //            return item.month == month;
+            //         });
+            //         tatisticsData.push({
+            //             month: month
+            //             ,new_users: arr_new_users.length > 0 ? arr_new_users[0].new_users : 0
+            //             ,withdraw_users: arr_new_users.length > 0 ? arr_new_users[0].withdraw_users : 0
+            //         });
+            //         console.log(tatisticsData);
+            //     }
+
+            //     // context.commit('setUserTatisticsData', response.data.data);
+            //     context.commit('setUserTatisticsData', tatisticsData);
+            // })
+            // .catch(error => {
+            //     alert('유저 통계 습득에 실패했습니다.(' + error.response.data.code + ')');
+            // });
+        },
+
+        /**
+         * 유저 연령대 통계 획득
+         * 
+         * @param {*} context 
+         */
+        async getUserAgeRangeData(context) {
+            const url = '/api/admin/user/age/range';
+
+            try {
+                const response = await axios.get(url);
+                // let ageRangeData = [];
+                // console.log('레스폰스 데이터:', response.data.data)
+                // for(let i = 1; i <= 5; i++) {
+                //     const age_group = response.data.data.age_group
+                //     const arr_user_conut = response.data.data.filter(item => {
+                //         return item.age_group == age_group;
+                //     });
+                //     console.log('연령 : ', age_group);
+                //     console.log('유저수 : ', arr_user_conut);
+                //     ageRangeData.push({
+                //         age_group: response.data.data[0].age_group
+                //         ,user_count: arr_user_conut.length > 0 ? arr_user_conut[1].user_count : 0
+                //     });
+                    
+                //     console.log(ageRangeData);
+                // }
+                // context.commit('setUserTatisticsData', ageRangeData);
+                const ageRangeData = response.data.data; // API 응답 데이터에서 연령대 데이터 배열을 가져옴
+                console.log('연령: ', ageRangeData)
+
+                // ageRangeData를 그대로 Vuex에 커밋하면 됨
+                context.commit('setUserAgeRangeData', ageRangeData);
+
+                return response; // 성공적으로 데이터를 가져왔을 경우 응답 반환
+            } catch (error) {
+                alert('유저 연령대 통계 습득에 실패했습니다.(' + error.response.data.code + ')');
+            }
+            
+            // axios.get(url)
+            // .then(response => {
+            //     context.commit('setUserAgeRangeData', response.data.data);
+            // })
+            // .catch(error => {
+            //     alert('유저 통계 습득에 실패했습니다.(' + error.response.data.code + ')');
+            // });
+        },
+
+        /**
+         * 매출 통계 획득
+         * 
+         * @param {*} context 
+         */
+        async getSalesStatisticsData(context) {
+            const url = '/api/admin/sales/statistics';
+
+            const response = await axios.get(url);
+    
+            const now = new Date();
+            // console.log('가공전:', response.data.data)
+            let salesStatisticsData = [];
+            for(let i = 1; i <= 12; i++) {
+                const month = now.getFullYear() + '-' + i.toString().padStart(2, '0');
+                const arr_month_sales = response.data.data.filter(item => {
+                    return item.month == month;
+                });
+                tatisticsData.push({
+                    month: month
+                    ,new_users: arr_new_users.length > 0 ? arr_new_users[0].new_users : 0
+                    ,withdraw_users: arr_new_users.length > 0 ? arr_new_users[0].withdraw_users : 0
+                });
+            }
+            // axios.get(url)
+            // .then(response => {
+            //     context.commit('setSalesStatisticsData', response.data.data);
+            //     console.log('매출: ', response.data.data)
+            // })
+            // .catch(error => {
+            //     alert('유저 통계 습득에 실패했습니다.(' + error.response.data.code + ')');
+            // });
         },
 
         /**

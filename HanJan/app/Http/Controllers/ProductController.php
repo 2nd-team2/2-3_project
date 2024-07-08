@@ -401,6 +401,7 @@ class ProductController extends Controller
         return response()->json($responseData, 200);
     }
 
+    // 타이틀 변경 함수
     public function getSeasonKorean($value) {
         if ($value == '0') {
             return '향긋한 봄';
@@ -411,6 +412,21 @@ class ProductController extends Controller
         } else {
             return '포근한 겨울';
         }
+    }
+
+    // 상품 아이디 획득
+    public function productItemId() {
+        $adminProductData = Product::withTrashed()
+                            ->select('products.id')
+                            ->get();
+        
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '상품 전체 id 획득 완료'
+            ,'data' => $adminProductData->toArray()
+        ];
+
+        return response()->json($responseData, 200);
     }
     // ----------------------- 호경 끝 ---------------------------
 

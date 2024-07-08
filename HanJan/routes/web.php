@@ -150,6 +150,8 @@ Route::get('/api/typechklist', [ProductController::class, 'typelistchk']);
 Route::get('/api/reviewlist',[ReviewController::class, 'reviewMainIndex']);
 // 메인페이지 계절 별 추천 불러오기
 Route::get('/api/season',[ProductController::class, 'seasonSelect']);
+// 전체 상품 아이디 획득
+Route::middleware('auth')->get('/api/product/id', [ProductController::class, 'productItemId']);
 // 공지사항 데이터 불러오기
 Route::get('/api/noticelist', [NoticeController::class, 'noticeIndex']);
 // 공지사항 디테일 데이터 불러오기
@@ -182,8 +184,12 @@ Route::post('/api/admin/login', [AdminController::class, 'adminLogin']);
 Route::middleware('auth')->post('/api/admin/logout', [AdminController::class, 'adminLogout']);
 // 관리자페이지 유저 목록 전체 불러오기
 Route::middleware('auth')->get('/api/admin/user', [UserController::class, 'adminUserIndex']);
-// 관리자페이지 유저 목록 전체 불러오기
-Route::middleware('auth')->get('/api/admin/user/new', [UserController::class, 'adminNewUserStats']);
+// 관리자페이지 월별 유저 통계 불러오기
+Route::middleware('auth')->get('/api/admin/user/statistics', [UserController::class, 'adminUseTatistics']);
+// 관리자페이지 유저 연령대 통계 불러오기
+Route::middleware('auth')->get('/api/admin/user/age/range', [UserController::class, 'adminAgeRange']);
+// 관리자페이지 전체 매출 통계 불러오기
+Route::middleware('auth')->get('/api/admin/sales/statistics', [OrderController::class, 'salesStatistics']);
 // 관리자페이지 상품 목록 전체 불러오기
 Route::middleware('auth')->get('/api/admin/product', [ProductController::class, 'adminProductIndex']);
 // 관리자페이지 주문 목록 전체 불러오기

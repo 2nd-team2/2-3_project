@@ -367,7 +367,7 @@ class UserController extends Controller
                 return response()->json([
                     'code' => 1,
                     'msg' => '해당 사용자를 찾을 수 없습니다.'
-                ], 404);
+                ], 500);
             }
 
             // 비밀번호와 비밀번호 확인이 일치하는지 확인
@@ -387,7 +387,6 @@ class UserController extends Controller
             // 업데이트 할 리퀘스트 데이터 셋팅
             $userInfo->name = $request->name;
             $userInfo->email = $request->email;
-            // $userInfo->password = Hash::make($request->password); 
             $userInfo->tel = $request->tel;
             $userInfo->addr = $request->addr;
             $userInfo->det_addr = $request->det_addr;
@@ -404,18 +403,42 @@ class UserController extends Controller
             return response()->json($responseData, 200);
         }
 
-        // 관리자 페이지 매 달 신규 유저 통계 불러오기
-        public function adminNewUserStats() {
-            $adminNewUserData = User::selectRaw('DATE_FORMAT(created_at, "%Y-%m") AS month')
+        // 관리자 페이지 월별 유저 통계 불러오기
+        public function adminUseTatistics() {
+            $adminUserTatisticsData = User::selectRaw('DATE_FORMAT(created_at, "%Y-%m") AS month')
                                     ->selectRaw('COUNT(*) AS new_users')
-                                    ->whereNull('deleted_at')
+                                    ->selectRaw('SUM(CASE WHEN deleted_at IS NOT NULL THEN 1 ELSE 0 END) AS withdraw_users')
+                                    ->withTrashed() // Soft Deleted 항목도 포함
                                     ->groupBy('month')
                                     ->orderBy('month')
                                     ->get();
             $responseData = [
                 'code' => '0'
                 ,'msg' => '신규 가입자 획득 완료'
-                ,'data' => $adminNewUserData->toArray()
+                ,'data' => $adminUserTatisticsData->toArray()
+            ];
+
+            return response()->json($responseData, 200);
+        }
+
+        // 관리자 페이지 유저 연령대 통계 불러오기
+        public function adminAgeRange() {
+            $adminUserAgeRangeData = User::selectRaw('CASE
+                                                WHEN TIMESTAMPDIFF(YEAR, birth, CURDATE()) BETWEEN 20 AND 29 THEN "20대"
+                                                WHEN TIMESTAMPDIFF(YEAR, birth, CURDATE()) BETWEEN 30 AND 39 THEN "30대"
+                                                WHEN TIMESTAMPDIFF(YEAR, birth, CURDATE()) BETWEEN 40 AND 49 THEN "40대"
+                                                WHEN TIMESTAMPDIFF(YEAR, birth, CURDATE()) BETWEEN 50 AND 59 THEN "50대"
+                                                WHEN TIMESTAMPDIFF(YEAR, birth, CURDATE()) >= 60 THEN "60대 이상"
+                                                END AS age_group,
+                                                COUNT(*) AS user_count')
+                                        ->whereRaw('TIMESTAMPDIFF(YEAR, birth, CURDATE()) >= 20')
+                                        ->groupBy(DB::raw('age_group'))
+                                        ->orderBy(DB::raw('FIELD(age_group, "20대", "30대", "40대", "50대", "60대 이상")'))
+                                        ->get();
+            $responseData = [
+                'code' => '0'
+                ,'msg' => '신규 가입자 획득 완료'
+                ,'data' => $adminUserAgeRangeData->toArray()
             ];
 
             return response()->json($responseData, 200);

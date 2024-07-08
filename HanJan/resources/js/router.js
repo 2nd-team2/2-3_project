@@ -1,4 +1,5 @@
 import { createWebHistory, createRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import TraditionalLiquorComponent from '../components/TraditionalLiquorComponent.vue';
 import MainComponent from '../components/MainComponent.vue';
 import LoginComponent from '../components/LoginComponent.vue';
@@ -80,14 +81,16 @@ const routes = [
         path: '/detailed',
         component: DetailedCompnent,
         beforeEnter: (to, from, next) => {
+            const store = useStore();
+
             // 숫자인지 검증
             const validId = /^\d+$/; 
             const IdValue = parseInt(to.query.id, 10);
-
+        
             if(
-                validId.test(to.query.id) &&
-                IdValue >= 1 &&
-                IdValue <= 68
+                validId.test(to.query.id)
+                // IdValue >= 1 &&
+                // IdValue <= 68
             ) {
                 // 유효한 경우
                 store.dispatch('setProductDetailData', to.query.id);
@@ -160,17 +163,20 @@ const routes = [
         path: '/list',
         component: ListComponent,
         beforeEnter: (to, from, next) => {
+            const store = useStore();
             // 유효한 type 값들
             const validTypes = ['99', '0', '1', '2']; 
             // 숫자인지 검증
             const validPage = /^\d+$/; 
 
+            // 마지막 페이지 가져오기
+            const lastPage =  store.state.listData.last_page
             const pageValue = parseInt(to.query.page, 10);
             const searchQuery = to.search;
 
             // 기본 조건 검증
             const isValidType = validTypes.includes(to.query.type);
-            const isValidPage = validPage.test(to.query.page) && pageValue >= 1 && pageValue <= 68;
+            const isValidPage = validPage.test(to.query.page) && pageValue >= 1 && pageValue <= lastPage;
             const isValidSearch = typeof searchQuery === 'string' && searchQuery.length > 0;
 
             if (isValidType && isValidPage) {
@@ -192,17 +198,20 @@ const routes = [
         path: '/listck',
         component: ListComponentCk,
         beforeEnter: (to, from, next) => {
+            const store = useStore();
             // 유효한 type 값들
             const validTypes = ['99', '0', '1', '2']; 
             // 숫자인지 검증
             const validPage = /^\d+$/; 
 
+            // 마지막 페이지 가져오기
+            const lastPage =  store.state.listData.last_page
             const pageValue = parseInt(to.query.page, 10);
             const searchQuery = to.search;
 
             // 기본 조건 검증
             const isValidType = validTypes.includes(to.query.type);
-            const isValidPage = validPage.test(to.query.page) && pageValue >= 1 && pageValue <= 68;
+            const isValidPage = validPage.test(to.query.page) && pageValue >= 1 && pageValue <= lastPage;
             const isValidSearch = typeof searchQuery === 'string' && searchQuery.length > 0;
 
             if (isValidType && isValidPage) {
