@@ -117,7 +117,7 @@ Route::middleware('auth')->get('/api/productAsk', [QnaController::class, 'produc
 // 1대1 문의 불러오기
 Route::middleware('auth')->get('/api/askData', [QnaController::class, 'askData']);
 // 주문목록 삭제
-Route::middleware('auth')->delete('/api/orderProductDelete/{orp_id}', [ProductController::class, 'orderProductDelete']);
+Route::middleware('auth')->delete('/api/orderProductDelete/{itemId}', [ProductController::class, 'orderProductDelete']);
 // 상품목록 삭제
 Route::middleware('auth')->delete('/api/productAskDelete/{qnp_id}', [QnaController::class, 'productAskDelete']);
 // 1대1 문의 삭제
@@ -140,6 +140,8 @@ Route::middleware('auth')->post('/api/detailedtocount', [ProductController::clas
 Route::get('/api/list', [ProductController::class, 'list']);
 // 상세리스트 검색
 Route::get('/api/listck', [ProductController::class, 'listck']);
+// 키워드
+Route::get('/api/typechklist', [ProductController::class, 'typelistchk']);
 // ----------------------- 민서 끝 ---------------------------
 
 

@@ -187,7 +187,7 @@ class ProductController extends Controller
     public function listck(Request $request) {
         $query = $request->search;
         Log::debug('상품검색 req', $request->all());
-        $productQuery = Product::select('products.price','products.img', 'products.name', 'products.id')
+        $productQuery = Product::select('products.price','products.img', 'products.name', 'products.id', 'products.type')
                         ->where('products.name','like', "%{$query}%")
                         ->orderBy('products.created_at', 'DESC');
                         // ->paginate(20);
@@ -330,6 +330,29 @@ class ProductController extends Controller
             ,'data' => $bagItem
         ];
 
+        return response()->json($responseData, 200);
+    }
+
+    // 키워드 데이터
+    public function typelistchk(Request $request) {
+        $productQuery = Product::select('products.name', 'products.id', 'products.type')
+                                ->orderBy('products.created_at', 'DESC');
+                                // ->get();
+        if($request->type != '99') {
+            $productQuery->where('products.type', $request->type);
+        }
+        
+        // $productData = $productQuery->dd(); 화면에 출력해서 코드 확인용
+        $productData = $productQuery->paginate(5);
+
+        
+        Log::debug('상품검색 완', $productData->toArray());
+        $responseData = [
+                'code' => '0'
+                ,'msg' => '초기 상품값 획득 완료'
+                ,'data' => $productData
+        ];
+        
         return response()->json($responseData, 200);
     }
 
