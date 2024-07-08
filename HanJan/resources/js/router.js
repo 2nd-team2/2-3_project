@@ -81,7 +81,6 @@ const routes = [
         path: '/detailed',
         component: DetailedCompnent,
         beforeEnter: (to, from, next) => {
-            const store = useStore();
 
             // 숫자인지 검증
             const validId = /^\d+$/; 

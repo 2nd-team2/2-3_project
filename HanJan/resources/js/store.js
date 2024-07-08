@@ -1829,7 +1829,7 @@ const store = createStore({
             axios.post(url, data)
             .then(response => {
 
-                context.commit('setAdminUserToUpdate', response.data.data);
+                context.commit('setAdminProductToUpdate', response.data.data);
                 localStorage.setItem('adminProductToUpdate', JSON.stringify(response.data.data));
 
                 if(confirm('공지사항 수정을 완료하였습니다. \n확인을 누르면 리스트로 돌아갑니다.')){
@@ -2056,8 +2056,6 @@ const store = createStore({
                 console.log(response.data); 
                 router.replace('/admin/notice');
 
-                // 폼 초기화
-                form.reset();
             })
             .catch(error => {
                 console.log(error.response);

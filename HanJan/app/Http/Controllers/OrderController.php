@@ -423,9 +423,9 @@ class OrderController extends Controller
             ,'msg' => '주문목록 획득 완료'
             ,'data' => [
                 'daily' =>$salesStatisticsData->toArray() 
-                ,'weekly' =>$salesStatisticsData->toArray() 
-                ,'month' =>$salesStatisticsData->toArray() 
-                ,'year' =>$salesStatisticsData->toArray() 
+                // ,'weekly' =>$salesStatisticsData->toArray() 
+                // ,'month' =>$salesStatisticsData->toArray() 
+                // ,'year' =>$salesStatisticsData->toArray() 
             ]
         ];
 
