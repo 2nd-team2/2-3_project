@@ -257,10 +257,6 @@ class ProductController extends Controller
         //             ->groupBy('orderproducts.p_id')
         //             ->get();
 
-
-        Log::debug('#######################');
-        Log::debug($productData);
-
         $responseData = [
                 'code' => '0'
                 ,'msg' => '초기 상품값 획득 완료'
@@ -334,24 +330,6 @@ class ProductController extends Controller
             ,'data' => $bagItem
         ];
 
-        return response()->json($responseData, 200);
-    }
-
-    // 키워드 데이터
-    public function typelistchk() {
-        $productData = Product::select('products.price', 'products.img', 'products.name', 'products.id', 'products.type')
-                                ->orderBy('products.created_at', 'DESC')
-                                ->limit(20)
-                                ->get();
-
-        // $productData = $productQuery->paginate(20);
-        $responseData = [
-                'code' => '0'
-                ,'msg' => '초기 상품값 획득 완료'
-                ,'data' => $productData
-        ];
-        // Log::debug($responseData);
-        
         return response()->json($responseData, 200);
     }
 
