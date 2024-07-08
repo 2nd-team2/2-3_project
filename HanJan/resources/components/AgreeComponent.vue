@@ -34,7 +34,6 @@
                             <span class="red_span">(필수)</span>
                             <span class="middle_span">개인정보 수집 및 이용 </span>
                             <button type="button" id="second_btn_modal" class="text_btn" @click="openModal(terms2)">전체보기 ></button>
-                            <!-- 모달창 -->
                             <transition name="fade">
                             <div class="agree_box modal_overlay" id="modal" v-show="showModal">
                                 <div class="modal_window">
@@ -45,7 +44,6 @@
                                 </div>
                             </div>
                             </transition>
-                            <!-- 모달창 -->
                             <textarea class="textArea" readonly>{{ terms2 }}</textarea>
                         </label>
                     </div>
@@ -58,15 +56,25 @@
                 </div>
                 <div class="buttons twobuttons">
                     <button type="button" class="info_item_btn form_btn" @click="$router.push('/')">취소</button>
-                    <button type="submit" class="info_item_btn form_btn" @click=Submit>회원가입</button>
+                    <button type="button" class="info_item_btn form_btn" @click=openSubmitModal>회원가입</button>
                 </div>
+                <transition name="down">
+                    <div class="agree_box modal_second_overlay" v-show="showSubmitModal">
+                        <div class="modal_second_window">
+                            <div class="second_content">
+                                <p>필수약관에 모두 동의해주세요.</p>
+                                <br>
+                                <img @click="closeSubmitModal" src="../../public/img/complete.png" class="complete_btn">
+                            </div>
+                        </div>
+                    </div>
+                </transition>
             </form>
         </div>
     </main>
 </template>
 
 <script setup>
-// 모달창
 import { onBeforeMount, ref } from 'vue';
 import router from '../js/router';
 import { useStore } from 'vuex';
@@ -128,14 +136,20 @@ function toggleAllCheckbox() {
     }
 }
 
-function Submit() {
-    if (!agree3Checked.value) {
-        alert('필수 약관에 모두 동의해주세요.');
-        const form = document.querySelector('#regist_form');
-        form.reset();
-    } else {
+const showSubmitModal = ref(false);
+
+function openSubmitModal() {
+    if(agree3Checked.value === true) {
         router.push('/regist');
+    } else {
+        showSubmitModal.value = true;
+        // document.body.style.overflowY = 'hidden';
     }
+}
+
+function closeSubmitModal() {
+    showSubmitModal.value = false;
+    // document.body.style.overflowY = 'scroll';
 }
 
 </script>

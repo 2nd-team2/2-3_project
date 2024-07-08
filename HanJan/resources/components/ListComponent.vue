@@ -30,13 +30,13 @@
             </div>
 
             <!-- 드롭다운 -->
-            <input type="checkbox" name="test" id="" value="1" v-model="testChk">
+            <!-- <input type="checkbox" name="test" id="" value="1" v-model="testChk">
             <span>1</span>
             <input type="checkbox" name="test" id="" value="2" v-model="testChk">
             <span>2</span>
             <input type="checkbox" name="test" id="" value="3" v-model="testChk">
             <span>3</span>
-            <p>{{  testChk }}</p>
+            <p>{{  testChk }}</p> -->
             <!-- <div id="list_app">
                 <div class="list_menu-bar">
                     <div class="list_dropdown" v-for="(dropdown, index) in dropdowns" :key="index">
@@ -56,17 +56,6 @@
                     </div>
                 </div>
             </div> -->
-            <div>
-                <div class="selected-options">
-                    <label for="typeChk" class="selected-option">탁주</label>
-                    <input type="checkbox" name="selected-option" id="typeChk" value="0" v-model="typeChk">
-                    <label for="typeChk" class="selected-option">과실주</label>
-                    <input type="checkbox" name="selected-option" id="typeChk" value="1" v-model="typeChk">
-                    <label for="typeChk" class="selected-option">증류주</label>
-                    <input type="checkbox" name="selected-option" id="typeChk" value="2" v-model="typeChk">
-                    <p>{{ '확인 :' + typeChk }}</p>
-                </div>
-            </div>
 
             <p class="list_best_title">한잔 베스트</p>
             <!-- 저장 -->
@@ -129,17 +118,6 @@
     const isType1 = ref(false);
     const isType2 = ref(false);
     
-const typeChk = ref([]); // TODO 삭제
-watch(typeChk, () => {
-    console.log(typeChk.value);
-    store.dispatch('typeChkList', data);
-});
-
-
-const testChk = ref([]); // TODO 삭제
-watch(testChk, () => {
-    console.log(testChk.value);
-});
     const data = {
         type: '',
         page: '',

@@ -83,95 +83,19 @@ hr {
 .list_search_img img {
     width: 25px
 }
-/* ------------- 드롭다운 ------------- */
-#list_app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin: 6rem 0;
+/* ------------- 카테고리 ------------- */
+.list_proposal {
     display: flex;
-    flex-direction: column;
-    align-content: center;
-    align-items: center;
-    width: 80%;
-    margin: 6rem auto;
-    flex-wrap: wrap;
-}
-
-.list_menu-bar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4rem;
-    margin-bottom: 2rem;
-}
-
-.list_dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.list_dropdown-toggle {
-    padding: 8px 16px;
-    cursor: pointer;
-    background-color: #fff;
-    border: 1px solid #000;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-.list_dropdown-menu {
-    display: flex;
-    position: absolute;
-    background-color: white;
-    padding: 12px;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 20rem;
-    border: 1px solid #000;
-    border-radius: 9px;
-    margin-top: 0.5rem;
-    z-index: 1;
-}
-
-.list_dropdown-item {
-    display: flex;
-    align-items: center;
-    padding: 8px;
-}
-
-.selected-options {
-    display: flex;
-    gap: 8px;
-    width: 80%;
-    flex-wrap: wrap;
-    flex-direction: row;
-}
-
-.selected-option {
-    background-color: #FAC91D;
-    color: #000;
-    padding: 0.8rem 1.5rem;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
     justify-content: center;
-    align-content: center;
+    gap: 1.5rem;
+    margin: 1rem;
     flex-direction: row;
     flex-wrap: wrap;
-}
-
-.selected-option button {
-    background: none;
-    border: none;
-    color: #000;
     cursor: pointer;
-    font-size: 16px;
 }
-
+.list_pro_mun:hover {
+    color: #FAC91D;
+}
 /* ------------- 메뉴 ------------- */
 .list_menu{
     display: flex;

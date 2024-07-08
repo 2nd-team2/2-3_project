@@ -9,6 +9,12 @@
                     <input type="text" class="list_search_text" placeholder="검색어를 입력해주세요" v-model="data.search">
                     <button type="button" class="list_search_img" @click="search"><img src="/img/search.png"></button>
                 </div>
+                <!-- 추천카테고리 : 타입별 추천 리스트 불러오기 5개씩 -->
+                <ul class="list_proposal">
+                    <li class="list_pro_mun" v-for="(item, key) in $store.state.searchListData.data" :key="key.id">
+                        <div @click="productDetail(item.id)">{{item.type}} > {{item.name}}</div>
+                    </li>
+                </ul>
             </form>
             
             <!-- 메뉴 -->
@@ -27,27 +33,6 @@
                     <img src="/img/menu03.png" alt="중류주">
                     <p :class="{list_name_bk:isType2}">증류주</p>
                 </router-link>
-            </div>
-
-            <!-- 드롭다운 -->
-            <div id="list_app">
-                <div class="list_menu-bar">
-                    <div class="list_dropdown" v-for="(dropdown, index) in dropdowns" :key="index">
-                        <button class="list_dropdown-toggle" @click="toggleDropdown(index)">{{ dropdown.label }}</button>
-                        <div v-if="dropdown.isOpen" class="list_dropdown-menu" @click.stop>
-                        <label v-for="option in dropdown.options" :key="option.value" class="list_dropdown-item">
-                            <input type="checkbox" v-model="dropdown.selectedOptions" :value="option.value" />
-                            {{ option.label }}
-                        </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="selected-options">
-                    <div v-for="(option, index) in selectedKeywords" :key="index" class="selected-option" >
-                        {{ option.label }}
-                        <button @click="removeOption(option.value)">×</button>
-                    </div>
-                </div>
             </div>
 
             <p class="list_best_title">한잔 베스트</p>
@@ -101,7 +86,7 @@
 </template>
 
 <script setup>
-    import { onBeforeMount, computed, ref, defineProps  } from 'vue';
+    import { onBeforeMount, computed, ref  } from 'vue';
     import { useStore } from 'vuex';
     import router from '../js/router';
     import { onBeforeRouteUpdate } from 'vue-router';
@@ -213,74 +198,6 @@
     function formatPrice(price) {
         return price.toLocaleString('ko-KR');
     }
-
-    // 드롭다운
-    const dropdowns = ref([
-        {
-            label: '주종',
-            isOpen: false,
-            selectedOptions: [],
-            options: [
-            { value: '1', label: '탁주' },
-            { value: '2', label: '약 . 청주' },
-            { value: '3', label: '과실주' },
-            { value: '4', label: '증류주' },
-            { value: '5', label: '기타주' },
-            ],
-        },
-        {
-            label: '도수',
-            isOpen: false,
-            selectedOptions: [],
-            options: [
-            { value: '0-10', label: '0%-10%' },
-            { value: '10-20', label: '10%-20%' },
-            { value: '20-30', label: '20%-30%' },
-            { value: '30+', label: '30%이상' },
-            ],
-        },
-        {
-            label: '가격대',
-            isOpen: false,
-            selectedOptions: [],
-            options: [
-                { value: '0-10000', label: '10,000원 미만' },
-                { value: '10000-50000', label: '10,000원 - 50,000원' },
-                { value: '50000-100000', label: '50,000원 - 100,000원' },
-                { value: '100000+', label: '100,000원 이상' },
-            ],
-        },
-    ]);
-
-    const toggleDropdown = (index) => {
-        dropdowns.value[index].isOpen = !dropdowns.value[index].isOpen;
-        dropdowns.value.forEach((dropdown, i) => {
-            if (i !== index) {
-            dropdown.isOpen = false;
-            }
-        });
-    };
-
-    const selectedKeywords = computed(() => {
-        return dropdowns.value.flatMap(dropdown => {
-            return dropdown.selectedOptions.map(value => {
-            const option = dropdown.options.find(opt => opt.value === value);
-            return {
-                value,
-                label: option.label
-            };
-            });
-        });
-    });
-
-    const removeOption = (value) => {
-        dropdowns.value.forEach(dropdown => {
-            const index = dropdown.selectedOptions.indexOf(value);
-            if (index !== -1) {
-            dropdown.selectedOptions.splice(index, 1);
-            }
-        });
-    };
     
     // 검색추가
     function search() {

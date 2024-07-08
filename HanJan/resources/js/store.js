@@ -58,7 +58,7 @@ const store = createStore({
             // 리스트페이지 메인 이미지
             currentImage: '',
             // 키워드
-            products: [],
+            typeChk: [],
             // 상세페이지 에서 주문페이지으로 데이터 넘기기(로컬스토리지에 저장하기 - 새로고침 누를시 없어지는 걸 방지)
             // detailedUpdate: localStorage.getItem('detailedUpdate') ? JSON.parse(localStorage.getItem('detailedUpdate')) : null,
             // ----------------------- 민서 끝 ---------------------------
@@ -239,8 +239,8 @@ const store = createStore({
             localStorage.setItem('orderProductData', JSON.stringify(data));
         },
         // 키워드
-        setProducts(state, products) {
-            state.products = products;
+        listTypeChk(state, data) {
+            state.typeChk = data;
         },
         // ----------------------- 민서 끝 ---------------------------
         // ----------------------- 호경 시작 -------------------------
@@ -905,9 +905,9 @@ const store = createStore({
                 context.commit('setAuthFlg', true);
                 router.replace('/');
             })
-            .catch(responseData => {
-                alert('로그인을 실패했습니다.');
+            .catch(error => {
                 form.reset();
+                alert('로그인 실패');
             });
         },
 
@@ -943,7 +943,6 @@ const store = createStore({
             .then(responseData => {
                 localStorage.removeItem('kakaoInfo');
                 router.replace('login');
-                alert('회원가입이 완료되었습니다.');
             })
         },
 
@@ -985,17 +984,15 @@ const store = createStore({
         userDelete(context) {
             const url = '/api/userDelete';
             const data = new FormData(document.querySelector('#update_form'));
-            if (confirm('정말 탈퇴 하시겠습니까?')) {
-                axios.delete(url, data)
-                .then(responseData => {
-                    localStorage.clear();
-                    context.commit('setAuthFlg', false);
-                    context.commit('setUserInfo', null);
-                    store.dispatch('getReviewistData');
-                    
-                    router.replace('/');
-                });
-            }
+            axios.delete(url, data)
+            .then(responseData => {
+                localStorage.clear();
+                context.commit('setAuthFlg', false);
+                context.commit('setUserInfo', null);
+                store.dispatch('getReviewistData');
+                
+                router.replace('/');
+            });
         },
 
         // 수정 전 비밀번호 재확인
@@ -1028,15 +1025,13 @@ const store = createStore({
         //  주문목록 삭제
         orderItemDelete(context, orp_id) {
             const url = '/api/orderProductDelete/' + orp_id;
-            if (confirm('확인을 누르면 구매한 상품이 삭제됩니다.')) {
-                axios.delete(url)
-                .then(responseData => {
-                    context.dispatch('getInfoData', lastItemPaginate(context.state.infoData));
-                })
-                .catch(error => {
-                    alert('삭제에 실패했습니다.(' + error.response.data.code + ')' )
-                });
-            }
+            axios.delete(url)
+            .then(responseData => {
+                context.dispatch('getInfoData', lastItemPaginate(context.state.infoData));
+            })
+            .catch(error => {
+                alert('삭제에 실패했습니다.(' + error.response.data.code + ')' )
+            });
         },
 
         // 상품 문의목록 불러오기
@@ -1055,15 +1050,13 @@ const store = createStore({
         //  상품 문의 삭제
         productAskDelete(context, qnp_id) {
             const url = '/api/productAskDelete/' + qnp_id;
-            if (confirm('확인을 누르면 작성한 상품 문의가 삭제됩니다.')) {
-                axios.delete(url)
-                .then(responseData => {
-                    context.dispatch('getProductAskData', lastItemPaginate(context.state.productAskData));
-                })
-                .catch(error => {
-                    alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
-                });
-            }
+            axios.delete(url)
+            .then(responseData => {
+                context.dispatch('getProductAskData', lastItemPaginate(context.state.productAskData));
+            })
+            .catch(error => {
+                alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
+            });
         },
 
         // 1:1 문의목록 불러오기
@@ -1082,15 +1075,13 @@ const store = createStore({
         //  1:1 문의 삭제
         askDelete(context, qn_id) {
             const url = '/api/askDelete/' + qn_id;
-            if (confirm('확인을 누르면 작성한 1:1 문의가 삭제됩니다.')) {
-                axios.delete(url)
-                .then(responseData => {
-                    context.dispatch('getAskData', lastItemPaginate(context.state.askSetData));
-                })
-                .catch(error => {
-                    alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
-                });
-            }
+            axios.delete(url)
+            .then(responseData => {
+                context.dispatch('getAskData', lastItemPaginate(context.state.askSetData));
+            })
+            .catch(error => {
+                alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
+            });
         },
 
         // 구매확정
@@ -1226,7 +1217,8 @@ const store = createStore({
                 // console.log('수량데이터', response.data);
                 // 데이터베이스->서버를 통해 받은 데이터를 CountData 저장
                 constext.commit('detailedCountData', response.data.data);
-                if(confirm('확인을 클릭시 장바구니로 이동 됩니다.')) {
+                if(confirm('확인을 클릭시 장바구니로 이동 됩니다. \n장바구니에 담은 총수량 : [ '+ response.data.data.ba_count +' ] 개')) {
+                    // const router = useRouter();
                     router.push('/bag');
                 }
             })
@@ -1276,31 +1268,6 @@ const store = createStore({
 
             router.push('/order');
             // router.replace('/order');
-        },
-        // 키워드
-        typeChkList(constext) {
-            const url = '/api/typechklist';
-            axios.post(url)
-            .then(response => {
-                // console.log('수량데이터', response.data);
-                // 데이터베이스->서버를 통해 받은 데이터를 CountData 저장
-                constext.commit('detailedCountData', response.data.data);
-                if(confirm('확인을 클릭시 장바구니로 이동 됩니다.')) {
-                    router.push('/bag');
-                }
-            })
-            .catch(error => {
-                // 로그인이 되어있을경우
-                if(store.state.userInfo) {
-                    // console.log(error.response.data);
-                    alert('장바구니 이동 실패했습니다(' + error.response.data.code + ')');
-                }
-                // 로그인이 되어있지 않을경우
-                else if (!store.state.userInfo){
-                    alert('로그인이 필요한 서비스입니다.');
-                    router.push('/login');
-                }
-            });    
         },
 
 
