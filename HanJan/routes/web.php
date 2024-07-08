@@ -13,6 +13,7 @@ use App\Http\Controllers\QnaController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TraditionalLiquorController;
 use App\Models\Qna;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -79,6 +80,8 @@ Route::middleware('auth')->delete('/api/reviewDelete/{re_id}', [ReviewController
 Route::middleware('auth')->get('/api/exchangeProduct/{id}', [ExchangeController::class, 'exchangeProduct']);
 Route::middleware('auth')->post('/api/exchage', [ExchangeController::class, 'exchage']);
 
+// 이메일 인증 라우터
+// Auth::routes(['verify' => true]);
 
 // 카카오 로그인
 Route::get('/api/kakao', [UserController::class, 'redirectToKakao']);
@@ -137,6 +140,8 @@ Route::middleware('auth')->post('/api/detailedtocount', [ProductController::clas
 Route::get('/api/list', [ProductController::class, 'list']);
 // 상세리스트 검색
 Route::get('/api/listck', [ProductController::class, 'listck']);
+// 키워드
+Route::get('/api/typechklist', [ProductController::class, 'typelistchk']);
 // ----------------------- 민서 끝 ---------------------------
 
 
@@ -175,12 +180,38 @@ Route::get('/api/traditionalliquor', [TraditionalLiquorController::class, 'tradi
 Route::post('/api/admin/login', [AdminController::class, 'adminLogin']);
 // 관리자 로그아웃 처리
 Route::middleware('auth')->post('/api/admin/logout', [AdminController::class, 'adminLogout']);
-// 관리자페이지 상품 전체 불러오기
-Route::middleware('auth')->get('/api/admin/product', [ProductController::class, 'adminProductIndex']);
-// 관리자페이지 상품 전체 불러오기
+// 관리자페이지 유저 목록 전체 불러오기
 Route::middleware('auth')->get('/api/admin/user', [UserController::class, 'adminUserIndex']);
+// 관리자페이지 유저 목록 전체 불러오기
+Route::middleware('auth')->get('/api/admin/user/new', [UserController::class, 'adminNewUserStats']);
+// 관리자페이지 상품 목록 전체 불러오기
+Route::middleware('auth')->get('/api/admin/product', [ProductController::class, 'adminProductIndex']);
+// 관리자페이지 주문 목록 전체 불러오기
+Route::middleware('auth')->get('/api/admin/order', [OrderController::class, 'adminOrderIndex']);
+// 관리자페이지 교환 및 반품 전체 불러오기
+Route::middleware('auth')->get('/api/admin/exchange', [ExchangeController::class, 'adminExchangeIndex']);
 // 관리자페이지 1:1문의 전체 불러오기
 Route::middleware('auth')->get('/api/admin/onebyone', [QnaController::class, 'adminOneByOneIndex']);
 // 관리자페이지 상품문의 전체 불러오기
 Route::middleware('auth')->get('/api/admin/productqna', [QnaController::class, 'adminProductQnaIndex']);
+// 관리자페이지 공지사항 전체 불러오기
+Route::middleware('auth')->get('/api/admin/noticelist', [NoticeController::class, 'adminNoticeIndex']);
+// 상품 추가하기
+Route::middleware('auth')->post('/api/admin/product/create', [ProductController::class, 'productCreate']);
+// 공지사항 작성하기
+Route::middleware('auth')->post('/api/admin/notice/create', [NoticeController::class, 'noticeCreate']);
+// 상품 삭제
+Route::middleware('auth')->delete('/api/admin/product/delete/{id}', [ProductController::class, 'adminProductDeleted']);
+// 공지사항 삭제
+Route::middleware('auth')->delete('/api/admin/notice/delete/{no_id}', [NoticeController::class, 'adminNoticeDeleted']);
+// 유저 정보 수정
+Route::middleware('auth')->post('/api/admin/user/update/{id}', [UserController::class, 'adminUserUpdate']);
+// 상품 수정
+Route::middleware('auth')->post('/api/admin/product/update', [ProductController::class, 'productUpdateSubmit']);
+// 상품문의 답변 작성하기
+Route::middleware('auth')->post('/api/admin/productqna/update', [QnaController::class, 'productQnaUpdate']);
+// 1:1문의 답변 작성하기
+Route::middleware('auth')->post('/api/admin/onebyone/update', [QnaController::class, 'oneByOneUpdate']);
+// 공지사항 데이터 수정
+Route::middleware('auth')->post('/api/admin/notice/update', [NoticeController::class, 'noticeUpdateSubmit']);
 // ----------------------- 호경 끝 ---------------------------

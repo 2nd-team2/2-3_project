@@ -37,4 +37,31 @@ class Exchange extends Model
     {
         return $date->format('Y-m-d'); //시분초 없어도 괜찮아서 뺐습니다
     }
+
+    /**
+     * Accessor : Column type
+     */
+    
+    public function getExReasonAttribute($value) {
+        if ($value == '0') {
+            return '단순변심';
+        } else if ($value == '1') {
+            return '상품 배송 오류';
+        } else if ($value == '2') {
+            return '구성 품족';
+        } else {
+            return '파손, 결함';
+        }
+    }
+    public function getExFlgAttribute($value) {
+        if ($value == '0') {
+            return '미신청';
+        } else if ($value == '1') {
+            return '신청완료';
+        } else if ($value == '2') {
+            return '상품회수중';
+        } else {
+            return '처리완료';
+        }
+    }
 }

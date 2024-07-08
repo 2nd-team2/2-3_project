@@ -13,6 +13,7 @@
 main {
     width: 70%;
     margin: 3rem auto;
+    min-height: 37vh;
 }
 
 .dark-mode div {

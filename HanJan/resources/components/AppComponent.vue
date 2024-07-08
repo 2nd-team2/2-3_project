@@ -2,7 +2,7 @@
     <div v-if="$store.state.adminFlg">
         <div class="admin_container">
             <div class="header">
-                <router-link to="/"><img src="/img/logo.png" class="admin_logo"></router-link>
+                <img src="/img/logo.png" class="admin_logo">
                 <div v-if="$store.state.adminLoginFlg" class="admin_login_flg">
                     <ul class="admin_nav">
                         <li class="admin_nav_list admin_nav_item1">
@@ -12,7 +12,7 @@
                             <div @click="openMiniNav1" class="admin_nav_title">유저
                                 <div :class="{ admin_nav_mini: openFlg1 }" id="admin_nav_mini">
                                     <ul class="admin_nav_mini_box">
-                                        <li class="admin_nav_mini_item1"><router-link to="/admin/users" class="admin_nav_mini_title">유저 관리</router-link></li>
+                                        <li class="admin_nav_mini_item1"><router-link to="/admin/user" class="admin_nav_mini_title">유저 관리</router-link></li>
                                     </ul>
                                 </div>
                             </div>
@@ -27,19 +27,31 @@
                             </div>
                         </li>
                         <li class="admin_nav_list admin_nav_item4">
-                            <div @click="openMiniNav3" class="admin_nav_title">문의
+                            <div @click="openMiniNav3" class="admin_nav_title">주문
                                 <div :class="{ admin_nav_mini: openFlg3 }" id="admin_nav_mini">
                                     <ul class="admin_nav_mini_box">
-                                        <li class="admin_nav_mini_item3"><router-link to="/admin/productqna" class="admin_nav_mini_title">상품 문의 관리</router-link></li>
-                                        <li class="admin_nav_mini_item4"><router-link to="/admin/onebyone" class="admin_nav_mini_title">1:1문의 관리</router-link></li>
+                                        <li class="admin_nav_mini_item3"><router-link to="/admin/order" class="admin_nav_mini_title">주문 관리</router-link></li>
+                                    </ul>
+                                    <ul class="admin_nav_mini_box">
+                                        <li class="admin_nav_mini_item3"><router-link to="/admin/exchange" class="admin_nav_mini_title">교환 및 반품 관리</router-link></li>
                                     </ul>
                                 </div>
                             </div>
                         </li>
                         <li class="admin_nav_list admin_nav_item5">
-                            <router-link to="/admin/notice" class="admin_nav_title">공지</router-link>
+                            <div @click="openMiniNav4" class="admin_nav_title">문의
+                                <div :class="{ admin_nav_mini: openFlg4 }" id="admin_nav_mini">
+                                    <ul class="admin_nav_mini_box">
+                                        <li class="admin_nav_mini_item4"><router-link to="/admin/productqna" class="admin_nav_mini_title">상품 문의 관리</router-link></li>
+                                        <li class="admin_nav_mini_item5"><router-link to="/admin/onebyone" class="admin_nav_mini_title">1:1문의 관리</router-link></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </li>
                         <li class="admin_nav_list admin_nav_item6">
+                            <router-link to="/admin/notice" class="admin_nav_title">공지</router-link>
+                        </li>
+                        <li class="admin_nav_list admin_nav_item7">
                             <div @click="$store.dispatch('adminLogout')" class="admin_nav_title">로그아웃</div>
                         </li>
                     </ul>
@@ -397,6 +409,7 @@ onBeforeUnmount(() => {
     let openFlg1 = ref(true);
     let openFlg2 = ref(true);
     let openFlg3 = ref(true);
+    let openFlg4 = ref(true);
     
     function openMiniNav1() {
         openFlg1.value = !openFlg1.value;
@@ -406,6 +419,9 @@ onBeforeUnmount(() => {
     }
     function openMiniNav3() {
         openFlg3.value = !openFlg3.value;
+    }
+    function openMiniNav4() {
+        openFlg4.value = !openFlg4.value;
     }
     
 </script>

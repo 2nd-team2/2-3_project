@@ -43,6 +43,7 @@ class UserController extends Controller
                 $kakaoUser = Socialite::driver('kakao')->user();
                 // 사용자 데이터 확인
                 // Log::debug('Kakao User Data: ', (array) $kakaoUser);
+            Log::debug('Kakao User Data: ', (array) $kakaoUser);
 
                 // 카카오에서 받아온 email을 통해 사용자 정보가 있는지 확인
                 $user = User::where('email', $kakaoUser->getEmail())->first();
@@ -331,29 +332,93 @@ class UserController extends Controller
         // ----------------------- 호경 끝 ---------------------------
 
         // --------------------------------------------------------------------- 관리자 페이지 -------------------------------------------------------------------------
-            // ----------------------- 보원 시작 ---------------------------
-            // ----------------------- 보원 끝 ---------------------------
+        // ----------------------- 보원 시작 ---------------------------
+        // ----------------------- 보원 끝 ---------------------------
 
-            // ----------------------- 성환 시작 ---------------------------
-            // ----------------------- 성환 끝 ---------------------------
+        // ----------------------- 성환 시작 ---------------------------
+        // ----------------------- 성환 끝 ---------------------------
 
-            // ----------------------- 민서 시작 ---------------------------
-            // ----------------------- 민서 끝 ---------------------------
+        // ----------------------- 민서 시작 ---------------------------
+        // ----------------------- 민서 끝 ---------------------------
 
-            // ----------------------- 호경 시작 ---------------------------
-            // 관리자 페이지 유저 전체 불러오기
-            public function adminUserIndex() {
-                $adminUserData = User::withTrashed()
-                                    ->select('users.*')
-                                    ->paginate(20);
-                
-                $responseData = [
-                    'code' => '0'
-                    ,'msg' => '유저 전체 획득 완료'
-                    ,'data' => $adminUserData->toArray()
-                ];
+        // ----------------------- 호경 시작 ---------------------------
+        // 관리자 페이지 유저 전체 불러오기
+        public function adminUserIndex() {
+            $adminUserData = User::withTrashed()
+                                ->select('users.*')
+                                ->orderBy('users.created_at', 'DESC')
+                                ->paginate(20);
+            
+            $responseData = [
+                'code' => '0'
+                ,'msg' => '유저 전체 획득 완료'
+                ,'data' => $adminUserData->toArray()
+            ];
 
-                return response()->json($responseData, 200);
+            return response()->json($responseData, 200);
+        }
+        
+        // 관리자 페이지에서 유저 정보 수정
+        public function adminUserUpdate(Request $request, $id) {
+            
+            $userInfo = User::find($id);
+
+            if (!$userInfo) {
+                return response()->json([
+                    'code' => 1,
+                    'msg' => '해당 사용자를 찾을 수 없습니다.'
+                ], 404);
             }
-            // ----------------------- 호경 끝 ---------------------------
+
+            // 비밀번호와 비밀번호 확인이 일치하는지 확인
+            if ($request->password !== $request->password_chk) {
+                throw new MyAuthException('E21');
+            }
+
+            // // 이메일 중복 체크
+            // $existingUser = User::where('email', $request->email)->where('id', '!=', $userInfo->id)->first();
+            // if ($existingUser) {
+            //     return response()->json([
+            //         'code' => 1,
+            //         'msg' => '해당 이메일은 이미 사용 중입니다.'
+            //     ], 400);
+            // }
+
+            // 업데이트 할 리퀘스트 데이터 셋팅
+            $userInfo->name = $request->name;
+            $userInfo->email = $request->email;
+            // $userInfo->password = Hash::make($request->password); 
+            $userInfo->tel = $request->tel;
+            $userInfo->addr = $request->addr;
+            $userInfo->det_addr = $request->det_addr;
+            $userInfo->post = $request->post;
+            $userInfo->birth = $request->birth;
+
+            // 유저정보 갱신
+            $userInfo->save();
+            $responseData = [
+                'code' => 0,
+                'msg' => '회원 정보 수정 완료',
+                'data' => $userInfo
+            ];
+            return response()->json($responseData, 200);
+        }
+
+        // 관리자 페이지 매 달 신규 유저 통계 불러오기
+        public function adminNewUserStats() {
+            $adminNewUserData = User::selectRaw('DATE_FORMAT(created_at, "%Y-%m") AS month')
+                                    ->selectRaw('COUNT(*) AS new_users')
+                                    ->whereNull('deleted_at')
+                                    ->groupBy('month')
+                                    ->orderBy('month')
+                                    ->get();
+            $responseData = [
+                'code' => '0'
+                ,'msg' => '신규 가입자 획득 완료'
+                ,'data' => $adminNewUserData->toArray()
+            ];
+
+            return response()->json($responseData, 200);
+        }
+        // ----------------------- 호경 끝 ---------------------------
 }

@@ -2,16 +2,21 @@
     <div class="admin">
         <h2 class="admin_title">1:1 문의 관리</h2>
         <div class="admin_onebyone_list_container">
-            <div class="admin_onebyone_list_name">유저 이름</div>
-            <div class="admin_onebyone_list_title">문의 내용</div>
-            <div class="admin_onebyone_list_date">작성일</div>
+            <div class="admin_onebyone_list_name admin_weight">유저 이름</div>
+            <div class="admin_onebyone_list_title admin_weight">문의 내용</div>
+            <div class="admin_onebyone_list_answer admin_weight">답변 내용</div>
+            <div class="admin_onebyone_list_created admin_weight">작성일</div>
+            <div class="admin_onebyone_list_updated admin_weight">수정일</div>
+            <div class="admin_onebyone_list_deleted admin_weight">삭제일</div>
         </div>
         <div v-for="onebyone in $store.state.adminOneByOneData.data" :key="onebyone.qn_id" class="admin_onebyone_list_container admin_paddingtop">
             <div class="admin_onebyone_list_name">{{ onebyone.name }}</div>
             <div class="admin_onebyone_list_title">{{ onebyone.qn_content }}</div>
-            <div class="admin_onebyone_list_date">{{ onebyone.created_at }}</div>
-            <button class="admin_btn">수정하기</button>
-            <button class="admin_btn">답변하기</button>
+            <div class="admin_onebyone_list_answer">{{ onebyone.qn_answer }}</div>
+            <div class="admin_onebyone_list_created">{{ onebyone.created_at }}</div>
+            <div class="admin_onebyone_list_updated">{{ onebyone.updated_at }}</div>
+            <div class="admin_onebyone_list_deleted">{{ onebyone.deleted_at }}</div>
+            <button v-if="onebyone.deleted_at == null" @click="oneByOneUpdate(onebyone)" class="admin_btn">답변하기</button>
         </div>
     
         <!-- 페이지네이션 -->
@@ -86,6 +91,11 @@
         if (store.state.adminOneByOneData.current_page < store.state.adminOneByOneData.last_page) {
             goToPage(store.state.adminOneByOneData.current_page + 1);
         }
+    }
+
+    // 1:1문의 답변 페이지로 정보 넘기기
+    function oneByOneUpdate(item) {
+        store.dispatch('adminOneByOneToUpdate', item);
     }
 </script>
 

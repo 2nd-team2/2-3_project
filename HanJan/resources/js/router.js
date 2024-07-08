@@ -33,6 +33,15 @@ import AdminProductQnaComponent from '../components/admin/AdminProductQnaCompone
 import AdminProductComponent from '../components/admin/AdminProductComponent.vue';
 import AdminOneByOneComponent from '../components/admin/AdminOneByOneComponent.vue';
 import LoginKakaoComponent from '../components/LoginKakaoComponent.vue';
+import AdminNoticeCreateComponent from '../components/admin/AdminNoticeCreateComponent.vue';
+import AdminNoticeUpdateComponent from '../components/admin/AdminNoticeUpdateComponent.vue';
+import AdminProductQnaUpdateComponent from '../components/admin/AdminProductQnaUpdateComponent.vue';
+import AdminOneByOneUpdateComponent from '../components/admin/AdminOneByOneUpdateComponent.vue';
+import AdminExchangeComponent from '../components/admin/AdminExchangeComponent.vue';
+import AdminOrderComponent from '../components/admin/AdminOrderComponent.vue';
+import AdminProductCreateComponent from '../components/admin/AdminProductCreateComponent.vue';
+import AdminProductUpdateComponent from '../components/admin/AdminProductUpdateComponent.vue';
+import AdminUserUpdateComponent from '../components/admin/AdminUserUpdateComponent.vue';
 
 const routes = [
     {
@@ -182,7 +191,34 @@ const routes = [
     {
         path: '/listck',
         component: ListComponentCk,
-        // beforeEnter: chkAuth,
+        beforeEnter: (to, from, next) => {
+            // 유효한 type 값들
+            const validTypes = ['99', '0', '1', '2']; 
+            // 숫자인지 검증
+            const validPage = /^\d+$/; 
+
+            const pageValue = parseInt(to.query.page, 10);
+            const searchQuery = to.search;
+
+            // 기본 조건 검증
+            const isValidType = validTypes.includes(to.query.type);
+            const isValidPage = validPage.test(to.query.page) && pageValue >= 1 && pageValue <= 68;
+            const isValidSearch = typeof searchQuery === 'string' && searchQuery.length > 0;
+
+            if (isValidType && isValidPage) {
+                // type과 page가 유효한 경우
+                store.commit('setCurrentImage', to.query.type);
+                store.dispatch('getList', to.query);
+                next();
+            } else if (isValidSearch) {
+                // 검색 쿼리 파라미터가 유효한 경우
+                store.dispatch('searchList', searchQuery);
+                next();
+            } else {
+                // 유효하지 않은 경우 에러 페이지로 리디렉션
+                next({ name: 'NotFound' });
+            }
+        }
     },
     {
         path: '/order',
@@ -250,8 +286,13 @@ const routes = [
         beforeEnter: chkAdmin
     },
     {
-        path: '/admin/users',
+        path: '/admin/user',
         component: AdminUserComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/user/update',
+        component: AdminUserUpdateComponent,
         beforeEnter: chkAdmin
     },
     {
@@ -260,8 +301,23 @@ const routes = [
         beforeEnter: chkAdmin
     },
     {
+        path: '/admin/product/create',
+        component: AdminProductCreateComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/product/update',
+        component: AdminProductUpdateComponent,
+        beforeEnter: chkAdmin
+    },
+    {
         path: '/admin/productqna',
         component: AdminProductQnaComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/productqna/update',
+        component: AdminProductQnaUpdateComponent,
         beforeEnter: chkAdmin
     },
     {
@@ -270,10 +326,36 @@ const routes = [
         beforeEnter: chkAdmin
     },
     {
+        path: '/admin/onebyone/update',
+        component: AdminOneByOneUpdateComponent,
+        beforeEnter: chkAdmin
+    },
+    {
         path: '/admin/notice',
         component: AdminNoticeComponent,
         beforeEnter: chkAdmin
     },
+    {
+        path: '/admin/notice/create',
+        component: AdminNoticeCreateComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/notice/update',
+        component: AdminNoticeUpdateComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/exchange',
+        component: AdminExchangeComponent,
+        beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/order',
+        component: AdminOrderComponent,
+        beforeEnter: chkAdmin
+    },
+
     // 에러 페이지
     {
         path: '/:pathMatch(.*)*',

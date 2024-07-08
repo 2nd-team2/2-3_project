@@ -4,9 +4,9 @@
             <div class="list_main_img" :style="{ 'background-image': 'url(' + $store.state.currentImage + ')' }"></div>
 
             <!-- 검색 -->
-            <form action="">
+            <form name="form" onsubmit="return false">
                 <div class="list_search">
-                    <input type="text" class="list_search_text" placeholder="검색어를 입력해주세요" v-memo="data.search">
+                    <input type="text" class="list_search_text" placeholder="검색어를 입력해주세요" v-model="data.search">
                     <button type="button" class="list_search_img" @click="search"><img src="/img/search.png"></button>
                 </div>
             </form>
@@ -53,24 +53,23 @@
             <p class="list_best_title">한잔 베스트</p>
             <!-- 저장 -->
             <div class="list_content">
-                <div class="list_best" v-for="product in products" :key="product.id">
+                <div class="list_best" v-for="(item, index) in $store.state.bastData.slice(0, 5)" :key="item.id">
                     <p class="list_best_rank">{{ index + 1 }}</p>
                     <div @click="bastDetail(item.id)"> 
-                        <img :src="product.img">
+                        <img :src="item.img">
                         <div class="list_best_detail">
-                            <p>{{ product.name }}</p>
-                            <strong>{{ formatPrice(product.price) }}원</strong>
+                            <p>{{ item.name }}</p>
+                            <strong>{{ formatPrice(item.price) }}원</strong>
                         </div>
                     </div>
                 </div>
             </div>
             <hr>
 
-            
+            <h3 class="list_content_cut">총 {{ $store.state.searchListData.total }}개의 주류가 있습니다.</h3>
             <div class="list_content" id="stop">
                 <!-- 저장 -->
-                <div class="list_best" v-for="(item, key) in $store.state.listData.data" :key="key">
-                    <h3>총 {{ $store.state.listData.total }}개의 레시피가 있습니다.</h3>
+                <div class="list_best" v-for="(item, key) in $store.state.searchListData.data" :key="key">
                     <div @click="productDetail(item.id)"> 
                         <img :src="item.img">
                         <div class="list_best_detail">
@@ -87,7 +86,7 @@
                     v-for="page in pages"
                     :key="page"
                     href="#"
-                    :class="{'num': page === $store.state.listData.current_page, 'num_none': page !== $store.state.listData.current_page}"
+                    :class="{'num': page === $store.state.searchListData.current_page, 'num_none': page !== $store.state.searchListData.current_page}"
                     @click.prevent="goToPage(page)">
                     {{ page }}
                 </a>
@@ -111,13 +110,12 @@
     const isType0 = ref(false);
     const isType1 = ref(false);
     const isType2 = ref(false);
-
+    
     const data = {
         type: '',
         page: '',
         search: '',
     };
-    
     onBeforeMount(() => {
         // if(store.state.listData.current_page == 1) {
         //     store.dispatch('getList', 1);
@@ -173,17 +171,17 @@
         const maxPagesToShow = 5;
 
         // let startPage = store.state.listData.current_page - 2;
-        let startPage = store.state.listData.last_page <5 ? 1 : store.state.listData.current_page - 2;
+        let startPage = store.state.searchListData.last_page <5 ? 1 : store.state.searchListData.current_page - 2;
         if(startPage < 1) {
             startPage = 1;
         }
         const endPage = startPage + maxPagesToShow - 1;
 
         // 시작페이지 구하기
-        const pagingStart = (startPage <= (store.state.listData.last_page - maxPagesToShow + 1) || (store.state.listData.last_page - maxPagesToShow + 1) < 1) ? startPage : (store.state.listData.last_page - maxPagesToShow + 1);
+        const pagingStart = (startPage <= (store.state.searchListData.last_page - maxPagesToShow + 1) || (store.state.searchListData.last_page - maxPagesToShow + 1) < 1) ? startPage : (store.state.searchListData.last_page - maxPagesToShow + 1);
         
         // 마지막 페이지 구하기
-        const pagingEnd = endPage > store.state.listData.last_page ? store.state.listData.last_page : endPage;
+        const pagingEnd = endPage > store.state.searchListData.last_page ? store.state.searchListData.last_page : endPage;
 
         for (let i = pagingStart; i <= pagingEnd; i++) {
             pageArray.push(i)
@@ -193,21 +191,21 @@
 
     // 특정 페이지로 이동
     function goToPage(page) {
-        router.replace('/list?type='+ store.state.listData.type +'&page=' + page);
+        router.replace('/list?type='+ store.state.searchListData.type +'&page=' + page);
         // store.dispatch('getList', {'type': posts.value.type, 'page': page});
     }
 
     // 이전 페이지로 이동
     function prevPage() {
-        if (store.state.listData.current_page > 1) {
-            goToPage(store.state.listData.current_page - 1);
+        if (store.state.searchListData.current_page > 1) {
+            goToPage(store.state.searchListData.current_page - 1);
         }
     }
 
     // 다음 페이지로 이동
     function nextPage() {
-        if (store.state.listData.current_page < store.state.listData.last_page) {
-            goToPage(store.state.listData.current_page + 1);
+        if (store.state.searchListData.current_page < store.state.searchListData.last_page) {
+            goToPage(store.state.searchListData.current_page + 1);
         }
     }
 
@@ -286,10 +284,16 @@
     
     // 검색추가
     function search() {
-        data.query.type = '99';
-        data.page = '1';
+        data.type = 99;
+        data.page = 1;
         store.dispatch('searchList', data);
     }
+    // 엔터키 막기
+    document.addEventListener('keydown', function(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+        };
+    }, true);
 </script>
 
 <style scoped src="../css/list.css">
