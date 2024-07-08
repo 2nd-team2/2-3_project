@@ -12,7 +12,7 @@
 }
 
 .dark-mode .container {
-    background-color: #121212;
+    background-color: #2c2c2c;
     color: white;
 }
 
@@ -143,6 +143,17 @@ form .buttons button {
     align-items: center;
 }
 
+.modal_second_overlay {
+    display: flex;
+    position: fixed;
+    top: 10%;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0);
+    justify-content: center;
+    align-items: center;
+}
+
 .modal_window {
     background: white;
     padding: 1rem;
@@ -152,6 +163,24 @@ form .buttons button {
     max-width: 60%;
     height: 50%;
     max-height: 70%;
+}
+
+.modal_second_window {
+    background: rgb(255, 255, 255);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 15%;
+    height: 15%;
+}
+
+.second_content {
+    color: black;
+    text-align: center;
+}
+
+.complete_btn {
+    cursor: pointer;
 }
 
 .modalLine {
@@ -249,6 +278,36 @@ textarea:focus {
     opacity: 0;
   }
 
+/* ------------------------- */
+
+.down-enter-from {
+    opacity: 0;
+    transform: translateY(-200%);
+  }
+  
+  .down-enter-active {
+    transition: all 0.5s;
+  }
+  
+  .down-enter-to {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+
+  .down-leave-from {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+  
+  .down-leave-active {
+    transition: all 0.5s ease;
+  }
+  
+  .down-leave-to {
+    opacity: 0;
+    transform: translateY(-200%);
+  }
+  
 /* 웹버전 */
 @media screen and (min-width: 1201px) {
     .container {

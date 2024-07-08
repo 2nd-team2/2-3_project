@@ -430,7 +430,7 @@ onBeforeUnmount(() => {
     @import url('../css/common.css');
     @import url('../css/admin/admin_app.css');
 .dark-mode {
-  background-color: #121212;
+  background-color: #2c2c2c;
 }
 .darkmode_input {
     display: none;

@@ -890,9 +890,9 @@ const store = createStore({
                 context.commit('setAuthFlg', true);
                 router.replace('/');
             })
-            .catch(responseData => {
-                alert('로그인을 실패했습니다.');
+            .catch(error => {
                 form.reset();
+                alert('로그인 실패');
             });
         },
 
@@ -928,7 +928,6 @@ const store = createStore({
             .then(responseData => {
                 localStorage.removeItem('kakaoInfo');
                 router.replace('login');
-                alert('회원가입이 완료되었습니다.');
             })
         },
 
@@ -970,17 +969,15 @@ const store = createStore({
         userDelete(context) {
             const url = '/api/userDelete';
             const data = new FormData(document.querySelector('#update_form'));
-            if (confirm('정말 탈퇴 하시겠습니까?')) {
-                axios.delete(url, data)
-                .then(responseData => {
-                    localStorage.clear();
-                    context.commit('setAuthFlg', false);
-                    context.commit('setUserInfo', null);
-                    store.dispatch('getReviewistData');
-                    
-                    router.replace('/');
-                });
-            }
+            axios.delete(url, data)
+            .then(responseData => {
+                localStorage.clear();
+                context.commit('setAuthFlg', false);
+                context.commit('setUserInfo', null);
+                store.dispatch('getReviewistData');
+                
+                router.replace('/');
+            });
         },
 
         // 수정 전 비밀번호 재확인
@@ -1013,15 +1010,13 @@ const store = createStore({
         //  주문목록 삭제
         orderItemDelete(context, orp_id) {
             const url = '/api/orderProductDelete/' + orp_id;
-            if (confirm('확인을 누르면 구매한 상품이 삭제됩니다.')) {
-                axios.delete(url)
-                .then(responseData => {
-                    context.dispatch('getInfoData', lastItemPaginate(context.state.infoData));
-                })
-                .catch(error => {
-                    alert('삭제에 실패했습니다.(' + error.response.data.code + ')' )
-                });
-            }
+            axios.delete(url)
+            .then(responseData => {
+                context.dispatch('getInfoData', lastItemPaginate(context.state.infoData));
+            })
+            .catch(error => {
+                alert('삭제에 실패했습니다.(' + error.response.data.code + ')' )
+            });
         },
 
         // 상품 문의목록 불러오기
@@ -1040,15 +1035,13 @@ const store = createStore({
         //  상품 문의 삭제
         productAskDelete(context, qnp_id) {
             const url = '/api/productAskDelete/' + qnp_id;
-            if (confirm('확인을 누르면 작성한 상품 문의가 삭제됩니다.')) {
-                axios.delete(url)
-                .then(responseData => {
-                    context.dispatch('getProductAskData', lastItemPaginate(context.state.productAskData));
-                })
-                .catch(error => {
-                    alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
-                });
-            }
+            axios.delete(url)
+            .then(responseData => {
+                context.dispatch('getProductAskData', lastItemPaginate(context.state.productAskData));
+            })
+            .catch(error => {
+                alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
+            });
         },
 
         // 1:1 문의목록 불러오기
@@ -1067,15 +1060,13 @@ const store = createStore({
         //  1:1 문의 삭제
         askDelete(context, qn_id) {
             const url = '/api/askDelete/' + qn_id;
-            if (confirm('확인을 누르면 작성한 1:1 문의가 삭제됩니다.')) {
-                axios.delete(url)
-                .then(responseData => {
-                    context.dispatch('getAskData', lastItemPaginate(context.state.askSetData));
-                })
-                .catch(error => {
-                    alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
-                });
-            }
+            axios.delete(url)
+            .then(responseData => {
+                context.dispatch('getAskData', lastItemPaginate(context.state.askSetData));
+            })
+            .catch(error => {
+                alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
+            });
         },
 
         // 구매확정

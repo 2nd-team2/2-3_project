@@ -117,7 +117,7 @@ Route::middleware('auth')->get('/api/productAsk', [QnaController::class, 'produc
 // 1대1 문의 불러오기
 Route::middleware('auth')->get('/api/askData', [QnaController::class, 'askData']);
 // 주문목록 삭제
-Route::middleware('auth')->delete('/api/orderProductDelete/{itemId}', [ProductController::class, 'orderProductDelete']);
+Route::middleware('auth')->delete('/api/orderProductDelete/{orp_id}', [ProductController::class, 'orderProductDelete']);
 // 상품목록 삭제
 Route::middleware('auth')->delete('/api/productAskDelete/{qnp_id}', [QnaController::class, 'productAskDelete']);
 // 1대1 문의 삭제

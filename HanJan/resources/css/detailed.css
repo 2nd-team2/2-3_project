@@ -9,11 +9,27 @@ main {
     border-style: none;
 }
 
-.dark-mode .detailed_haeder_a:hover .detailed_haeder_bag{
-    color: black;
+.detailed_haeder_bag_a:hover .detailed_haeder_bag {
+    color: rgb(0, 0, 0);
+}
+
+.detailed_haeder_bag_a:hover #b_detailed {
+    display: none;
+}
+
+.detailed_haeder_bag_a:hover #bk_detailed {
+    display: block;
+}
+
+.dark-mode hr {
+    border-color: #5c5c5c;
 }
 
 .dark-mode .detailed_haeder_bay {
+    color: white;
+}
+
+.dark-mode h1 {
     color: white;
 }
 

@@ -92,8 +92,28 @@
                 <br>
                 <div class="buttons twobuttons">
                     <button type="button" class="info_item_btn form_btn" @click="$router.push('/')">취소</button>
-                    <button type="submit" class="info_item_btn form_btn" >확인</button>
+                    <button type="submit" class="info_item_btn form_btn">확인</button>
                 </div>
+                <transition name="down">
+                    <div class="agree_box modal_second_overlay" v-show="showSubmitModal">
+                        <div class="modal_second_window">
+                            <div class="second_content">
+                                <p>필수 입력사항을 확인해주세요.</p>
+                                <br>
+                                <img @click="closeSubmitModal" src="../../public/img/complete.png" class="complete_btn">
+                            </div>
+                        </div>
+                    </div>
+                </transition>
+                <transition name="down_complete">
+                    <div class="agree_box modal_second_overlay" v-show="showCompleteModal">
+                        <div class="modal_second_window">
+                            <div class="second_content">
+                                <p>회원가입 완료!</p>
+                            </div>
+                        </div>
+                    </div>
+                </transition>
             </form>
         </div>
     </main>
@@ -224,10 +244,17 @@ function validateForm() {
 
     if (valid) {
       store.dispatch('regist');
+      showCompleteModal.value = true;
     } else {
-      alert('회원가입에 실패했습니다.');
+      showSubmitModal.value = true;
     }
+}
 
+const showSubmitModal = ref(false);
+const showCompleteModal = ref(false);
+
+function closeSubmitModal() {
+    showSubmitModal.value = false;
 }
 
 // 카카오 주소 API
@@ -276,8 +303,6 @@ function kakaoPostcode() {
         }
     }).open();
 }
-
-
 
 </script>
 <style scoped src="../css/regist.css">

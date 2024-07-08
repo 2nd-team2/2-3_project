@@ -4,6 +4,21 @@ main {
     margin: 3rem auto;
 }
 
+.dark-mode textarea {
+    background-color: #5c5c5c;
+    color: white;
+    border-style: none;
+}
+
+.dark-mode hr {
+    border-color: #5c5c5c;
+}
+
+.dark-mode button {
+    background-color: rgb(201, 199, 199);
+    color: #121212;
+}
+
 hr{
     margin-top: 0.2rem;
     margin-bottom: 2rem;
