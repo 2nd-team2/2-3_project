@@ -64,7 +64,7 @@
                             <div class="second_content">
                                 <p>필수약관에 모두 동의해주세요.</p>
                                 <br>
-                                <img @click="closeSubmitModal" src="../../public/img/complete.png" class="complete_btn">
+                                <img @click="closeSubmitModal" src="/img/complete.png" class="complete_btn">
                             </div>
                         </div>
                     </div>

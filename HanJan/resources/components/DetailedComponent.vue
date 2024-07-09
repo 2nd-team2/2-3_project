@@ -3,7 +3,18 @@
         <div class="detailed_haeder">
             <img :src="store.state.productDetail.img">
             <div class="detailed_haeder_item">
-                <p class="detailed_haeder_title">{{ store.state.productDetail.name }}</p>
+                <div class="detaild_haeder_bnt">
+                    <p class="detailed_haeder_title">{{ store.state.productDetail.name }}</p>
+                    <button type="button" class="kakao_btn" @click="shareMessage()">
+                        <img src="/img/kakao_ch.png">
+                    </button>
+                </div>
+                <!-- 카카오 링크 공유 -->
+                <!-- <div class="btn_box">
+                    <span @click="shareMessage()">
+                        <img class="kakao_img" src="/img/kakao_ch.png">
+                    </span>
+                </div> -->
                 <p>판매가격 :</p>
                 <p class="detailed_haeder_price">{{ formatPrice(store.state.productDetail.price) }}원</p>
                 <div class="detailed_haeder_review">
@@ -15,17 +26,12 @@
                 </div>
                 <p id="app">수량</p>
                 <div class="detailed_quantity" >
-                    <!-- <button @click="count--" :disabled="count === 1" class="detailed_haeder_minus" type="button">-</button>
-                    <input type="number" id="quantityDisplay" class="detailed_haeder_quantity" v-model="count"  min="0">
-                    <button @click="count++" :disabled="count >= $store.state.productDetail.count " class="detailed_haeder_plus" type="button">+</button> -->
                     <button type="button" @click="decInt()" :disabled="count <= 1" class="detailed_haeder_minus">-</button>
                     <input type="number" v-model="count" @change="validateCount()" class="detailed_haeder_quantity">
                     <button type="button" @click="incInt()" :disabled="count >= $store.state.productDetail.count" class="detailed_haeder_plus">+</button>
-
                 </div>
                 <div>
                     <p>총 상품가격</p>
-                    <!-- <input type="number" class="detailed_haeder_num" :value="$store.state.productDetail.price*count" readonly >원 -->
                     <div class="detailed_haeder_num">{{ formatPrice (store.state.productDetail.price*count) }}</div> 원
                 </div>
                 <div class="detailed_haeder_btn">
@@ -34,6 +40,7 @@
                             <input type="hidden" name="ba_count" :value="count">
                             <input type="hidden" name="p_id" :value="$store.state.productDetail.id">
                             <input type="hidden" name="buy_type" value="buy">
+                            <input type="hidden" name="products_name" :value="$store.state.productDetail.name">
                             <!-- p_id & conut-->
                             <button @click="$store.dispatch('detailedToCount')" type="button" @mouseover="openIconBag" @mouseleave="closeIconBag"  class="detailed_haeder_bag_a">
                                 <img src="/img/bag.png" class="detailed_haeder_bag_w" id="b_detailed">
@@ -99,16 +106,38 @@
     const store = useStore();
     const count = ref(1);
 
-    // watch(count, () => {
-    //     console.log(count.value, store.state.productDetail.count);
-    //     if (count.value > store.state.productDetail.count) {
-    //         // 물량 수 넘어가지 못하게
-    //         count.value = 1;
-    //     }if(0 == count.value ) {
-    //         // 0으로 못 넘어간다
-    //         count.value = 1;
-    //     }
-    // });
+    // 카카오톡 공유하기 openApi 
+    Kakao.init('207acd3374ae418155e14bcfe011298b');
+    console.log(Kakao.isInitialized());
+
+    function shareMessage() {
+        // 현재 링크 가져오기
+        let currentURL = window.location.href;
+
+        Kakao.Link.sendDefault({
+            objectType: 'feed',
+            content: {
+                title: store.state.productDetail.name,
+                description: store.state.productDetail.type,
+                imageUrl: store.state.productDetail.img,
+                link: {
+                    mobileWebUrl: currentURL,
+                    webUrl: currentURL,
+                },
+            },
+            buttons: [
+                {
+                    title: '웹으로 보기',
+                    link: {
+                        mobileWebUrl: currentURL,
+                        webUrl: currentURL,
+                    },
+                },
+            ],
+            // 카카오톡 미설치 시 카카오톡 설치 경로이동
+            installTalk: true,
+        });
+    }
 
     // 아이콘 호버시 색 변환
     function openIconBag() {
@@ -147,15 +176,6 @@
             alert('남은 수량까지 선택할 수 있습니다. ( 남은 수량 : ' + store.state.productDetail.count + ')')
         } 
     };
-
-    // onBeforeMount(() => {
-    //     store.dispatch('setProductReviewData');
-    // })
-
-    // 금액 천단위 포맷 (,000)
-    // function formatPrice(price) {
-    //     return price.toLocaleString('ko-KR');
-    // }
 
     // 금액 천단위 포맷 (,000)
     function formatPrice(price) {

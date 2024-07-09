@@ -4,6 +4,7 @@ import TraditionalLiquorComponent from '../components/TraditionalLiquorComponent
 import MainComponent from '../components/MainComponent.vue';
 import LoginComponent from '../components/LoginComponent.vue';
 import AgreeCompnent from '../components/AgreeComponent.vue';
+import EmailComponent from '../components/EmailComponent.vue';
 import BagComponent from '../components/BagComponent.vue';
 import ConfirmCompnent from '../components/ConfirmComponent.vue';
 import DetailedCompnent from '../components/DetailedComponent.vue';
@@ -68,6 +69,11 @@ const routes = [
         component: AgreeCompnent,
     },
     {
+        // 이메일 인증 처리중인 componet
+        path:'/verify/:token',
+        component: EmailComponent,
+    },
+    {
         path: '/bag',
         component: BagComponent,
         beforeEnter: chkAuth,
@@ -84,7 +90,7 @@ const routes = [
 
             // 숫자인지 검증
             const validId = /^\d+$/; 
-            const IdValue = parseInt(to.query.id, 10);
+            // const IdValue = parseInt(to.query.id, 10);
         
             if(
                 validId.test(to.query.id)
@@ -169,13 +175,14 @@ const routes = [
             const validPage = /^\d+$/; 
 
             // 마지막 페이지 가져오기
-            const lastPage =  store.state.listData.last_page
+            // const lastPage =  store.state.listData.last_page
             const pageValue = parseInt(to.query.page, 10);
             const searchQuery = to.search;
 
             // 기본 조건 검증
             const isValidType = validTypes.includes(to.query.type);
-            const isValidPage = validPage.test(to.query.page) && pageValue >= 1 && pageValue <= lastPage;
+            // const isValidPage = validPage.test(to.query.page) && pageValue >= 1 && pageValue <= lastPage;
+            const isValidPage = validPage.test(to.query.page) && pageValue >= 1 && pageValue <= 99;
             const isValidSearch = typeof searchQuery === 'string' && searchQuery.length > 0;
 
             if (isValidType && isValidPage) {
@@ -202,16 +209,19 @@ const routes = [
             const validTypes = ['99', '0', '1', '2']; 
             // 숫자인지 검증
             const validPage = /^\d+$/; 
+            // 검색
+            const validsearch = /^가-힝+$/; 
 
             // 마지막 페이지 가져오기
-            const lastPage =  store.state.listData.last_page
+            // const lastPage =  store.state.listData.last_page
             const pageValue = parseInt(to.query.page, 10);
             const searchQuery = to.search;
 
             // 기본 조건 검증
             const isValidType = validTypes.includes(to.query.type);
-            const isValidPage = validPage.test(to.query.page) && pageValue >= 1 && pageValue <= lastPage;
-            const isValidSearch = typeof searchQuery === 'string' && searchQuery.length > 0;
+            // const isValidPage = validPage.test(to.query.page) && pageValue >= 1 && pageValue <= lastPage;
+            const isValidPage = validPage.test(to.query.page) && pageValue >= 1 && pageValue <= 99;
+            const isValidSearch = validsearch.searchQuery === 'string' && searchQuery.length > 0;
 
             if (isValidType && isValidPage) {
                 // type과 page가 유효한 경우

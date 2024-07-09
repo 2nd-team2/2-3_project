@@ -9,13 +9,12 @@
                 <div class="list_search">
                     <input type="text" class="list_search_text" placeholder="검색어를 입력해주세요" v-model="data.search">
                     <button type="button" class="list_search_img" @click="search"><img src="/img/search.png"></button>
+                    <!-- 추천카테고리 : 타입별 추천 리스트 불러오기 5개씩 -->
                 </div>
-                <!-- 추천카테고리 : 타입별 추천 리스트 불러오기 5개씩 -->
                 <ul class="list_proposal">
-                    <span>추천 카테고리 : </span>
-                    <li class="list_pro_mun" v-for="(item, key) in $store.state.listData.data.slice(0, 5)" :key="key.id">
-                        <div>{{item.type}}</div>
-                        <div @click="productDetail(item.id)">{{item.name}}</div>
+                    <span>인기 검색어 :</span>
+                    <li class="list_pro_mun" v-for="(item, key) in $store.state.typeChk.data.slice(0, 5)" :key="key.id">
+                        <div @click="productDetail(item.id)">{{ item.name }}</div>
                     </li>
                 </ul>
             </form>
@@ -109,6 +108,7 @@
         //     store.dispatch('getList', 1);
         // }
         store.dispatch('productBastDetail');
+        store.dispatch('typeChkList');
     });
     
     function bastDetail(id) {
@@ -179,7 +179,7 @@
 
     // 특정 페이지로 이동
     function goToPage(page) {
-        router.replace('/list?type='+ store.state.searchListData.type +'&page=' + page);
+        router.replace('/listck?type='+ store.state.searchListData.type +'&page=' + page);
         // store.dispatch('getList', {'type': posts.value.type, 'page': page});
     }
 

@@ -21,7 +21,7 @@
                                 </span>                            
                             </span>
                             <div class="order_delete" @click=deleteUser(item.orp_id) v-if="item.co_flg === '1'"></div>
-                            <img class="order_img" :src="item.img">
+                            <img class="order_img" :src="item.img" @click="redirectToDetailedPage(item.p_id)">
                             <p class="order_name">{{ item.name + ' ' + item.ml +'ml' }}</p>
                             <p class="order_price">{{ '금액 : ' + formatPrice(item.price) + '원 / ' + item.orp_count + '개' }}</p>
                             <div class="button_a complete_btn" @click="$store.dispatch('completeBtn', item.orp_id)" v-if="item.co_flg === '0' || item.co_flg === null">구매확정</div>
@@ -430,6 +430,10 @@
             oneByOneGoToPage(store.state.askSetData.current_page + 1);
         }
     }
+
+    const redirectToDetailedPage = (id) => {
+        router.push({ path: '/detailed', query: { id: id } });
+    };
 </script>
 
 <style scoped src="../css/info.css">
