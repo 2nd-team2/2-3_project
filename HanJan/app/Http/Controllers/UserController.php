@@ -128,7 +128,6 @@ class UserController extends Controller
         public function sendVerificationEmail(Request $request) {
             $email = $request->input('email');
 
-            Log::debug($request);
             Log::debug('인증메일 발송할 유저의 이메일- 본인이 작성한 이메일');
             Log::debug($email);
 
@@ -193,10 +192,14 @@ class UserController extends Controller
                 return redirect('/')->with('error', 'You need to verify your email first.');
             }
 
-            // return view('auth.register-info');
+            return view('auth.register-info');
+        }
+
+        public function emailVerificationStatus() {
+            $emailVerified = session()->has('verified_email');
+            return response()->json(['emailVerified' => $emailVerified]);
         }
         
-
         // 회원가입
         public function regist(Request $request) {
             // 리퀘스트 데이터 획득
