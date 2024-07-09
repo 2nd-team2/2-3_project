@@ -10,11 +10,11 @@
                     </button>
                 </div>
                 <!-- 카카오 링크 공유 -->
-                <div class="btn_box">
+                <!-- <div class="btn_box">
                     <span @click="shareMessage()">
                         <img class="kakao_img" src="/img/kakao_ch.png">
                     </span>
-                </div>
+                </div> -->
                 <p>판매가격 :</p>
                 <p class="detailed_haeder_price">{{ formatPrice(store.state.productDetail.price) }}원</p>
                 <div class="detailed_haeder_review">
