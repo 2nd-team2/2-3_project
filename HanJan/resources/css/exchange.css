@@ -82,6 +82,11 @@ main {
     padding: 20px;
 }
 
+/* 텍스트 에리어 크기조절 없애기 */
+textarea {
+    resize: none;
+}
+
 @media (min-width: 768px)  {
     /* 이미지, 상품 정보 그리드 */
     .ex_goods_grid {
@@ -339,6 +344,10 @@ input[type="radio"]:checked + .checkbox {
 .radio4 {
     grid-column: 1 / 2;
     grid-row: 4 / 5;
+}
+.radio5 {
+    grid-column: 1 / 2;
+    grid-row: 5 / 6;
 }
 
 

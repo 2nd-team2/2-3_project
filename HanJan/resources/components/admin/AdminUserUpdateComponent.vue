@@ -29,7 +29,7 @@
             <div class="admin_hr"></div>
             <div class="admin_btn_box">
                 <button type="button" @click="$router.back()" class="admin_btn">취소하기</button>
-                <button type="button" @click="$store.dispatch('userUpdateSubmit')" class="admin_btn">수정하기</button>
+                <button type="button" @click="$store.dispatch('userUpdateSubmit', $store.state.adminUserToUpdate.id)" class="admin_btn">수정하기</button>
             </div>
         </form>
     </div>
@@ -183,7 +183,7 @@ function kakaoPostcode() {
             // 에러 메시지 초기화
             addressError.value = '';
             // 커서를 상세주소 필드로 이동한다.
-            document.querySelector('#address_detail').focus();
+            document.querySelector('#det_addr').focus();
         }
     }).open();
 }

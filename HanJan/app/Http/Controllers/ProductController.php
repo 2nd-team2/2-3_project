@@ -187,7 +187,7 @@ class ProductController extends Controller
     public function listck(Request $request) {
         $query = $request->search;
         Log::debug('상품검색 req', $request->all());
-        $productQuery = Product::select('products.price','products.img', 'products.name', 'products.id')
+        $productQuery = Product::select('products.price','products.img', 'products.name', 'products.id', 'products.type')
                         ->where('products.name','like', "%{$query}%")
                         ->orderBy('products.created_at', 'DESC');
                         // ->paginate(20);
@@ -333,6 +333,29 @@ class ProductController extends Controller
         return response()->json($responseData, 200);
     }
 
+    // 키워드 데이터
+    public function typelistchk(Request $request) {
+        $productQuery = Product::select('products.name', 'products.id', 'products.type')
+                                ->orderBy('products.created_at', 'DESC');
+                                // ->get();
+        if($request->type != '99') {
+            $productQuery->where('products.type', $request->type);
+        }
+        
+        // $productData = $productQuery->dd(); 화면에 출력해서 코드 확인용
+        $productData = $productQuery->paginate(5);
+
+        
+        Log::debug('상품검색 완', $productData->toArray());
+        $responseData = [
+                'code' => '0'
+                ,'msg' => '초기 상품값 획득 완료'
+                ,'data' => $productData
+        ];
+        
+        return response()->json($responseData, 200);
+    }
+
     // ----------------------- 민서 끝 ---------------------------
     // ----------------------- 호경 시작 -------------------------
     // 메인 페이지에서 계절별 추천 출력
@@ -379,6 +402,7 @@ class ProductController extends Controller
         return response()->json($responseData, 200);
     }
 
+    // 타이틀 변경 함수
     public function getSeasonKorean($value) {
         if ($value == '0') {
             return '향긋한 봄';
@@ -390,6 +414,7 @@ class ProductController extends Controller
             return '포근한 겨울';
         }
     }
+
     // ----------------------- 호경 끝 ---------------------------
 
     // --------------------------------------------------------------------- 관리자 페이지 -------------------------------------------------------------------------

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\MyAuthException;
 use App\Exceptions\MyValidateException;
+use App\Mail\VerificationEmail;
 use App\Mail\SendEmail;
 use App\Models\Exchange;
 use App\Models\Order;
@@ -11,6 +12,7 @@ use App\Models\Qna;
 use App\Models\Qnaproduct;
 use App\Models\Review;
 use App\Models\User;
+use App\Models\VerificationToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -18,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
@@ -119,6 +122,112 @@ class UserController extends Controller
             ];
             return response()->json($responseData, 200)->cookie('auth', '1', 600, null, null, false, false);
         }
+
+        // 회원가입
+        public function regist(Request $request) {
+            // 리퀘스트 데이터 획득
+            $requestData = $request->all();
+            Log::debug($requestData);
+
+            // 유효성 검사
+            $validator = Validator::make(
+                $requestData,
+                [
+                    'email' => ['required', 'min:5', 'max:30', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
+                    'password' => ['required', 'min:8', 'max:20', 'regex:/^[a-zA-Z0-9!@]+$/u'], 
+                    'password_chk' => ['same:password'],
+                    'tel' => ['required', 'min:10','max:11', 'regex:/^[0-9]+$/'],
+                    'addr' => ['required'],
+                    'name' => ['required', 'regex:/^[a-zA-Z가-힣]+$/u'],
+                    'post' => ['required'],
+                    'det_addr' => ['required'],
+                    'birth' => ['required'],
+                ] 
+            );
+
+            // 유효성 검사 실패 체크
+            if ($validator->fails()) {
+                return response()->json(['code' => '1', 'error' => $validator->errors()]);
+            }
+
+            // 이메일 인증 토큰 확인
+            $emailVerificationToken = VerificationToken::where('email', $request->input('email'))->first();
+            if (!$emailVerificationToken) {
+                return response()->json(['code' => '3', 'msg' => '이메일 인증이 필요합니다.']);
+            }
+
+            // 사용자 정보 생성 및 저장
+            $user = new User();
+            $user->email = $request->input('email');
+            $user->password = Hash::make($request->input('password'));
+            $user->tel = $request->input('tel');
+            $user->addr = $request->input('addr');
+            $user->name = $request->input('name');
+            $user->post = $request->input('post');
+            $user->det_addr = $request->input('det_addr');
+            $user->birth = $request->input('birth');
+            $user->email_verified_at = now();
+            $user->save();
+
+            // 인증 토큰 삭제
+            $emailVerificationToken->delete();
+
+            return response()->json(['code' => '0', 'msg' => '정상 등록 되었습니다.']);
+        }
+
+        // 이메일 인증 메일 발송
+        public function sendVerificationEmail(Request $request) {
+            $email = $request->input('email');
+
+            Log::debug($request);
+            Log::debug('인증메일 발송할 유저의 이메일- 본인이 작성한 이메일');
+            Log::debug($email);
+
+            // 이메일 형식 유효성 검사
+            $validator = Validator::make(
+                ['email' => $email],
+                ['email' => 'required|email']
+            );
+
+            if ($validator->fails()) {
+                Log::debug('유효하지 않은 이메일 형식');
+                return response()->json(['code' => '1', 'msg' => '유효하지 않은 이메일입니다.']);
+            }
+
+            // 이메일 중복 체크
+            $user = User::where('email', $email)->first();
+            if ($user) {
+                Log::debug('이미 사용 중인 이메일');
+                return response()->json(['code' => '2', 'msg' => '이미 사용 중인 이메일입니다.']);
+            }
+
+            $token = Str::random(60);
+
+            // 임시 토큰 저장
+            VerificationToken::updateOrCreate(
+                ['email' => $email],
+                ['token' => $token]
+            );
+            
+            Log::debug('인증 메일 발송 시작');
+            // 인증 메일 발송
+            try {
+                Mail::to($email)->send(new VerificationEmail($token));
+                Log::debug('인증 메일 발송 완료');
+            } catch (\Exception $e) {
+                Log::error('인증 메일 발송 중 오류 발생: ' . $e->getMessage());
+            }
+        
+            return response()->json(['message' => '인증 메일이 발송되었습니다.']);
+        }
+
+        // 이메일 인증 확인
+        public function verifyEmail($token) {
+            $emailVerificationToken = VerificationToken::where('token', $token)->firstOrFail();
+
+            // 이메일 인증 성공 처리
+            return response()->json(['message' => '이메일 인증이 완료되었습니다.', 'email' => $emailVerificationToken->email]);
+        }
         
 
         // ----------------------- 보원 끝 ---------------------------
@@ -188,50 +297,50 @@ class UserController extends Controller
             // return response()->json($responseData, 200) ->withCookie(cookie()->forget('auth'));
         }
 
-        // 회원가입
-        public function regist(Request $request) {
-            // 리퀘스트 데이터 획득
-            $requestData = $request->all();
-            Log::debug($requestData);
-            // 유효성 검사
-            $validator = Validator::make(
-                $requestData,
-                [
-                    'email' => ['required', 'min:5', 'max:30', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
-                    'password' => ['required', 'min:1', 'max:20', 'regex:/^[a-zA-Z0-9!@]+$/u'], 
-                    'password_chk' => ['same:password'],
-                    'tel' => ['required', 'min:10','max:11', 'regex:/^[0-9]+$/'],
-                    'addr' => ['required'],
-                    'name' => ['required', 'regex:/^[a-zA-Z가-힣]+$/u'],
-                    'post' => ['required'],
-                    'det_addr' => ['required'],
-                    'birth' => ['required'],
-                ] 
-            );
+        // // 회원가입
+        // public function regist(Request $request) {
+        //     // 리퀘스트 데이터 획득
+        //     $requestData = $request->all();
+        //     Log::debug($requestData);
+        //     // 유효성 검사
+        //     $validator = Validator::make(
+        //         $requestData,
+        //         [
+        //             'email' => ['required', 'min:5', 'max:30', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
+        //             'password' => ['required', 'min:1', 'max:20', 'regex:/^[a-zA-Z0-9!@]+$/u'], 
+        //             'password_chk' => ['same:password'],
+        //             'tel' => ['required', 'min:10','max:11', 'regex:/^[0-9]+$/'],
+        //             'addr' => ['required'],
+        //             'name' => ['required', 'regex:/^[a-zA-Z가-힣]+$/u'],
+        //             'post' => ['required'],
+        //             'det_addr' => ['required'],
+        //             'birth' => ['required'],
+        //         ] 
+        //     );
 
-            // 유효성 검사 실패 체크
-            if($validator->fails()) {
-                throw new MyValidateException('E01');
-            }
+        //     // 유효성 검사 실패 체크
+        //     if($validator->fails()) {
+        //         throw new MyValidateException('E01');
+        //     }
 
-            // 작성 데이터 생성
-            $insertData = $request->all();
+        //     // 작성 데이터 생성
+        //     $insertData = $request->all();
 
-            // 비밀번호 설정
-            $insertData['password'] = Hash::make($request->password);
+        //     // 비밀번호 설정
+        //     $insertData['password'] = Hash::make($request->password);
 
-            // 인서트 처리
-            $userInfo = User::create($insertData);
+        //     // 인서트 처리
+        //     $userInfo = User::create($insertData);
 
-            $responseData = [
-                'code' => '0',
-                'msg' => '회원 가입 완료',
-                'data' => $userInfo
-            ];
+        //     $responseData = [
+        //         'code' => '0',
+        //         'msg' => '회원 가입 완료',
+        //         'data' => $userInfo
+        //     ];
 
-            return response()->json($responseData, 200);
+        //     return response()->json($responseData, 200);
 
-        }
+        // }
 
         // 이메일 중복체크
         public function registEmailChk($emailText)
@@ -371,7 +480,7 @@ class UserController extends Controller
                 return response()->json([
                     'code' => 1,
                     'msg' => '해당 사용자를 찾을 수 없습니다.'
-                ], 404);
+                ], 500);
             }
 
             // 비밀번호와 비밀번호 확인이 일치하는지 확인
@@ -391,7 +500,6 @@ class UserController extends Controller
             // 업데이트 할 리퀘스트 데이터 셋팅
             $userInfo->name = $request->name;
             $userInfo->email = $request->email;
-            // $userInfo->password = Hash::make($request->password); 
             $userInfo->tel = $request->tel;
             $userInfo->addr = $request->addr;
             $userInfo->det_addr = $request->det_addr;
@@ -408,18 +516,42 @@ class UserController extends Controller
             return response()->json($responseData, 200);
         }
 
-        // 관리자 페이지 매 달 신규 유저 통계 불러오기
-        public function adminNewUserStats() {
-            $adminNewUserData = User::selectRaw('DATE_FORMAT(created_at, "%Y-%m") AS month')
+        // 관리자 페이지 월별 유저 통계 불러오기
+        public function adminUseTatistics() {
+            $adminUserTatisticsData = User::selectRaw('DATE_FORMAT(created_at, "%Y-%m") AS month')
                                     ->selectRaw('COUNT(*) AS new_users')
-                                    ->whereNull('deleted_at')
+                                    ->selectRaw('SUM(CASE WHEN deleted_at IS NOT NULL THEN 1 ELSE 0 END) AS withdraw_users')
+                                    ->withTrashed() // Soft Deleted 항목도 포함
                                     ->groupBy('month')
                                     ->orderBy('month')
                                     ->get();
             $responseData = [
                 'code' => '0'
                 ,'msg' => '신규 가입자 획득 완료'
-                ,'data' => $adminNewUserData->toArray()
+                ,'data' => $adminUserTatisticsData->toArray()
+            ];
+
+            return response()->json($responseData, 200);
+        }
+
+        // 관리자 페이지 유저 연령대 통계 불러오기
+        public function adminAgeRange() {
+            $adminUserAgeRangeData = User::selectRaw('CASE
+                                                WHEN TIMESTAMPDIFF(YEAR, birth, CURDATE()) BETWEEN 20 AND 29 THEN "20대"
+                                                WHEN TIMESTAMPDIFF(YEAR, birth, CURDATE()) BETWEEN 30 AND 39 THEN "30대"
+                                                WHEN TIMESTAMPDIFF(YEAR, birth, CURDATE()) BETWEEN 40 AND 49 THEN "40대"
+                                                WHEN TIMESTAMPDIFF(YEAR, birth, CURDATE()) BETWEEN 50 AND 59 THEN "50대"
+                                                WHEN TIMESTAMPDIFF(YEAR, birth, CURDATE()) >= 60 THEN "60대 이상"
+                                                END AS age_group,
+                                                COUNT(*) AS user_count')
+                                        ->whereRaw('TIMESTAMPDIFF(YEAR, birth, CURDATE()) >= 20')
+                                        ->groupBy(DB::raw('age_group'))
+                                        ->orderBy(DB::raw('FIELD(age_group, "20대", "30대", "40대", "50대", "60대 이상")'))
+                                        ->get();
+            $responseData = [
+                'code' => '0'
+                ,'msg' => '신규 가입자 획득 완료'
+                ,'data' => $adminUserAgeRangeData->toArray()
             ];
 
             return response()->json($responseData, 200);

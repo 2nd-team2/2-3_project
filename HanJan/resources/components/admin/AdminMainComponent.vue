@@ -1,168 +1,199 @@
 <template>
     <div class="admin">
         <h2 class="admin_title">Dash Board</h2>
-        {{ $store.state.newUserData }}
+        <!-- {{ $store.state.userTatisticsData }}
+        {{ $store.state.userAgeRangeData }} -->
+        {{ $store.state.salesStatisticsData }}
+        <h3>유저 통계</h3>
         <div class="admin_user_box">
-            <!-- <div v-for="newUser in store.state.newUserData" :key="key" class="admin_user_new">
-                <div>신규 유저</div>
-                <div>{{ newUser.month }}</div>
-                <div>{{ newUser.new_users }}</div>
-            </div> -->
-            <canvas id="myChart" class="myChart"></canvas>
-            <div class="admin_user_all">
-                <div>기존 유저</div>
-                <div>50</div>
-            </div>
-            <div class="admin_user_delete">
-                <div>탈퇴 유저</div>
-                <div>50</div>
-            </div>
-            <div class="admin_user_avage">
-                <div>유저 평균 연령</div>
-            </div>
+            <canvas id="user_tatistics" class="user_tatistics"></canvas>
+            <canvas id="user_age_range" class="user_age_range"></canvas>
+        </div>
+        <div class="admin_hr"></div>
+        <h3>상품 통계</h3>
+        <div class="admin_user_box">
+            <canvas id="sales" class="sales"></canvas>
         </div>
         <div class="admin_graph"></div>
     </div>
 </template>
 
 <script setup>
-    import { ref, onMounted } from 'vue';
+    import { onMounted, onBeforeMount } from 'vue';
     import Chart from 'chart.js/auto';
+    import { useStore } from 'vuex';
 
-    const chartData = ref([]);
+    const store = useStore();
 
-    // 데이터를 가져와서 차트를 그리기
-    onMounted(() => {
-        fetchData()
-        .then(data => {
-            chartData.value = data;
-            drawChart();
-        }).catch(error => {
-            console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
-        });
-    });
+    onBeforeMount(() => {
+        // if(store.state.userTatisticsData.length < 1) {
+        //     await store.dispatch('getUserTatisticsData');
+        // }
+        // if(store.state.userAgeRangeData.length < 1) {
+        //     await store.dispatch('getUserAgeRangeData');
+        // }
+        // if (store.state.userTatisticsData.length < 1) {
+        // store.dispatch('getUserTatisticsData').then(() => {
+        //     // 데이터가 로드된 후 실행될 코드
+        //     const transformedData = store.state.userTatisticsData.map(item => ({
+        //         month: getMonthName(item.month),
+        //         new_users: item.new_users,
+        //         withdraw_users: parseInt(item.withdraw_users, 10) // 문자열을 숫자로 변환
+        //     }));
 
-    const fetchData = () => {
-        return new Promise((resolve, reject) => {
-            // 데이터를 비동기적으로 가져오는 코드 예시 (실제로는 Vuex나 API 호출 등으로 대체해야 함)
-            const mockData = [
-                { month: '2024-06', count: 12 },
-                { month: '2024-07', count: 30 }
-            ];
-            resolve(mockData); // 이 부분을 Vuex나 실제 데이터 가져오는 로직으로 대체해야 함
-        });
-    };
+        //     console.log('데이터 확인:', transformedData); // 변환된 데이터 확인
 
-    const drawChart = () => {
-        const ctx = document.getElementById('myChart');
-        if (ctx && chartData.value.length > 0) {
-            const data = chartData.value;
+        //     // 여기서 transformedData를 다른 곳에서 사용하거나 저장할 수 있음
+        // });
+        if(store.state.salesStatisticsData.length < 1) {
+            store.dispatch('getSalesStatisticsData');
+        }
+    
+    })
 
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: data.map(row => row.month), // 월을 기준으로 레이블 설정
-                    datasets: [{
-                        label: 'Acquisitions by month', // 레이블 설정
-                        data: data.map(row => row.count),
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    animation: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            enabled: false
-                        }
+    // const test = [
+    //     { month: '2024-01', new_users: 30, withdraw_users: "10" },
+    //     { month: '2024-02', new_users: 40, withdraw_users: 15 },
+    //     { month: '2024-03', new_users: 35, withdraw_users: 12 },
+    //     { month: '2024-04', new_users: 45, withdraw_users: 18 },
+    //     { month: '2024-05', new_users: 55, withdraw_users: 20 },
+    //     { month: '2024-06', new_users: 50, withdraw_users: 22 },
+    //     { month: '2024-07', new_users: 60, withdraw_users: 25 },
+    //     { month: '2024-08', new_users: 70, withdraw_users: 30 },
+    //     { month: '2024-09', new_users: 65, withdraw_users: 28 },
+    //     { month: '2024-10', new_users: 75, withdraw_users: 32 },
+    //     { month: '2024-11', new_users: 80, withdraw_users: 35 },
+    //     { month: '2024-12', new_users: 85, withdraw_users: 38 },
+    // ];
+    // const test2 = [
+    //     { age_group: '20대', user_count: 50},
+    //     { age_group: '30대', user_count: 20},
+    //     { age_group: '40대', user_count: 10},
+    //     { age_group: '50대', user_count: 5},
+    //     { age_group: '60대 이상', user_count: 1},
+    // ];
+
+    // const data = ref(store.state.userTatisticsData);
+    // const data2 = ref(test2);
+
+    onMounted(async () => {
+        if(store.state.userTatisticsData.length < 1) {
+            await store.dispatch('getUserTatisticsData');
+        }
+        if(store.state.userAgeRangeData.length < 1) {
+            await store.dispatch('getUserAgeRangeData');
+        }
+        // if(store.state.salesStatisticsData.length < 1) {
+        //     await store.dispatch('getSalesStatisticsData');
+        // }
+
+        // 가입 탈퇴 통계
+        const ctx = document.getElementById('user_tatistics');
+        ctx.style.maxWidth = '1000px'
+        ctx.style.maxHeight = '450px'
+        console.log(store.state.userTatisticsData);
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: store.state.userTatisticsData.map(item => item.month),
+                datasets: [
+                    {
+                    label: '신규 유저',
+                    data: store.state.userTatisticsData.map(item => item.new_users),
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
                     },
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+                    {
+                    label: '탈퇴 회원',
+                    data: store.state.userTatisticsData.map(item => item.withdraw_users),
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                    beginAtZero: true
                     }
                 }
-            });
-        } else {
-            console.warn('차트를 그리기 위한 데이터가 없습니다.');
-        }
-    };
-    // import { ref, onBeforeMount } from 'vue';
-    // import { useStore } from 'vuex';
-    // import Chart from 'chart.js/auto';
+            }
+        });
 
-    // const store = useStore();
-    // const chartData = ref([]);
+        // 유저 연령대별 수
+        const ctx2 = document.getElementById('user_age_range');
+        ctx2.style.maxWidth = '450px'
+        ctx2.style.maxHeight = '450px'
+        
+        new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: store.state.userAgeRangeData.map(item => item.age_group),
+                datasets: [
+                    {
+                    label: '',
+                    data: store.state.userAgeRangeData.map(item => item.user_count),
+                    backgroundColor: [
+                        'rgba(255, 99, 102, 0.5)',   // 20대
+                        'rgba(54, 162, 235, 0.5)',   // 30대
+                        'rgba(255, 206, 86, 0.5)',   // 40대
+                        'rgba(75, 192, 192, 0.5)',   // 50대
+                        'rgba(153, 102, 255, 0.5)',  // 60대이상
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 102, 1)',    // 20대
+                        'rgba(54, 162, 235, 1)',    // 30대
+                        'rgba(255, 206, 86, 1)',    // 40대
+                        'rgba(75, 192, 192, 1)',    // 50대
+                        'rgba(153, 102, 255, 1)',   // 60대이상
+                    ],
+                    borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+            }
+        });
 
-    // // 컴포넌트가 마운트되기 전에 데이터를 가져오기
-    // onBeforeMount(() => {
-    //     fetchData();
-    // });
-
-    // const fetchData = () => {
-    //     // 이미 데이터가 있는 경우 불필요한 요청을 방지하기 위해 조건을 추가합니다.
-    //     if (store.state.newUserData.length > 0) {
-    //         chartData.value = store.state.newUserData;
-    //         drawChart();
-    //     } else {
-    //         store.dispatch('getNewUserData')
-    //         .then(response => {
-    //             chartData.value = response.data; // Vuex에서 가져온 데이터를 chartData에 저장
-    //             drawChart();
-    //         }).catch(error => {
-    //             console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
-    //         });
-    //     }
-    // };
-
-    // const drawChart = () => {
-    //     const ctx = document.getElementById('myChart');
-    //     if (ctx && chartData.value.length > 0) {
-    //         const data = chartData.value;
-
-    //         new Chart(ctx, {
-    //             type: 'bar',
-    //             data: {
-    //                 labels: data.map(row => row.month), // 월을 기준으로 레이블 설정
-    //                 datasets: [{
-    //                     label: '신규 가입자 수', // 레이블 설정
-    //                     data: data.map(row => row.new_users),
-    //                     backgroundColor: 'rgba(54, 162, 235, 0.2)',
-    //                     borderColor: 'rgba(54, 162, 235, 1)',
-    //                     borderWidth: 1
-    //                 }]
-    //             },
-    //             options: {
-    //                 animation: false,
-    //                 plugins: {
-    //                     legend: {
-    //                         display: false
-    //                     },
-    //                     tooltip: {
-    //                         enabled: false
-    //                     }
-    //                 },
-    //                 scales: {
-    //                     y: {
-    //                         beginAtZero: true
-    //                     }
-    //                 }
-    //             }
-    //         });
-    //     } else {
-    //         console.warn('차트를 그리기 위한 데이터가 없습니다.');
-    //     }
-    // };
-    // onBeforeMount(() => {
-    //     if(store.state.newUserData.length < 1) {
-    //         store.dispatch('getNewUserData');
-    //     }
-    // })
-
+        // 매출
+        const ctx3 = document.getElementById('sales');
+        ctx3.style.maxWidth = '100%'
+        ctx3.style.maxHeight = '450px'
+        
+        new Chart(ctx3, {
+            type: 'line',
+            data: {
+                labels: store.state.salesStatisticsData.map(item => item.age_group),
+                datasets: [
+                    {
+                    label: '',
+                    data: store.state.salesStatisticsData.map(item => item.user_count),
+                    backgroundColor: [
+                        'rgba(255, 99, 102, 0.5)',   // 20대
+                        'rgba(54, 162, 235, 0.5)',   // 30대
+                        'rgba(255, 206, 86, 0.5)',   // 40대
+                        'rgba(75, 192, 192, 0.5)',   // 50대
+                        'rgba(153, 102, 255, 0.5)',  // 60대이상
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 102, 1)',    // 20대
+                        'rgba(54, 162, 235, 1)',    // 30대
+                        'rgba(255, 206, 86, 1)',    // 40대
+                        'rgba(75, 192, 192, 1)',    // 50대
+                        'rgba(153, 102, 255, 1)',   // 60대이상
+                    ],
+                    borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+            }
+        });
+    });
 </script>
 
 <style>

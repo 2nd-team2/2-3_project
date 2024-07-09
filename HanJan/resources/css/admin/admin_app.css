@@ -125,7 +125,7 @@ input {
 
 .admin_hr {
     border-top: 1px solid #5c5c5c;
-    margin-top: 20px;
+    margin: 20px 0;
 }
 
 .admin_btn_box {
@@ -298,40 +298,27 @@ input {
 .admin_user_box {
     margin: 30px 0;
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;  
     gap: 10px;
 }
 
-.admin_user_new {
-    border: 1px solid #5c5c5c;
-    font-size: 1.2rem;
+.dash_board_box {
+    border-bottom: 1px solid #c5c5c5;
 }
 
-.admin_user_all {
-    border: 1px solid #5c5c5c;
-    font-size: 1.2rem;
+.user_tatistics {
     grid-column: 1 / 2;
-    grid-row: 2 / 3;
 }
 
-.admin_user_delete {
-    border: 1px solid #5c5c5c;
-    font-size: 1.2rem;
-    grid-column: 1 / 2;
-    grid-row: 3 / 4;
-}
-
-.admin_user_avage {
-    border: 1px solid #5c5c5c;
-    font-size: 1.2rem;
+.user_age_range {
     grid-column: 2 / 3;
-    grid-row: 1 / 4;
 }
 
-.admin_graph {
-    border: 1px solid #5c5c5c;
-    height: 400px;
+.sales {
+    grid-column: 1 / 3;
 }
+
 
 /* ---------------------- 유저 ---------------------- */
 .admin_users_list_container {

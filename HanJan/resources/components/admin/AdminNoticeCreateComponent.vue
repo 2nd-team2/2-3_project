@@ -18,7 +18,12 @@
 </template>
 
 <script setup>
+    import { onBeforeUnmount } from 'vue'; 
 
+    onBeforeUnmount(() => {
+        const form = document.querySelector('#adminNoticeCreateForm');
+        form.reset();
+    });
 </script>
 
 <style>

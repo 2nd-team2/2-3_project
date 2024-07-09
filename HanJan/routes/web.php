@@ -80,12 +80,15 @@ Route::middleware('auth')->delete('/api/reviewDelete/{re_id}', [ReviewController
 Route::middleware('auth')->get('/api/exchangeProduct/{id}', [ExchangeController::class, 'exchangeProduct']);
 Route::middleware('auth')->post('/api/exchage', [ExchangeController::class, 'exchage']);
 
-// 이메일 인증 라우터
-// Auth::routes(['verify' => true]);
+// 이메일 인증 메일 발송
+Route::post('/api/send-verification-email', [UserController::class, 'sendVerificationEmail']);
+// 이메일 인증 확인
+Route::get('/verify/{token}', [UserController::class, 'verifyEmail']);
 
 // 카카오 로그인
 Route::get('/api/kakao', [UserController::class, 'redirectToKakao']);
 Route::get('/api/login/kakao/callback', [UserController::class, 'handleKakaoCallback']);
+
 // 카카오 로그인 유저 정보 저장
 Route::post('/api/kakaoLogin', [UserController::class, 'kakaoLogin']);
 
@@ -117,7 +120,7 @@ Route::middleware('auth')->get('/api/productAsk', [QnaController::class, 'produc
 // 1대1 문의 불러오기
 Route::middleware('auth')->get('/api/askData', [QnaController::class, 'askData']);
 // 주문목록 삭제
-Route::middleware('auth')->delete('/api/orderProductDelete/{orp_id}', [ProductController::class, 'orderProductDelete']);
+Route::middleware('auth')->delete('/api/orderProductDelete/{itemId}', [ProductController::class, 'orderProductDelete']);
 // 상품목록 삭제
 Route::middleware('auth')->delete('/api/productAskDelete/{qnp_id}', [QnaController::class, 'productAskDelete']);
 // 1대1 문의 삭제
@@ -140,6 +143,8 @@ Route::middleware('auth')->post('/api/detailedtocount', [ProductController::clas
 Route::get('/api/list', [ProductController::class, 'list']);
 // 상세리스트 검색
 Route::get('/api/listck', [ProductController::class, 'listck']);
+// 키워드
+Route::get('/api/typechklist', [ProductController::class, 'typelistchk']);
 // ----------------------- 민서 끝 ---------------------------
 
 
@@ -148,6 +153,8 @@ Route::get('/api/listck', [ProductController::class, 'listck']);
 Route::get('/api/reviewlist',[ReviewController::class, 'reviewMainIndex']);
 // 메인페이지 계절 별 추천 불러오기
 Route::get('/api/season',[ProductController::class, 'seasonSelect']);
+// 전체 상품 아이디 획득
+Route::middleware('auth')->get('/api/product/id', [ProductController::class, 'productItemId']);
 // 공지사항 데이터 불러오기
 Route::get('/api/noticelist', [NoticeController::class, 'noticeIndex']);
 // 공지사항 디테일 데이터 불러오기
@@ -180,8 +187,12 @@ Route::post('/api/admin/login', [AdminController::class, 'adminLogin']);
 Route::middleware('auth')->post('/api/admin/logout', [AdminController::class, 'adminLogout']);
 // 관리자페이지 유저 목록 전체 불러오기
 Route::middleware('auth')->get('/api/admin/user', [UserController::class, 'adminUserIndex']);
-// 관리자페이지 유저 목록 전체 불러오기
-Route::middleware('auth')->get('/api/admin/user/new', [UserController::class, 'adminNewUserStats']);
+// 관리자페이지 월별 유저 통계 불러오기
+Route::middleware('auth')->get('/api/admin/user/statistics', [UserController::class, 'adminUseTatistics']);
+// 관리자페이지 유저 연령대 통계 불러오기
+Route::middleware('auth')->get('/api/admin/user/age/range', [UserController::class, 'adminAgeRange']);
+// 관리자페이지 전체 매출 통계 불러오기
+Route::middleware('auth')->get('/api/admin/sales/statistics', [OrderController::class, 'salesStatistics']);
 // 관리자페이지 상품 목록 전체 불러오기
 Route::middleware('auth')->get('/api/admin/product', [ProductController::class, 'adminProductIndex']);
 // 관리자페이지 주문 목록 전체 불러오기

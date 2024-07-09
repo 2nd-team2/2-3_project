@@ -16,10 +16,13 @@ class Exchange extends Model
     protected $fillable = [
         'u_id',
         'orp_id',
+        'ex_name',
+        'ex_tel',
         'ex_addr',
         'ex_det_addr',
         'ex_post',
         'ex_reason',
+        'ex_reason_etc',
         'ex_flg',
         'created_at',
     ];
