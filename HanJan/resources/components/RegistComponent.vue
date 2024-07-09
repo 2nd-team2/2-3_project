@@ -30,8 +30,11 @@
                         <p class="info_item_err_msg error">{{ emailError }}</p>
                         <input class="input_width" type="email" name="email" id="email" @input="chkEmail" v-model="emailText">
                     </div>
-                    <div>
-                      <button type="button" class="info_item_btn form_btn email_chk_btn" @click="emailChk ">이메일 중복 및 인증 체크</button>
+                    <div v-if="!isEmailVerified">
+                        <button type="button" class="info_item_btn form_btn email_chk_btn" @click="emailChk">이메일 중복 및 인증 체크</button>
+                    </div>
+                    <div v-else>
+                        <button type="button" class="info_item_btn form_btn email_chk_btn">인증 완료</button>
                     </div>
                 </div>
                 <hr>
@@ -118,7 +121,7 @@
     </main>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
@@ -256,13 +259,56 @@ function closeSubmitModal() {
 }
 
 // 이메일 인증 처리
-const emailChk = () => {
+const emailChk = async () => {
     if (!emailText.value) {
         alert('이메일을 입력해 주세요.');
         return;
     }
-    store.dispatch('chkEmailOn', emailText.value);
+    
+    try {
+        await store.dispatch('chkEmailOn', emailText.value)
+        .then(() => {
+        localStorage.setItem('email', emailText.value);
+        // 인증 요청이 성공하면 상태를 변경합니다.
+        isEmailVerified.value = true;
+        localStorage.setItem('emailVerified', 'true');
+        });
+
+    } catch (error) {
+        console.error('이메일 인증 실패:', error);
+    }
 };
+
+// // 이메일 인증 처리
+// const emailChk = () => {
+//     if (!emailText.value) {
+//         alert('이메일을 입력해 주세요.');
+//         return;
+//     }
+//     store.dispatch('chkEmailOn', emailText.value)
+//     .then(() => {
+//         localStorage.setItem('email', emailText.value);
+//         isEmailVerified.value = true;
+//         localStorage.setItem('emailVerified', 'true');
+//     });
+// };
+
+// 새로 고침 후 이메일 로드
+const isEmailVerified = ref(false);
+
+onMounted(() => {
+    const savedEmail = localStorage.getItem('email');
+    const emailVerified = localStorage.getItem('emailVerified') === 'true';
+
+    if (savedEmail) {
+        emailText.value = savedEmail;
+    }
+
+    if (emailVerified) {
+        isEmailVerified.value = true;
+    }
+});
+
 
 // 카카오 주소 API
 function kakaoPostcode() {

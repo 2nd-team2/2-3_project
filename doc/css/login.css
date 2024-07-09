@@ -29,7 +29,7 @@ main {
     grid-column: 1/2;
 }
 .rightPoto {
-    background-image: url(../img/IE002927310_STD.jpg);
+    background-image: url(/img/IE002927310_STD.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     grid-column: 2 / 3;
@@ -89,7 +89,7 @@ input {
     margin-bottom: 3%;
 }
 .kakaoBtn {
-    background-image: url(../img/kakao_login_large_wide.png);
+    background-image: url(/img/kakao_login_large_wide.png);
     width: 70%;
     height: 60px;
     margin-top: 15px;

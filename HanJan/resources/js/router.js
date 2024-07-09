@@ -4,6 +4,7 @@ import TraditionalLiquorComponent from '../components/TraditionalLiquorComponent
 import MainComponent from '../components/MainComponent.vue';
 import LoginComponent from '../components/LoginComponent.vue';
 import AgreeCompnent from '../components/AgreeComponent.vue';
+import EmailComponent from '../components/EmailComponent.vue';
 import BagComponent from '../components/BagComponent.vue';
 import ConfirmCompnent from '../components/ConfirmComponent.vue';
 import DetailedCompnent from '../components/DetailedComponent.vue';
@@ -43,7 +44,6 @@ import AdminOrderComponent from '../components/admin/AdminOrderComponent.vue';
 import AdminProductCreateComponent from '../components/admin/AdminProductCreateComponent.vue';
 import AdminProductUpdateComponent from '../components/admin/AdminProductUpdateComponent.vue';
 import AdminUserUpdateComponent from '../components/admin/AdminUserUpdateComponent.vue';
-import EmailComponet from '../components/EmailComponet.vue';
 
 const routes = [
     {
@@ -69,8 +69,9 @@ const routes = [
         component: AgreeCompnent,
     },
     {
+        // 이메일 인증 처리중인 componet
         path:'/verify/:token',
-        component: EmailComponet,
+        component: EmailComponent,
     },
     {
         path: '/bag',

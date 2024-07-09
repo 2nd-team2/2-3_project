@@ -116,7 +116,7 @@
     margin-left: 80%;
     grid-column: 3 / 4;
     margin-right: 15px;
-    background-image: url(../img/Vector.png);
+    background-image: url(/img/Vector.png);
     background-size: contain;
     background-repeat: no-repeat;
     height: 30px;
@@ -127,14 +127,14 @@
     margin-left: 80%;
     height: 30px;
     width: 30px;
-    background-image: url(../img/Vector.png);
+    background-image: url(/img/Vector.png);
     background-size: contain;
     background-repeat: no-repeat;
 }
 
 .order_img {
     grid-row: 2 / 5;
-    background-image: url(../img/menu02.png);
+    background-image: url(/img/menu02.png);
     background-size: contain;
     background-repeat: no-repeat;
     width: 150px;
@@ -142,7 +142,7 @@
 }
 .inquiry_img {
     grid-row: 2 / 5;
-    background-image: url(../img/menu01.png);
+    background-image: url(/img/menu01.png);
     background-size: contain;
     background-repeat: no-repeat;
     width: 150px;
