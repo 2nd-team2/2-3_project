@@ -121,7 +121,7 @@ main {
 
 /* 휴지통 이미지 */
 .bag_delete {
-    background-image: url('../img/Vector.png');
+    background-image: url(/img/Vector.png);
     background-repeat: no-repeat;
     background-size: contain;
     background-color: transparent;
