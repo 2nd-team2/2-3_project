@@ -22,7 +22,7 @@
                       <div class="second_content">
                           <p>로그인 실패</p>
                           <br>
-                          <img @click="closeSubmitModal" src="../../public/img/complete.png" class="complete_btn">
+                          <img @click="closeSubmitModal" src="/img/complete.png" class="complete_btn">
                       </div>
                   </div>
               </div>

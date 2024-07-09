@@ -36,9 +36,12 @@
     border-style: none;
 }
 
+.dark-mode .bag_delete {
+    background-image: url('/img/Vector_white.png');
+}
+
 main {
     width: 70%;
-    height: 39vh;
     margin: 3rem auto;
 }
 
@@ -193,7 +196,7 @@ main {
 
 /* 휴지통 이미지 */
 .bag_delete {
-    background-image: url('/img/Vector_white.png');
+    background-image: url('/img/Vector.png');
     background-repeat: no-repeat;
     background-size: contain;
     background-color: transparent;

@@ -203,8 +203,7 @@ form .buttons button {
     height: 40px;
     background-repeat: no-repeat;
     background-size: contain;
-    /* background-image: url(../../public/img/agree_cancel.png); */
-    background-image: url(/img/agree_cancel.png);
+    background-image: url('/img/agree_cancel.png');
     display: inline-block;
     font-size: 1em;
     text-align: center;
