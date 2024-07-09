@@ -83,7 +83,9 @@ Route::middleware('auth')->post('/api/exchage', [ExchangeController::class, 'exc
 // 이메일 인증 메일 발송
 Route::post('/api/send-verification-email', [UserController::class, 'sendVerificationEmail']);
 // 이메일 인증 확인
-Route::get('/verify/{token}', [UserController::class, 'verifyEmail']);
+Route::get('/verify/{token}', [UserController::class, 'verify']);
+Route::get('/register-info', [UserController::class, 'showRegisterInfoForm']);
+Route::post('/api/regist', [UserController::class, 'regist']);
 
 // 카카오 로그인
 Route::get('/api/kakao', [UserController::class, 'redirectToKakao']);

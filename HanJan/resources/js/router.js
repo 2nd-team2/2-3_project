@@ -43,6 +43,7 @@ import AdminOrderComponent from '../components/admin/AdminOrderComponent.vue';
 import AdminProductCreateComponent from '../components/admin/AdminProductCreateComponent.vue';
 import AdminProductUpdateComponent from '../components/admin/AdminProductUpdateComponent.vue';
 import AdminUserUpdateComponent from '../components/admin/AdminUserUpdateComponent.vue';
+import EmailComponet from '../components/EmailComponet.vue';
 
 const routes = [
     {
@@ -66,6 +67,10 @@ const routes = [
     {
         path: '/agree',
         component: AgreeCompnent,
+    },
+    {
+        path:'/verify/:token',
+        component: EmailComponet,
     },
     {
         path: '/bag',
