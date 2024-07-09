@@ -62,7 +62,23 @@ h1 {
     width: 43%;
 }
 /* ------------- 상품상세페이지 상품판매정보 ------------- */
-
+.detaild_haeder_bnt {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.kakao_btn {
+    display: flex;
+    border: none;
+    background-color: transparent;
+    margin-bottom: 1rem;
+    justify-content: flex-end;
+}
+.kakao_btn img {
+    border-radius: 50%;
+    width: 12%;
+}
 .detailed_haeder_item {
     font-size: 1.1rem;
 }
@@ -208,8 +224,9 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 .detailed_img p {
     color: #fff;
-    font-weight: 700;
+    font-weight: 500;
     font-size: 1.5rem;
+    margin-bottom: 0.5rem;
 }
 .detailed_img {
     background-repeat: no-repeat;

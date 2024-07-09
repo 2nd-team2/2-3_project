@@ -1303,10 +1303,12 @@ const store = createStore({
             // router.replace('/order');
         },
         // 추천 카테고리
-        typeChkList(constext, data) {
-            const url = '/api/typechklist/type?=' + data.type;
+        typeChkList(constext) {
+            const url = '/api/typechklist';
             axios.get(url)
             .then(response => {
+                console.log('추천카테고리', response.data);
+
                 constext.commit('listTypeChk', response.data);
             })
             .catch(error => {

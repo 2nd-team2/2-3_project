@@ -3,7 +3,12 @@
         <div class="detailed_haeder">
             <img :src="store.state.productDetail.img">
             <div class="detailed_haeder_item">
-                <p class="detailed_haeder_title">{{ store.state.productDetail.name }}</p>
+                <div class="detaild_haeder_bnt">
+                    <p class="detailed_haeder_title">{{ store.state.productDetail.name }}</p>
+                    <button type="button" class="kakao_btn" @click="shareMessage()">
+                        <img src="/img/kakao_ch.png">
+                    </button>
+                </div>
                 <p>판매가격 :</p>
                 <p class="detailed_haeder_price">{{ formatPrice(store.state.productDetail.price) }}원</p>
                 <div class="detailed_haeder_review">
@@ -40,13 +45,6 @@
                                 <img src="/img/bag_b.png" class="detailed_haeder_bag_b" id="bk_detailed">
                                 <div class="detailed_haeder_bag">장바구니</div>
                             </button>
-                            <div class="btn_box">
-                                <span @click="shareMessage()">
-                                    <button type="button" class="kakao_btn">
-                                        <img src="../../public/img/kakaotalk_sharing_btn_medium.png">
-                                    </button>
-                                </span>
-                            </div>
                         </form>
                     <button type="button" class="detailed_haeder_bay" @click="$store.dispatch('detailedUpdate', $store.state.productDetail)">구매하기</button>
                 </div>

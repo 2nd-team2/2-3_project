@@ -335,22 +335,24 @@ class ProductController extends Controller
 
     // 키워드 데이터
     public function typelistchk(Request $request) {
-        $productQuery = Product::select('products.name', 'products.id', 'products.type')
-                                ->orderBy('products.created_at', 'DESC');
-                                // ->get();
-        if($request->type != '99') {
-            $productQuery->where('products.type', $request->type);
-        }
-        
-        // $productData = $productQuery->dd(); 화면에 출력해서 코드 확인용
-        $productData = $productQuery->paginate(5);
+        $productQuery = Product::select('products.name', 'products.id')
+                        ->join('orderproducts', 'products.id', '=', 'orderproducts.p_id')
+                        ->groupBy('products.id', 'products.name')
+                        ->orderByDesc('orderproducts.orp_count')
+                        // ->limit(5);
+                        ->get();
 
+        // if($request->type != '99') {
+        //     $productQuery->where('products.type', $request->type);
+        // }
         
-        Log::debug('상품검색 완', $productData->toArray());
+        // $productData = $productQuery->dd(); // 화면에 출력해서 코드 확인용
+        // $productData = $productQuery->paginate(5);
+
         $responseData = [
                 'code' => '0'
                 ,'msg' => '초기 상품값 획득 완료'
-                ,'data' => $productData
+                ,'data' => $productQuery
         ];
         
         return response()->json($responseData, 200);
