@@ -40,6 +40,13 @@
                                 <img src="/img/bag_b.png" class="detailed_haeder_bag_b" id="bk_detailed">
                                 <div class="detailed_haeder_bag">장바구니</div>
                             </button>
+                            <div class="btn_box">
+                                <span @click="shareMessage()">
+                                    <button type="button" class="kakao_btn">
+                                        <img src="../../public/img/kakaotalk_sharing_btn_medium.png">
+                                    </button>
+                                </span>
+                            </div>
                         </form>
                     <button type="button" class="detailed_haeder_bay" @click="$store.dispatch('detailedUpdate', $store.state.productDetail)">구매하기</button>
                 </div>
@@ -98,6 +105,47 @@
     import { useStore } from 'vuex';
     const store = useStore();
     const count = ref(1);
+
+    // 카카오톡 공유하기 openApi 
+    Kakao.init('207acd3374ae418155e14bcfe011298b');
+    console.log(Kakao.isInitialized());
+    function shareMessage() {
+        // 현재 링크 가져오기
+        var currentURL = window.location.href;
+
+        // 제품 타이틀을 가져오는 부분
+        var productTitle = store.state.productDetail.name;
+
+        // 제품 설명을 가져오는 부분
+        var productSummary = store.state.productDetail.type;
+
+        // 제품 이미지를 가져오는 부분
+        var productImageUrl = store.state.productDetail.img;
+
+        Kakao.Link.sendDefault({
+            objectType: 'feed',
+            content: {
+                title: productTitle,
+                description: productSummary,
+                imageUrl: productImageUrl,
+                link: {
+                    mobileWebUrl: currentURL,
+                    webUrl: currentURL,
+                },
+            },
+            buttons: [
+                {
+                    title: '웹으로 보기',
+                    link: {
+                        mobileWebUrl: currentURL,
+                        webUrl: currentURL,
+                    },
+                },
+            ],
+            // 카카오톡 미설치 시 카카오톡 설치 경로이동
+            installTalk: true,
+        });
+    }
 
     // watch(count, () => {
     //     console.log(count.value, store.state.productDetail.count);

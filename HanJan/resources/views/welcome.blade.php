@@ -9,6 +9,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <script src="{{ asset('js/app.js') }}" defer></script>
+        <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
         <!-- 결제 -->
         <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
