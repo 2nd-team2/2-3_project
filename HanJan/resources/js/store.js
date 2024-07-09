@@ -893,6 +893,14 @@ const store = createStore({
             });
         },
 
+        verifyToken(context, token) {
+            const url = 'verify/' + token;
+
+            axios.get(url)
+            .then()
+            .catch();
+        },
+
         
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
