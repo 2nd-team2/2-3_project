@@ -196,11 +196,19 @@ main {
     grid-column: 2 / 3;
 }
 
+.dark-mode .order_delete {
+    background-image: url('/img/Vector_white.png');
+}
+
+.dark-mode .inquiry_delete {
+    background-image: url('/img/Vector_white.png');
+}
+
 .order_delete {
     margin-left: 80%;
     grid-column: 3 / 4;
     margin-right: 15px;
-    background-image: url('/img/Vector_white.png');
+    background-image: url('/img/Vector.png');
     background-size: contain;
     background-repeat: no-repeat;
     height: 30px;
@@ -214,7 +222,7 @@ main {
     margin-left: 80%;
     height: 30px;
     width: 30px;
-    background-image: url('/img/Vector_white.png');
+    background-image: url('/img/Vector.png');
     background-size: contain;
     background-repeat: no-repeat;
     border: none;
@@ -228,6 +236,7 @@ main {
     background-size: contain;
     background-repeat: no-repeat;
     width: 90%;
+    cursor: pointer;
 }
 
 .inquiry_img {

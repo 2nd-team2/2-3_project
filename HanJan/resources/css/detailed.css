@@ -38,6 +38,17 @@ main {
     color: #121212;
 }
 
+.kakao_img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.btn_box {
+    text-align: right;
+}
+
 hr {
     margin: 5rem auto;
 }
