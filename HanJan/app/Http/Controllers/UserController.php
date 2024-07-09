@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\MyAuthException;
 use App\Exceptions\MyValidateException;
+use App\Mail\SendEmail;
 use App\Models\Exchange;
 use App\Models\Order;
 use App\Models\Qna;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
@@ -248,10 +250,12 @@ class UserController extends Controller
                 $responseData['code'] = '1';
             } else if($userInfo) {
                 $responseData['code'] = '2';
+                Mail::to($userInfo->email)->send(new SendEmail($userInfo));
+                Log::debug($userInfo->email);
             } else {
                 $responseData['code'] = '3';
             }
-            
+
             return response()->json($responseData, 200);
         }
 
