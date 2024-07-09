@@ -112,17 +112,13 @@ class ExchangeController extends Controller
     // --------------------------------------------------------------------- 관리자 페이지 -------------------------------------------------------------------------
     // 관리자 페이지 교환 및 반품 획득
     public function adminExchangeIndex() {
-        // $ExchangeData = Exchange::withTrashed()
-        //                     ->select('exchanges.*', 'exchanges.ex_id', 'orders.or_buy_name', 'orders.or_buy_tel', 'orders.or_id', 'orders.or_sum', 'orders.created_at as or_created_at')
-        //                     ->join('users', 'users.id', '=', 'exchanges.u_id')
-        //                     ->join('orders', 'users.id', '=', 'orders.u_id')
-        //                     ->join('orderproducts', 'orderproducts.orp_id', '=', 'orders.or_id')
-        //                     ->where('orderproducts.orp_id', '=', 'exchanges.orp_id')
-        //                     // ->groupBy('exchanges.*', 'orders.or_buy_name', 'orders.or_buy_tel', 'orders.or_id', 'orders.or_sum', 'orders.created_at')
-        //                     ->orderBy('exchanges.created_at', 'DESC')
-        //                     ->paginate(15);
         $ExchangeData = Exchange::withTrashed()
-                            ->select('exchanges.*',)
+                            ->select('exchanges.*')
+                            // ->join('orderproducts', 'orderproducts.orp_id', '=', 'exchanges.orp_id')
+                            // ->join('orders', 'orderproducts.or_id', '=', 'orders.or_id')
+                            // ->where('orderproducts.or_id', '=', 'orders.or_id')
+                            ->where('ex_flg', '!=', '3')
+                            ->orderBy('ex_flg', 'ASC')
                             ->orderBy('exchanges.created_at', 'DESC')
                             ->paginate(15);
         $responseData = [

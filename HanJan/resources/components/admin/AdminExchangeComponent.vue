@@ -6,27 +6,30 @@
             <div class="admin_exchange_list_tell admin_weight">신청인 번호</div>
             <div class="admin_exchange_list_adds admin_weight">신청인 주소</div>
             <div class="admin_exchange_list_post admin_weight">신청인 우편번호</div>
+            <div class="admin_exchange_list_reason_etc admin_weight">상세사유</div>
             <div class="admin_exchange_list_reason admin_weight">사유</div>
             <div class="admin_exchange_list_flg admin_weight">진행상황</div>
             <div class="admin_exchange_list_date admin_weight">신청일</div>
             <div class="admin_exchange_list_or_num admin_weight">주문 번호</div>
             <div class="admin_exchange_list_or_amount admin_weight">주문 금액</div>
             <div class="admin_exchange_list_or_date admin_weight">주문일</div>
+            <div class="admin_exchange_list_or_date admin_weight"></div>
         </div>
 
-        <div v-for="exchange in $store.state.adminExchangeData.data" :key="exchange.ex_id" class="admin_exchange_list_container admin_paddingtop">
-            <div class="admin_exchange_list_name">{{ exchange.or_buy_name }}</div>
-            <div class="admin_exchange_list_tell">{{ exchange.or_buy_tel }}</div>
-            <!-- <div class="admin_exchange_list_name">신청인</div>
-            <div class="admin_exchange_list_tell">전화번호</div> -->
+        <div v-for="exchange in $store.state.adminExchangeData.data" :key="key" class="admin_exchange_list_container admin_paddingtop">
+            <div class="admin_exchange_list_name">{{ exchange.ex_name }}</div>
+            <div class="admin_exchange_list_tell">{{ exchange.ex_tel }}</div>
             <div class="admin_exchange_list_adds">{{ exchange.ex_addr + exchange.ex_det_addr }}</div>
             <div class="admin_exchange_list_post">{{ exchange.ex_post }}</div>
+            <div class="admin_exchange_list_reason_etc">{{ exchange.ex_reason_etc }}</div>
             <div class="admin_exchange_list_reason">{{ exchange.ex_reason }}</div>
             <div class="admin_exchange_list_flg">{{ exchange.ex_flg }}</div>
             <div class="admin_exchange_list_date">{{ exchange.created_at }}</div>
             <div class="admin_exchange_list_or_num">{{ exchange.or_id }}</div>
             <div class="admin_exchange_list_or_amount">{{ exchange.or_sum }}</div>
             <div class="admin_exchange_list_or_date">{{ exchange.or_created_at }}</div>
+            <button type="button" v-if="exchange.ex_flg === '신청완료'" class="admin_btn">접수받기</button>
+            <button type="button" v-if="exchange.ex_flg === '상품회수중'" class="admin_btn">결제취소</button>
         </div>
 
         <!-- 페이지네이션 -->
