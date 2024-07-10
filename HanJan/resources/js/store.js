@@ -866,7 +866,7 @@ const store = createStore({
          * @param {*} context 
          * @param {*} emailText
          */
-        async chkEmailOn(context, emailText) {
+        async chkEmailOn(context, emailText) { 
             // 1. 이메일 중복 체크
             const url = '/api/regist/' + emailText;
 
@@ -1350,10 +1350,12 @@ const store = createStore({
             // router.replace('/order');
         },
         // 추천 카테고리
-        typeChkList(constext, data) {
-            const url = '/api/typechklist/type?=' + data.type;
+        typeChkList(constext) {
+            const url = '/api/typechklist';
             axios.get(url)
             .then(response => {
+                console.log('추천카테고리', response.data);
+
                 constext.commit('listTypeChk', response.data);
             })
             .catch(error => {
@@ -1375,7 +1377,6 @@ const store = createStore({
             
             axios.get(url)
             .then(response => {
-                console.log(response.data);
                 context.commit('setSeasonListData', response.data.data);
                 context.commit('setSeason', response.data.season);
             })
@@ -1395,7 +1396,6 @@ const store = createStore({
             
             axios.get(url)
             .then(response => {
-                console.log(response.data);
                 context.commit('setReviewListData', response.data.data);
             })
             .catch(error => {
@@ -1415,7 +1415,6 @@ const store = createStore({
             
             axios.get(url)
             .then(response => {
-                console.log(response.data);
                 context.commit('setNoticeData', response.data.data);
             })
             .catch(error => {
@@ -1522,8 +1521,6 @@ const store = createStore({
                     context.commit('setUnshiftQnaOneByOneData', response.data.data);
                     context.commit('getAskData', context.state.askSetData.current_page);
                 }
-                
-                console.log(response.data); 
                 router.replace('/info');
             })
             .catch(error => {
@@ -1622,6 +1619,7 @@ const store = createStore({
                 const now = new Date();
                 // console.log('가공전:', response.data.data)
                 let tatisticsData = [];
+                // 빈 값이 있을 경에는 0 추가
                 for(let i = 1; i <= 12; i++) {
                     const month = now.getFullYear() + '-' + i.toString().padStart(2, '0');
                     const arr_new_users = response.data.data.filter(item => {
@@ -1633,7 +1631,7 @@ const store = createStore({
                         ,withdraw_users: arr_new_users.length > 0 ? arr_new_users[0].withdraw_users : 0
                     });
                 }
-                // console.log('가공후:', tatisticsData)
+                console.log('가공후:', tatisticsData)
                 context.commit('setUserTatisticsData', tatisticsData);
                 return response;
             } catch (error) {
@@ -1727,31 +1725,90 @@ const store = createStore({
         async getSalesStatisticsData(context) {
             const url = '/api/admin/sales/statistics';
 
-            const response = await axios.get(url);
-    
-            const now = new Date();
-            // console.log('가공전:', response.data.data)
-            let salesStatisticsData = [];
-            for(let i = 1; i <= 12; i++) {
-                const month = now.getFullYear() + '-' + i.toString().padStart(2, '0');
-                const arr_month_sales = response.data.data.filter(item => {
-                    return item.month == month;
-                });
-                tatisticsData.push({
-                    month: month
-                    ,new_users: arr_new_users.length > 0 ? arr_new_users[0].new_users : 0
-                    ,withdraw_users: arr_new_users.length > 0 ? arr_new_users[0].withdraw_users : 0
-                });
-            }
+            try {
+                const response = await axios.get(url);
+        
+                const now = new Date();
+                // console.log('가공전:', response.data.data)
+                let totalSalesData = {daily : [], weekly : [], month : [], year : []};
+                // 일
+                for(let i = 1; i <= 31; i++) {
+                    const daily = now.getFullYear() + '-' + (now.getMonth() + 1).toString().padStart(2, '0') + '-' + i.toString().padStart(2, '0');
+                    const arr_daily_sales = response.data.data.daily.filter(item => {
+                        return item.daily == daily;
+                    });
+                    totalSalesData.daily.push({
+                        daily: daily
+                        ,daily_sales: arr_daily_sales.length > 0 ? arr_daily_sales[0].daily_sales : 0
+                    });
+                }
+                // 주
+                for(let i = 1; i <= 52; i++) {
+                    const weekly = now.getFullYear() + '-' + i.toString().padStart(2, '0');
+                    const arr_weekly_sales = response.data.data.weekly.filter(item => {
+                        return item.year + '-' + item.weekly.toString().padStart(2, '0') == weekly;
+                    });
+                    totalSalesData.weekly.push({
+                        weekly: weekly + '주차'
+                        ,weekly_sales: arr_weekly_sales.length > 0 ? arr_weekly_sales[0].weekly_sales : 0
+                    });
+                }
+                // 달
+                for(let i = 1; i <= 12; i++) {
+                    const month = now.getFullYear() + '-' + i.toString().padStart(2, '0');
+                    const arr_month_sales = response.data.data.month.filter(item => {
+                        return item.year + '-' + item.month.toString().padStart(2, '0')== month;
+                    });
+                    totalSalesData.month.push({
+                        month: month
+                        ,monthly_sales: arr_month_sales.length > 0 ? arr_month_sales[0].monthly_sales : 0
+                    });
+                }
+                // 년
+                for(let i = 4; i >= 0; i--) {
+                    const year = now.getFullYear()-i;
+                    const arr_year_sales = response.data.data.year.filter(item => {
+                        return item.year == year;
+                    });
+                    totalSalesData.year.push({
+                        year: year
+                        ,yearly_sales: arr_year_sales.length > 0 ? arr_year_sales[0].yearly_sales : 0
+                    });
+                }
+                    // console.log('가공후:', totalSalesData)
+                    context.commit('setSalesStatisticsData', totalSalesData);
+                    return response;
+                } catch (error) {
+                    alert('전체 매출 습득에 실패했습니다.(' + error.response.data.code + ')');
+                }
             // axios.get(url)
             // .then(response => {
             //     context.commit('setSalesStatisticsData', response.data.data);
             //     console.log('매출: ', response.data.data)
             // })
             // .catch(error => {
-            //     alert('유저 통계 습득에 실패했습니다.(' + error.response.data.code + ')');
+            //     alert('매출 습득에 실패했습니다.(' + error.response.data.code + ')');
             // });
         },
+
+        // /**
+        //  * 매출 통계 획득
+        //  * 
+        //  * @param {*} context 
+        //  */
+        // getSalesStatisticsData(context) {
+        //     const url = '/api/admin/sales/statistics';
+            
+        //     axios.get(url)
+        //     .then(response => {
+        //         console.log('매출: ', response.data.data)
+        //         context.commit('setSalesStatisticsData', response.data.data);
+        //     })
+        //     .catch(error => {
+        //         console.log(error.response);
+        //         alert('전체 매출 습득에 실패했습니다.(' + error.response.data.code + ')');
+        //     });
+        // },
 
         /**
          * 관리자 페이지 유저 전체 획득

@@ -52,19 +52,21 @@ class Exchange extends Model
             return '상품 배송 오류';
         } else if ($value == '2') {
             return '구성 품족';
-        } else {
+        } else if ($value == '3') {
             return '파손, 결함';
+        } else {
+            return '기타';
         }
     }
     public function getExFlgAttribute($value) {
         if ($value == '0') {
-            return '미신청';
-        } else if ($value == '1') {
             return '신청완료';
-        } else if ($value == '2') {
+        } else if ($value == '1') {
             return '상품회수중';
-        } else {
+        } else if ($value == '2') {
             return '처리완료';
+        } else {
+            return '미신청';
         }
     }
 }

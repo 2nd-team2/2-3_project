@@ -392,40 +392,58 @@ class OrderController extends Controller
 
     // 관리자 페이지 매출 통계 획득
     public function salesStatistics() {
-        $salesStatisticsData = Order::selectRaw("'daily' AS period")
-        ->selectRaw('DATE(created_at) AS period_value')
-        ->selectRaw('SUM(or_sum) AS total_sales')
-        ->groupBy('period_value');
-        $salesStatisticsData->union(
-            Order::selectRaw("'weekly' AS period")
-                ->selectRaw('YEARWEEK(created_at, 1) AS period_value')
-                ->selectRaw('SUM(or_sum) AS total_sales')
-                ->groupBy('period_value')
-        );
-        $salesStatisticsData ->union(
-            Order::selectRaw("'monthly' AS period")
-                ->selectRaw('DATE_FORMAT(created_at, "%Y-%m") AS period_value')
-                ->selectRaw('SUM(or_sum) AS total_sales')
-                ->groupBy('period_value')
-        );
-        $salesStatisticsData->union(
-            Order::selectRaw("'yearly' AS period")
-                ->selectRaw('YEAR(created_at) AS period_value')
-                ->selectRaw('SUM(or_sum) AS total_sales')
-                ->groupBy('period_value')
-        );
-        $salesStatisticsData = $salesStatisticsData->orderBy('period')
-        ->orderBy('period_value')
-        ->get();
+        $dailySalesData = DB::table('orders')
+                            ->select(
+                                DB::raw('CAST(created_at AS DATE) as daily'),
+                                DB::raw('SUM(or_sum) as daily_sales')
+                            )
+                            ->groupBy(DB::raw('CAST(created_at AS DATE)'))
+                            ->havingRaw('SUM(or_sum) > 0')
+                            ->orderBy(DB::raw('CAST(created_at AS DATE)'), 'ASC')
+                            ->get();
+
+        $weeklySalesData = DB::table('orders')
+                            ->select(
+                                DB::raw('YEAR(created_at) as year'),
+                                DB::raw('WEEK(created_at) as weekly'),
+                                DB::raw('SUM(or_sum) as weekly_sales')
+                            )
+                            ->groupBy(DB::raw('YEAR(created_at)'), DB::raw('WEEK(created_at)'))
+                            ->havingRaw('SUM(or_sum) > 0')
+                            ->orderBy(DB::raw('YEAR(created_at)'), 'asc')
+                            ->orderBy(DB::raw('WEEK(created_at)'), 'asc')
+                            ->get();
+
+        $monthSalesData = DB::table('orders')
+                            ->select(
+                                DB::raw('YEAR(created_at) as year'),
+                                DB::raw('MONTH(created_at) as month'),
+                                DB::raw('SUM(or_sum) as monthly_sales')
+                            )
+                            ->groupBy(DB::raw('YEAR(created_at)'), DB::raw('MONTH(created_at)'))
+                            ->havingRaw('SUM(or_sum) > 0')
+                            ->orderBy(DB::raw('YEAR(created_at)'), 'asc')
+                            ->orderBy(DB::raw('MONTH(created_at)'), 'asc')
+                            ->get();
+
+        $yearSalesData = DB::table('orders')
+                            ->select(
+                                DB::raw('YEAR(created_at) as year'),
+                                DB::raw('SUM(or_sum) as yearly_sales')
+                            )
+                            ->groupBy(DB::raw('YEAR(created_at)'))
+                            ->havingRaw('SUM(or_sum) > 0')
+                            ->orderBy(DB::raw('YEAR(created_at)'), 'ASC')
+                            ->get();
 
         $responseData = [
             'code' => '0'
             ,'msg' => '주문목록 획득 완료'
             ,'data' => [
-                'daily' =>$salesStatisticsData->toArray() 
-                // ,'weekly' =>$salesStatisticsData->toArray() 
-                // ,'month' =>$salesStatisticsData->toArray() 
-                // ,'year' =>$salesStatisticsData->toArray() 
+                'daily' =>$dailySalesData->toArray() 
+                ,'weekly' =>$weeklySalesData->toArray() 
+                ,'month' =>$monthSalesData->toArray() 
+                ,'year' =>$yearSalesData->toArray() 
             ]
         ];
 

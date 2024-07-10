@@ -9,5 +9,10 @@ class VerificationToken extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['email', 'token'];
+    protected $fillable = [
+        'email',
+        'token',
+        'ver_flg',
+    ];
+
 }

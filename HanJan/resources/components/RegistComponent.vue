@@ -31,10 +31,10 @@
                         <input class="input_width" type="email" name="email" id="email" @input="chkEmail" v-model="emailText">
                     </div>
                     <div v-if="!isEmailVerified">
-                        <button type="button" class="info_item_btn form_btn email_chk_btn" @click="emailChk">이메일 중복 및 인증 체크</button>
+                        <button type="button" class="info_item_btn form_btn email_chk_btn" @click="emailChk">이메일 검증</button>
                     </div>
                     <div v-else>
-                        <button type="button" class="info_item_btn form_btn email_chk_btn">인증 완료</button>
+                        <button type="button" class="info_item_btn form_btn email_chk_btn">검증 완료</button>
                     </div>
                 </div>
                 <hr>
@@ -102,7 +102,7 @@
                             <div class="second_content">
                                 <p>필수 입력사항을 확인해주세요.</p>
                                 <br>
-                                <img @click="closeSubmitModal" src="../../public/img/complete.png" class="complete_btn">
+                                <img @click="closeSubmitModal" src="/img/complete.png" class="complete_btn">
                             </div>
                         </div>
                     </div>

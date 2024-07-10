@@ -47,7 +47,7 @@
                     <input type="text" class="main_bottom_input5" name="or_get_det_addr" id="address_detail" v-model="orderCompleteData.or_get_det_addr">
                     <button type="button" class="main_bottom_btn" @click="kakaoPostcode" id="postcode">주소검색</button>
                 </div>
-
+                <div>{{ store.state.orderProductData }}</div>
                 <input type="hidden" name ="or_sum" value="1">
                 <div class="bag_margin_top bag_margin_bottom bag_total_border bag_total_grid">
                     <div></div>
@@ -66,7 +66,6 @@
                         <div class="bag_yellow bag_flex_end"> {{ formatPrice(totalPrice.total + deliveryPrice) }}원</div>
                     </div>
                 </div>
-
                 <input type="hidden" name="or_sum" v-model="or_sum">
                 <input type="hidden" name="orp_id" :value="$store.state.orderProductData.p_id">  
                 <input type="hidden" name="orp_count" :value="$store.state.orderProductData.ba_count">
@@ -92,7 +91,7 @@
                         <div class="second_content">
                             <p>결제를 취소하였습니다.</p>
                             <br>
-                            <img @click="closeFailModal" src="../../public/img/complete.png" class="complete_btn">
+                            <img @click="closeFailModal" src="/img/complete.png" class="complete_btn">
                         </div>
                     </div>
                 </div>
@@ -124,8 +123,14 @@ const orderCompleteData = reactive({
 
 // ------------------------------------------------
 // 구매자 정보
-const price = store.state.orderProductData.price
-const productName = store.state.orderProductData[0].products_name + ' 외 ' + (store.state.orderProductData.length - 1) + '개'
+const price = store.state.orderProductData.price;
+let productName;
+
+if(!Array.isArray(store.state.orderProductData) && store.state.orderProductData !== null && typeof store.state.orderProductData === 'object') {
+    productName = store.state.orderProductData.products_name
+} else {
+    productName =  store.state.orderProductData.length >1 ? store.state.orderProductData[0].products_name + ' 외 ' + (store.state.orderProductData.length - 1) + '개' : store.state.orderProductData[0].products_name
+}
 
 function BeforekakaoPay() {
     showModal.value = true;
