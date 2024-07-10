@@ -28,6 +28,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'post',
         'birth',
         // 'age_chk',
+        'email_verified_at',
     ];
 
     /**

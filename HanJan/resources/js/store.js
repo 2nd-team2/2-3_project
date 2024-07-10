@@ -860,34 +860,31 @@ const store = createStore({
         },
 
         /**
-         * 이메일 인증
+         * 이메일 검증
          *  >> 이메일 중복체크 먼저 진행 후 인증 처리
          * 
          * @param {*} context 
          * @param {*} emailText
          */
         async chkEmailOn(context, emailText) { 
-            // 1. 이메일 중복 체크
-            const url = '/api/regist/' + emailText;
+            const url = '/api/sendVerificationEmail';
 
             try {
-                const response = await axios.get(url);
-                if (response.data.code === '2') {
-                    alert('이미 사용 중인 이메일입니다.');
-                } else if (response.data.code === '1') {
+                const response = await axios.get(url, { email: emailText });
+                if (response.data.code === '1') {
                     alert('유효하지 않은 이메일입니다.');
+                } else if (response.data.code === '2') {
+                    alert('이미 사용 중인 이메일입니다.');
+                } else if (response.data.code === '3') {
+                    alert('인증 메일 발송 중 오류가 발생했습니다.');
                 } else {
-                    alert('사용 가능한 이메일입니다. \n 해당 이메일로 인증 메일이 발송 되었습니다. 해당메일 :' + emailText);
-                    await axios.post('/api/sendVerificationEmail', { email: emailText });
+                    alert('사용 가능한 이메일입니다. \n 해당 이메일로 인증 메일이 발송 되었습니다. 해당 이메일 : ' + emailText);
+                    // await axios.post('/api/sendVerificationEmail', { email: emailText });
                     console.log('인증 메일을 성공적으로 보냈습니다.');
-                    commit('setEmail', emailText);
+                    // commit('setEmail', emailText);
                 }
             } catch (error) {
-                if(response.data.code === '3') {
-                    alert('인증 메일 발송 중 오류가 발생했습니다.')
-                } else {
-                    console.error('이메일 중복 확인 중 오류가 발생했습니다.', error);
-                }
+                console.error('이메일 검증 중 오류가 발생했습니다.', error);
             }
         },
             // axios.get(url)

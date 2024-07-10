@@ -124,10 +124,10 @@ class UserController extends Controller
         }
 
         
-        // 이메일 인증 메일 발송
+        // 이메일 중복 체크 후 인증 메일 발송
         public function sendVerificationEmail(Request $request) {
+            // 유저가 작성한 이메일 정보 획득
             $email = $request->input('email');
-
             Log::debug('인증메일 발송할 유저의 이메일- 본인이 작성한 이메일');
             Log::debug($email);
 
@@ -136,7 +136,6 @@ class UserController extends Controller
                 ['email' => $email],
                 ['email' => 'required|email']
             );
-
             if ($validator->fails()) {
                 Log::debug('유효하지 않은 이메일 형식');
                 return response()->json(['code' => '1', 'msg' => '유효하지 않은 이메일입니다.']);
@@ -149,16 +148,15 @@ class UserController extends Controller
                 return response()->json(['code' => '2', 'msg' => '이미 사용 중인 이메일입니다.']);
             }
 
+            // 임시 토큰 생성 및 저장
             $token = Str::random(60);
-
-            // 임시 토큰 저장
             VerificationToken::updateOrCreate(
                 ['email' => $email],
                 ['token' => $token]
             );
             
-            Log::debug('인증 메일 발송 시작');
             // 인증 메일 발송
+            Log::debug('인증 메일 발송 시작');
             try {
                 Mail::to($email)->send(new VerificationEmail($token));
                 Log::debug('인증 메일 발송 완료');
@@ -172,6 +170,7 @@ class UserController extends Controller
 
         // 이메일 인증 확인
         public function verify($token) {
+            // 인증 메일에서 url로 넘긴 token을 DB와 비교
             $verificationToken = VerificationToken::where('token', $token)->first();
 
             if (!$verificationToken) {
