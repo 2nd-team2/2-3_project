@@ -7,7 +7,7 @@
             <form name="form" onsubmit="return false">
                 <div class="list_search">
                     <input type="text" class="list_search_text" placeholder="검색어를 입력해주세요" v-model="data.search">
-                    <button type="button" class="list_search_img" @click="search"><img src="/img/search.png"></button>
+                    <div class="list_search_img" @click="search"><img src="/img/search.png"></div>
                 </div>
             </form>
             
