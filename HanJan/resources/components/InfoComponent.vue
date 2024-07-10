@@ -12,7 +12,6 @@
                 </div>
                 <div class="order_list_main">
                     <div class="order_item" v-for="(item, key) in $store.state.infoData.data" :key="key" v-if="$store.state.infoData.data && $store.state.infoData.data.length > 0">
-                        <!-- <div>{{item }}</div> -->
                         <div class="item_left_list_text">
                             <span class="title_span">{{ formatDate(item.orpDate) }}
                                 <span class="order_date">
@@ -24,7 +23,8 @@
                             <img class="order_img" :src="item.img" @click="redirectToDetailedPage(item.p_id)">
                             <p class="order_name">{{ item.name + ' ' + item.ml +'ml' }}</p>
                             <p class="order_price">{{ '금액 : ' + formatPrice(item.price) + '원 / ' + item.orp_count + '개' }}</p>
-                            <div class="button_a complete_btn" @click="$store.dispatch('completeBtn', item.orp_id)" v-if="item.co_flg === '0' || item.co_flg === null">구매확정</div>
+                            <!-- <div class="button_a complete_btn" @click="$store.dispatch('completeBtn', item.orp_id)" v-if="item.co_flg === '0' || item.co_flg === null">구매확정</div> -->
+                            <div class="button_a complete_btn" @click="completeBtn(item.orp_id)" v-if="item.co_flg === '0' || item.co_flg === null">구매확정</div>
                         </div>
                         <div class="item_right">
                             <div @click="askProduct(item)" class="button_a">상품문의하기</div>
@@ -37,6 +37,20 @@
                             <div @click="infoReviewCreate(item)" type="button" class="button_a" v-if="item.re_id === null && item.co_flg === '1'">리뷰 작성하기</div>
                             <div type="button" class="button_b button_complete_color" v-else-if="item.re_id">리뷰 작성 완료</div>
                         </div>
+                        <transition name="down">
+                        <div class="agree_box modal_second_overlay" v-show="showCompleteModal">
+                            <div class="modal_second_window">
+                                <div class="second_content">
+                                    <p class="second_content">확인을 누르면 구매가 확정됩니다.</p>
+                                    <br>
+                                    <div>
+                                        <button type="button" @click="confirmComplete" class="modal_btn">확인</button>
+                                        <button type="button" @click="closeCompleteModal" class="modal_btn">취소</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </transition>
                         <transition name="down">
                         <div class="agree_box modal_second_overlay" v-show="showDeleteModal">
                             <div class="modal_second_window">
@@ -144,7 +158,6 @@
                             <p class="one_date">{{ item.created_at }}</p>
                         </div>
                         <div class="inquiry_item_right_list">
-                            <!-- <button type="submit" class="inquiry_delete" @click="$store.dispatch('askDelete', item.qn_id)"></button> -->
                             <button type="submit" class="inquiry_delete" @click=deleteAsk(item.qn_id)></button>
                             <div class="in_progress qna_answer_complete" v-if="item.qn_answer">답변완료</div>
                             <div class="in_progress qna_answer" v-else>답변진행중</div>
@@ -199,24 +212,35 @@
     import router from '../js/router';
 
     const store = useStore();
+    const showCompleteModal = ref(false);
     const showDeleteModal = ref(false);
     const showProductDeleteModal = ref(false);
     const showAskDeleteModal = ref(false);
     let deleteItemId = ref(null);
+    
+    function completeBtn(item) {
+        deleteItemId.value = item;
+        showCompleteModal.value = true;
+    }
 
     function deleteUser(item) {
         deleteItemId.value = item;
         showDeleteModal.value = true;
     }
+
     function deleteProductAsk(item) {
         deleteItemId.value = item;
         showProductDeleteModal.value = true;
     }
+
     function deleteAsk(item) {
         deleteItemId.value = item;
         showAskDeleteModal.value = true;
     }
 
+    function closeCompleteModal() {
+        showCompleteModal.value = false;
+    }
     function closeDeleteModal() {
         showDeleteModal.value = false;
     }
@@ -227,6 +251,10 @@
         showAskDeleteModal.value = false;
     }
 
+    function confirmComplete() {
+        store.dispatch('completeBtn', deleteItemId.value);
+        showCompleteModal.value = false;
+    }
     function confirmDelete() {
         store.dispatch('orderItemDelete', deleteItemId.value);
         showDeleteModal.value = false;

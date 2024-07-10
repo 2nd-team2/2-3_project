@@ -16,7 +16,7 @@
             <div class="admin_exchange_list_or_date admin_weight"></div>
         </div>
 
-        <div v-for="exchange in $store.state.adminExchangeData.data" :key="key" class="admin_exchange_list_container admin_paddingtop">
+        <div v-for="exchange in $store.state.adminExchangeData.data" :key="exchange.ex_id" class="admin_exchange_list_container admin_paddingtop">
             <div class="admin_exchange_list_name">{{ exchange.ex_name }}</div>
             <div class="admin_exchange_list_tell">{{ exchange.ex_tel }}</div>
             <div class="admin_exchange_list_adds">{{ exchange.ex_addr + exchange.ex_det_addr }}</div>
@@ -28,8 +28,8 @@
             <div class="admin_exchange_list_or_num">{{ exchange.or_id }}</div>
             <div class="admin_exchange_list_or_amount">{{ exchange.or_sum }}</div>
             <div class="admin_exchange_list_or_date">{{ exchange.or_created_at }}</div>
-            <button type="button" v-if="exchange.ex_flg === '신청완료'" class="admin_btn">접수받기</button>
-            <button type="button" v-if="exchange.ex_flg === '상품회수중'" class="admin_btn">결제취소</button>
+            <button type="button" v-if="exchange.ex_flg === '신청완료'" @click="takeOver(exchange.ex_id)" class="admin_btn">접수받기</button>
+            <button type="button" v-if="exchange.ex_flg === '상품회수중'" @click="payCancel(exchange.ex_id)" class="admin_btn">결제취소</button>
         </div>
 
         <!-- 페이지네이션 -->
@@ -106,6 +106,21 @@
             goToPage(store.state.adminExchangeData.current_page + 1);
         }
     }
+
+    // 교환 및 반품 접수 버튼
+    function takeOver(ex_id) {
+        if(confirm('확인을 클릭시 접수가 완료됩니다.')) {
+            store.dispatch('getTakeOverData', ex_id)
+        }
+    }
+
+    // 교환 및 반품 결제취소 버튼
+    function payCancel(ex_id) {
+        if(confirm('확인을 클릭시 결제 취소가 완료됩니다.')) {
+            store.dispatch('getPayCancelData', ex_id)
+        }
+    }
+
 </script>
 
 <style>

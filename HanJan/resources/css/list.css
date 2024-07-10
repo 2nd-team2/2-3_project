@@ -78,6 +78,7 @@ hr {
 }
 .list_search_img {
     background-color: transparent;
+    cursor: pointer;
     border: none;
 }
 .list_search_img img {

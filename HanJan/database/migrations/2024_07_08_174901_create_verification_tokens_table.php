@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('email')->unique();
             $table->string('token');
+            $table->string('ver_flg', 1)->default('0')->comment('이메일 인증 토큰, 0:미검증, 1:검증');
             $table->timestamps();
         });
     }

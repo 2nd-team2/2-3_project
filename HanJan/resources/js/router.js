@@ -4,7 +4,6 @@ import TraditionalLiquorComponent from '../components/TraditionalLiquorComponent
 import MainComponent from '../components/MainComponent.vue';
 import LoginComponent from '../components/LoginComponent.vue';
 import AgreeCompnent from '../components/AgreeComponent.vue';
-import EmailComponent from '../components/EmailComponent.vue';
 import BagComponent from '../components/BagComponent.vue';
 import ConfirmCompnent from '../components/ConfirmComponent.vue';
 import DetailedCompnent from '../components/DetailedComponent.vue';
@@ -23,6 +22,7 @@ import QnaProductDetailComponent from '../components/QnaProductDetailComponent.v
 import QnaOnebyOneDetailComponent from '../components/QnaOnebyOneDetailComponent.vue';
 import NoticeListComponent from '../components/NoticeListComponent.vue';
 import NoticeComponent from '../components/NoticeComponent.vue';
+import storyComponent from '../components/storyComponent.vue';
 import store from './store';
 import ListComponent from '../components/ListComponent.vue';
 import ListComponentCk from '../components/ListComponentCk.vue';
@@ -69,11 +69,6 @@ const routes = [
         component: AgreeCompnent,
     },
     {
-        // 이메일 인증 처리중인 componet
-        path:'/verify/:token',
-        component: EmailComponent,
-    },
-    {
         path: '/bag',
         component: BagComponent,
         beforeEnter: chkAuth,
@@ -82,6 +77,11 @@ const routes = [
         path: '/confirm',
         component: ConfirmCompnent,
         beforeEnter: chkAuth,
+    },
+    {
+        path: '/story',
+        component: storyComponent,
+        // beforeEnter: chkAuth,
     },
     {
         path: '/detailed',

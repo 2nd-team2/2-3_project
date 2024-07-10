@@ -28,13 +28,21 @@
                     <label class="info_item_label" for="email">이메일</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg error">{{ emailError }}</p>
-                        <input class="input_width" type="email" name="email" id="email" @input="chkEmail" v-model="emailText">
+                        <input v-if="$store.state.emailCode" class="input_width" type="email" name="email" id="email" @input="chkEmail" v-model="emailText">
+                        <input v-else class="input_width" type="email" name="email" id="email" readonly @input="chkEmail" v-model="emailText">
                     </div>
-                    <div v-if="!isEmailVerified">
-                        <button type="button" class="info_item_btn form_btn email_chk_btn" @click="emailChk">이메일 중복 및 인증 체크</button>
-                    </div>
-                    <div v-else>
-                        <button type="button" class="info_item_btn form_btn email_chk_btn">인증 완료</button>
+                    <div class="verify">
+                        <button v-if="$store.state.emailVerify" type="button" class="info_item_btn form_btn email_chk_btn verifyButton" @click="emailChk">이메일 검증</button>
+
+                        <form v-else class="verifyCode" id="verifyCode">
+                            <div v-if="$store.state.emailCode">
+                                <input type="text" name="verifyCode" class="verifyinput" placeholder="검증 코드를 입려해 주세요.">
+                                <button type="button" class="info_item_btn form_btn email_chk_btn" @click="$store.dispatch('codeChk')" >코드 확인</button>
+                            </div>
+                            <div v-else>
+                                <button type="button" class="form_btn email_chk_btn">검증 완료</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <hr>
@@ -94,7 +102,7 @@
                 <br>
                 <div class="buttons twobuttons">
                     <button type="button" class="info_item_btn form_btn" @click="$router.push('/')">취소</button>
-                    <button type="submit" class="info_item_btn form_btn">확인</button>
+                    <button type="submit" class="info_item_btn form_btn" :disabled="!$store.state.kakaoInfo || $store.state.emailCode">확인</button>
                 </div>
                 <transition name="down">
                     <div class="agree_box modal_second_overlay" v-show="showSubmitModal">
@@ -220,10 +228,16 @@ function chkBirth() {
 function validateForm() {
     let valid = true;
 
-    if (!store.state.kakaoInfo) {
+    if (!$store.state.kakaoInfo || $store.state.emailCode) {
+        // 이메일 검증을 하지 않았거나 카카오 로그인 상태가 아니면 폼 검증을 중지합니다.
+        showSubmitModal.value = true;
+        return;
+    }
+
+    // if (!store.state.kakaoInfo && !store.state.emailCode) {
         chkEmail();
         if (emailError.value) valid = false;
-    }
+    // }
 
     chkPassword();
     if (passwordError.value) valid = false;
@@ -258,57 +272,32 @@ function closeSubmitModal() {
     showSubmitModal.value = false;
 }
 
+
 // 이메일 인증 처리
-const emailChk = async () => {
+const emailChk = () => {
     if (!emailText.value) {
         alert('이메일을 입력해 주세요.');
         return;
     }
-    
-    try {
-        await store.dispatch('chkEmailOn', emailText.value)
-        .then(() => {
-        localStorage.setItem('email', emailText.value);
-        // 인증 요청이 성공하면 상태를 변경합니다.
-        isEmailVerified.value = true;
-        localStorage.setItem('emailVerified', 'true');
-        });
-
-    } catch (error) {
-        console.error('이메일 인증 실패:', error);
-    }
+    store.dispatch('chkEmailOn', emailText.value)
 };
 
-// // 이메일 인증 처리
-// const emailChk = () => {
-//     if (!emailText.value) {
-//         alert('이메일을 입력해 주세요.');
-//         return;
-//     }
-//     store.dispatch('chkEmailOn', emailText.value)
-//     .then(() => {
-//         localStorage.setItem('email', emailText.value);
-//         isEmailVerified.value = true;
-//         localStorage.setItem('emailVerified', 'true');
-//     });
-// };
-
 // 새로 고침 후 이메일 로드
-const isEmailVerified = ref(false);
-
 onMounted(() => {
     const savedEmail = localStorage.getItem('email');
-    const emailVerified = localStorage.getItem('emailVerified') === 'true';
+    const emailVerify = localStorage.getItem('emailVerify');
+    const emailCode = localStorage.getItem('emailCode');
 
-    if (savedEmail) {
+    if (savedEmail !== 'null') {
         emailText.value = savedEmail;
     }
-
-    if (emailVerified) {
-        isEmailVerified.value = true;
+    if (emailVerify !== null) {
+        store.commit('setEmailVerify', emailVerify === 'true');
+    }
+    if (emailCode !== null) {
+        store.commit('setEmailCode', emailCode === 'true');
     }
 });
-
 
 // 카카오 주소 API
 function kakaoPostcode() {

@@ -14,7 +14,7 @@
                 <button type="button" class="loginBtn" @click="login">로그인</button>
                 <button type="button" class="registBtn" @click="$router.push('agree')">회원가입</button>
                 <a href="/api/kakao" class="kakaoBtn"><img src="/img/kakao_login_large_wide.png" class="kakaoBtn_img"></a>
-                <img class="rightPoto" src="/img/IE002927310_STD.png">
+                <img class="rightPoto" :src="OriginalAlcohol" @click="toggleAlcoholImg('OriginalAlcohol')">
             </div>
             <transition name="down">
               <div class="agree_box modal_second_overlay" v-show="showCompleteModal">
@@ -63,6 +63,9 @@ const otterImg = ref('/img/drunkOtter.png');
 const otterImg2 = ref('/img/drunkOtter.png');
 const alternateImg = '/img/drunkOtter3.png';
 
+const OriginalAlcohol = ref('/img/IE002927310_STD.png');
+const KoreanAlcohol = '/img/KoreanAlcohol.png';
+
 function toggleImg(imgRef) {
   if (imgRef === 'otterImg') {
     otterImg.value = otterImg.value === '/img/drunkOtter.png' ? alternateImg : '/img/drunkOtter.png';
@@ -70,6 +73,11 @@ function toggleImg(imgRef) {
     otterImg2.value = otterImg2.value === '/img/drunkOtter.png' ? alternateImg : '/img/drunkOtter.png';
   }
 }
+
+function toggleAlcoholImg() {
+  OriginalAlcohol.value = OriginalAlcohol.value === '/img/IE002927310_STD.png' ? KoreanAlcohol : '/img/IE002927310_STD.png';
+}
+
 
 // 페이지가 로드될 때마다 폼을 초기화
 onMounted(() => {

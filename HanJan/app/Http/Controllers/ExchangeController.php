@@ -118,13 +118,55 @@ class ExchangeController extends Controller
                             // ->join('orders', 'orderproducts.or_id', '=', 'orders.or_id')
                             // ->where('orderproducts.or_id', '=', 'orders.or_id')
                             ->where('ex_flg', '!=', '3')
-                            ->orderBy('ex_flg', 'ASC')
+                            // ->orderBy('ex_flg', 'ASC')
                             ->orderBy('exchanges.created_at', 'DESC')
                             ->paginate(15);
         $responseData = [
             'code' => '0'
             ,'msg' => '교환 및 반품 목록 획득 완료'
             ,'data' => $ExchangeData->toArray()
+        ];
+
+        return response()->json($responseData, 200);
+    }
+
+    // 접수완료 클릭시 교환 및 반품 진행중으로 변경
+    public function takeOver(Request $request) {
+
+        $updateData = Exchange::find($request->ex_id);
+
+        // 수정 처리
+        $updateData['ex_flg'] = 1;
+        
+        // 수정된 데이터 저장
+        $updateData->save();
+
+        // 레스폰스 데이터 생성
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '접수 완료'
+            ,'data' => $updateData->toArray()
+        ];
+
+        return response()->json($responseData, 200);
+    }
+
+    // 접수완료 클릭시 교환 및 반품 진행중으로 변경
+    public function payCancel(Request $request) {
+
+        $updateData = Exchange::find($request->ex_id);
+
+        // 수정 처리
+        $updateData['ex_flg'] = 2;
+        
+        // 수정된 데이터 저장
+        $updateData->save();
+
+        // 레스폰스 데이터 생성
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '결제 취소 완료'
+            ,'data' => $updateData->toArray()
         ];
 
         return response()->json($responseData, 200);

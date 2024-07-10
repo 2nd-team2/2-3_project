@@ -30,7 +30,6 @@
             <div class="main">
                 <div class="main_top">
                     <h2>받는 사람정보</h2>
-                    <div>{{ productName }}</div>
                 </div>
                 <div class="main_bottom">
                     <div class="main_bottom_name">이름</div>
@@ -47,7 +46,6 @@
                     <input type="text" class="main_bottom_input5" name="or_get_det_addr" id="address_detail" v-model="orderCompleteData.or_get_det_addr">
                     <button type="button" class="main_bottom_btn" @click="kakaoPostcode" id="postcode">주소검색</button>
                 </div>
-                <div>{{ store.state.orderProductData }}</div>
                 <input type="hidden" name ="or_sum" value="1">
                 <div class="bag_margin_top bag_margin_bottom bag_total_border bag_total_grid">
                     <div></div>
