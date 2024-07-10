@@ -587,13 +587,7 @@ const store = createStore({
             const url = '/api/orderTrans';
 
             axios.post(url, data)
-            .then(response => {
-                console.log(response.data);
-                router.push('/ordercomplete');         
-            })
-            .catch(error => {
-                router.push('/ordercomplete');  
-            });
+            router.push('/ordercomplete'); 
 
         },
 
