@@ -23,6 +23,7 @@ import QnaProductDetailComponent from '../components/QnaProductDetailComponent.v
 import QnaOnebyOneDetailComponent from '../components/QnaOnebyOneDetailComponent.vue';
 import NoticeListComponent from '../components/NoticeListComponent.vue';
 import NoticeComponent from '../components/NoticeComponent.vue';
+import storyComponent from '../components/storyComponent.vue';
 import store from './store';
 import ListComponent from '../components/ListComponent.vue';
 import ListComponentCk from '../components/ListComponentCk.vue';
@@ -82,6 +83,11 @@ const routes = [
         path: '/confirm',
         component: ConfirmCompnent,
         beforeEnter: chkAuth,
+    },
+    {
+        path: '/story',
+        component: storyComponent,
+        // beforeEnter: chkAuth,
     },
     {
         path: '/detailed',
