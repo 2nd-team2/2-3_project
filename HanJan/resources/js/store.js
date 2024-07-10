@@ -582,13 +582,6 @@ const store = createStore({
                 return; // 예외 처리: 유효하지 않은 데이터 형식인 경우 종료
             }
 
-            // // 장바구니에서 받은 데이터와 주문페이지에서 입력한 데이터 가공 처리
-            // const orderItems = store.state.orderProductData.map(item => {
-            //     const OrderItem = { ...orderComplete, ...item };
-                
-            //     return OrderItem;
-            // });
-
             const data = JSON.stringify({ data: orderItems}); // 키값을 포함하여 서버에 전달
             console.log(data); // TODO : 삭제
             const url = '/api/orderTrans';
@@ -598,9 +591,9 @@ const store = createStore({
                 console.log(response.data);
                 router.push('/ordercomplete');         
             })
-            .catch(error => {
-                alert('결제에 실패하였습니다.(' + error.response.data.code + ')' )
-            });
+            // .catch(error => {
+            //     alert('결제에 실패하였습니다.(' + error.response.data.code + ')' )
+            // });
 
         },
 

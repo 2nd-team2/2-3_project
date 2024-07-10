@@ -107,17 +107,15 @@
         // 현재 링크 가져오기
         let currentURL = window.location.href;
 
-        let urlImage = 'https://ibb.co/RD3DJx2'
-
         // 카카오톡 공유하기 openApi 
         Kakao.init('207acd3374ae418155e14bcfe011298b');
 
         Kakao.Link.sendDefault({
             objectType: 'feed',
             content: {
-                title: store.state.productDetail.name,
-                description: store.state.productDetail.type,
-                imageUrl: urlImage,
+                title: store.state.productDetail.name + ' ' + store.state.productDetail.ml + 'ml',
+                description: '주종 : ' + store.state.productDetail.type + ' ' + store.state.productDetail.price + '원',
+                imageUrl: 'https://ifh.cc/g/zFrKG7.png',
                 link: {
                     mobileWebUrl: currentURL,
                     webUrl: currentURL,
@@ -125,10 +123,17 @@
             },
             buttons: [
                 {
-                    title: '웹으로 보기',
+                    title: '구매하기',
                     link: {
                         mobileWebUrl: currentURL,
                         webUrl: currentURL,
+                    },
+                },
+                {
+                    title: '한잔 둘러보기',
+                    link: {
+                        mobileWebUrl: 'https://112.222.157.156:6425/',
+                        webUrl: 'https://112.222.157.156:6425/',
                     },
                 },
             ],
