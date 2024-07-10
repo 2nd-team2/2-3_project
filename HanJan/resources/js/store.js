@@ -27,7 +27,8 @@ const store = createStore({
             // 이메일 인증
             // email: localStorage.getItem('email') ? JSON.parse(localStorage.getItem('email')) : null,
             email: localStorage.getItem('email') ? localStorage.getItem('email') : null,
-            emailVerified: false,
+            emailVerify: localStorage.getItem('emailVerify') ? localStorage.getItem('emailVerify') : true,
+            emailCode: localStorage.getItem('emailCode') ? localStorage.getItem('emailCode') :  true,
             
             // ----------------------- 보원 끝 ---------------------------
             // ----------------------- 성환 시작 -------------------------
@@ -175,9 +176,13 @@ const store = createStore({
             // localStorage.setItem('email', JSON.stringify(email));
             localStorage.setItem('email', email);
         },
-        setEmailVerified(state, status) {
-            state.emailVerified = status;
-            localStorage.setItem('email', email);
+        setEmailVerify(state, status) {
+            state.emailVerify = status;
+            localStorage.setItem('emailVerify', status);
+        },
+        setEmailCode(state, status) {
+            state.emailCode = status;
+            localStorage.setItem('emailCode', status);
         },
 
         // ----------------------- 보원 끝 ---------------------------
@@ -852,7 +857,7 @@ const store = createStore({
 
         /**
          * 이메일 검증
-         *  >> 이메일 중복체크 먼저 진행 후 인증 처리
+         *  >> 이메일 중복체크 먼저 진행 후 검증 코드 전송
          * 
          * @param {*} context 
          * @param {*} emailText
@@ -870,95 +875,35 @@ const store = createStore({
                 } else if (response.data.code === '3') {
                     alert('인증 메일 발송 중 오류가 발생했습니다.');
                 } else {
-                    alert('사용 가능한 이메일입니다. \n 해당 이메일로 인증 메일이 발송 되었습니다. 해당 이메일 : ' + emailText);
+                    alert('사용 가능한 이메일입니다. \n 해당 이메일로 인증 메일이 발송 되었습니다.\n 해당 이메일 : ' + emailText);
                     console.log('인증 메일을 성공적으로 보냈습니다.');
-                    console.log(emailText);
-                    context.commit('setEmail', emailText);
-                
-                    // localStorage.setItem('emailVerified', 'true'); // 인증이 완료 되면 바꾸기 > EmailComponent에 넣기
+                    context.commit('setEmail', emailText);  // >> 회원가입이 완료되면 null 값으로 바꾸기
+                    context.commit('setEmailVerify', false); // >> 회원가입이 완료되면 true로 바꾸기
                 }
             })
             .catch(error => {
                 console.error('이메일 검증 중 오류가 발생했습니다.', error);
             })
 
-            // try {
-            //     const response = await axios.post(url, { email: emailText });
-            //     if (response.data.code === '1') {
-            //         alert('유효하지 않은 이메일입니다.');
-            //     } else if (response.data.code === '2') {
-            //         alert('이미 사용 중인 이메일입니다.');
-            //     } else if (response.data.code === '3') {
-            //         alert('인증 메일 발송 중 오류가 발생했습니다.');
-            //     } else {
-            //         console.log('인증 메일을 성공적으로 보냈습니다.');
-            //         console.log(response.data);
-            //         alert('사용 가능한 이메일입니다. \n 해당 이메일로 인증 메일이 발송 되었습니다. 해당 이메일 : ' + emailText);
-            //         // context.commit('setEmail', response);
-            //         // localStorage.setItem('email',JSON.stringify(emailText));
-            //         // await axios.post('/api/sendVerificationEmail', { email: emailText });
-            //         // commit('setEmail', emailText);
-            //     }
-            // } catch (error) {
-            //     console.error('이메일 검증 중 오류가 발생했습니다.', error);
-            // }
         },
-            // axios.get(url)
-            // .then(responseData => {
-            //     if (responseData.data.code === '2') {
-            //         alert('이미 사용 중인 이메일입니다.');
-            //     } else if(responseData.data.code === '1') {
-            //         alert('유효하지 않은 이메일입니다. ');
-            //     } else {
-            //         alert('사용 가능한 이메일입니다.');
-            //         // 2. 이메일 인증 처리
-            //         axios.post('/api/send-verification-email', {email : emailText})
-            //         .then(response => {
-            //             console.log('인증 메일을 성공적으로 보냈습니다.');
-            //           })
-            //           .catch(error => {
-            //             console.error('인증 메일을 보내는 도중 에러가 발생했습니다.', error);
-            //           });
-            //     }
-            // })
-            // .catch(error => {
-            //     error.value = '이메일 중복 확인 중 오류가 발생했습니다.';
-            // });
-        
-        // async verifyToken({ commit }, token) {
-        //     const url = '/verify/' + token;
 
-        //     try {
-        //         const response = await axios.get(url);
-        //         console.log('Verification success:', response);
-        //         commit('setEmailVerified', true);
-        //     } catch (error) {
-        //         console.error('Verification failed:', error);
-        //     }
-        // },
-        verifyToken(context, token) {
-            const url = '/verify/' + token;
+        // 이메일 인증 코드 확인
+        codeChk(context) {
+            const url = '/api/codeChk';
+            const data = new FormData(document.querySelector('#verifyCode'));
 
-            axios.get(url)
+            axios.post(url, data)
             .then(response => {
-                console.log('Verification success:', response);
-                if (response.data.success) {
-                    context.commit('setEmailVerified', true);
+                if (response.data.code === 1) {
+                    console.log('코드 인증 성공');
+                    context.commit('setEmailCode', false); // >> 회원가입이 완료되면 true로 바꾸기
+                } else {
+                    console.log('코드 인증 실패');
                 }
             })
             .catch(error => {
-                console.error('Verification failed:', error);
+                console.log('에러 발생:', error.response);
             });
-        },
-
-        fetchEmailVerificationStatus(context) {
-            axios.get('/api/email-verification-status')
-                .then(response => {
-                    context.commit('setEmailVerified', response.data.emailVerified);
-                })
-                .catch(error => {
-                    console.error('Failed to fetch email verification status:', error);
-                });
         },
 
         
@@ -1023,8 +968,11 @@ const store = createStore({
             .then(responseData => {
                 // 카카오 로그인 로컬 지우기
                 localStorage.removeItem('kakaoInfo');
-                // 이메일 검증 로컬 지우기
-                localStorage.removeItem('email');
+                // 이메일 검증관련 정보 지우기
+                context.commit('setEmail', null);
+                context.commit('setEmailVerify', true);
+                context.commit('setEmailCode', true);
+
                 router.replace('login');
                 alert('회원가입이 완료되었습니다.');
             })

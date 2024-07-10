@@ -82,8 +82,13 @@ import { useStore } from 'vuex';
 const store = useStore();
 
 onBeforeMount(()=>{
+    // 카카오 관련 정보 지우기
     localStorage.removeItem('kakaoInfo');
     store.commit('kakaoInfo', null);
+    // 이메일 검증관련 정보 지우기
+    store.commit('setEmail', null);
+    store.commit('setEmailVerify', true);
+    store.commit('setEmailCode', true);
 })
 
 
