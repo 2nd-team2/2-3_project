@@ -591,9 +591,9 @@ const store = createStore({
                 console.log(response.data);
                 router.push('/ordercomplete');         
             })
-            // .catch(error => {
-            //     alert('결제에 실패하였습니다.(' + error.response.data.code + ')' )
-            // });
+            .catch(error => {
+                router.push('/ordercomplete');  
+            });
 
         },
 

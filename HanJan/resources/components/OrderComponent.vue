@@ -30,7 +30,6 @@
             <div class="main">
                 <div class="main_top">
                     <h2>받는 사람정보</h2>
-                    <div>{{ productName }}</div>
                 </div>
                 <div class="main_bottom">
                     <div class="main_bottom_name">이름</div>
