@@ -121,7 +121,9 @@ hr {
 .list_name_bk {
     background-color: rgba(250, 201, 29, 0.3);
 }
-
+.list_menu_img99 {
+    width: 79px;
+}
 /* ------------- 한잔 베스트 ------------- */
 .list_content_cut {
     margin: 0 18rem 1rem;
@@ -140,6 +142,7 @@ hr {
     font-weight: 800;
     margin: 6rem 0rem 1rem;
     margin-left: 15%;
+    
 }
 
 .list_best {
@@ -168,6 +171,11 @@ hr {
 }
 .list_best_detail > p {
     font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 160px;
+    
 }
 .list_best_detail > strong {
     font-size: 1.3rem;
@@ -227,7 +235,7 @@ hr {
 
 @media screen and (min-width: 771px) and (max-width: 1200px) {
     .list_content_cut {
-        margin: 0 10rem 1rem;
+        margin: 0 3rem 1rem;
     }
     .list_content {
         grid-template-columns: 1fr 1fr 1fr;
@@ -277,7 +285,7 @@ hr {
 /* 모바일 */
 @media (max-width: 770px) {
     .list_content_cut {
-        margin: 0 6rem 1rem;
+        margin: 0 3rem 1rem;
     }
     .list_content {
         grid-template-columns: 1fr 1fr;
@@ -336,6 +344,13 @@ hr {
     }
     .before, .next {
         font-size: 0.8rem;
+    }
+    .list_main_img{
+        width: 185%;
+        height: 20rem;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
     }
 
 }

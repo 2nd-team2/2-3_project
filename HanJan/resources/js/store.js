@@ -1165,15 +1165,17 @@ const store = createStore({
             const url ='/api/listck?search=' + data.search + '&page=' + data.page + '&type=' + data.type;
             axios.get(url)
             .then(response => {
+                localStorage.setItem('searchword', data.search);
+                //type 추가
+                // response.data.data.type = data.type;
+                // response.data.data.search = data.search;
+
+                context.commit('setSearchdata', response.data);
                 if(response.data.data.total !== 0) {
-                    console.log(response.data.data);
-                    context.commit('setSearchdata', response.data);
                     // router.replace('/search/recipe?page=' + data.page);
-                    console.log('검색어: ',data.search);
-                    console.log('검색어: ', context.state.searchListData);
                     router.replace('/listck?search=' + data.search + '&page=' + data.page + '&type=' + data.type);
                 } else {
-                    alert('해당 주류가 존재하지 않습니다')
+                    alert('해당 주류가 존재하지 않습니다');
                 }
             })
             .catch(error => { 
@@ -1291,7 +1293,7 @@ const store = createStore({
             const url = '/api/typechklist';
             axios.get(url)
             .then(response => {
-                console.log('추천카테고리', response.data);
+                // console.log('추천카테고리', response.data);
 
                 constext.commit('listTypeChk', response.data);
             })

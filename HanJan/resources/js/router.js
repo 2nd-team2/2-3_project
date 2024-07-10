@@ -63,7 +63,7 @@ const routes = [
         // 카카오로그인 처리 진행중인 component
         path: '/login/kakao/callback',
         component: LoginKakaoComponent
-      },
+    },
     
     {
         path: '/agree',
@@ -226,6 +226,7 @@ const routes = [
 
             if (isValidType && isValidPage) {
                 // type과 page가 유효한 경우
+                store.commit('searchList', to.query.type);
                 store.commit('setCurrentImage', to.query.type);
                 store.dispatch('getList', to.query);
                 next();
