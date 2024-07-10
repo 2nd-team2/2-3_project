@@ -434,6 +434,7 @@ class ProductController extends Controller
     public function adminProductIndex() {
         $adminProductData = Product::withTrashed()
                             ->select('products.*')
+                            ->orderBy('products.deleted_at', 'ASC')
                             ->orderBy('products.created_at', 'DESC')
                             ->paginate(15);
         

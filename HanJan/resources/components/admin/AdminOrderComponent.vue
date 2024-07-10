@@ -20,7 +20,7 @@
             <div class="admin_order_list_recipient_tell">{{ order.or_get_tel }}</div>
             <div class="admin_order_list_recipient_adds">{{ order.or_get_addr + order.or_get_det_addr }}</div>
             <div class="admin_order_list_recipient_post">{{ order.or_get_post }}</div>
-            <div class="admin_order_list_amount ">{{ order.or_sum }}</div>
+            <div class="admin_order_list_amount ">{{ order.or_sum + '원' }}</div>
             <div class="admin_order_list_date">{{ order.created_at }}</div>
         </div>
 
