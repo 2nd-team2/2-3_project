@@ -1,7 +1,7 @@
 <template>
     <div v-if="$store.state.adminFlg">
         <div class="admin_container">
-            <div class="header">
+            <div class="admin_header">
                 <img src="/img/logo.png" class="admin_logo">
                 <div v-if="$store.state.adminLoginFlg" class="admin_login_flg">
                     <ul class="admin_nav">

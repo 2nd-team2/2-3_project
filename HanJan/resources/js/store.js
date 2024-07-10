@@ -2232,6 +2232,54 @@ const store = createStore({
             }
         },
 
+        /**
+         * 관리자 페이지 접수 완료 -> 상품회수중
+         * 
+         * @param {*} context 
+         */
+        getTakeOverData(context, ex_id) {
+            const url = '/api/admin/take/over/' + ex_id;
+
+            axios.post(url)
+            .then(response => {
+                const copyAdminExchangeData = {...context.state.adminExchangeData};
+                copyAdminExchangeData.data.forEach( (item, key) => {
+                    if(item.ex_id == response.data.data.ex_id) {
+                        copyAdminExchangeData.data[key] = response.data.data;
+                    }
+                });
+                context.commit('setAdminExchangesData', copyAdminExchangeData);
+            })
+            .catch(error => {
+                console.log(error.response);
+                alert('접수하기 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
+
+        /**
+         * 관리자 페이지 상품회수중 -> 결제 취소
+         * 
+         * @param {*} context 
+         */
+        getPayCancelData(context, ex_id) {
+            const url = '/api/admin/pay/cancel/' + ex_id;
+
+            axios.post(url)
+            .then(response => {
+                const copyAdminExchangeData = {...context.state.adminExchangeData};
+                copyAdminExchangeData.data.forEach( (item, key) => {
+                    if(item.ex_id == response.data.data.ex_id) {
+                        copyAdminExchangeData.data[key] = response.data.data;
+                    }
+                });
+                context.commit('setAdminExchangesData', copyAdminExchangeData);
+            })
+            .catch(error => {
+                console.log(error.response);
+                alert('결제취소 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
+
         // ----------------------- 호경 끝 ---------------------------
 
     }
