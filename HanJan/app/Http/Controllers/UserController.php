@@ -148,19 +148,20 @@ class UserController extends Controller
                 return response()->json(['code' => '2', 'msg' => '이미 사용 중인 이메일입니다.']);
             }
 
-            // 임시 토큰 생성 및 저장
-            $token = Str::random(60);
+            // 임시 코드 생성 및 저장
+            $token = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+            
             VerificationToken::updateOrCreate(
                 ['email' => $email],
                 ['token' => $token]
             );
-            
+
             // 인증 메일 발송
             Log::debug('인증 메일 발송 시작');
             try {
                 Mail::to($email)->send(new VerificationEmail($token));
                 Log::debug('인증 메일 발송 완료');
-                return response()->json(['message' => '인증 메일이 발송되었습니다.']);
+                return response()->json(['email' => $email, 'message' => '인증 메일이 발송되었습니다.']);
             } catch (\Exception $e) {
                 Log::error('인증 메일 발송 중 오류 발생: ' . $e->getMessage());
                 return response()->json(['code' => '3', 'msg' => '인증 메일 발송 중 오류가 발생했습니다.']);
@@ -168,92 +169,27 @@ class UserController extends Controller
         
         }
 
-        // 이메일 인증 확인
-        public function verify($token) {
-            // 인증 메일에서 url로 넘긴 token을 DB와 비교
-            $verificationToken = VerificationToken::where('token', $token)->first();
+        // 이메일 검증 코드 확인
+        public function codeChk(Request $request) {
+            
+            $inputData = $request->verifyCode;
 
-            if (!$verificationToken) {
-                return redirect('/')->with('error', 'Invalid verification link.');
+            $verification = VerificationToken::where('token', $inputData)->first();
+
+            if ($verification) {
+
+                VerificationToken::updateOrCreate(
+                    ['token' => $inputData],
+                    ['ver_flg' => 1]
+                );
+
+                return response()->json(['code' => 1, 'msg' => '코드 인증 성공']);
+            } else {
+                return response()->json(['code' => 2, 'msg' => '코드 인증 실패']);
             }
 
-            // 이메일 세션에 저장
-            session(['verified_email' => $verificationToken->email]);
-
-            // 토큰 삭제
-            $verificationToken->delete();
-
-            return redirect('/register-info')->with('success', 'Email verified! Please complete your registration.');
         }
 
-        public function showRegisterInfoForm() {
-            if (!session()->has('verified_email')) {
-                return redirect('/')->with('error', 'You need to verify your email first.');
-            }
-
-            return view('auth.register-info');
-        }
-
-        public function emailVerificationStatus() {
-            $emailVerified = session()->has('verified_email');
-            return response()->json(['emailVerified' => $emailVerified]);
-        }
-        
-        // 회원가입
-        public function regist(Request $request) {
-            // 리퀘스트 데이터 획득
-            $requestData = $request->all();
-            Log::debug($requestData);
-
-            // 유효성 검사
-            $validator = Validator::make(
-                $requestData,
-                [
-                    'email' => ['required', 'min:5', 'max:30', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
-                    'password' => ['required', 'min:8', 'max:20', 'regex:/^[a-zA-Z0-9!@]+$/u'], 
-                    'password_chk' => ['same:password'],
-                    'tel' => ['required', 'min:10','max:11', 'regex:/^[0-9]+$/'],
-                    'addr' => ['required'],
-                    'name' => ['required', 'regex:/^[a-zA-Z가-힣]+$/u'],
-                    'post' => ['required'],
-                    'det_addr' => ['required'],
-                    'birth' => ['required'],
-                ] 
-            );
-
-            // 유효성 검사 실패 체크
-            if ($validator->fails()) {
-                return response()->json(['code' => '1', 'error' => $validator->errors()]);
-            }
-
-            // 이메일 세션 확인
-            if (!session()->has('verified_email')) {
-                return response()->json(['code' => '3', 'msg' => '이메일 인증이 필요합니다.']);
-            }
-
-            // 이메일 세션 데이터와 입력된 이메일이 일치하는지 확인
-            if (session('verified_email') !== $request->input('email')) {
-                return response()->json(['code' => '3', 'msg' => '이메일 인증 정보가 일치하지 않습니다.']);
-            }
-
-            // 사용자 정보 생성 및 저장
-            $user = new User();
-            $user->email = $request->input('email');
-            $user->password = Hash::make($request->input('password'));
-            $user->tel = $request->input('tel');
-            $user->addr = $request->input('addr');
-            $user->name = $request->input('name');
-            $user->post = $request->input('post');
-            $user->det_addr = $request->input('det_addr');
-            $user->birth = $request->input('birth');
-            $user->email_verified_at = now();
-            $user->save();
-
-            // 이메일 세션 삭제
-            session()->forget('verified_email');
-
-            return response()->json(['code' => '0', 'msg' => '정상 등록 되었습니다.']);
-        }
 
         // ----------------------- 보원 끝 ---------------------------
         // ----------------------- 성환 시작 -------------------------
@@ -322,76 +258,76 @@ class UserController extends Controller
             // return response()->json($responseData, 200) ->withCookie(cookie()->forget('auth'));
         }
 
-        // // 회원가입
-        // public function regist(Request $request) {
-        //     // 리퀘스트 데이터 획득
-        //     $requestData = $request->all();
-        //     Log::debug($requestData);
-        //     // 유효성 검사
-        //     $validator = Validator::make(
-        //         $requestData,
-        //         [
-        //             'email' => ['required', 'min:5', 'max:30', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
-        //             'password' => ['required', 'min:1', 'max:20', 'regex:/^[a-zA-Z0-9!@]+$/u'], 
-        //             'password_chk' => ['same:password'],
-        //             'tel' => ['required', 'min:10','max:11', 'regex:/^[0-9]+$/'],
-        //             'addr' => ['required'],
-        //             'name' => ['required', 'regex:/^[a-zA-Z가-힣]+$/u'],
-        //             'post' => ['required'],
-        //             'det_addr' => ['required'],
-        //             'birth' => ['required'],
-        //         ] 
-        //     );
+        // 회원가입
+        public function regist(Request $request) {
+            // 리퀘스트 데이터 획득
+            $requestData = $request->all();
+            Log::debug($requestData);
+            // 유효성 검사
+            $validator = Validator::make(
+                $requestData,
+                [
+                    'email' => ['required', 'min:5', 'max:30', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
+                    'password' => ['required', 'min:1', 'max:20', 'regex:/^[a-zA-Z0-9!@]+$/u'], 
+                    'password_chk' => ['same:password'],
+                    'tel' => ['required', 'min:10','max:11', 'regex:/^[0-9]+$/'],
+                    'addr' => ['required'],
+                    'name' => ['required', 'regex:/^[a-zA-Z가-힣]+$/u'],
+                    'post' => ['required'],
+                    'det_addr' => ['required'],
+                    'birth' => ['required'],
+                ] 
+            );
 
-        //     // 유효성 검사 실패 체크
-        //     if($validator->fails()) {
-        //         throw new MyValidateException('E01');
-        //     }
-
-        //     // 작성 데이터 생성
-        //     $insertData = $request->all();
-
-        //     // 비밀번호 설정
-        //     $insertData['password'] = Hash::make($request->password);
-
-        //     // 인서트 처리
-        //     $userInfo = User::create($insertData);
-
-        //     $responseData = [
-        //         'code' => '0',
-        //         'msg' => '회원 가입 완료',
-        //         'data' => $userInfo
-        //     ];
-
-        //     return response()->json($responseData, 200);
-
-        // }
-
-        // 이메일 중복체크
-        public function registEmailChk($emailText)
-        {
-            // 이메일 중복 확인
-            $userInfo = User::withTrashed()->where('email', $emailText)->first();
-
-            // 기본 응답 데이터
-            $responseData = [
-                'code' => '0',
-                'msg' => '중복체크',
-            ];
-
-            // 이메일이 유효하지 않은 형식일 경우
-            if (!filter_var($emailText, FILTER_VALIDATE_EMAIL)) {
-                $responseData['code'] = '1';
-            } else if($userInfo) {
-                $responseData['code'] = '2';
-                Mail::to($userInfo->email)->send(new SendEmail($userInfo));
-                Log::debug($userInfo->email);
-            } else {
-                $responseData['code'] = '3';
+            // 유효성 검사 실패 체크
+            if($validator->fails()) {
+                throw new MyValidateException('E01');
             }
 
+            // 작성 데이터 생성
+            $insertData = $request->all();
+
+            // 비밀번호 설정
+            $insertData['password'] = Hash::make($request->password);
+
+            // 인서트 처리
+            $userInfo = User::create($insertData);
+
+            $responseData = [
+                'code' => '0',
+                'msg' => '회원 가입 완료',
+                'data' => $userInfo
+            ];
+
             return response()->json($responseData, 200);
+
         }
+
+        // // 이메일 중복체크
+        // public function registEmailChk($emailText)
+        // {
+        //     // 이메일 중복 확인
+        //     $userInfo = User::withTrashed()->where('email', $emailText)->first();
+
+        //     // 기본 응답 데이터
+        //     $responseData = [
+        //         'code' => '0',
+        //         'msg' => '중복체크',
+        //     ];
+
+        //     // 이메일이 유효하지 않은 형식일 경우
+        //     if (!filter_var($emailText, FILTER_VALIDATE_EMAIL)) {
+        //         $responseData['code'] = '1';
+        //     } else if($userInfo) {
+        //         $responseData['code'] = '2';
+        //         Mail::to($userInfo->email)->send(new SendEmail($userInfo));
+        //         Log::debug($userInfo->email);
+        //     } else {
+        //         $responseData['code'] = '3';
+        //     }
+
+        //     return response()->json($responseData, 200);
+        // }
 
         // 유저 정보 수정
         public function userUpdate(Request $request) {

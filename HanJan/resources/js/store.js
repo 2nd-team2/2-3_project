@@ -25,8 +25,10 @@ const store = createStore({
             // 카카오 로그인 이메일 데이터
             kakaoInfo: localStorage.getItem('kakaoInfo') ? JSON.parse(localStorage.getItem('kakaoInfo')) : null,
             // 이메일 인증
-            email: '',
-            emailVerified: false,
+            // email: localStorage.getItem('email') ? JSON.parse(localStorage.getItem('email')) : null,
+            email: localStorage.getItem('email') ? localStorage.getItem('email') : null,
+            emailVerify: localStorage.getItem('emailVerify') ? localStorage.getItem('emailVerify') : true,
+            emailCode: localStorage.getItem('emailCode') ? localStorage.getItem('emailCode') :  true,
             
             // ----------------------- 보원 끝 ---------------------------
             // ----------------------- 성환 시작 -------------------------
@@ -171,9 +173,16 @@ const store = createStore({
         // 이메일 인증
         setEmail(state, email) {
             state.email = email;
+            // localStorage.setItem('email', JSON.stringify(email));
+            localStorage.setItem('email', email);
         },
-        setEmailVerified(state, status) {
-            state.emailVerified = status;
+        setEmailVerify(state, status) {
+            state.emailVerify = status;
+            localStorage.setItem('emailVerify', status);
+        },
+        setEmailCode(state, status) {
+            state.emailCode = status;
+            localStorage.setItem('emailCode', status);
         },
 
         // ----------------------- 보원 끝 ---------------------------
@@ -587,13 +596,7 @@ const store = createStore({
             const url = '/api/orderTrans';
 
             axios.post(url, data)
-            .then(response => {
-                console.log(response.data);
-                router.push('/ordercomplete');         
-            })
-            .catch(error => {
-                router.push('/ordercomplete');  
-            });
+            router.push('/ordercomplete'); 
 
         },
 
@@ -854,16 +857,17 @@ const store = createStore({
 
         /**
          * 이메일 검증
-         *  >> 이메일 중복체크 먼저 진행 후 인증 처리
+         *  >> 이메일 중복체크 먼저 진행 후 검증 코드 전송
          * 
          * @param {*} context 
          * @param {*} emailText
          */
-        async chkEmailOn(context, emailText) { 
+        // async chkEmailOn(context, emailText) { 
+        chkEmailOn(context, emailText) { 
             const url = '/api/sendVerificationEmail';
 
-            try {
-                const response = await axios.get(url, { email: emailText });
+            axios.post(url, {email: emailText})
+            .then(response => {
                 if (response.data.code === '1') {
                     alert('유효하지 않은 이메일입니다.');
                 } else if (response.data.code === '2') {
@@ -871,71 +875,35 @@ const store = createStore({
                 } else if (response.data.code === '3') {
                     alert('인증 메일 발송 중 오류가 발생했습니다.');
                 } else {
-                    alert('사용 가능한 이메일입니다. \n 해당 이메일로 인증 메일이 발송 되었습니다. 해당 이메일 : ' + emailText);
-                    // await axios.post('/api/sendVerificationEmail', { email: emailText });
+                    alert('사용 가능한 이메일입니다. \n 해당 이메일로 인증 메일이 발송 되었습니다.\n 해당 이메일 : ' + emailText);
                     console.log('인증 메일을 성공적으로 보냈습니다.');
-                    // commit('setEmail', emailText);
+                    context.commit('setEmail', emailText);  // >> 회원가입이 완료되면 null 값으로 바꾸기
+                    context.commit('setEmailVerify', false); // >> 회원가입이 완료되면 true로 바꾸기
                 }
-            } catch (error) {
+            })
+            .catch(error => {
                 console.error('이메일 검증 중 오류가 발생했습니다.', error);
-            }
+            })
+
         },
-            // axios.get(url)
-            // .then(responseData => {
-            //     if (responseData.data.code === '2') {
-            //         alert('이미 사용 중인 이메일입니다.');
-            //     } else if(responseData.data.code === '1') {
-            //         alert('유효하지 않은 이메일입니다. ');
-            //     } else {
-            //         alert('사용 가능한 이메일입니다.');
-            //         // 2. 이메일 인증 처리
-            //         axios.post('/api/send-verification-email', {email : emailText})
-            //         .then(response => {
-            //             console.log('인증 메일을 성공적으로 보냈습니다.');
-            //           })
-            //           .catch(error => {
-            //             console.error('인증 메일을 보내는 도중 에러가 발생했습니다.', error);
-            //           });
-            //     }
-            // })
-            // .catch(error => {
-            //     error.value = '이메일 중복 확인 중 오류가 발생했습니다.';
-            // });
-        
-        async verifyToken({ commit }, token) {
-            const url = '/verify/' + token;
 
-            try {
-                const response = await axios.get(url);
-                console.log('Verification success:', response);
-                commit('setEmailVerified', true);
-            } catch (error) {
-                console.error('Verification failed:', error);
-            }
-        },
-        // verifyToken(context, token) {
-        //     const url = '/verify/' + token;
+        // 이메일 인증 코드 확인
+        codeChk(context) {
+            const url = '/api/codeChk';
+            const data = new FormData(document.querySelector('#verifyCode'));
 
-        //     axios.get(url)
-        //     .then(response => {
-        //         console.log('Verification success:', response);
-        //         if (response.data.success) {
-        //             context.commit('setEmailVerified', true);
-        //         }
-        //     })
-        //     .catch(error => {
-        //         console.error('Verification failed:', error);
-        //     });
-        // },
-
-        fetchEmailVerificationStatus(context) {
-            axios.get('/api/email-verification-status')
-                .then(response => {
-                    context.commit('setEmailVerified', response.data.emailVerified);
-                })
-                .catch(error => {
-                    console.error('Failed to fetch email verification status:', error);
-                });
+            axios.post(url, data)
+            .then(response => {
+                if (response.data.code === 1) {
+                    console.log('코드 인증 성공');
+                    context.commit('setEmailCode', false); // >> 회원가입이 완료되면 true로 바꾸기
+                } else {
+                    console.log('코드 인증 실패');
+                }
+            })
+            .catch(error => {
+                console.log('에러 발생:', error.response);
+            });
         },
 
         
@@ -998,7 +966,13 @@ const store = createStore({
             const data = new FormData(document.querySelector('#regist_form'));
             axios.post(url, data)
             .then(responseData => {
+                // 카카오 로그인 로컬 지우기
                 localStorage.removeItem('kakaoInfo');
+                // 이메일 검증관련 정보 지우기
+                context.commit('setEmail', null);
+                context.commit('setEmailVerify', true);
+                context.commit('setEmailCode', true);
+
                 router.replace('login');
                 alert('회원가입이 완료되었습니다.');
             })
@@ -1639,28 +1613,8 @@ const store = createStore({
 
             try {
                 const response = await axios.get(url);
-                // let ageRangeData = [];
-                // console.log('레스폰스 데이터:', response.data.data)
-                // for(let i = 1; i <= 5; i++) {
-                //     const age_group = response.data.data.age_group
-                //     const arr_user_conut = response.data.data.filter(item => {
-                //         return item.age_group == age_group;
-                //     });
-                //     console.log('연령 : ', age_group);
-                //     console.log('유저수 : ', arr_user_conut);
-                //     ageRangeData.push({
-                //         age_group: response.data.data[0].age_group
-                //         ,user_count: arr_user_conut.length > 0 ? arr_user_conut[1].user_count : 0
-                //     });
-                    
-                //     console.log(ageRangeData);
-                // }
-                // context.commit('setUserTatisticsData', ageRangeData);
-                const ageRangeData = response.data.data; // API 응답 데이터에서 연령대 데이터 배열을 가져옴
-                console.log('연령: ', ageRangeData)
-
-                // ageRangeData를 그대로 Vuex에 커밋하면 됨
-                context.commit('setUserAgeRangeData', ageRangeData);
+                // console.log('가공전:', response.data.data)
+                context.commit('setUserAgeRangeData', response.data.data);
 
                 return response; // 성공적으로 데이터를 가져왔을 경우 응답 반환
             } catch (error) {
@@ -1686,12 +1640,18 @@ const store = createStore({
 
             try {
                 const response = await axios.get(url);
+
+                // 현재 월의 일 수를 계산하는 함수 (2월, 30일, 31일 따라 for문을 반복하기위함)
+                function getDaysInMonth(year, month) {
+                    return new Date(year, month + 1, 0).getDate();
+                }
         
                 const now = new Date();
-                // console.log('가공전:', response.data.data)
+                console.log('가공전:', response.data.data)
                 let totalSalesData = {daily : [], weekly : [], month : [], year : []};
                 // 일
-                for(let i = 1; i <= 31; i++) {
+                const daysInMonth = getDaysInMonth(now.getFullYear(), now.getMonth());
+                for(let i = 1; i <= daysInMonth; i++) {
                     const daily = now.getFullYear() + '-' + (now.getMonth() + 1).toString().padStart(2, '0') + '-' + i.toString().padStart(2, '0');
                     const arr_daily_sales = response.data.data.daily.filter(item => {
                         return item.daily == daily;
@@ -1734,7 +1694,7 @@ const store = createStore({
                         ,yearly_sales: arr_year_sales.length > 0 ? arr_year_sales[0].yearly_sales : 0
                     });
                 }
-                    // console.log('가공후:', totalSalesData)
+                    console.log('가공후:', totalSalesData)
                     context.commit('setSalesStatisticsData', totalSalesData);
                     return response;
                 } catch (error) {
