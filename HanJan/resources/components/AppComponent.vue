@@ -159,9 +159,9 @@
         <!-- footer -->
          <footer>
             <div class="footer_team">
-                <div class="footer_team_member">
+                <div class="footer_team_member" @click="toggle_text">
                     <p class="team_member_name">권성환</p>
-                    <p>#감사합니다</p>
+                    <p>{{ toggleText }}</p>
                 </div>
                 <div class="footer_team_member">
                     <p class="team_member_name">서보원</p>
@@ -214,6 +214,13 @@ const isDarkMode = computed({
 
 function toggleDarkMode() {
     store.dispatch('toggleDarkMode', isDarkMode.value);
+}
+
+const toggleText = ref('#감사합니다');
+const alternate_text = '#집가고싶다';
+
+function toggle_text() {
+    toggleText.value = toggleText.value === '#감사합니다' ? alternate_text : '#감사합니다';
 }
 
 onBeforeUnmount(() => {
@@ -438,8 +445,8 @@ onBeforeUnmount(() => {
 .toggle {
     background-image: url('/img/toggle_left.png');
     background-repeat: no-repeat;
-    background-size: contain;
-    background-color: transparent;
+    background-size: cover;
+    border-radius: 50%;
     height: 30px;
     width: 30px;
     cursor: pointer;
@@ -447,8 +454,8 @@ onBeforeUnmount(() => {
 .dark-mode .toggle {
     background-image: url('/img/toggle_right.png');
     background-repeat: no-repeat;
-    background-size: contain;
-    background-color: transparent;
+    background-size: cover;
+    border-radius: 50%;
     height: 30px;
     width: 30px;
     cursor: pointer;
