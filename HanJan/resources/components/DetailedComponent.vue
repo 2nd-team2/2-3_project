@@ -58,12 +58,12 @@
     </div>
 
     <!-- 양조장 이야기 -->
-    <router-link>
+    <router-link to="/story">
         <div class="detailed_title_story">
             <p>양조장 이야기가 궁금하다면?</p>
             <div class="detailed_img">
                 <div class="datailed_title_img">
-                    <p>술샘</p>
+                    <p>한잔</p>
                     <button type="button" class="detailed_title_story_dt">더 알아보기 &#62;</button>
                 </div>
             </div>
