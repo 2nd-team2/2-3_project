@@ -30,12 +30,27 @@
                         <p class="info_item_err_msg error">{{ emailError }}</p>
                         <input class="input_width" type="email" name="email" id="email" @input="chkEmail" v-model="emailText">
                     </div>
-                    <div v-if="!isEmailVerified">
-                        <button type="button" class="info_item_btn form_btn email_chk_btn" @click="emailChk">이메일 검증</button>
+
+                    <div class="verify" v-if="!isEmailVerified">
+                        <button type="button" class="info_item_btn form_btn email_chk_btn verifyButton" @click="emailChk">이메일 검증</button>
+
+                        <form class="verifyCode" id="verifyCode">
+                            <div v-if="verifyCode">
+                                <input type="text" name="verifyCode" class="verifyinput" placeholder="검증 코드를 입려해 주세요.">
+                                <div v-if="codeChkTrue">
+                                    <button type="button" class="info_item_btn form_btn email_chk_btn" @click="codeChk" >코드 확인</button>
+                                </div>
+                                <div v-else>
+                                    <button type="button" class="form_btn email_chk_btn">코드 확인 완료</button>
+                                </div>
+                            </div>
+                        </form>
+
                     </div>
                     <div v-else>
-                        <button type="button" class="info_item_btn form_btn email_chk_btn">검증 완료</button>
+                        <button type="button" class="form_btn email_chk_btn">검증 완료</button>
                     </div>
+
                 </div>
                 <hr>
                 <div class="info_item_box">
@@ -258,40 +273,18 @@ function closeSubmitModal() {
     showSubmitModal.value = false;
 }
 
+
 // 이메일 인증 처리
-const emailChk = async () => {
+const verifyCode = ref(false);
+
+const emailChk = () => {
     if (!emailText.value) {
         alert('이메일을 입력해 주세요.');
         return;
     }
-    
-    try {
-        await store.dispatch('chkEmailOn', emailText.value)
-        .then(() => {
-        localStorage.setItem('email', emailText.value);
-        // 인증 요청이 성공하면 상태를 변경합니다.
-        isEmailVerified.value = true;
-        localStorage.setItem('emailVerified', 'true');
-        });
-
-    } catch (error) {
-        console.error('이메일 인증 실패:', error);
-    }
+    store.dispatch('chkEmailOn', emailText.value)
+    verifyCode = true;
 };
-
-// // 이메일 인증 처리
-// const emailChk = () => {
-//     if (!emailText.value) {
-//         alert('이메일을 입력해 주세요.');
-//         return;
-//     }
-//     store.dispatch('chkEmailOn', emailText.value)
-//     .then(() => {
-//         localStorage.setItem('email', emailText.value);
-//         isEmailVerified.value = true;
-//         localStorage.setItem('emailVerified', 'true');
-//     });
-// };
 
 // 새로 고침 후 이메일 로드
 const isEmailVerified = ref(false);

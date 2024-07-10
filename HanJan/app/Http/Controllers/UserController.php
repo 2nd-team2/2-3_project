@@ -148,19 +148,20 @@ class UserController extends Controller
                 return response()->json(['code' => '2', 'msg' => '이미 사용 중인 이메일입니다.']);
             }
 
-            // 임시 토큰 생성 및 저장
-            $token = Str::random(60);
+            // 임시 코드 생성 및 저장
+            $token = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+            
             VerificationToken::updateOrCreate(
                 ['email' => $email],
                 ['token' => $token]
             );
-            
+
             // 인증 메일 발송
             Log::debug('인증 메일 발송 시작');
             try {
                 Mail::to($email)->send(new VerificationEmail($token));
                 Log::debug('인증 메일 발송 완료');
-                return response()->json(['message' => '인증 메일이 발송되었습니다.']);
+                return response()->json(['email' => $email, 'message' => '인증 메일이 발송되었습니다.']);
             } catch (\Exception $e) {
                 Log::error('인증 메일 발송 중 오류 발생: ' . $e->getMessage());
                 return response()->json(['code' => '3', 'msg' => '인증 메일 발송 중 오류가 발생했습니다.']);
