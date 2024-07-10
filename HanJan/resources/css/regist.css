@@ -106,7 +106,7 @@ header nav ul li {
     color: red;
 }
 
-form {
+#regist_form {
     place-self: center;
     width: 100%;
     margin: 80px auto;
@@ -121,6 +121,24 @@ form {
     align-items: center;
     margin: 10px;
 }
+
+.verify {
+    display: grid;
+}
+
+.verifyButton {
+    grid-column: 1 / 2;
+}
+.verifyCode {
+    grid-column: 2 / 3;
+}
+.verifyinput {
+    height: 30px;
+    max-width: 430px;
+    padding: 5px;
+    margin: 5px;
+}
+
 
 .address {
     height: 220px;

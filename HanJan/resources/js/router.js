@@ -4,7 +4,6 @@ import TraditionalLiquorComponent from '../components/TraditionalLiquorComponent
 import MainComponent from '../components/MainComponent.vue';
 import LoginComponent from '../components/LoginComponent.vue';
 import AgreeCompnent from '../components/AgreeComponent.vue';
-import EmailComponent from '../components/EmailComponent.vue';
 import BagComponent from '../components/BagComponent.vue';
 import ConfirmCompnent from '../components/ConfirmComponent.vue';
 import DetailedCompnent from '../components/DetailedComponent.vue';
@@ -68,11 +67,6 @@ const routes = [
     {
         path: '/agree',
         component: AgreeCompnent,
-    },
-    {
-        // 이메일 인증 처리중인 componet
-        path:'/verify/:token',
-        component: EmailComponent,
     },
     {
         path: '/bag',
