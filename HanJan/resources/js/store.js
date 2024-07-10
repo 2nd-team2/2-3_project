@@ -582,13 +582,6 @@ const store = createStore({
                 return; // 예외 처리: 유효하지 않은 데이터 형식인 경우 종료
             }
 
-            // // 장바구니에서 받은 데이터와 주문페이지에서 입력한 데이터 가공 처리
-            // const orderItems = store.state.orderProductData.map(item => {
-            //     const OrderItem = { ...orderComplete, ...item };
-                
-            //     return OrderItem;
-            // });
-
             const data = JSON.stringify({ data: orderItems}); // 키값을 포함하여 서버에 전달
             console.log(data); // TODO : 삭제
             const url = '/api/orderTrans';
@@ -599,7 +592,7 @@ const store = createStore({
                 router.push('/ordercomplete');         
             })
             .catch(error => {
-                alert('결제에 실패하였습니다.(' + error.response.data.code + ')' )
+                router.push('/ordercomplete');  
             });
 
         },
@@ -860,34 +853,31 @@ const store = createStore({
         },
 
         /**
-         * 이메일 인증
+         * 이메일 검증
          *  >> 이메일 중복체크 먼저 진행 후 인증 처리
          * 
          * @param {*} context 
          * @param {*} emailText
          */
         async chkEmailOn(context, emailText) { 
-            // 1. 이메일 중복 체크
-            const url = '/api/regist/' + emailText;
+            const url = '/api/sendVerificationEmail';
 
             try {
-                const response = await axios.get(url);
-                if (response.data.code === '2') {
-                    alert('이미 사용 중인 이메일입니다.');
-                } else if (response.data.code === '1') {
+                const response = await axios.get(url, { email: emailText });
+                if (response.data.code === '1') {
                     alert('유효하지 않은 이메일입니다.');
+                } else if (response.data.code === '2') {
+                    alert('이미 사용 중인 이메일입니다.');
+                } else if (response.data.code === '3') {
+                    alert('인증 메일 발송 중 오류가 발생했습니다.');
                 } else {
-                    alert('사용 가능한 이메일입니다. \n 해당 이메일로 인증 메일이 발송 되었습니다. 해당메일 :' + emailText);
-                    await axios.post('/api/sendVerificationEmail', { email: emailText });
+                    alert('사용 가능한 이메일입니다. \n 해당 이메일로 인증 메일이 발송 되었습니다. 해당 이메일 : ' + emailText);
+                    // await axios.post('/api/sendVerificationEmail', { email: emailText });
                     console.log('인증 메일을 성공적으로 보냈습니다.');
-                    commit('setEmail', emailText);
+                    // commit('setEmail', emailText);
                 }
             } catch (error) {
-                if(response.data.code === '3') {
-                    alert('인증 메일 발송 중 오류가 발생했습니다.')
-                } else {
-                    console.error('이메일 중복 확인 중 오류가 발생했습니다.', error);
-                }
+                console.error('이메일 검증 중 오류가 발생했습니다.', error);
             }
         },
             // axios.get(url)
@@ -1014,28 +1004,6 @@ const store = createStore({
             })
         },
 
-        // // 이메일 중복체크
-        // chkEmailOn(context, emailText) {
-        //     if (!emailText) {
-        //         alert('이메일을 입력해 주세요.');
-        //         return;
-        //     }
-        //     const url = '/api/regist/' + emailText;
-        //     axios.get(url)
-        //     .then(responseData => {
-        //         if (responseData.data.code === '2') {
-        //             alert('이미 사용 중인 이메일입니다.');
-        //         } else if(responseData.data.code === '1') {
-        //             alert('유효하지 않은 이메일입니다. ');
-        //         } else {
-        //             alert('사용 가능한 이메일입니다.');
-        //         }
-        //     })
-        //     .catch(error => {
-        //         error.value = '이메일 중복 확인 중 오류가 발생했습니다.';
-        //     });
-        // },
-
         // 회원정보 수정
         userUpdate(context) {
             const url = '/api/userUpdate';
@@ -1052,17 +1020,14 @@ const store = createStore({
         userDelete(context) {
             const url = '/api/userDelete';
             const data = new FormData(document.querySelector('#update_form'));
-            if (confirm('정말 탈퇴 하시겠습니까?')) {
-                axios.delete(url, data)
-                .then(responseData => {
-                    localStorage.clear();
-                    context.commit('setAuthFlg', false);
-                    context.commit('setUserInfo', null);
-                    store.dispatch('getReviewistData');
-                    
-                    router.replace('/');
-                });
-            }
+            axios.delete(url, data)
+            .then(responseData => {
+                localStorage.clear();
+                context.commit('setAuthFlg', false);
+                context.commit('setUserInfo', null);
+                store.dispatch('getReviewistData');
+                router.replace('/');
+            });
         },
 
         // 수정 전 비밀번호 재확인
@@ -1095,15 +1060,13 @@ const store = createStore({
         //  주문목록 삭제
         orderItemDelete(context, orp_id) {
             const url = '/api/orderProductDelete/' + orp_id;
-            if (confirm('확인을 누르면 구매한 상품이 삭제됩니다.')) {
-                axios.delete(url)
-                .then(responseData => {
-                    context.dispatch('getInfoData', lastItemPaginate(context.state.infoData));
-                })
-                .catch(error => {
-                    alert('삭제에 실패했습니다.(' + error.response.data.code + ')' )
-                });
-            }
+            axios.delete(url)
+            .then(responseData => {
+                context.dispatch('getInfoData', lastItemPaginate(context.state.infoData));
+            })
+            .catch(error => {
+                alert('삭제에 실패했습니다.(' + error.response.data.code + ')' )
+            });
         },
 
         // 상품 문의목록 불러오기
@@ -1122,15 +1085,13 @@ const store = createStore({
         //  상품 문의 삭제
         productAskDelete(context, qnp_id) {
             const url = '/api/productAskDelete/' + qnp_id;
-            if (confirm('확인을 누르면 작성한 상품 문의가 삭제됩니다.')) {
-                axios.delete(url)
-                .then(responseData => {
-                    context.dispatch('getProductAskData', lastItemPaginate(context.state.productAskData));
-                })
-                .catch(error => {
-                    alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
-                });
-            }
+            axios.delete(url)
+            .then(responseData => {
+                context.dispatch('getProductAskData', lastItemPaginate(context.state.productAskData));
+            })
+            .catch(error => {
+                alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
+            });
         },
 
         // 1:1 문의목록 불러오기
@@ -1149,29 +1110,25 @@ const store = createStore({
         //  1:1 문의 삭제
         askDelete(context, qn_id) {
             const url = '/api/askDelete/' + qn_id;
-            if (confirm('확인을 누르면 작성한 1:1 문의가 삭제됩니다.')) {
-                axios.delete(url)
-                .then(responseData => {
-                    context.dispatch('getAskData', lastItemPaginate(context.state.askSetData));
-                })
-                .catch(error => {
-                    alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
-                });
-            }
+            axios.delete(url)
+            .then(responseData => {
+                context.dispatch('getAskData', lastItemPaginate(context.state.askSetData));
+            })
+            .catch(error => {
+                alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
+            });
         },
 
         // 구매확정
         completeBtn(context, orp_id) {
             const url = '/api/complete/' + orp_id;
-            if (confirm('확인을 누르면 구매가 확정됩니다.')) {
-                axios.post(url)
-                .then(responseData => {
-                    context.dispatch('getInfoData', context.state.infoData.current_page);
-                })
-                .catch(error => {
-                    alert('실패했습니다.(' + error.responseData.data.code + ')' )
-                });
-            }
+            axios.post(url)
+            .then(responseData => {
+                context.dispatch('getInfoData', context.state.infoData.current_page);
+            })
+            .catch(error => {
+                alert('실패했습니다.(' + error.responseData.data.code + ')' )
+            });
         },
             
         // ----------------------- 성환 끝 ---------------------------

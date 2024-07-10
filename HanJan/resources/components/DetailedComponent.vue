@@ -3,18 +3,13 @@
         <div class="detailed_haeder">
             <img :src="store.state.productDetail.img">
             <div class="detailed_haeder_item">
+                <!-- 카카오 링크 공유 -->
                 <div class="detaild_haeder_bnt">
                     <p class="detailed_haeder_title">{{ store.state.productDetail.name }}</p>
-                    <button type="button" class="kakao_btn" @click="shareMessage()">
-                        <img src="/img/kakao_ch.png">
-                    </button>
+                    <div class="kakao_btn">
+                        <img src="/img/kakao_ch.png" @click="shareMessage()">
+                    </div>
                 </div>
-                <!-- 카카오 링크 공유 -->
-                <!-- <div class="btn_box">
-                    <span @click="shareMessage()">
-                        <img class="kakao_img" src="/img/kakao_ch.png">
-                    </span>
-                </div> -->
                 <p>판매가격 :</p>
                 <p class="detailed_haeder_price">{{ formatPrice(store.state.productDetail.price) }}원</p>
                 <div class="detailed_haeder_review">
@@ -58,12 +53,12 @@
     </div>
 
     <!-- 양조장 이야기 -->
-    <router-link>
+    <router-link to="/story">
         <div class="detailed_title_story">
             <p>양조장 이야기가 궁금하다면?</p>
             <div class="detailed_img">
                 <div class="datailed_title_img">
-                    <p>술샘</p>
+                    <p>한잔</p>
                     <button type="button" class="detailed_title_story_dt">더 알아보기 &#62;</button>
                 </div>
             </div>
@@ -106,20 +101,21 @@
     const store = useStore();
     const count = ref(1);
 
-    // 카카오톡 공유하기 openApi 
-    Kakao.init('207acd3374ae418155e14bcfe011298b');
-    console.log(Kakao.isInitialized());
+    
 
     function shareMessage() {
         // 현재 링크 가져오기
         let currentURL = window.location.href;
 
+        // 카카오톡 공유하기 openApi 
+        Kakao.init('207acd3374ae418155e14bcfe011298b');
+
         Kakao.Link.sendDefault({
             objectType: 'feed',
             content: {
-                title: store.state.productDetail.name,
-                description: store.state.productDetail.type,
-                imageUrl: store.state.productDetail.img,
+                title: store.state.productDetail.name + ' ' + store.state.productDetail.ml + 'ml',
+                description: '주종 : ' + store.state.productDetail.type + ' ' + store.state.productDetail.price + '원',
+                imageUrl: 'https://ifh.cc/g/zFrKG7.png',
                 link: {
                     mobileWebUrl: currentURL,
                     webUrl: currentURL,
@@ -127,10 +123,17 @@
             },
             buttons: [
                 {
-                    title: '웹으로 보기',
+                    title: '구매하기',
                     link: {
                         mobileWebUrl: currentURL,
                         webUrl: currentURL,
+                    },
+                },
+                {
+                    title: '한잔 둘러보기',
+                    link: {
+                        mobileWebUrl: 'https://112.222.157.156:6425/',
+                        webUrl: 'https://112.222.157.156:6425/',
                     },
                 },
             ],
