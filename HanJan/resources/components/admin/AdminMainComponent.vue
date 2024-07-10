@@ -51,6 +51,10 @@
     //     // if(store.state.salesStatisticsData.length < 1) {
     //     //     store.dispatch('getSalesStatisticsData');
     //     // }
+
+    //         store.dispatch('getAdminExchangesData');
+
+    
     
     // })
 

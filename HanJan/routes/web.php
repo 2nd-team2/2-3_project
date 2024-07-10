@@ -225,4 +225,8 @@ Route::middleware('auth')->post('/api/admin/productqna/update', [QnaController::
 Route::middleware('auth')->post('/api/admin/onebyone/update', [QnaController::class, 'oneByOneUpdate']);
 // 공지사항 데이터 수정
 Route::middleware('auth')->post('/api/admin/notice/update', [NoticeController::class, 'noticeUpdateSubmit']);
+// 접수 완료 -> 상품회수중
+Route::middleware('auth')->post('/api/admin/take/over/{ex_id}', [ExchangeController::class, 'takeOver']);
+// 접수 완료 -> 상품회수중
+Route::middleware('auth')->post('/api/admin/pay/cancel/{ex_id}', [ExchangeController::class, 'payCancel']);
 // ----------------------- 호경 끝 ---------------------------

@@ -586,25 +586,12 @@ const store = createStore({
                 return; // 예외 처리: 유효하지 않은 데이터 형식인 경우 종료
             }
 
-            // // 장바구니에서 받은 데이터와 주문페이지에서 입력한 데이터 가공 처리
-            // const orderItems = store.state.orderProductData.map(item => {
-            //     const OrderItem = { ...orderComplete, ...item };
-                
-            //     return OrderItem;
-            // });
-
             const data = JSON.stringify({ data: orderItems}); // 키값을 포함하여 서버에 전달
             console.log(data); // TODO : 삭제
             const url = '/api/orderTrans';
 
             axios.post(url, data)
-            .then(response => {
-                console.log(response.data);
-                router.push('/ordercomplete');         
-            })
-            .catch(error => {
-                alert('결제에 실패하였습니다.(' + error.response.data.code + ')' )
-            });
+            router.push('/ordercomplete'); 
 
         },
 
@@ -1043,28 +1030,6 @@ const store = createStore({
             })
         },
 
-        // // 이메일 중복체크
-        // chkEmailOn(context, emailText) {
-        //     if (!emailText) {
-        //         alert('이메일을 입력해 주세요.');
-        //         return;
-        //     }
-        //     const url = '/api/regist/' + emailText;
-        //     axios.get(url)
-        //     .then(responseData => {
-        //         if (responseData.data.code === '2') {
-        //             alert('이미 사용 중인 이메일입니다.');
-        //         } else if(responseData.data.code === '1') {
-        //             alert('유효하지 않은 이메일입니다. ');
-        //         } else {
-        //             alert('사용 가능한 이메일입니다.');
-        //         }
-        //     })
-        //     .catch(error => {
-        //         error.value = '이메일 중복 확인 중 오류가 발생했습니다.';
-        //     });
-        // },
-
         // 회원정보 수정
         userUpdate(context) {
             const url = '/api/userUpdate';
@@ -1081,17 +1046,14 @@ const store = createStore({
         userDelete(context) {
             const url = '/api/userDelete';
             const data = new FormData(document.querySelector('#update_form'));
-            if (confirm('정말 탈퇴 하시겠습니까?')) {
-                axios.delete(url, data)
-                .then(responseData => {
-                    localStorage.clear();
-                    context.commit('setAuthFlg', false);
-                    context.commit('setUserInfo', null);
-                    store.dispatch('getReviewistData');
-                    
-                    router.replace('/');
-                });
-            }
+            axios.delete(url, data)
+            .then(responseData => {
+                localStorage.clear();
+                context.commit('setAuthFlg', false);
+                context.commit('setUserInfo', null);
+                store.dispatch('getReviewistData');
+                router.replace('/');
+            });
         },
 
         // 수정 전 비밀번호 재확인
@@ -1124,15 +1086,13 @@ const store = createStore({
         //  주문목록 삭제
         orderItemDelete(context, orp_id) {
             const url = '/api/orderProductDelete/' + orp_id;
-            if (confirm('확인을 누르면 구매한 상품이 삭제됩니다.')) {
-                axios.delete(url)
-                .then(responseData => {
-                    context.dispatch('getInfoData', lastItemPaginate(context.state.infoData));
-                })
-                .catch(error => {
-                    alert('삭제에 실패했습니다.(' + error.response.data.code + ')' )
-                });
-            }
+            axios.delete(url)
+            .then(responseData => {
+                context.dispatch('getInfoData', lastItemPaginate(context.state.infoData));
+            })
+            .catch(error => {
+                alert('삭제에 실패했습니다.(' + error.response.data.code + ')' )
+            });
         },
 
         // 상품 문의목록 불러오기
@@ -1151,15 +1111,13 @@ const store = createStore({
         //  상품 문의 삭제
         productAskDelete(context, qnp_id) {
             const url = '/api/productAskDelete/' + qnp_id;
-            if (confirm('확인을 누르면 작성한 상품 문의가 삭제됩니다.')) {
-                axios.delete(url)
-                .then(responseData => {
-                    context.dispatch('getProductAskData', lastItemPaginate(context.state.productAskData));
-                })
-                .catch(error => {
-                    alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
-                });
-            }
+            axios.delete(url)
+            .then(responseData => {
+                context.dispatch('getProductAskData', lastItemPaginate(context.state.productAskData));
+            })
+            .catch(error => {
+                alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
+            });
         },
 
         // 1:1 문의목록 불러오기
@@ -1178,29 +1136,25 @@ const store = createStore({
         //  1:1 문의 삭제
         askDelete(context, qn_id) {
             const url = '/api/askDelete/' + qn_id;
-            if (confirm('확인을 누르면 작성한 1:1 문의가 삭제됩니다.')) {
-                axios.delete(url)
-                .then(responseData => {
-                    context.dispatch('getAskData', lastItemPaginate(context.state.askSetData));
-                })
-                .catch(error => {
-                    alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
-                });
-            }
+            axios.delete(url)
+            .then(responseData => {
+                context.dispatch('getAskData', lastItemPaginate(context.state.askSetData));
+            })
+            .catch(error => {
+                alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
+            });
         },
 
         // 구매확정
         completeBtn(context, orp_id) {
             const url = '/api/complete/' + orp_id;
-            if (confirm('확인을 누르면 구매가 확정됩니다.')) {
-                axios.post(url)
-                .then(responseData => {
-                    context.dispatch('getInfoData', context.state.infoData.current_page);
-                })
-                .catch(error => {
-                    alert('실패했습니다.(' + error.responseData.data.code + ')' )
-                });
-            }
+            axios.post(url)
+            .then(responseData => {
+                context.dispatch('getInfoData', context.state.infoData.current_page);
+            })
+            .catch(error => {
+                alert('실패했습니다.(' + error.responseData.data.code + ')' )
+            });
         },
             
         // ----------------------- 성환 끝 ---------------------------
@@ -2259,6 +2213,54 @@ const store = createStore({
                     alert('삭제에 실패했습니다.(' + error.responseData.data.code + ')' )
                 });
             }
+        },
+
+        /**
+         * 관리자 페이지 접수 완료 -> 상품회수중
+         * 
+         * @param {*} context 
+         */
+        getTakeOverData(context, ex_id) {
+            const url = '/api/admin/take/over/' + ex_id;
+
+            axios.post(url)
+            .then(response => {
+                const copyAdminExchangeData = {...context.state.adminExchangeData};
+                copyAdminExchangeData.data.forEach( (item, key) => {
+                    if(item.ex_id == response.data.data.ex_id) {
+                        copyAdminExchangeData.data[key] = response.data.data;
+                    }
+                });
+                context.commit('setAdminExchangesData', copyAdminExchangeData);
+            })
+            .catch(error => {
+                console.log(error.response);
+                alert('접수하기 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
+
+        /**
+         * 관리자 페이지 상품회수중 -> 결제 취소
+         * 
+         * @param {*} context 
+         */
+        getPayCancelData(context, ex_id) {
+            const url = '/api/admin/pay/cancel/' + ex_id;
+
+            axios.post(url)
+            .then(response => {
+                const copyAdminExchangeData = {...context.state.adminExchangeData};
+                copyAdminExchangeData.data.forEach( (item, key) => {
+                    if(item.ex_id == response.data.data.ex_id) {
+                        copyAdminExchangeData.data[key] = response.data.data;
+                    }
+                });
+                context.commit('setAdminExchangesData', copyAdminExchangeData);
+            })
+            .catch(error => {
+                console.log(error.response);
+                alert('결제취소 실패했습니다.(' + error.response.data.code + ')');
+            });
         },
 
         // ----------------------- 호경 끝 ---------------------------
