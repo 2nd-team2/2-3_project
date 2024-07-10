@@ -89,6 +89,7 @@ h1 {
 .kakao_btn img {
     border-radius: 50%;
     width: 12%;
+    cursor: pointer;
 }
 .detailed_haeder_item {
     font-size: 1.1rem;
