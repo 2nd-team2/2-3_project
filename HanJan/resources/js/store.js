@@ -866,7 +866,7 @@ const store = createStore({
          * @param {*} context 
          * @param {*} emailText
          */
-        async chkEmailOn(context, emailText) {
+        async chkEmailOn(context, emailText) { 
             // 1. 이메일 중복 체크
             const url = '/api/regist/' + emailText;
 
