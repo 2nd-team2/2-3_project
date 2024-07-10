@@ -44,6 +44,7 @@ import AdminOrderComponent from '../components/admin/AdminOrderComponent.vue';
 import AdminProductCreateComponent from '../components/admin/AdminProductCreateComponent.vue';
 import AdminProductUpdateComponent from '../components/admin/AdminProductUpdateComponent.vue';
 import AdminUserUpdateComponent from '../components/admin/AdminUserUpdateComponent.vue';
+import AdminExchangeDetailComponent from '../components/admin/AdminExchangeDetailComponent.vue';
 
 const routes = [
     {
@@ -367,6 +368,16 @@ const routes = [
         path: '/admin/exchange',
         component: AdminExchangeComponent,
         beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/exchange/detail',
+        component: AdminExchangeDetailComponent,
+        beforeEnter: (to, from, next) => {
+            chkAdmin(to, from, next)
+            store.dispatch('getAdminExchangeDetailData', to.query.id);
+
+            // next();
+        }
     },
     {
         path: '/admin/order',

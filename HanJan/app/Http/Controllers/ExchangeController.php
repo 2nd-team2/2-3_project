@@ -171,4 +171,20 @@ class ExchangeController extends Controller
 
         return response()->json($responseData, 200);
     }
+
+    // 교환 및 반품 디테일 페이지
+    public function adminExchangeDetail(Request $request) {
+
+        $ExchangeData = Exchange::select('exchanges.*')
+                        ->where('exchanges.ex_id', $request->id)
+                        ->first();
+    
+        $responseData = [
+                'code' => '0'
+                ,'msg' => '교환 및 반품 데이터 획득 완료'
+                ,'data' => $ExchangeData
+        ];
+        
+        return response()->json($responseData, 200);
+    }
 }

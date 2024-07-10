@@ -227,4 +227,6 @@ Route::middleware('auth')->post('/api/admin/notice/update', [NoticeController::c
 Route::middleware('auth')->post('/api/admin/take/over/{ex_id}', [ExchangeController::class, 'takeOver']);
 // 접수 완료 -> 상품회수중
 Route::middleware('auth')->post('/api/admin/pay/cancel/{ex_id}', [ExchangeController::class, 'payCancel']);
+// 교환 및 반품 디테일 데이터 불러오기
+Route::middleware('auth')->get('/api/admin/exchange/detail', [ExchangeController::class, 'adminExchangeDetail']);
 // ----------------------- 호경 끝 ---------------------------

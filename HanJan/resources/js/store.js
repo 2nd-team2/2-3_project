@@ -136,6 +136,8 @@ const store = createStore({
             adminOneByOneToUpdate: localStorage.getItem('adminOneByOneToUpdate') ? JSON.parse(localStorage.getItem('adminOneByOneToUpdate')) : null,
             // 공지사항 수정
             adminNoticeToUpdate: localStorage.getItem('adminNoticeToUpdate') ? JSON.parse(localStorage.getItem('adminNoticeToUpdate')) : null,
+            // 교환 및 반품 디테일 정보
+            adminExchageDetail: {},
             // ----------------------- 호경 끝 ---------------------------
         }
 
@@ -407,6 +409,10 @@ const store = createStore({
         setAdminNoticeToUpdate(state, data) {
             state.adminNoticeToUpdate = data;
             localStorage.setItem('adminNoticeToUpdate', JSON.stringify(data));
+        },
+        // 교환 및 반품 디테일 저장
+        setAdminExchangeDetailData(state, data) {
+            state.adminExchageDetail = data;
         },
         // ----------------------- 호경 끝 ---------------------------
 
@@ -2194,6 +2200,25 @@ const store = createStore({
             .catch(error => {
                 console.log(error.response);
                 alert('결제취소 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
+
+        /**
+         * 교환 및 반품 상세페이지 값 획득
+         * 
+         * @param {*} context
+         */
+        getAdminExchangeDetailData(context, id) {
+            const url = '/api/admin/exchange/detail?id=' + id;
+            axios.get(url)
+            .then(response => {
+                console.log('데이터1: ',response.data)
+                console.log('데이터2: ',response.data.data)
+                context.commit('setAdminExchangeDetailData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response.data);
+                alert('교환 및 반품 상세 불러오기를 실패했습니다.(' + error.response.data.code + ')');
             });
         },
 
