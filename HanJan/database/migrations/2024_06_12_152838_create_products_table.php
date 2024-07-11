@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('img', 100)->comment('상품이미지, 이미지파일');
             $table->string('info', 100)->comment('상품정보, 이미지파일');
             $table->char('type', 1)->default('0')->comment('상품타입, 0: 탁주, 1: 과실주, 2: 증류주');
-            $table->char('season', 1)->default('0')->comment('계절, 0:봄, 1:여름, 2:가을, 3:겨울')->nullable();
+            $table->char('season', 1)->default('0')->comment('계절, 0:봄, 1:여름, 2:가을, 3:겨울');
             $table->timestamps();
             $table->softDeletes(); 
         });
