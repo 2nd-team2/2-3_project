@@ -23,5 +23,8 @@ function adminLogin() {
 </script>
 
 <style>
-
+    body {
+        overflow: scroll;
+        height: 100%;
+    }
 </style>

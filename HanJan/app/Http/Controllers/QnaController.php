@@ -212,7 +212,7 @@ class QnaController extends Controller
                             ->join('users','qnaproducts.u_id','=','users.id')
                             ->orderBy('qnaproducts.deleted_at', 'ASC')
                             ->orderBy('qnaproducts.qnp_answer', 'ASC')
-                            ->orderBy('qnaproducts.created_at', 'DESC')
+                            ->orderBy('qnaproducts.updated_at', 'DESC')
                             ->paginate(15);
 
         $responseData = [

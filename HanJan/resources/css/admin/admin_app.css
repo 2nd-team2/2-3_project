@@ -488,6 +488,10 @@ input {
     grid-column: 1 / 2;
 }
 
+.admin_preview {
+    width: 100px;
+    height: 100px;
+}
  
 /* ---------------------- 교환 반품 ---------------------- */
 .admin_exchange_list_container {
