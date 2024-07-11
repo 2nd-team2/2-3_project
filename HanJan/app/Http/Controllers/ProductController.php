@@ -186,7 +186,7 @@ class ProductController extends Controller
     // 검색한 상세리스트 데이터 불러오기
     public function listck(Request $request) {
         $query = $request->search;
-        Log::debug('상품검색 req', $request->all());
+        // Log::debug('상품검색 req', $request->all());
         $productQuery = Product::select('products.price','products.img', 'products.name', 'products.id', 'products.type')
                         ->where('products.name','like', "%{$query}%")
                         ->orderBy('products.created_at', 'DESC');
@@ -339,8 +339,9 @@ class ProductController extends Controller
                         ->join('orderproducts', 'products.id', '=', 'orderproducts.p_id')
                         ->groupBy('products.id', 'products.name')
                         ->orderByDesc('orderproducts.orp_count')
-                        // ->limit(5);
+                        ->limit(5)
                         ->get();
+                        
 
         // if($request->type != '99') {
         //     $productQuery->where('products.type', $request->type);

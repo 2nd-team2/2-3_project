@@ -8,6 +8,7 @@ use App\Models\Orderproduct;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -113,10 +114,15 @@ class ExchangeController extends Controller
     // 관리자 페이지 교환 및 반품 획득
     public function adminExchangeIndex() {
         $ExchangeData = Exchange::withTrashed()
-                            ->select('exchanges.*')
-                            // ->join('orderproducts', 'orderproducts.orp_id', '=', 'exchanges.orp_id')
-                            // ->join('orders', 'orderproducts.or_id', '=', 'orders.or_id')
+                            ->select('exchanges.*'
+                                ,'orderproducts.orp_count'
+                                ,'orderproducts.or_id'
+                                ,DB::raw("DATE_FORMAT(orderproducts.created_at, '%Y-%m-%d') as orpCre")
+                                ,'products.price')
+                            ->join('orderproducts', 'orderproducts.orp_id', '=', 'exchanges.orp_id')
+                            ->join('products', 'products.id', '=', 'orderproducts.p_id')
                             // ->where('orderproducts.or_id', '=', 'orders.or_id')
+                            ->whereNotNull('ex_reason')
                             ->where('ex_flg', '!=', '3')
                             // ->orderBy('ex_flg', 'ASC')
                             ->orderBy('exchanges.created_at', 'DESC')

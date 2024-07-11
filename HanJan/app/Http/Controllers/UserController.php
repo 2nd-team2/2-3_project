@@ -13,6 +13,7 @@ use App\Models\Qnaproduct;
 use App\Models\Review;
 use App\Models\User;
 use App\Models\VerificationToken;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -146,6 +147,14 @@ class UserController extends Controller
             if ($user) {
                 Log::debug('이미 사용 중인 이메일');
                 return response()->json(['code' => '2', 'msg' => '이미 사용 중인 이메일입니다.']);
+            }
+
+
+            // 이메일 검증 중복 체크 (예: 10분 이내에 전송된 경우)
+            $verificationToken = VerificationToken::where('email', $email)->first();
+            
+            if ($verificationToken && $verificationToken->updated_at->gt(Carbon::now()->subMinutes(10))) {
+                return response()->json(['code'=>'4', 'msg' => '이메일이 이미 전송되었습니다. 잠시 후 다시 시도해주세요.'], 429);
             }
 
             // 임시 코드 생성 및 저장

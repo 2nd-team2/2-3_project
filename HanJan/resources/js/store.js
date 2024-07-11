@@ -868,7 +868,6 @@ const store = createStore({
          * @param {*} context 
          * @param {*} emailText
          */
-        // async chkEmailOn(context, emailText) { 
         chkEmailOn(context, emailText) { 
             const url = '/api/sendVerificationEmail';
 
@@ -880,6 +879,8 @@ const store = createStore({
                     alert('이미 사용 중인 이메일입니다.');
                 } else if (response.data.code === '3') {
                     alert('인증 메일 발송 중 오류가 발생했습니다.');
+                } else if (response.data.code === '4') {
+                    alert('이메일이 이미 전송되었습니다.\n 잠시 후 다시 시도해주세요.');
                 } else {
                     alert('사용 가능한 이메일입니다. \n 해당 이메일로 인증 메일이 발송 되었습니다.\n 해당 이메일 : ' + emailText);
                     console.log('인증 메일을 성공적으로 보냈습니다.');
@@ -888,7 +889,11 @@ const store = createStore({
                 }
             })
             .catch(error => {
-                console.error('이메일 검증 중 오류가 발생했습니다.', error);
+                if (error.response && error.response.status === 429) {
+                    alert('이메일이 이미 전송되었습니다.\n잠시 후 다시 시도해주세요.');
+                } else {
+                    console.error('이메일 검증 중 오류가 발생했습니다.', error);
+                }
             })
 
         },
