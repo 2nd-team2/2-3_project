@@ -261,7 +261,6 @@ const getNameError = ref('');
 const getTelError = ref('');
 const addressError = ref('');
 
-
 function buyChkName(e) {
   const namePattern = /^[가-힣a-zA-Z\s]+$/;
   if (!namePattern.test(e.target.value)) {

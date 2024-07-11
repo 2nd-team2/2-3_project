@@ -79,7 +79,8 @@ class ReviewController extends Controller
             $request->only('re_star', 're_content')
             , [
                 're_star' => ['required', 'regex: /^[0-5]+$/u' ]
-                ,'re_content' => ['nullable', 'max: 200','regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
+                ,'re_content' => ['nullable', 'max: 200', 'regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*+~]+$/u']
+
             ]
         );
         // 유효성 검사 실패 체크
@@ -127,7 +128,7 @@ class ReviewController extends Controller
             $requestData
             , [
                 're_star' => ['required', 'regex:/^[1-5]{1}$/']
-                ,'re_content' => ['nullable', 'max: 200','regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
+                ,'re_content' => ['nullable', 'max: 200', 'regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*+~]+$/u']
             ]
         );
 
