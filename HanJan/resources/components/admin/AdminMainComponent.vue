@@ -24,6 +24,7 @@
 <script setup>
     import { onMounted, onBeforeMount } from 'vue';
     import Chart from 'chart.js/auto';
+    import ChartDataLabels from 'chartjs-plugin-datalabels';
     import { useStore } from 'vuex';
 
     const store = useStore();
@@ -155,7 +156,18 @@
             },
             options: {
                 responsive: true,
-            }
+                plugins: {
+                    datalabels: {
+                    color: '#5c5c5c', // 데이터 레이블의 색상
+                    anchor: 'end',
+                    align: 'start',
+                        // formatter: (value) => {
+                        //     return value; // 데이터 레이블에 표시할 값
+                        // }
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
         });
 
         // // 매출
@@ -239,6 +251,7 @@
                 }
             }
         });
+
         // 주 매출
         const ctx4 = document.getElementById('weekly_sales');
         ctx4.style.maxWidth = '1700px'
@@ -267,6 +280,7 @@
                 }
             }
         });
+
         // 월 매출
         const ctx5 = document.getElementById('month_sales');
         ctx5.style.maxWidth = '600px'
@@ -279,8 +293,8 @@
                     {
                     label: getYear + '년 월 매출',
                     data: store.state.salesStatisticsData.month.map(item => item.monthly_sales),
-                    backgroundColor: 'rgba(255, 206, 86, 0.5)',
-                    borderColor: 'rgba(255, 206, 86, 1)',
+                    backgroundColor: 'rgba(153, 102, 255, 0.5)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
                     borderWidth: 1
                     }
                 ]
@@ -294,6 +308,7 @@
                 }
             }
         });
+
         // 년 매출
         const ctx6 = document.getElementById('year_sales');
         ctx6.style.maxWidth = '600px'

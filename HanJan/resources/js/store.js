@@ -136,6 +136,8 @@ const store = createStore({
             adminOneByOneToUpdate: localStorage.getItem('adminOneByOneToUpdate') ? JSON.parse(localStorage.getItem('adminOneByOneToUpdate')) : null,
             // 공지사항 수정
             adminNoticeToUpdate: localStorage.getItem('adminNoticeToUpdate') ? JSON.parse(localStorage.getItem('adminNoticeToUpdate')) : null,
+            // 교환 및 반품 디테일 정보
+            adminExchageDetail: {},
             // ----------------------- 호경 끝 ---------------------------
         }
 
@@ -407,6 +409,10 @@ const store = createStore({
         setAdminNoticeToUpdate(state, data) {
             state.adminNoticeToUpdate = data;
             localStorage.setItem('adminNoticeToUpdate', JSON.stringify(data));
+        },
+        // 교환 및 반품 디테일 저장
+        setAdminExchangeDetailData(state, data) {
+            state.adminExchageDetail = data;
         },
         // ----------------------- 호경 끝 ---------------------------
 
@@ -1159,15 +1165,17 @@ const store = createStore({
             const url ='/api/listck?search=' + data.search + '&page=' + data.page + '&type=' + data.type;
             axios.get(url)
             .then(response => {
+                localStorage.setItem('searchword', data.search);
+                //type 추가
+                // response.data.data.type = data.type;
+                // response.data.data.search = data.search;
+
+                context.commit('setSearchdata', response.data);
                 if(response.data.data.total !== 0) {
-                    console.log(response.data.data);
-                    context.commit('setSearchdata', response.data);
                     // router.replace('/search/recipe?page=' + data.page);
-                    console.log('검색어: ',data.search);
-                    console.log('검색어: ', context.state.searchListData);
                     router.replace('/listck?search=' + data.search + '&page=' + data.page + '&type=' + data.type);
                 } else {
-                    alert('해당 주류가 존재하지 않습니다')
+                    alert('해당 주류가 존재하지 않습니다');
                 }
             })
             .catch(error => { 
@@ -1285,7 +1293,7 @@ const store = createStore({
             const url = '/api/typechklist';
             axios.get(url)
             .then(response => {
-                console.log('추천카테고리', response.data);
+                // console.log('추천카테고리', response.data);
 
                 constext.commit('listTypeChk', response.data);
             })
@@ -1611,28 +1619,8 @@ const store = createStore({
 
             try {
                 const response = await axios.get(url);
-                // let ageRangeData = [];
-                // console.log('레스폰스 데이터:', response.data.data)
-                // for(let i = 1; i <= 5; i++) {
-                //     const age_group = response.data.data.age_group
-                //     const arr_user_conut = response.data.data.filter(item => {
-                //         return item.age_group == age_group;
-                //     });
-                //     console.log('연령 : ', age_group);
-                //     console.log('유저수 : ', arr_user_conut);
-                //     ageRangeData.push({
-                //         age_group: response.data.data[0].age_group
-                //         ,user_count: arr_user_conut.length > 0 ? arr_user_conut[1].user_count : 0
-                //     });
-                    
-                //     console.log(ageRangeData);
-                // }
-                // context.commit('setUserTatisticsData', ageRangeData);
-                const ageRangeData = response.data.data; // API 응답 데이터에서 연령대 데이터 배열을 가져옴
-                console.log('연령: ', ageRangeData)
-
-                // ageRangeData를 그대로 Vuex에 커밋하면 됨
-                context.commit('setUserAgeRangeData', ageRangeData);
+                // console.log('가공전:', response.data.data)
+                context.commit('setUserAgeRangeData', response.data.data);
 
                 return response; // 성공적으로 데이터를 가져왔을 경우 응답 반환
             } catch (error) {
@@ -1658,12 +1646,18 @@ const store = createStore({
 
             try {
                 const response = await axios.get(url);
+
+                // 현재 월의 일 수를 계산하는 함수 (2월, 30일, 31일 따라 for문을 반복하기위함)
+                function getDaysInMonth(year, month) {
+                    return new Date(year, month + 1, 0).getDate();
+                }
         
                 const now = new Date();
-                // console.log('가공전:', response.data.data)
+                console.log('가공전:', response.data.data)
                 let totalSalesData = {daily : [], weekly : [], month : [], year : []};
                 // 일
-                for(let i = 1; i <= 31; i++) {
+                const daysInMonth = getDaysInMonth(now.getFullYear(), now.getMonth());
+                for(let i = 1; i <= daysInMonth; i++) {
                     const daily = now.getFullYear() + '-' + (now.getMonth() + 1).toString().padStart(2, '0') + '-' + i.toString().padStart(2, '0');
                     const arr_daily_sales = response.data.data.daily.filter(item => {
                         return item.daily == daily;
@@ -1706,7 +1700,7 @@ const store = createStore({
                         ,yearly_sales: arr_year_sales.length > 0 ? arr_year_sales[0].yearly_sales : 0
                     });
                 }
-                    // console.log('가공후:', totalSalesData)
+                    console.log('가공후:', totalSalesData)
                     context.commit('setSalesStatisticsData', totalSalesData);
                     return response;
                 } catch (error) {
@@ -2208,6 +2202,25 @@ const store = createStore({
             .catch(error => {
                 console.log(error.response);
                 alert('결제취소 실패했습니다.(' + error.response.data.code + ')');
+            });
+        },
+
+        /**
+         * 교환 및 반품 상세페이지 값 획득
+         * 
+         * @param {*} context
+         */
+        getAdminExchangeDetailData(context, id) {
+            const url = '/api/admin/exchange/detail?id=' + id;
+            axios.get(url)
+            .then(response => {
+                console.log('데이터1: ',response.data)
+                console.log('데이터2: ',response.data.data)
+                context.commit('setAdminExchangeDetailData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response.data);
+                alert('교환 및 반품 상세 불러오기를 실패했습니다.(' + error.response.data.code + ')');
             });
         },
 

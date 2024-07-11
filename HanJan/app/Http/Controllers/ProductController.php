@@ -339,8 +339,9 @@ class ProductController extends Controller
                         ->join('orderproducts', 'products.id', '=', 'orderproducts.p_id')
                         ->groupBy('products.id', 'products.name')
                         ->orderByDesc('orderproducts.orp_count')
-                        // ->limit(5);
+                        ->limit(5)
                         ->get();
+                        
 
         // if($request->type != '99') {
         //     $productQuery->where('products.type', $request->type);
@@ -434,6 +435,7 @@ class ProductController extends Controller
     public function adminProductIndex() {
         $adminProductData = Product::withTrashed()
                             ->select('products.*')
+                            ->orderBy('products.deleted_at', 'ASC')
                             ->orderBy('products.created_at', 'DESC')
                             ->paginate(15);
         

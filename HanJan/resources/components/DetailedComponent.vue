@@ -7,7 +7,7 @@
                 <div class="detaild_haeder_bnt">
                     <p class="detailed_haeder_title">{{ store.state.productDetail.name }}</p>
                     <div class="kakao_btn">
-                        <img src="/img/kakao_ch.png" @click="shareMessage()">
+                        <img src="/img/kakao_share.png" @click="shareMessage()">
                     </div>
                 </div>
                 <p>판매가격 :</p>
@@ -188,6 +188,7 @@
             return ''; // 혹은 다른 기본값 처리
         }
     }
+
 
 </script>
 

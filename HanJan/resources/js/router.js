@@ -44,6 +44,7 @@ import AdminOrderComponent from '../components/admin/AdminOrderComponent.vue';
 import AdminProductCreateComponent from '../components/admin/AdminProductCreateComponent.vue';
 import AdminProductUpdateComponent from '../components/admin/AdminProductUpdateComponent.vue';
 import AdminUserUpdateComponent from '../components/admin/AdminUserUpdateComponent.vue';
+import AdminExchangeDetailComponent from '../components/admin/AdminExchangeDetailComponent.vue';
 
 const routes = [
     {
@@ -62,7 +63,7 @@ const routes = [
         // 카카오로그인 처리 진행중인 component
         path: '/login/kakao/callback',
         component: LoginKakaoComponent
-      },
+    },
     
     {
         path: '/agree',
@@ -225,6 +226,7 @@ const routes = [
 
             if (isValidType && isValidPage) {
                 // type과 page가 유효한 경우
+                store.commit('searchList', to.query.type);
                 store.commit('setCurrentImage', to.query.type);
                 store.dispatch('getList', to.query);
                 next();
@@ -367,6 +369,16 @@ const routes = [
         path: '/admin/exchange',
         component: AdminExchangeComponent,
         beforeEnter: chkAdmin
+    },
+    {
+        path: '/admin/exchange/detail',
+        component: AdminExchangeDetailComponent,
+        beforeEnter: (to, from, next) => {
+            chkAdmin(to, from, next)
+            store.dispatch('getAdminExchangeDetailData', to.query.id);
+
+            // next();
+        }
     },
     {
         path: '/admin/order',
