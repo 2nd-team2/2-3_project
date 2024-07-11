@@ -1162,7 +1162,7 @@ const store = createStore({
         },
         // 검색리스트
         searchList(context, data) {
-            const url ='/api/listck?searck=' + data.search + '&page=' + data.page + '&type=' + data.type;
+            const url ='/api/listck?search=' + data.search + '&page=' + data.page + '&type=' + data.type;
             axios.get(url)
             .then(response => {
                 localStorage.setItem('searchword', data.search);
@@ -1173,7 +1173,7 @@ const store = createStore({
                 context.commit('setSearchdata', response.data);
                 if(response.data.data.total !== 0) {
                     // router.replace('/search/recipe?page=' + data.page);
-                    router.replace('/listck?searck=' + data.search + '&page=' + data.page + '&type=' + data.type);
+                    router.replace('/listck?search=' + data.search + '&page=' + data.page + '&type=' + data.type);
                 } else {
                     alert('해당 주류가 존재하지 않습니다');
                 }
