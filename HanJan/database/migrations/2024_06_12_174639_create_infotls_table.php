@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('infotls', function (Blueprint $table) {
-            $table->id('in_id');
-            $table->string('in_title', 50)->comment('전통주제목');
-            $table->string('in_content', 1000)->comment('전통주설명');
-            $table->string('in_img', 100)->comment('전통주이미지');
+        Schema::create('traditional_liquors', function (Blueprint $table) {
+            $table->id('tl_id');
+            $table->string('tl_title', 50)->comment('전통주제목');
+            $table->string('tl_content', 1000)->comment('전통주설명');
+            $table->string('tl_img', 100)->comment('전통주이미지');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('infotls');
+        Schema::dropIfExists('traditional_liquors');
     }
 };
