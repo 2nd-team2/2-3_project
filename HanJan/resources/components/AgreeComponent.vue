@@ -24,7 +24,7 @@
                             <span class="middle_span">이용약관 </span>
                             <button type="button" id="first_btn_modal" class="text_btn" @click="openModal(terms1)">전체보기 ></button>
                             <div class="agree_box">
-                                <textarea class="textArea" readonly>{{ terms1 }}</textarea>
+                                <textarea @click="openModal(terms1)" class="textArea" readonly>{{ terms1 }}</textarea>
                             </div>
                         </label>
                     </div>
@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                             </transition>
-                            <textarea class="textArea" readonly>{{ terms2 }}</textarea>
+                            <textarea @click="openModal(terms2)" class="textArea" readonly>{{ terms2 }}</textarea>
                         </label>
                     </div>
                     <div class="agree_item">

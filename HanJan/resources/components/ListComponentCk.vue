@@ -13,7 +13,7 @@
                 </div>
                 <ul class="list_proposal">
                     <span>인기 검색어 :</span>
-                    <li class="list_pro_mun" v-for="(item, key) in $store.state.typeChk.data.slice(0, 5)" :key="key.id">
+                    <li class="list_pro_mun" v-for="(item, key) in $store.state.typeChk.data" :key="key.id">
                         <div @click="productDetail(item.id)">{{ item.name }}</div>
                     </li>
                 </ul>

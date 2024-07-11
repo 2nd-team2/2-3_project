@@ -10,6 +10,14 @@ main {
     border-style: none;
 }
 
+.dark-mode textarea::placeholder {
+    color: #D3D3D3;
+}
+
+.dark-mode .inquiry_required {
+    color: #D3D3D3;
+}
+
 .dark-mode hr {
     border-color: #5c5c5c;
 }

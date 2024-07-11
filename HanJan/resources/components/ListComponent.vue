@@ -13,6 +13,11 @@
             
             <!-- 메뉴 -->
             <div class="list_menu">
+                <router-link to="/list?type=99&page=1" class="list_menu_img">
+                    <img src="/img/otter2.png" alt="전체" class="list_menu_img99">
+                    <p :class="{list_name_bk:isType99}">전체주류</p>
+                </router-link>
+                <div class="list_line"></div>
                 <router-link to="/list?type=0&page=1" class="list_menu_img">
                     <img src="/img/menu01.png" alt="탁주">
                     <p :class="{list_name_bk:isType0}">탁주</p>
@@ -117,6 +122,7 @@
     const isType0 = ref(false);
     const isType1 = ref(false);
     const isType2 = ref(false);
+    const isType99 = ref(false);
     
     const data = {
         type: '',
@@ -146,18 +152,22 @@
             isType0.value = true;
             isType1.value = false;
             isType2.value = false;
+            isType99.value = false;
         } else if(to.query.type == '1') {
             isType0.value = false;
             isType1.value = true;
             isType2.value = false;
+            isType99.value = false;
         } else if(to.query.type == '2') {
             isType0.value = false;
             isType1.value = false;
             isType2.value = true;
+            isType99.value = false;
         } else if(to.query.type == '99') {
             isType0.value = false;
             isType1.value = false;
             isType2.value = false;
+            isType99.value = true;
         }
     });
     

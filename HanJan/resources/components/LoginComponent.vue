@@ -63,8 +63,8 @@ const otterImg = ref('/img/drunkOtter.png');
 const otterImg2 = ref('/img/drunkOtter.png');
 const alternateImg = '/img/drunkOtter3.png';
 
-const OriginalAlcohol = ref('/img/IE002927310_STD.png');
-const KoreanAlcohol = '/img/KoreanAlcohol.png';
+const OriginalAlcohol = ref('/img/KoreanAlcohol.png');
+const KoreanAlcohol = '/img/IE002927310_STD.png';
 
 function toggleImg(imgRef) {
   if (imgRef === 'otterImg') {
@@ -75,7 +75,7 @@ function toggleImg(imgRef) {
 }
 
 function toggleAlcoholImg() {
-  OriginalAlcohol.value = OriginalAlcohol.value === '/img/IE002927310_STD.png' ? KoreanAlcohol : '/img/IE002927310_STD.png';
+  OriginalAlcohol.value = OriginalAlcohol.value === '/img/KoreanAlcohol.png' ? KoreanAlcohol : '/img/KoreanAlcohol.png';
 }
 
 
