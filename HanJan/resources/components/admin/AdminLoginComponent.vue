@@ -18,13 +18,11 @@ const store = useStore();
 
 function adminLogin() {
   store.dispatch('adminLogin');
+  document.body.style.overflowY = 'scroll';
 }
 
 </script>
 
 <style>
-    body {
-        overflow: scroll;
-        height: 100%;
-    }
+    
 </style>

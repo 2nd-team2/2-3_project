@@ -20,7 +20,7 @@
             <div class="admin_notice_list_updated">{{ notice.updated_at }}</div>
             <div class="admin_notice_list_deleted">{{ notice.deleted_at }}</div>
             <button type="button" v-if="notice.deleted_at == null" @click="noticeUpdate(notice)" class="admin_btn">수정하기</button>
-            <button type="button" v-if="notice.deleted_at == null" @click="$store.dispatch('adminNoticeDeleted', notice.no_id)" class="admin_btn">삭제하기</button>
+            <button type="button" v-if="notice.deleted_at == null" @click="noticeDelete(notice.no_id)" class="admin_btn">삭제하기</button>
         </div>
     
         <!-- 페이지네이션 -->
@@ -103,6 +103,12 @@
         store.dispatch('adminNoticeToUpdate', item);
     }
 
+    // 삭제 버튼
+    function noticeDelete(id) {
+        if(confirm('확인 클릭시 게시글이 삭제됩니다.')) {
+            store.dispatch('adminNoticeDeleted', id)
+        }
+    }
 </script>
 
 <style>

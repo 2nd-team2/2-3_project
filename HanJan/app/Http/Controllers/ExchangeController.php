@@ -181,9 +181,19 @@ class ExchangeController extends Controller
     // 교환 및 반품 디테일 페이지
     public function adminExchangeDetail(Request $request) {
 
-        $ExchangeData = Exchange::select('exchanges.*')
-                        ->where('exchanges.ex_id', $request->id)
-                        ->first();
+        // $ExchangeData = Exchange::select('exchanges.*')
+        //                 ->where('exchanges.ex_id', $request->id)
+        //                 ->first();
+        $ExchangeData = Exchange::withTrashed()
+                            ->select('exchanges.*'
+                                ,'orderproducts.orp_count'
+                                ,'orderproducts.or_id'
+                                ,DB::raw("DATE_FORMAT(orderproducts.created_at, '%Y-%m-%d') as orpCre")
+                                ,'products.price')
+                            ->join('orderproducts', 'orderproducts.orp_id', '=', 'exchanges.orp_id')
+                            ->join('products', 'products.id', '=', 'orderproducts.p_id')
+                            ->whereNotNull('ex_reason')
+                            ->first();
     
         $responseData = [
                 'code' => '0'

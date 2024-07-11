@@ -21,16 +21,16 @@
             <div class="admin_product_list_num">{{ product.id }}</div>
             <img :src="product.img" class="admin_product_list_img1">
             <div class="admin_product_list_name">{{ product.name }}</div>
-            <div class="admin_product_list_price">{{ product.price }}</div>
-            <div class="admin_product_list_count">{{ product.count }}</div>
-            <div class="admin_product_list_ml">{{ product.ml }}</div>
+            <div class="admin_product_list_price">{{ formatPrice(product.price) }}</div>
+            <div class="admin_product_list_count">{{ formatPrice(product.count) }}</div>
+            <div class="admin_product_list_ml">{{ product.ml + 'ml' }}</div>
             <div class="admin_product_list_type">{{ product.type }}</div>
             <div class="admin_product_list_season">{{ product.season }}</div>
             <div class="admin_product_list_created">{{ product.created_at }}</div>
             <div class="admin_product_list_updated">{{ product.updated_at }}</div>
             <div class="admin_product_list_deleted">{{ product.deleted_at }}</div>
             <button v-if="product.deleted_at == null" type="button" @click="productUpdate(product)" class="admin_btn">수정하기</button>
-            <button v-if="product.deleted_at == null" type="button" @click="$store.dispatch('adminProductDeleted', product.id)" class="admin_btn">삭제하기</button>
+            <button v-if="product.deleted_at == null" type="button" @click="productDelete(product.id)" class="admin_btn">삭제하기</button>
         </div>
 
         <!-- 페이지네이션 -->
@@ -110,6 +110,18 @@
     // 상품 수정 페이지로 정보 넘기기
     function productUpdate(item) {
         store.dispatch('adminProductToUpdate', item);
+    }
+
+    // 금액 천단위 포맷 (,000)
+    function formatPrice(price) {
+        return price.toLocaleString('ko-KR');
+    }
+
+    // 삭제 버튼
+    function productDelete(id) {
+        if(confirm('확인 클릭시 상품이 삭제됩니다.')) {
+            store.dispatch('adminProductDeleted', id)
+        }
     }
 
 </script>
