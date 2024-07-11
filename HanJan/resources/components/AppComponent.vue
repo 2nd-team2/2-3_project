@@ -408,7 +408,7 @@ onBeforeUnmount(() => {
             } else {
                 document.body.classList.remove('dark-mode');
             }
-            Cookies.set('darkMode', newValue);
+            Cookies.set('darkMode', newValue, { expires: 365 });
         });
     })
 

@@ -19,6 +19,14 @@
     border-style: none;
 }
 
+.dark-mode textarea::placeholder {
+    color: #D3D3D3;
+}
+
+.dark-mode .reviewC_required {
+    color: #D3D3D3;
+}
+
 .dark-mode button {
     background-color: rgb(201, 199, 199);
     color: #121212;
