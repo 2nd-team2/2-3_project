@@ -274,13 +274,33 @@ function closeSubmitModal() {
 
 
 // 이메일 인증 처리
-const emailChk = () => {
+let isCheckingEmail = ref(false);
+
+const emailChk = async () => {
+    if (isCheckingEmail.value) {
+        alert('이미 이메일 검증이 진행 중입니다. 잠시만 기다려 주세요.');
+        return; // 여러 번 클릭 방지
+    }
     if (!emailText.value) {
         alert('이메일을 입력해 주세요.');
         return;
     }
-    store.dispatch('chkEmailOn', emailText.value)
+    
+    isCheckingEmail = true; // 이메일 확인 진행 중임을 표시
+
+    if(confirm('확인을 누르면 이메일 검증을 시작합니다.')) {
+        try {
+            await store.dispatch('chkEmailOn', emailText.value);
+        } catch (error) {
+            console.error('이메일 인증 처리 중 오류가 발생했습니다:', error);
+        } finally {
+            isCheckingEmail = false; // 확인 완료 후 플래그 리셋
+        }
+
+    }
+
 };
+
 
 // 새로 고침 후 이메일 로드
 onMounted(() => {

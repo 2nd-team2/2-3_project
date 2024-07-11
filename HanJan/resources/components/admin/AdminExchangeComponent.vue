@@ -26,8 +26,8 @@
             <div class="admin_exchange_list_flg">{{ exchange.ex_flg }}</div>
             <div class="admin_exchange_list_date">{{ exchange.created_at }}</div>
             <div class="admin_exchange_list_or_num">{{ exchange.or_id }}</div>
-            <div class="admin_exchange_list_or_amount">{{ exchange.or_sum }}</div>
-            <div class="admin_exchange_list_or_date">{{ exchange.or_created_at }}</div>
+            <div class="admin_exchange_list_or_amount">{{ exchange.orp_count * exchange.price }}</div>
+            <div class="admin_exchange_list_or_date">{{ exchange.orpCre }}</div>
             <button type="button" v-if="exchange.ex_flg === '신청완료'" @click="takeOver(exchange.ex_id)" class="admin_btn">접수받기</button>
             <button type="button" v-if="exchange.ex_flg === '상품회수중'" @click="payCancel(exchange.ex_id)" class="admin_btn">결제취소</button>
             <button type="button" @click="exchangeDetail(exchange.ex_id)" class="admin_btn admin_detail">상세보기</button>
