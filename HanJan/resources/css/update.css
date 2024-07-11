@@ -225,11 +225,12 @@ textarea:focus {
 .modal_btn {
     border-radius: 15px;
     border: none;
-    height: 30px;
-    width: 30px;
+    height: 40px;
+    width: 70px;
     cursor: pointer;
-    margin-right: 5px;
+    margin: 20px;
 }
+
 .modal_btn:hover {
     background-color: #FAC91D;
     color: black;

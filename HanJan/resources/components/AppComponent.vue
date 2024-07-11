@@ -143,7 +143,7 @@
                                 </div>
                             </router-link>
                         </li>
-                        <li>
+                        <li class="nav_item8">
                             <label class="darkmode_checkbox">
                                 <input @change="toggleDarkMode" type="checkbox" v-model="isDarkMode" class="darkmode_input" />
                                 <div class="toggle"></div>
