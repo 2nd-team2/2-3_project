@@ -31,6 +31,22 @@ class BagController extends Controller
         return response()->json($responseData, 200);
     }
 
+    // 장바구니 sold Out 저장 처리
+    public function bagsSoldOut(Request $request) {
+        $soldOutData = Bag::where('ba_id','=', $request->ba_id)->first();
+
+        $soldOutData->ba_count = $request->count;
+        $soldOutData->save();
+            
+        $responseData = [
+            'code' => '0'
+            ,'msg' => 'Sold Out 처리 완료'
+            ,'data' => $soldOutData
+        ];
+
+        return response()->json($responseData);
+    }
+
     // 장바구니 수량 감소한 데이터 저장
     public function bagsCountMinus($ba_id) {
 

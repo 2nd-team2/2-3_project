@@ -28,6 +28,7 @@
                     <label class="info_item_label" for="email">이메일</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg error">{{ emailError }}</p>
+                        <p class="info_item_err_msg error">{{ codeError }}</p>
                         <input v-if="$store.state.emailVerify" class="input_width" type="email" name="email" id="email" @input="chkEmail" v-model="emailText">
                         <input v-else class="input_width" type="email" name="email" id="email" readonly @input="chkEmail" v-model="emailText">
                     </div>
@@ -117,11 +118,22 @@
                         </div>
                     </div>
                 </transition>
-                <transition name="down_complete">
+                <transition name="down">
                     <div class="agree_box modal_second_overlay" v-show="showCompleteModal">
                         <div class="modal_second_window">
                             <div class="second_content">
                                 <p>회원가입 완료!</p>
+                            </div>
+                        </div>
+                    </div>
+                </transition>
+                <transition name="down">
+                    <div class="agree_box modal_second_overlay" v-show="showEmailChkModal">
+                        <div class="modal_second_window">
+                            <div class="second_content">
+                                <p>이메일을 입력해주세요.</p>
+                                <br>
+                                <img @click="closeEmailChkModal" src="/img/complete.png" class="complete_btn">
                             </div>
                         </div>
                     </div>
@@ -147,8 +159,8 @@ const postcode = ref('');
 const birth = ref('');
 const name = ref('');
 
-const emailError = ref('1111111111111');
-const codeError = ref('1111111');
+const emailError = ref('');
+const codeError = ref('');
 const passwordError = ref('');
 const passwordChkError = ref('');
 const nameError = ref('');
@@ -276,9 +288,14 @@ function validateForm() {
 
 const showSubmitModal = ref(false);
 const showCompleteModal = ref(false);
+const showEmailChkModal = ref(false);
 
 function closeSubmitModal() {
     showSubmitModal.value = false;
+}
+
+function closeEmailChkModal() {
+    showEmailChkModal.value = false;
 }
 
 
@@ -291,7 +308,7 @@ const emailChk = async () => {
         return; // 여러 번 클릭 방지
     }
     if (!emailText.value) {
-        alert('이메일을 입력해 주세요.');
+        showEmailChkModal.value = true;
         return;
     }
     

@@ -32,7 +32,7 @@
                 <div class="detailed_haeder_btn">
                         <!-- 수량만 장바구니에 저장 -->
                         <form id="bagForm"> 
-                            <input type="hidden" name="ba_count" :value="count">
+                            <input type="hidden" name="ba_count" :value ="count">
                             <input type="hidden" name="p_id" :value="$store.state.productDetail.id">
                             <input type="hidden" name="buy_type" value="buy">
                             <input type="hidden" name="products_name" :value="$store.state.productDetail.name">
@@ -51,6 +51,9 @@
     <div class="detailed_content">
         <img :src="$store.state.productDetail.info">
     </div>
+
+    <!-- 상품정보 -->
+    <div></div>
 
     <!-- 양조장 이야기 -->
     <router-link to="/story">
@@ -176,7 +179,7 @@
         // 최대 수량보다 많을시 최대수량으로 고정
         else if (count.value > store.state.productDetail.count) {
             count.value = store.state.productDetail.count;
-            alert('남은 수량까지 선택할 수 있습니다. ( 남은 수량 : ' + store.state.productDetail.count + ')')
+            alert('남은 수량까지 선택할 수 있습니다. ( 남은 수량 : ' + (store.state.productDetail.count) + ')')
         } 
     };
 

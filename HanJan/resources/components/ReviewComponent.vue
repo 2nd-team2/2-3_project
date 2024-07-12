@@ -17,7 +17,7 @@
                         </div>                  
                         <div class="review_content">{{ item.re_content }}</div>
                     </div>
-
+                    
                     <div class="vertical-hr"></div>
                     <div class="review_goods_info_grid_btn">
                         <button @click="reviewUpdate(item)" button="button" class="review_btn">수정하기</button>
@@ -74,15 +74,31 @@
             </a>
             <a href="#" class="next" @click.prevent="reviewNextPage()">다음 〉</a>
         </div>
+        <transition name="down">
+            <div class="agree_box modal_second_overlay" v-show="showAskDeleteModal">
+                <div class="modal_second_window">
+                    <div class="second_content">
+                        <p class="second_content">확인을 누르면 작성한 리뷰가 삭제됩니다.<br> 리뷰 삭제 시 다시 작성할 수 없습니다.</p>
+                        <br>
+                        <div>
+                            <button type="button" @click="confirmComplete" class="modal_btn">확인</button>
+                            <button type="button" @click="closeAskDeleteModal" class="modal_btn">취소</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </transition>
     </main>
 </template>
 
 <script setup>
-import { onBeforeMount, computed } from 'vue';
+import { onBeforeMount, computed, ref } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
 
+const showAskDeleteModal = ref(false);
+let deleteItemId = ref(null);
 
 // 리뷰 초기 데이터 가져오기
 onBeforeMount(() => {
@@ -112,11 +128,21 @@ const reviewUpdate = (item) => {
 
 // 리뷰 삭제하기 기능
 const reviewDelete = (re_id) => {
-    store.dispatch('reviewDelete', re_id)
+    deleteItemId.value = re_id;
+    showAskDeleteModal.value = true;
+}
+
+function confirmComplete() {
+    showAskDeleteModal.value = false;
+    store.dispatch('reviewDelete', deleteItemId.value)
 
     if(store.state.reviewData.current_page == 1) {
         store.dispatch('reviewGet', 1);
     }
+}
+
+function closeAskDeleteModal() {
+    showAskDeleteModal.value = false;
 }
 
 

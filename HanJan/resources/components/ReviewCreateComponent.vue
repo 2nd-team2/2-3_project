@@ -40,8 +40,30 @@
             <hr>
             
             <div class="reviewC_padding_top reviewC_btn_right">
-                <button type="button" @click="$store.dispatch('reviewCreateSubmit')" class="reviewC_submit_btn">등록하기</button>
+                <button type="button" @click="completeReview" class="reviewC_submit_btn">등록하기</button>
             </div>
+            <transition name="down">
+                <div class="agree_box modal_second_overlay" v-show="showNoStarModal">
+                    <div class="modal_second_window">
+                        <div class="second_content">
+                            <p>별점을 입력해주세요.</p>
+                            <br>
+                            <img @click="closeStarModal" src="/img/complete.png" class="complete_btn">
+                        </div>
+                    </div>
+                </div>
+            </transition>
+            <transition name="down">
+                <div class="agree_box modal_second_overlay" v-show="showCompleteModal">
+                    <div class="modal_second_window">
+                        <div class="second_content">
+                            <p>리뷰 작성을 완료하였습니다.</p>
+                            <br>
+                            <img @click="closeSubmitModal" src="/img/complete.png" class="complete_btn">
+                        </div>
+                    </div>
+                </div>
+            </transition>
         </form>
     </main>
 </template>
@@ -51,6 +73,25 @@ import { onBeforeUpdate, ref } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
+const showNoStarModal = ref(false);
+const showCompleteModal = ref(false);
+
+function completeReview() {
+    if (selectedStar.value > 0) {
+        showCompleteModal.value = true;
+    } else {
+        showNoStarModal.value = true;
+    }
+}
+
+function closeSubmitModal() {
+    showCompleteModal.value = false;
+    store.dispatch('reviewCreateSubmit');
+}
+
+function closeStarModal() {
+    showNoStarModal.value = false;
+}
 
 onBeforeUpdate(() => {
     console.log(store.state.reviewToUpdate);
