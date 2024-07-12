@@ -500,17 +500,15 @@ const store = createStore({
         bagsDelete(context, ba_id) {
             const url = '/api/bagsDelete/' + ba_id;
 
-            if (confirm('확인을 누르면 장바구니에서 삭제됩니다.')) {
-                axios.delete(url)
-                .then(response => {
-                    console.log(response.data); // TODO : 삭제
-                    store.dispatch('bagsGetProductData');
-                })
-                .catch(error => {
-                    alert('장바구니 삭제에 실패했습니다.(' + error.response.data.code + ')' )
-                });
+            axios.delete(url)
+            .then(response => {
+                console.log(response.data); // TODO : 삭제
+                store.dispatch('bagsGetProductData');
+            })
+            .catch(error => {
+                alert('장바구니 삭제에 실패했습니다.(' + error.response.data.code + ')' )
+            });
 
-            }
 
         },
 
