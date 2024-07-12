@@ -96,9 +96,35 @@
             <div class="ex_margin_top ex_flex_end">
                 <div>
                     <button @click="$router.push('/info')" type="button" class="ex_cancel ex_border_none ex_cancel_padding">취소</button>
-                    <button @click="$store.dispatch('exchage')" type="button" class="ex_cancel ex_border_none">신청</button>
+                    <!-- <button @click="$store.dispatch('exchage')" type="button" class="ex_cancel ex_border_none">신청</button> -->
+                    <button @click="exchangeModal" type="button" class="ex_cancel ex_border_none">신청</button>
                 </div>
             </div>
+            <transition name="down">
+                <div class="agree_box modal_second_overlay" v-show="showExchangeModal">
+                    <div class="modal_second_window">
+                        <div class="second_content">
+                            <p class="second_content">확인을 누르면 교환 및 반품 신청이 완료 됩니다.</p>
+                            <br>
+                            <div>
+                                <button type="button" @click="confirmExchage" class="modal_btn">확인</button>
+                                <button type="button" @click="closeExchageModal" class="modal_btn">취소</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </transition>
+            <transition name="down">
+                <div class="agree_box modal_second_overlay" v-show="showCompleteModal">
+                    <div class="modal_second_window">
+                        <div class="second_content">
+                            <p>교환 및 반품이 완료 되었습니다.</p>
+                            <br>
+                            <img @click="closeSubmitModal" src="/img/complete.png" class="complete_btn">
+                        </div>
+                    </div>
+                </div>
+            </transition>
         </form>
     </main>
 
@@ -124,6 +150,26 @@ const postcode = ref(store.state.userInfo.post);
 const nameError = ref('');
 const telError = ref('');
 const addressError = ref('');
+const showExchangeModal = ref(false);
+const showCompleteModal = ref(false);
+
+function exchangeModal() {
+    showExchangeModal.value = true;
+}
+
+function confirmExchage() {
+    showExchangeModal.value = false;
+    showCompleteModal.value = true;
+}
+
+function closeExchageModal() {
+    showExchangeModal.value = false;
+}
+
+function closeSubmitModal() {
+    showCompleteModal.value = false;
+    store.dispatch('exchage');
+}
 
 
 function chkName(e) {

@@ -118,11 +118,22 @@
                         </div>
                     </div>
                 </transition>
-                <transition name="down_complete">
+                <transition name="down">
                     <div class="agree_box modal_second_overlay" v-show="showCompleteModal">
                         <div class="modal_second_window">
                             <div class="second_content">
                                 <p>회원가입 완료!</p>
+                            </div>
+                        </div>
+                    </div>
+                </transition>
+                <transition name="down">
+                    <div class="agree_box modal_second_overlay" v-show="showEmailChkModal">
+                        <div class="modal_second_window">
+                            <div class="second_content">
+                                <p>이메일을 입력해주세요.</p>
+                                <br>
+                                <img @click="closeEmailChkModal" src="/img/complete.png" class="complete_btn">
                             </div>
                         </div>
                     </div>
@@ -277,9 +288,14 @@ function validateForm() {
 
 const showSubmitModal = ref(false);
 const showCompleteModal = ref(false);
+const showEmailChkModal = ref(false);
 
 function closeSubmitModal() {
     showSubmitModal.value = false;
+}
+
+function closeEmailChkModal() {
+    showEmailChkModal.value = false;
 }
 
 
@@ -292,7 +308,7 @@ const emailChk = async () => {
         return; // 여러 번 클릭 방지
     }
     if (!emailText.value) {
-        alert('이메일을 입력해 주세요.');
+        showEmailChkModal.value = true;
         return;
     }
     

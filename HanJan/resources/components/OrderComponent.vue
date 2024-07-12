@@ -168,7 +168,8 @@ function kakaoPay(email, addr, username, tel) {
             pay_method: 'card', // 결제 방식
             merchant_uid: "IMP" + makeMerchantUid, // 결제 고유 번호
             name: productName, // 제품명
-            amount: orderCompleteData.or_sum, // 실제가격
+            // amount: orderCompleteData.or_sum, // 실제가격
+            amount: 100, // 실제가격
             //구매자 정보 ↓
             buyer_name: `${orderCompleteData.or_get_name}`,
             buyer_tel : `${orderCompleteData.or_get_tel}`,

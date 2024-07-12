@@ -47,8 +47,23 @@
             <hr>
 
             <div class="reviewC_padding_top reviewC_btn_right">
-                <button type="button" @click="$store.dispatch('reviewUpdateSubmit')" class="reviewC_submit_btn">등록하기</button>
+                <!-- <button type="button" @click="$store.dispatch('reviewUpdateSubmit')" class="reviewC_submit_btn">등록하기</button> -->
+                <button type="button" @click="reviewUpdate" class="reviewC_submit_btn">등록하기</button>
             </div>
+            <transition name="down">
+                <div class="agree_box modal_second_overlay" v-show="showAskDeleteModal">
+                    <div class="modal_second_window">
+                        <div class="second_content">
+                            <p class="second_content">리뷰 수정을 완료하였습니다.<br>확인을 누르면 리뷰 관리로 돌아갑니다.</p>
+                            <br>
+                            <div>
+                                <button type="button" @click="confirmComplete" class="modal_btn">확인</button>
+                                <button type="button" @click="closeAskDeleteModal" class="modal_btn">취소</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </transition>
         </form>
     </main>
 </template>
@@ -59,6 +74,21 @@ import { useStore } from 'vuex';
 
 const store = useStore();
 
+const showAskDeleteModal = ref(false);
+let deleteItemId = ref(null);
+
+function reviewUpdate() {
+    showAskDeleteModal.value = true;
+}
+
+function confirmComplete() {
+    store.dispatch('reviewUpdateSubmit');
+    showAskDeleteModal.value = false;
+}
+
+function closeAskDeleteModal() {
+    showAskDeleteModal.value = false;
+}
 
 // 별 js
 const selectedStar = ref(store.state.reviewToUpdate.re_star);

@@ -38,7 +38,7 @@
                             </div>    
                             <div>총 상품가격 : {{ formatPrice(item.price * item.ba_count) }}원</div>
                         </div>
-                        <div @click="$store.dispatch('bagsDelete', item.ba_id)" class="bag_delete"></div>
+                        <div @click="deleteAsk(item.ba_id)" class="bag_delete"></div>
                     </div>
                 </div>
                 <div v-else>
@@ -78,6 +78,45 @@
                 </div>
             </div>
             <div class="bag_hr"></div>
+            <transition name="down">
+                <div class="agree_box modal_second_overlay" v-show="showAskDeleteModal">
+                    <div class="modal_second_window">
+                        <div class="second_content">
+                            <p class="second_content">확인을 누르면 장바구니에서 삭제됩니다.</p>
+                            <br>
+                            <div>
+                                <button type="button" @click="confirmAskDelete" class="modal_btn">확인</button>
+                                <button type="button" @click="closeAskDeleteModal" class="modal_btn">취소</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </transition>
+            <transition name="down">
+                <div class="agree_box modal_second_overlay" v-show="showSelectDeleteModal">
+                    <div class="modal_second_window">
+                        <div class="second_content">
+                            <p class="second_content">확인을 누르면 선택된 상품이 삭제됩니다.</p>
+                            <br>
+                            <div>
+                                <button type="button" @click="confirmSelectDelete" class="modal_btn">확인</button>
+                                <button type="button" @click="closeSelectDeleteModal" class="modal_btn">취소</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </transition>
+            <transition name="down">
+                <div class="agree_box modal_second_overlay" v-show="showNoBagModal">
+                    <div class="modal_second_window">
+                        <div class="second_content">
+                            <p class="second_content">삭제할 상품을 선택해주세요.</p>
+                            <br>
+                            <img @click="closeBagModal" src="/img/complete.png" class="complete_btn">
+                        </div>
+                    </div>
+                </div>
+            </transition>
         </form>
     </main>
 
@@ -93,6 +132,46 @@ import { onBeforeMount, computed, ref } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
+
+const showAskDeleteModal = ref(false);
+const showSelectDeleteModal = ref(false);
+const showNoBagModal = ref(false);
+let deleteItemId = ref(null);
+
+function deleteAsk(item) {
+    showAskDeleteModal.value = true;
+    deleteItemId.value = item;
+}
+
+function confirmAskDelete() {
+    store.dispatch('bagsDelete', deleteItemId.value);
+    showAskDeleteModal.value = false;
+}
+
+function closeAskDeleteModal() {
+    showAskDeleteModal.value = false;
+}
+
+function closeBagModal() {
+    showNoBagModal.value = false;
+}
+
+function confirmSelectDelete() {
+    const data = {
+            ba_id: chkSelectItems.map(item => item.ba_id),
+            ba_count: chkSelectItems.map(item => item.ba_count)
+        };
+
+    console.log('전송할 데이터:', data); // 데이터가 정상적으로 출력되는지 확인
+
+    // 삭제 처리
+    store.dispatch('bagsSelectDelete', data);
+    showSelectDeleteModal.value = false;
+}
+
+function closeSelectDeleteModal() {
+    showSelectDeleteModal.value = false;
+}
 // 장바구니 초기 게시글 습득 관련
 onBeforeMount(() => {
     store.dispatch('bagsGetProductData')
@@ -180,19 +259,9 @@ const bagsSelectDelete = () => {
     const chkSelectItems = store.state.bagsProductData.filter(item => item.checked);
     
     if (chkSelectItems.length <= 0 ){
-        alert('삭제할 상품을 선택해주세요.');
+        showNoBagModal.value = true;
     } else {
-        if(confirm('확인을 누르면 선택된 데이터가 삭제 됩니다.')) {
-            const data = {
-                ba_id: chkSelectItems.map(item => item.ba_id),
-                ba_count: chkSelectItems.map(item => item.ba_count)
-            };
-
-            console.log('전송할 데이터:', data); // 데이터가 정상적으로 출력되는지 확인
-
-            // 삭제 처리
-            store.dispatch('bagsSelectDelete', data);
-        }
+        showSelectDeleteModal.value = true
     }
 }
 

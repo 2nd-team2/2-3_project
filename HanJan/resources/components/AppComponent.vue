@@ -385,6 +385,9 @@ onBeforeUnmount(() => {
     onMounted(() => {
         window.addEventListener('resize', changeNav)
 
+        if(store.state.adminLoginFlg) {
+            document.body.style.overflowY = 'scroll';
+        }
         // 페이지 로드 시 쿠키 확인 
         const modalClosed = Cookies.get('modalClosed');
         if (modalClosed === 'true') {
@@ -410,6 +413,8 @@ onBeforeUnmount(() => {
             }
             Cookies.set('darkMode', newValue, { expires: 365 });
         });
+
+        
     })
 
     // 관리자 페이지

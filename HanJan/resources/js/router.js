@@ -376,8 +376,6 @@ const routes = [
         beforeEnter: (to, from, next) => {
             chkAdmin(to, from, next)
             store.dispatch('getAdminExchangeDetailData', to.query.id);
-
-            // next();
         }
     },
     {
