@@ -910,6 +910,7 @@ const store = createStore({
                     context.commit('setEmailCode', false); // >> 회원가입이 완료되면 true로 바꾸기
                 } else {
                     console.log('코드 인증 실패');
+                    alert('검증 코드를 다시 한번 확인해 주세요.')
                 }
             })
             .catch(error => {

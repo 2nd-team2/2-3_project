@@ -4,7 +4,7 @@
         <!-- {{ $store.state.userTatisticsData }}
         {{ $store.state.userAgeRangeData }} -->
         <!-- {{ $store.state.salesStatisticsData }} -->
-        <h3>유저 통계</h3>
+        <h3>회원 통계</h3>
         <div class="admin_user_box">
             <canvas id="user_tatistics" class="user_tatistics"></canvas>
             <canvas id="user_age_range" class="user_age_range"></canvas>
@@ -99,7 +99,7 @@
                 labels: store.state.userTatisticsData.map(item => item.month),
                 datasets: [
                     {
-                    label: '신규 유저',
+                    label: '신규 회원',
                     data: store.state.userTatisticsData.map(item => item.new_users),
                     backgroundColor: 'rgba(54, 162, 235, 0.5)',
                     borderColor: 'rgba(54, 162, 235, 1)',
@@ -340,6 +340,5 @@
 </script>
 
 <style>
-
 </style>
 

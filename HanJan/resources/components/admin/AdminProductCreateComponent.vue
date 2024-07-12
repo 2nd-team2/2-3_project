@@ -16,9 +16,15 @@
                 <p class="admin_error">{{ MlError }}</p>
                 <input @input="chkMl" v-model="ml" type="number" name="ml" id="ml" autocomplete='off' placeholder="단위는 ml" class="admin_prodcut_info7">
                 <label for="img" class="admin_prodcut_info8">상품 이미지</label>
-                <input type="file" name="img" accept="image/*" id="img" autocomplete='off' class="admin_prodcut_info9">
+                <div class="admin_input_img_box">
+                    <img :src="previewImg" class="admin_preview admin_prodcut_info9">
+                    <input type="file" name="img" accept="image/*" id="img" autocomplete='off' @change="setFileImg">
+                </div>
                 <label for="info" class="admin_prodcut_info10">상품 상세 정보</label>
-                <input type="file" name="info" accept="image/*" id="info" autocomplete='off' class="admin_prodcut_info11">
+                <div class="admin_input_img_box admin_prodcut_info11">
+                    <img :src="previewInfo" class="admin_preview">
+                    <input type="file" name="info" accept="image/*" id="info" autocomplete='off' @change="setFileInfo">
+                </div>
                 <div class="admin_type_container">
                     <p>주종</p>
                     <div class="admin_type_box">
@@ -138,6 +144,17 @@
         }
     }
 
+    // 이미지 미리보기
+    const previewImg = ref('');
+    const previewInfo = ref('');
+
+    function setFileImg(e) {
+        previewImg.value = URL.createObjectURL(e.target.files[0]);
+    }
+
+    function setFileInfo(e) {
+        previewInfo.value = URL.createObjectURL(e.target.files[0]);
+    }
     
 
 </script>

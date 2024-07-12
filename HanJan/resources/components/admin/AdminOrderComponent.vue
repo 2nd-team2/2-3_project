@@ -20,7 +20,7 @@
             <div class="admin_order_list_recipient_tell">{{ order.or_get_tel }}</div>
             <div class="admin_order_list_recipient_adds">{{ order.or_get_addr + order.or_get_det_addr }}</div>
             <div class="admin_order_list_recipient_post">{{ order.or_get_post }}</div>
-            <div class="admin_order_list_amount ">{{ order.or_sum + '원' }}</div>
+            <div class="admin_order_list_amount ">{{ formatPrice(order.or_sum) }}</div>
             <div class="admin_order_list_date">{{ order.created_at }}</div>
         </div>
 
@@ -97,6 +97,11 @@
         if (store.state.adminOrderData.current_page < store.state.adminOrderData.last_page) {
             goToPage(store.state.adminOrderData.current_page + 1);
         }
+    }
+
+    // 금액 천단위 포맷 (,000)
+    function formatPrice(price) {
+        return price.toLocaleString('ko-KR');
     }
 </script>
 
