@@ -2173,6 +2173,7 @@ const store = createStore({
 
             axios.post(url)
             .then(response => {
+                console.log('가져온데이터 : ' , response.data.data)
                 const copyAdminExchangeData = {...context.state.adminExchangeData};
                 copyAdminExchangeData.data.forEach( (item, key) => {
                     if(item.ex_id == response.data.data.ex_id) {
@@ -2180,6 +2181,7 @@ const store = createStore({
                     }
                 });
                 context.commit('setAdminExchangesData', copyAdminExchangeData);
+                console.log('넣은 데이터 : ' , copyAdminExchangeData)
             })
             .catch(error => {
                 console.log(error.response);

@@ -111,22 +111,35 @@ class ExchangeController extends Controller
     }
 
     // --------------------------------------------------------------------- 관리자 페이지 -------------------------------------------------------------------------
+    // 교환 및 반품 전체 데이터 가져옴
+    private function getExchangeData() {
+        return Exchange::withTrashed()
+                        ->select('exchanges.*', 'orderproducts.orp_count', 'orderproducts.or_id', DB::raw("DATE_FORMAT(orderproducts.created_at, '%Y-%m-%d') as orpCre"), 'products.price')
+                        ->join('orderproducts', 'orderproducts.orp_id', '=', 'exchanges.orp_id')
+                        ->join('products', 'products.id', '=', 'orderproducts.p_id')
+                        ->whereNotNull('ex_reason')
+                        ->where('ex_flg', '!=', '3')
+                        ->orderBy('exchanges.created_at', 'DESC');
+    }
+
+
     // 관리자 페이지 교환 및 반품 획득
     public function adminExchangeIndex() {
-        $ExchangeData = Exchange::withTrashed()
-                            ->select('exchanges.*'
-                                ,'orderproducts.orp_count'
-                                ,'orderproducts.or_id'
-                                ,DB::raw("DATE_FORMAT(orderproducts.created_at, '%Y-%m-%d') as orpCre")
-                                ,'products.price')
-                            ->join('orderproducts', 'orderproducts.orp_id', '=', 'exchanges.orp_id')
-                            ->join('products', 'products.id', '=', 'orderproducts.p_id')
-                            // ->where('orderproducts.or_id', '=', 'orders.or_id')
-                            ->whereNotNull('ex_reason')
-                            ->where('ex_flg', '!=', '3')
-                            // ->orderBy('ex_flg', 'ASC')
-                            ->orderBy('exchanges.created_at', 'DESC')
-                            ->paginate(15);
+        // $ExchangeData = Exchange::withTrashed()
+        //                     ->select('exchanges.*'
+        //                         ,'orderproducts.orp_count'
+        //                         ,'orderproducts.or_id'
+        //                         ,DB::raw("DATE_FORMAT(orderproducts.created_at, '%Y-%m-%d') as orpCre")
+        //                         ,'products.price')
+        //                     ->join('orderproducts', 'orderproducts.orp_id', '=', 'exchanges.orp_id')
+        //                     ->join('products', 'products.id', '=', 'orderproducts.p_id')
+        //                     // ->where('orderproducts.or_id', '=', 'orders.or_id')
+        //                     ->whereNotNull('ex_reason')
+        //                     ->where('ex_flg', '!=', '3')
+        //                     // ->orderBy('ex_flg', 'ASC')
+        //                     ->orderBy('exchanges.created_at', 'DESC')
+        //                     ->paginate(15);
+        $ExchangeData = $this->getExchangeData()->paginate(15);
         $responseData = [
             'code' => '0'
             ,'msg' => '교환 및 반품 목록 획득 완료'
@@ -147,6 +160,15 @@ class ExchangeController extends Controller
         // 수정된 데이터 저장
         $updateData->save();
 
+        // 추가 데이터 가져오기
+        $additionalData = $this->getExchangeData()->where('exchanges.ex_id', '=', $request->ex_id)->first();
+
+        // updateData에 추가 데이터 병합
+        $updateData->orp_count = $additionalData->orp_count;
+        $updateData->or_id = $additionalData->or_id;
+        $updateData->orpCre = $additionalData->orpCre;
+        $updateData->price = $additionalData->price;
+
         // 레스폰스 데이터 생성
         $responseData = [
             'code' => '0'
@@ -160,6 +182,7 @@ class ExchangeController extends Controller
     // 접수완료 클릭시 교환 및 반품 진행중으로 변경
     public function payCancel(Request $request) {
 
+        // $updateData = $this->getExchangeData($request->ex_id)->first();
         $updateData = Exchange::find($request->ex_id);
 
         // 수정 처리
@@ -167,6 +190,15 @@ class ExchangeController extends Controller
         
         // 수정된 데이터 저장
         $updateData->save();
+
+        // 추가 데이터 가져오기
+        $additionalData = $this->getExchangeData()->where('exchanges.ex_id', '=', $request->ex_id)->first();
+
+        // updateData에 추가 데이터 병합
+        $updateData->orp_count = $additionalData->orp_count;
+        $updateData->or_id = $additionalData->or_id;
+        $updateData->orpCre = $additionalData->orpCre;
+        $updateData->price = $additionalData->price;
 
         // 레스폰스 데이터 생성
         $responseData = [
@@ -184,16 +216,17 @@ class ExchangeController extends Controller
         // $ExchangeData = Exchange::select('exchanges.*')
         //                 ->where('exchanges.ex_id', $request->id)
         //                 ->first();
-        $ExchangeData = Exchange::withTrashed()
-                            ->select('exchanges.*'
-                                ,'orderproducts.orp_count'
-                                ,'orderproducts.or_id'
-                                ,DB::raw("DATE_FORMAT(orderproducts.created_at, '%Y-%m-%d') as orpCre")
-                                ,'products.price')
-                            ->join('orderproducts', 'orderproducts.orp_id', '=', 'exchanges.orp_id')
-                            ->join('products', 'products.id', '=', 'orderproducts.p_id')
-                            ->whereNotNull('ex_reason')
-                            ->first();
+        // $ExchangeData = Exchange::withTrashed()
+        //                     ->select('exchanges.*'
+        //                         ,'orderproducts.orp_count'
+        //                         ,'orderproducts.or_id'
+        //                         ,DB::raw("DATE_FORMAT(orderproducts.created_at, '%Y-%m-%d') as orpCre")
+        //                         ,'products.price')
+        //                     ->join('orderproducts', 'orderproducts.orp_id', '=', 'exchanges.orp_id')
+        //                     ->join('products', 'products.id', '=', 'orderproducts.p_id')
+        //                     ->whereNotNull('ex_reason')
+        //                     ->first();
+        $ExchangeData = $this->getExchangeData()->where('exchanges.ex_id', '=', $request->id)->first();
     
         $responseData = [
                 'code' => '0'
