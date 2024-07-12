@@ -44,6 +44,9 @@ Route::get('/{any}', function() {
 // ----------------------- 보원 시작 -------------------------
 // 장바구니 초기 데이터 불러오기
 Route::middleware('auth')->get('/api/bagsProduct', [BagController::class, 'bagsIndex']);
+// 장바구니 Sold out 처리
+Route::middleware('auth')->post('/api/bagsSoldOut', [BagController::class, 'bagsSoldOut']);
+
 // 장바구니 수량 감소한 데이터 저장
 Route::middleware('auth')->post('/api/bagsCountMinus/{ba_id}', [BagController::class, 'bagsCountMinus']);
 // 장바구니 수량 증가한 데이터 저장

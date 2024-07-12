@@ -26,7 +26,7 @@
             <div class="admin_exchange_list_flg">{{ exchange.ex_flg }}</div>
             <div class="admin_exchange_list_date">{{ exchange.created_at }}</div>
             <div class="admin_exchange_list_or_num">{{ exchange.or_id }}</div>
-            <div class="admin_exchange_list_or_amount">{{ exchange.orp_count * exchange.price }}</div>
+            <div class="admin_exchange_list_or_amount">{{ formatPrice(exchange.orp_count * exchange.price) }}</div>
             <div class="admin_exchange_list_or_date">{{ exchange.orpCre }}</div>
             <button type="button" v-if="exchange.ex_flg === '신청완료'" @click="takeOver(exchange.ex_id)" class="admin_btn">접수받기</button>
             <button type="button" v-if="exchange.ex_flg === '상품회수중'" @click="payCancel(exchange.ex_id)" class="admin_btn">결제취소</button>
@@ -124,6 +124,11 @@
 
     function exchangeDetail(id) {
         router.push('/admin/exchange/detail?id=' + id);
+    }
+
+    // 금액 천단위 포맷 (,000)
+    function formatPrice(price) {
+        return price.toLocaleString('ko-KR');
     }
 
 </script>

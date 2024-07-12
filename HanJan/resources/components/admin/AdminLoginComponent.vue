@@ -17,14 +17,15 @@ import { useStore } from 'vuex';
 const store = useStore();
 
 function adminLogin() {
-  store.dispatch('adminLogin');
+    store.dispatch('adminLogin');
+    // document.body.style.overflowY = 'scroll';
 }
 
 </script>
 
-<style>
-    body {
-        overflow: scroll;
-        height: 100%;
-    }
+<style scoped>
+    /* body {
+        overflow-y: scroll
+        ;
+    } */
 </style>

@@ -230,7 +230,7 @@ input {
 
 /* ---------------------- 로그인 ---------------------- */
 .admin_login_box {
-    height: 100vh;
+    height: 95vh;
     display: flex;
     align-items: center;
 }

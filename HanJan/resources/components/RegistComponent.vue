@@ -28,16 +28,19 @@
                     <label class="info_item_label" for="email">이메일</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg error">{{ emailError }}</p>
-                        <input v-if="$store.state.emailCode" class="input_width" type="email" name="email" id="email" @input="chkEmail" v-model="emailText">
+                        <p class="info_item_err_msg error">{{ codeError }}</p>
+                        <input v-if="$store.state.emailVerify" class="input_width" type="email" name="email" id="email" @input="chkEmail" v-model="emailText">
                         <input v-else class="input_width" type="email" name="email" id="email" readonly @input="chkEmail" v-model="emailText">
                     </div>
                     <div class="verify">
+                        <p class="info_item_err_msg error">{{ emailError }}</p>
+                        <p class="info_item_err_msg error">{{ codeError }}</p>
                         <button v-if="$store.state.emailVerify" type="button" class="info_item_btn form_btn email_chk_btn verifyButton" @click="emailChk">이메일 검증</button>
 
                         <form v-else class="verifyCode" id="verifyCode">
                             <div v-if="$store.state.emailCode">
                                 <input type="text" name="verifyCode" class="verifyinput" placeholder="검증 코드를 입려해 주세요.">
-                                <button type="button" class="info_item_btn form_btn email_chk_btn" @click="$store.dispatch('codeChk')" >코드 확인</button>
+                                <button type="button" class="info_item_btn form_btn email_chk_btn" @click="$store.dispatch('codeChk')">코드 확인</button>
                             </div>
                             <div v-else>
                                 <button type="button" class="form_btn email_chk_btn">검증 완료</button>
@@ -102,7 +105,7 @@
                 <br>
                 <div class="buttons twobuttons">
                     <button type="button" class="info_item_btn form_btn" @click="$router.push('/')">취소</button>
-                    <button type="submit" class="info_item_btn form_btn" :disabled="!$store.state.kakaoInfo || $store.state.emailCode">확인</button>
+                    <button type="submit" class="info_item_btn form_btn">확인</button>
                 </div>
                 <transition name="down">
                     <div class="agree_box modal_second_overlay" v-show="showSubmitModal">
@@ -115,11 +118,22 @@
                         </div>
                     </div>
                 </transition>
-                <transition name="down_complete">
+                <transition name="down">
                     <div class="agree_box modal_second_overlay" v-show="showCompleteModal">
                         <div class="modal_second_window">
                             <div class="second_content">
                                 <p>회원가입 완료!</p>
+                            </div>
+                        </div>
+                    </div>
+                </transition>
+                <transition name="down">
+                    <div class="agree_box modal_second_overlay" v-show="showEmailChkModal">
+                        <div class="modal_second_window">
+                            <div class="second_content">
+                                <p>이메일을 입력해주세요.</p>
+                                <br>
+                                <img @click="closeEmailChkModal" src="/img/complete.png" class="complete_btn">
                             </div>
                         </div>
                     </div>
@@ -146,6 +160,7 @@ const birth = ref('');
 const name = ref('');
 
 const emailError = ref('');
+const codeError = ref('');
 const passwordError = ref('');
 const passwordChkError = ref('');
 const nameError = ref('');
@@ -160,6 +175,14 @@ function chkEmail() {
     emailError.value = '이메일 주소가 형식에 맞지 않습니다.';
   } else {
     emailError.value = '';
+  }
+}
+
+function chkCode() {
+  if (!store.state.emailCode) {
+    codeError.value = '이메일 검증을 완료해 주세요.';
+  } else {
+    codeError.value = '';
   }
 }
 
@@ -228,16 +251,14 @@ function chkBirth() {
 function validateForm() {
     let valid = true;
 
-    if (!$store.state.kakaoInfo || $store.state.emailCode) {
-        // 이메일 검증을 하지 않았거나 카카오 로그인 상태가 아니면 폼 검증을 중지합니다.
-        showSubmitModal.value = true;
-        return;
-    }
-
-    // if (!store.state.kakaoInfo && !store.state.emailCode) {
+    if (!store.state.kakaoInfo) {
         chkEmail();
-        if (emailError.value) valid = false;
-    // }
+        if (emailError.value) valid = false; 
+             
+        chkCode();
+        if (codeError.value) valid = false;
+    }
+    
 
     chkPassword();
     if (passwordError.value) valid = false;
@@ -267,9 +288,14 @@ function validateForm() {
 
 const showSubmitModal = ref(false);
 const showCompleteModal = ref(false);
+const showEmailChkModal = ref(false);
 
 function closeSubmitModal() {
     showSubmitModal.value = false;
+}
+
+function closeEmailChkModal() {
+    showEmailChkModal.value = false;
 }
 
 
@@ -282,7 +308,7 @@ const emailChk = async () => {
         return; // 여러 번 클릭 방지
     }
     if (!emailText.value) {
-        alert('이메일을 입력해 주세요.');
+        showEmailChkModal.value = true;
         return;
     }
     

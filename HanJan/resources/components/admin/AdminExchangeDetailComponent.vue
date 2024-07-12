@@ -18,9 +18,12 @@
             <div class="admin_ex_list_flg">{{ $store.state.adminExchageDetail.ex_flg }}</div>
             <div class="ex_detail_title">신청일</div>
             <div class="admin_ex_list_date">{{ $store.state.adminExchageDetail.created_at }}</div>
-            <!-- <div class="admin_ex_list_or_num">{{ $store.state.adminExchageDetail.or_id }}</div>
-            <div class="admin_ex_list_or_amount">{{ ex.or_sum }}</div>
-            <div class="admin_ex_list_or_date">{{ ex.or_created_at }}</div> -->
+            <div class="ex_detail_title">주문 번호</div>
+            <div class="admin_ex_list_or_num">{{ $store.state.adminExchageDetail.or_id }}</div>
+            <div class="ex_detail_title">주문 금액</div>
+            <div class="admin_ex_list_or_amount">{{ formatPrice($store.state.adminExchageDetail.orp_count * $store.state.adminExchageDetail.price) }}</div>
+            <div class="ex_detail_title">주문일</div>
+            <div class="admin_ex_list_or_date">{{ $store.state.adminExchageDetail.orpCre }}</div>
         </div>
             
         <div class="admin_hr"></div>
@@ -31,7 +34,10 @@
 </template>
 
 <script setup>
-
+    // 금액 천단위 포맷 (,000)
+    function formatPrice(price) {
+            return price.toLocaleString('ko-KR');
+    }
 </script>
 
 <style>

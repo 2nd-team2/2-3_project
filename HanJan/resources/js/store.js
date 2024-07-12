@@ -429,8 +429,42 @@ const store = createStore({
 
             axios.get(url)
             .then(response => {
+                console.log('장바구니 초기 데이터', response.data.data);
+                const productItems = response.data.data;
+                const productItemsSave = [...productItems];
+
+                productItems.forEach((Item, key) => {
+                    console.log('if 밖 복사 ba_count',productItemsSave[key].ba_count);
+                    if (Item.ba_count > Item.count) {
+                        const url = '/api/bagsSoldOut';
+    
+                        axios.post(url, Item)
+                        .then(response => {
+                            if (response.data.data.ba_id === productItemsSave[key].ba_id) {
+                                productItemsSave[key].ba_count = response.data.data.ba_count
+                            }
+
+                            console.log('1레스폰스 ',response.data);
+                            console.log('2레스폰스 count',response.data.data.ba_count);
+                            console.log('3레스폰스 ID',response.data.data.ba_id);
+
+                            console.log('4복사',productItemsSave);
+                            console.log('5복사 ba_count',productItemsSave[key].ba_count);
+                            console.log('6복사 ID',productItemsSave[key].ba_id);
+                            
+                            alert('[ ' + Item.name + ' ]\n' + '재고 수량을 초과하였습니다. 남은 재고 수량까지만 담깁니다.\n남은 재고수량 : [ ' + response.data.data.ba_count +' ]')
+                        })
+                        .catch(error => {
+                            alert('장바구니 상품 획득에 실패했습니다.(' + error.response.data.code + ')' )
+                        });
+                    }
+
+                })
+
+
+
                 // 데이터베이스->서버를 통해 받은 데이터를 bagsProductData에 저장
-                context.commit('bagsSetProductData', response.data.data);
+                context.commit('bagsSetProductData', productItemsSave);
             })
             .catch(error => {
                 alert('장바구니 상품 획득에 실패했습니다.(' + error.response.data.code + ')' )
@@ -500,17 +534,15 @@ const store = createStore({
         bagsDelete(context, ba_id) {
             const url = '/api/bagsDelete/' + ba_id;
 
-            if (confirm('확인을 누르면 장바구니에서 삭제됩니다.')) {
-                axios.delete(url)
-                .then(response => {
-                    console.log(response.data); // TODO : 삭제
-                    store.dispatch('bagsGetProductData');
-                })
-                .catch(error => {
-                    alert('장바구니 삭제에 실패했습니다.(' + error.response.data.code + ')' )
-                });
+            axios.delete(url)
+            .then(response => {
+                console.log(response.data); // TODO : 삭제
+                store.dispatch('bagsGetProductData');
+            })
+            .catch(error => {
+                alert('장바구니 삭제에 실패했습니다.(' + error.response.data.code + ')' )
+            });
 
-            }
 
         },
 
@@ -713,16 +745,14 @@ const store = createStore({
         reviewDelete(context, re_id) {
             const url = '/api/reviewDelete/' + re_id;
             
-            if (confirm('확인을 누르면 작성한 리뷰가 삭제됩니다. \n리뷰 삭제 시 다시 작성할 수 없습니다.')) {
-                axios.delete(url)
-                .then(responseData => {
-                    context.dispatch('reviewGet', lastItemPaginate(context.state.reviewData));
-                })
-                .catch(error => {
-                    alert('리뷰 삭제에 실패했습니다.(' + error.response.data.code + ')' )
-                });
+            axios.delete(url)
+            .then(responseData => {
+                context.dispatch('reviewGet', lastItemPaginate(context.state.reviewData));
+            })
+            .catch(error => {
+                alert('리뷰 삭제에 실패했습니다.(' + error.response.data.code + ')' )
+            });
 
-            }
         },
 
         /**
@@ -741,8 +771,6 @@ const store = createStore({
 
                 //context.commit('reviewToUpdate', response.data.data);
                 // localStorage.setItem('reviewToUpdate', JSON.stringify(response.data.data));
-
-                alert('리뷰 작성을 완료하였습니다.');
 
                 router.replace('/review');
             })
@@ -774,9 +802,7 @@ const store = createStore({
                 context.commit('reviewToUpdate', response.data.data);
                 localStorage.setItem('reviewToUpdate', JSON.stringify(response.data.data));
 
-                if(confirm('리뷰 수정을 완료하였습니다. \n확인을 누르면 리뷰 관리로 돌아갑니다.')){
-                    router.replace('/review');
-                }
+                router.replace('/review');
             })
             .catch(error => {
                 alert('리뷰 수정에 실패하였습니다.(' + error.response.data.code + ')' )
@@ -812,23 +838,20 @@ const store = createStore({
             const url = '/api/exchage';
             const data = new FormData(document.querySelector('#exchage'));
 
-            if (confirm('확인을 누르면 교환 및 반품 신청이 완료 됩니다.')) {
-                axios.post(url, data)
-                .then(response => {
-                    console.log(response.data); // TODO 
-                    alert('교환 및 반품이 완료 되었습니다.')
-                    router.push('/info');
-                })
-                .catch(error => {
-                    console.log(error.response); // TODO
+            axios.post(url, data)
+            .then(response => {
+                console.log(response.data); // TODO 
+                router.push('/info');
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
 
-                    if (error.response.data.code === 'E01') {
-                        alert('교환 및 반품 사유, 회수 정보를 확인해주세요.');
-                    } else {
-                        alert('교환 및 반품에 실패했습니다.(' + error.response.data.code + ')');
-                    }
-                });
-            }
+                if (error.response.data.code === 'E01') {
+                    alert('교환 및 반품 사유, 회수 정보를 확인해주세요.');
+                } else {
+                    alert('교환 및 반품에 실패했습니다.(' + error.response.data.code + ')');
+                }
+            });
             
             
         },
@@ -910,6 +933,7 @@ const store = createStore({
                     context.commit('setEmailCode', false); // >> 회원가입이 완료되면 true로 바꾸기
                 } else {
                     console.log('코드 인증 실패');
+                    alert('검증 코드를 다시 한번 확인해 주세요.')
                 }
             })
             .catch(error => {
@@ -2177,6 +2201,7 @@ const store = createStore({
 
             axios.post(url)
             .then(response => {
+                console.log('가져온데이터 : ' , response.data.data)
                 const copyAdminExchangeData = {...context.state.adminExchangeData};
                 copyAdminExchangeData.data.forEach( (item, key) => {
                     if(item.ex_id == response.data.data.ex_id) {
@@ -2184,6 +2209,7 @@ const store = createStore({
                     }
                 });
                 context.commit('setAdminExchangesData', copyAdminExchangeData);
+                console.log('넣은 데이터 : ' , copyAdminExchangeData)
             })
             .catch(error => {
                 console.log(error.response);
