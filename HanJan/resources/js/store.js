@@ -452,7 +452,7 @@ const store = createStore({
                             console.log('5복사 ba_count',productItemsSave[key].ba_count);
                             console.log('6복사 ID',productItemsSave[key].ba_id);
                             
-                            alert('[ ' + Item.name + ' ]\n' + '남은 수량보다 장바구니 수량이 더 많아서 \n남은 수량까지만 장바구니에 담깁니다.')
+                            alert('[ ' + Item.name + ' ]\n' + '재고 수량을 초과하였습니다. 남은 재고 수량까지만 담깁니다.\n남은 재고수량 : [ ' + response.data.data.ba_count +' ]')
                         })
                         .catch(error => {
                             alert('장바구니 상품 획득에 실패했습니다.(' + error.response.data.code + ')' )
