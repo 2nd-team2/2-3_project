@@ -1239,11 +1239,16 @@ const store = createStore({
             axios.post(url, data)
             .then(response => {
                 // console.log('수량데이터', response.data);
-                // 데이터베이스->서버를 통해 받은 데이터를 CountData 저장
-                constext.commit('detailedCountData', response.data.data);
-                if(confirm('확인을 클릭시 장바구니로 이동 됩니다. \n장바구니에 담은 총수량 : [ '+ response.data.data.ba_count +' ] 개')) {
-                    // const router = useRouter();
-                    router.push('/bag');
+                if(response.data.code === '0') {
+                    // 데이터베이스->서버를 통해 받은 데이터를 CountData 저장
+                    constext.commit('detailedCountData', response.data.data);
+                    if(confirm('확인을 클릭시 장바구니로 이동 됩니다. \n장바구니에 담은 총수량 : [ '+ response.data.data.ba_count +' ] 개')) {
+                        // const router = useRouter();
+                        router.push('/bag');
+                    }
+                } else {
+                    // alert('재고 수량을 초과하여 장바구니에 추가하지 못했습니다.\n남은 재고수량: [ '+ response.data.count +' ] 개');
+                    alert('재고 수량을 초과하여 장바구니에 추가하지 못했습니다.\n남은 재고수량: [ '+ response.data.count +' ] 개 \n현재 장바구니에 담을 수 있는 수량 : [ '+ (response.data.count-response.data.ba_count) +' ] 개');
                 }
             })
             .catch(error => {

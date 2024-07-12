@@ -114,10 +114,11 @@ class ProductController extends Controller
                                 ->whereNull('reviews.deleted_at')
                                 ->groupBy('orderproducts.p_id');
 
-        $productData = Product::select('products.*', 'avg_rev.total_star', 'avg_rev.star_avg')
+        $productData = Product::select('products.*', 'avg_rev.total_star', 'avg_rev.star_avg', 'bags.ba_count')
                             ->leftJoinSub($subQuery, 'avg_rev', function($query) {
                                 $query->on('avg_rev.p_id', '=', 'products.id');
                             })
+                            ->join('bags', 'bags.p_id', '=', 'products.id')
                             ->where('products.id', $id)
                             ->first();
 
@@ -306,29 +307,51 @@ class ProductController extends Controller
         // 유저 ID 가져오기
         $userId = Auth::id();
         // 동일한 p_id와 u_id를 가진 항목이 이미 존재하는지 확인
-        $existingItem = Bag::where('p_id', $request->p_id) 
+        $existingItem = Bag::where('p_id', $request->p_id)
                             ->where('u_id', $userId) 
                             ->first();
 
-        if ($existingItem) { 
-            // 기존 항목이 있으면 수량 업데이트
-            $existingItem->ba_count += $request->ba_count; 
-            $existingItem->save(); 
-            $bagItem = $existingItem;
-        } else { 
-            // 데이터 생성
-            $createData = $request->only('p_id', 'ba_count'); 
-            $createData['u_id'] = $userId; 
-            // 작성 처리
-            $bagItem = Bag::create($createData);
-        }
+        // 수량 재고값
+        $productInfo = Product::select('products.count')
+                            ->where('products.id', '=', $request->p_id)
+                            ->first();
 
-        // 레스폰스 데이터 생성
-        $responseData = [
-            'code' => '0'
-            ,'msg' => '장바구니 추가 완료'
-            ,'data' => $bagItem
-        ];
+        // 기존값에서 수량 체크
+        // $existingItem null = 0  null이 아니면 $existingItem->ba_count 변수에 담을것이다
+        $existingItemCount =  is_null($existingItem) ? 0 : $existingItem->ba_count;
+
+        $responseData = [];
+        if ($productInfo->count < $existingItemCount + $request->ba_count) {
+            
+            // 수량 초과시 레스폰스 데이터 생성
+            $responseData = [
+                'code' => '1'
+                ,'msg' => '수량 초과'
+                ,'count' => $productInfo->count
+                ,'ba_count' => $request->ba_count
+            ];
+        } else {
+            if ($existingItem) { 
+                // 기존 항목이 있으면 수량 업데이트
+                $existingItem->ba_count += $request->ba_count; 
+                $existingItem->save(); 
+                $bagItem = $existingItem;
+            } else { 
+                // 데이터 생성
+                $createData = $request->only('p_id', 'ba_count'); 
+                $createData['u_id'] = $userId; 
+                // 작성 처리
+                $bagItem = Bag::create($createData);
+            }
+
+            // 정상 처리 레스폰스 데이터 생성
+            $responseData = [
+                'code' => '0'
+                ,'msg' => '장바구니 추가 완료'
+                ,'data' => $bagItem
+            ];
+        }
+        
 
         return response()->json($responseData, 200);
     }
