@@ -10,7 +10,6 @@
                         <img src="/img/kakao_share.png" @click="shareMessage()">
                     </div>
                 </div>
-                <div>{{ store.state.productDetail }}</div>
                 <p>판매가격 :</p>
                 <p class="detailed_haeder_price">{{ formatPrice(store.state.productDetail.price) }}원</p>
                 <div class="detailed_haeder_review">
@@ -52,6 +51,9 @@
     <div class="detailed_content">
         <img :src="$store.state.productDetail.info">
     </div>
+
+    <!-- 상품정보 -->
+    <div></div>
 
     <!-- 양조장 이야기 -->
     <router-link to="/story">
