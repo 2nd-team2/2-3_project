@@ -13,6 +13,8 @@
                 계속 쇼핑하기
             </router-link>
         </div>
+
+        <div> {{ $store.state.bagsProductData }}</div>
         
         <form id="bagsProductData">
             <div class="bag_box">

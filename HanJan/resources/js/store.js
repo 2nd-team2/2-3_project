@@ -429,8 +429,42 @@ const store = createStore({
 
             axios.get(url)
             .then(response => {
+                console.log('장바구니 초기 데이터', response.data.data);
+                const productItems = response.data.data;
+                const productItemsSave = [...productItems];
+
+                productItems.forEach((Item, key) => {
+                    console.log('if 밖 복사 ba_count',productItemsSave[key].ba_count);
+                    if (Item.ba_count > Item.count) {
+                        const url = '/api/bagsSoldOut';
+    
+                        axios.post(url, Item)
+                        .then(response => {
+                            if (response.data.data.ba_id === productItemsSave[key].ba_id) {
+                                productItemsSave[key].ba_count = response.data.data.ba_count
+                            }
+
+                            console.log('1레스폰스 ',response.data);
+                            console.log('2레스폰스 count',response.data.data.ba_count);
+                            console.log('3레스폰스 ID',response.data.data.ba_id);
+
+                            console.log('4복사',productItemsSave);
+                            console.log('5복사 ba_count',productItemsSave[key].ba_count);
+                            console.log('6복사 ID',productItemsSave[key].ba_id);
+                            
+                            alert('[ ' + Item.name + ' ]\n' + '남은 수량보다 장바구니 수량이 더 많아서 \n남은 수량까지만 장바구니에 담깁니다.')
+                        })
+                        .catch(error => {
+                            alert('장바구니 상품 획득에 실패했습니다.(' + error.response.data.code + ')' )
+                        });
+                    }
+
+                })
+
+
+
                 // 데이터베이스->서버를 통해 받은 데이터를 bagsProductData에 저장
-                context.commit('bagsSetProductData', response.data.data);
+                context.commit('bagsSetProductData', productItemsSave);
             })
             .catch(error => {
                 alert('장바구니 상품 획득에 실패했습니다.(' + error.response.data.code + ')' )

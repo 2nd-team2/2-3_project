@@ -28,6 +28,7 @@
                     <label class="info_item_label" for="email">이메일</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg error">{{ emailError }}</p>
+                        <p class="info_item_err_msg error">{{ codeError }}</p>
                         <input v-if="$store.state.emailVerify" class="input_width" type="email" name="email" id="email" @input="chkEmail" v-model="emailText">
                         <input v-else class="input_width" type="email" name="email" id="email" readonly @input="chkEmail" v-model="emailText">
                     </div>
@@ -147,8 +148,8 @@ const postcode = ref('');
 const birth = ref('');
 const name = ref('');
 
-const emailError = ref('1111111111111');
-const codeError = ref('1111111');
+const emailError = ref('');
+const codeError = ref('');
 const passwordError = ref('');
 const passwordChkError = ref('');
 const nameError = ref('');

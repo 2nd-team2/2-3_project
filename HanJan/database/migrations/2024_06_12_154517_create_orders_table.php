@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('or_get_addr', 100)->comment('받는사람 주소');
             $table->string('or_get_det_addr', 100)->comment('받는사람 상세 주소');
             $table->integer('or_get_post')->comment('받는사람 우편번호');
-            $table->bigInteger('or_sum')->comment('주문 합계');
+            $table->bigInteger('or_sum')->unsigned()->comment('주문 합계');
             // $table->timestamp('created_at')->useCurrent();
             $table->timestamps();
             $table->softDeletes(); 
