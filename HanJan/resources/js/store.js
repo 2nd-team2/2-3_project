@@ -1576,7 +1576,7 @@ const store = createStore({
                         ,withdraw_users: arr_new_users.length > 0 ? arr_new_users[0].withdraw_users : 0
                     });
                 }
-                console.log('가공후:', tatisticsData)
+                // console.log('가공후:', tatisticsData)
                 context.commit('setUserTatisticsData', tatisticsData);
                 return response;
             } catch (error) {
@@ -1659,7 +1659,7 @@ const store = createStore({
                 }
         
                 const now = new Date();
-                console.log('가공전:', response.data.data)
+                // console.log('가공전:', response.data.data)
                 let totalSalesData = {daily : [], weekly : [], month : [], year : []};
                 // 일
                 const daysInMonth = getDaysInMonth(now.getFullYear(), now.getMonth());
@@ -1706,7 +1706,7 @@ const store = createStore({
                         ,yearly_sales: arr_year_sales.length > 0 ? arr_year_sales[0].yearly_sales : 0
                     });
                 }
-                    console.log('가공후:', totalSalesData)
+                    // console.log('가공후:', totalSalesData)
                     context.commit('setSalesStatisticsData', totalSalesData);
                     return response;
                 } catch (error) {

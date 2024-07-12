@@ -2,10 +2,10 @@
     <div class="admin">
         <h2 class="admin_title">교환 및 반품 관리</h2>
         <div class="admin_exchange_list_container">
-            <div class="admin_exchange_list_name admin_weight">신청인</div>
-            <div class="admin_exchange_list_tell admin_weight">신청인 번호</div>
-            <div class="admin_exchange_list_adds admin_weight">신청인 주소</div>
-            <div class="admin_exchange_list_post admin_weight">신청인 우편번호</div>
+            <div class="admin_exchange_list_name admin_weight">회원</div>
+            <div class="admin_exchange_list_tell admin_weight">회원 전화번호</div>
+            <div class="admin_exchange_list_adds admin_weight">회원 주소</div>
+            <div class="admin_exchange_list_post admin_weight">회원 우편번호</div>
             <div class="admin_exchange_list_reason admin_weight">사유</div>
             <div class="admin_exchange_list_reason_etc admin_weight">상세사유</div>
             <div class="admin_exchange_list_flg admin_weight">진행상황</div>
@@ -29,7 +29,7 @@
             <div class="admin_exchange_list_or_amount">{{ formatPrice(exchange.orp_count * exchange.price) }}</div>
             <div class="admin_exchange_list_or_date">{{ exchange.orpCre }}</div>
             <button type="button" v-if="exchange.ex_flg === '신청완료'" @click="takeOver(exchange.ex_id)" class="admin_btn">접수받기</button>
-            <button type="button" v-if="exchange.ex_flg === '상품회수중'" @click="payCancel(exchange.ex_id)" class="admin_btn">결제취소</button>
+            <button type="button" v-if="exchange.ex_flg === '상품처리중'" @click="payCancel(exchange.ex_id)" class="admin_btn">결제취소</button>
             <button type="button" @click="exchangeDetail(exchange.ex_id)" class="admin_btn admin_detail">상세보기</button>
         </div>
 
