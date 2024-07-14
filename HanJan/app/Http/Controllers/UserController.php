@@ -150,7 +150,7 @@ class UserController extends Controller
             }
 
 
-            // 이메일 검증 중복 체크 (예: 5분 이내에 전송된 경우)
+            // 이메일 검증 중복 발송체크 (예: 5분 이내에 전송된 경우)
             $verificationToken = VerificationToken::where('email', $email)->first();
             
             // if ($verificationToken && $verificationToken->updated_at->gt(Carbon::now()->subMinutes(5))) {

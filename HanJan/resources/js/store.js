@@ -431,40 +431,31 @@ const store = createStore({
             .then(response => {
                 console.log('장바구니 초기 데이터', response.data.data);
                 const productItems = response.data.data;
-                const productItemsSave = [...productItems];
 
                 productItems.forEach((Item, key) => {
-                    console.log('if 밖 복사 ba_count',productItemsSave[key].ba_count);
+                    // 재고 수량보다 장바구니 수량이 더 많을 경우 soldOut 처리
                     if (Item.ba_count > Item.count) {
                         const url = '/api/bagsSoldOut';
     
                         axios.post(url, Item)
                         .then(response => {
-                            if (response.data.data.ba_id === productItemsSave[key].ba_id) {
-                                productItemsSave[key].ba_count = response.data.data.ba_count
+                            if (response.data.data.ba_id === productItems[key].ba_id) {
+                                productItems[key].ba_count = response.data.data.ba_count
                             }
-
-                            console.log('1레스폰스 ',response.data);
-                            console.log('2레스폰스 count',response.data.data.ba_count);
-                            console.log('3레스폰스 ID',response.data.data.ba_id);
-
-                            console.log('4복사',productItemsSave);
-                            console.log('5복사 ba_count',productItemsSave[key].ba_count);
-                            console.log('6복사 ID',productItemsSave[key].ba_id);
-                            
                             alert('[ ' + Item.name + ' ]\n' + '재고 수량을 초과하였습니다. 남은 재고 수량까지만 담깁니다.\n남은 재고수량 : [ ' + response.data.data.ba_count +' ]')
                         })
                         .catch(error => {
                             alert('장바구니 상품 획득에 실패했습니다.(' + error.response.data.code + ')' )
                         });
                     }
-
                 })
-
-
-
-                // 데이터베이스->서버를 통해 받은 데이터를 bagsProductData에 저장
-                context.commit('bagsSetProductData', productItemsSave);
+                // 재고 확인 후 다시 초기 데이터 획득
+                const url = '/api/bagsProduct';
+                axios.get(url)
+                .then(response => {
+                    // 데이터베이스->서버를 통해 받은 데이터를 bagsProductData에 저장
+                    context.commit('bagsSetProductData', response.data.data);
+                });
             })
             .catch(error => {
                 alert('장바구니 상품 획득에 실패했습니다.(' + error.response.data.code + ')' )
@@ -909,7 +900,12 @@ const store = createStore({
                     console.log('인증 메일을 성공적으로 보냈습니다.');
                     context.commit('setEmail', emailText);  // >> 회원가입이 완료되면 null 값으로 바꾸기
                     context.commit('setEmailVerify', false); // >> 회원가입이 완료되면 true로 바꾸기
-                }
+
+                    // 5분 후에 emailVerify를 true로 변경
+                    setTimeout(() => {
+                        store.commit('setEmailVerify', true);
+                        }, 300000); // 300000ms = 5분
+                    }
             })
             .catch(error => {
                 if (error.response && error.response.status === 429) {
