@@ -2277,8 +2277,8 @@ const store = createStore({
             const url = '/api/admin/exchange/detail?id=' + id;
             axios.get(url)
             .then(response => {
-                console.log('데이터1: ',response.data)
-                console.log('데이터2: ',response.data.data)
+                // console.log('데이터1: ',response.data)
+                // console.log('데이터2: ',response.data.data)
                 context.commit('setAdminExchangeDetailData', response.data.data);
             })
             .catch(error => {
