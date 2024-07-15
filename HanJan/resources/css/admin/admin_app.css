@@ -362,7 +362,8 @@ input {
 .admin_user_info7,
 .admin_user_info9,
 .admin_user_info11,
-.admin_user_info13 {
+.admin_user_info13,
+.admin_user_info14 {
     grid-column: 2 / 3;
 }
  
@@ -398,6 +399,10 @@ input {
 
 .admin_user_date {
     width: 200px;
+}
+
+.admin_user_info14 {
+    width: 120px;
 }
 
 /* ---------------------- 상품 ---------------------- */

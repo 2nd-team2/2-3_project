@@ -92,7 +92,6 @@ const routes = [
             // 숫자인지 검증
             const validId = /^\d+$/; 
             // const IdValue = parseInt(to.query.id, 10);
-        
             if(
                 validId.test(to.query.id)
                 // IdValue >= 1 &&

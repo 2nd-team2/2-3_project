@@ -1145,7 +1145,6 @@ const store = createStore({
          */
         setProductDetailData(context, id) {
             const url = '/api/detailed/' + id;
-            // console.log(url);
             axios.get(url)
             .then(response => {
                 if(!response.data.data) {
@@ -1817,9 +1816,31 @@ const store = createStore({
                 }
             })
             .catch(error => {
-                alert('공지사항 수정에 실패하였습니다.(' + error.response.data.code + ')' )
+                alert('회원 수정에 실패하였습니다.(' + error.response.data.code + ')' )
             });
         }, 
+
+        // 이메일 중복체크
+        adminChkEmailOn(context, emailText) {
+            if (!emailText) {
+                alert('이메일을 입력해 주세요.');
+                return;
+            }
+            const url = '/api/admin/user/update/' + emailText;
+            axios.get(url)
+            .then(responseData => {
+                if (responseData.data.code === '2') {
+                    alert('이미 사용 중인 이메일입니다.');
+                } else if(responseData.data.code === '1') {
+                    alert('유효하지 않은 이메일입니다. ');
+                } else {
+                    alert('사용 가능한 이메일입니다.');
+                }
+            })
+            .catch(error => {
+                error.value = '이메일 중복 확인 중 오류가 발생했습니다.';
+            });
+        },
 
         /**
          * 관리자 페이지 상품 전체 획득
