@@ -178,6 +178,28 @@ class UserController extends Controller
         
         }
 
+        // 일정 시간 이후 코드 재생성
+        public function refreshCode(Request $request) {
+            // 유저가 작성한 이메일 정보 획득
+            $email = $request->input('email');
+
+            // 임시 코드 재생성 및 저장
+            $token = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+            
+            VerificationToken::updateOrCreate(
+                ['email' => $email],
+                ['token' => $token]
+            );
+
+            $responseData = [
+                'code' => '0',
+                'msg' => '토큰 재생성 성공',
+                'data' => $token
+            ];
+
+            return response()->json($responseData);
+        }
+
         // 이메일 검증 코드 확인
         public function codeChk(Request $request) {
             

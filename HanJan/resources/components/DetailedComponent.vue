@@ -1,5 +1,6 @@
 <template>
     <main>
+        <div>{{ $store.state.productDetail }}</div>
         <div class="detailed_haeder">
             <img :src="store.state.productDetail.img">
             <div class="detailed_haeder_item">
@@ -37,8 +38,8 @@
                             <input type="hidden" name="buy_type" value="buy">
                             <input type="hidden" name="products_name" :value="$store.state.productDetail.name">
                             <!-- p_id & conut-->
-                            <!-- <button @click="$store.dispatch('detailedToCount')" type="button" @mouseover="openIconBag" @mouseleave="closeIconBag"  class="detailed_haeder_bag_a"> -->
-                            <button @click="enterToBag" type="button" @mouseover="openIconBag" @mouseleave="closeIconBag"  class="detailed_haeder_bag_a">
+                            <button @click="$store.dispatch('detailedToCount')" type="button" @mouseover="openIconBag" @mouseleave="closeIconBag"  class="detailed_haeder_bag_a">
+                            <!-- <button @click="enterToBag" type="button" @mouseover="openIconBag" @mouseleave="closeIconBag"  class="detailed_haeder_bag_a"> -->
                                 <img src="/img/bag.png" class="detailed_haeder_bag_w" id="b_detailed">
                                 <img src="/img/bag_b.png" class="detailed_haeder_bag_b" id="bk_detailed">
                                 <div class="detailed_haeder_bag">장바구니</div>
@@ -91,7 +92,7 @@
         </div>
         <p class="detailed_footer_content">{{ item.re_content }}</p>
     </div>
-    <transition name="down">
+    <!-- <transition name="down">
         <div class="agree_box modal_second_overlay" v-show="showEnterBagModal">
             <div class="modal_second_window">
                 <div class="second_content">
@@ -104,7 +105,7 @@
                 </div>
             </div>
         </div>
-    </transition>
+    </transition> -->
 </main>
 
 <!-- move top -->
@@ -120,18 +121,18 @@
     const count = ref(1);
     const showEnterBagModal = ref(false);
 
-    function enterToBag() {
-        showEnterBagModal.value = true;
-    }
+    // function enterToBag() {
+    //     showEnterBagModal.value = true;
+    // }
 
-    function closeModal() {
-        showEnterBagModal.value = false;
-    }
+    // function closeModal() {
+    //     showEnterBagModal.value = false;
+    // }
 
-    function completeModal() {
-        store.dispatch('detailedToCount')
-        showEnterBagModal.value = false;
-    }
+    // function completeModal() {
+    //     store.dispatch('detailedToCount')
+    //     showEnterBagModal.value = false;
+    // }
 
     function shareMessage() {
         // 현재 링크 가져오기
