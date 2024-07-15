@@ -725,7 +725,7 @@ footer {
         display: grid;
         grid-template-rows: 0.1fr 1fr 1fr;
         margin: 0 auto;
-        gap: 60px;
+        gap: 80px;
     }
 
     .weather_alcohol_title {
