@@ -114,20 +114,25 @@ class ProductController extends Controller
                                 ->whereNull('reviews.deleted_at')
                                 ->groupBy('orderproducts.p_id');
 
-        $productData = Product::select('products.*', 'avg_rev.total_star', 'avg_rev.star_avg', 'bags.ba_count')
+        $productData = Product::select(
+                                'products.*'
+                                , 'avg_rev.total_star'
+                                , 'avg_rev.star_avg'
+                                // , 'bags.ba_count' // del 240715 유호경 삭제
+                            )
                             ->leftJoinSub($subQuery, 'avg_rev', function($query) {
                                 $query->on('avg_rev.p_id', '=', 'products.id');
                             })
-                            ->join('bags', 'bags.p_id', '=', 'products.id')
+                            // ->join('bags', 'bags.p_id', '=', 'products.id') // del 240715 유호경 삭제
                             ->where('products.id', $id)
                             ->first();
-
         $responseData = [
-                'code' => '0'
-                ,'msg' => '초기 상품값 획득 완료'
-                ,'data' => $productData
+            'code' => '0'
+            ,'msg' => '초기 상품값 획득 완료'
+            ,'data' => $productData
         ];
         
+        Log::debug('test', $responseData);
         return response()->json($responseData, 200);
     }
 
