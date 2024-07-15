@@ -16,11 +16,10 @@ main {
     min-height: 40vh;
 }
 
-.dark-mode div {
+.dark-mode h2 {
     color: white;
 }
-
-.dark-mode h2 {
+.dark-mode main {
     color: white;
 }
 

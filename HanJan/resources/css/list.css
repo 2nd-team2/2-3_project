@@ -10,6 +10,10 @@ hr {
     border-color: #5c5c5c;
 }
 
+.dark-mode h3 {
+    color: white;
+}
+
 .dark-mode p {
     color: white;
 }

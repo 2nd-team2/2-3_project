@@ -231,4 +231,16 @@
 </script>
 
 <style>
+.dark-mode h1 {
+  color: white;
+}
+.dark-mode p {
+  color: white;
+}
+.dark-mode .weather_alcohol_type {
+  color: white;
+}
+.dark-mode .goods_title {
+  color: white;
+}
 </style>

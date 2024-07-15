@@ -9,45 +9,20 @@ main {
     border-style: none;
 }
 
-.detailed_haeder_bag_a:hover .detailed_haeder_bag {
+.dark-mode .detailed_haeder_bag_a:hover .detailed_haeder_bag {
     color: rgb(0, 0, 0);
-}
-
-.dark-mode .detailed_haeder_bag_a:hover #b_detailed {
-    display: none;
-}
-
-.dark-mode  .detailed_haeder_bag_a:hover #bk_detailed {
-    display: block;
 }
 
 .dark-mode hr {
     border-color: #5c5c5c;
 }
 
-.dark-mode .detailed_haeder_bay {
-    color: white;
-}
-
-.dark-mode .detailed_haeder_bay:hover {
-    color: rgb(255, 255, 255);
-}
-
 .dark-mode h1 {
     color: white;
 }
 
-.dark-mode .detailed_haeder_bag_a {
-    background-color: rgb(255, 255, 255);
-}
-
-.dark-mode .detailed_haeder_bay {
-    color: #000;
-    background-color: rgb(255, 255, 255);
-}
-
-.dark-mode .detailed_haeder_bag {
-    color: black;
+.dark-mode div {
+    color: white;
 }
 
 .kakao_img {
@@ -66,6 +41,7 @@ main {
     cursor: pointer;
     margin: 20px;
 }
+
 .modal_btn:hover {
     background-color: #FAC91D;
     color: black;

@@ -17,8 +17,8 @@
 }
 
 .dark-mode .bag_cancel {
-    background-color: #5c5c5c;
-    color: white;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
 }
 
 .dark-mode .checkbox {
