@@ -17,6 +17,14 @@
                     <p class="note">* 표시는 반드시 입력하셔야 하는 항목입니다.</p>
                 </div>
                 <hr>
+                <!-- <div class="email_box info_item_box">
+                    <label class="info_item_label" for="email">이메일</label>
+                    <div class="info_item_input">
+                        <p class="info_item_err_msg error">{{ emailError }}</p>
+                        <input class="input_width" type="email" name="email" id="email" @input="chkEmail" v-model="emailText">
+                    </div>
+                </div> -->
+
                 <div v-if="$store.state.kakaoInfo" class="email_box info_item_box">
                     <label class="info_item_label" for="email">이메일</label>
                     <div class="info_item_input">
@@ -31,12 +39,18 @@
                         <input v-if="$store.state.emailVerify" class="input_width" type="email" name="email" id="email" @input="chkEmail" v-model="emailText">
                         <input v-else class="input_width" type="email" name="email" id="email" readonly @input="chkEmail" v-model="emailText">
                     </div>
-                    <div class="verify">
-                        <p class="info_item_err_msg error">{{ emailError }}</p>
+                    <div class="verify info_item_input">
                         <p class="info_item_err_msg error">{{ codeError }}</p>
-                        <button v-if="$store.state.emailVerify" type="button" class="info_item_btn form_btn email_chk_btn verifyButton" @click="emailChk">이메일 검증</button>
+                        <button v-if="$store.state.emailVerify" type="button" class="info_item_btn form_btn email_chk_btn verifyButton" @click="emailVerifyChk">이메일 검증</button>
 
                         <form v-else class="verifyCode" id="verifyCode">
+
+                            <!-- 5분 타이머 표시 -->
+                            <div v-if="showTimer" class="timer">
+                                <p>남은 시간 : {{ timerText }}</p>
+                            </div>
+
+
                             <div v-if="$store.state.emailCode">
                                 <input type="text" name="verifyCode" class="verifyinput" placeholder="검증 코드를 입려해 주세요.">
                                 <button type="button" class="info_item_btn form_btn email_chk_btn" @click="$store.dispatch('codeChk')">코드 확인</button>
@@ -142,8 +156,44 @@
     </main>
 </template>
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed, onBeforeUnmount } from 'vue';
 import { useStore } from 'vuex';
+
+// 5분 타이머 관련 상태와 메서드들
+let timerInterval = null;
+const timerDuration = 300000; // 5분을 밀리초로 변환한 값
+
+const currentTime = ref(Date.now());
+
+const showTimer = computed(() => {
+    return store.state.emailVerify;
+});
+
+const timerText = computed(() => {
+    const elapsedTime = currentTime.value - store.state.emailVerifyTime;
+    const remainingTime = timerDuration - elapsedTime;
+    const minutes = Math.floor(remainingTime / 60000);
+    const seconds = Math.floor((remainingTime % 60000) / 1000);
+    return `이메일 재검증 가능까지 ${minutes}분 ${seconds}초 남음`;
+});
+// 타이머 갱신
+const updateTimer = () => {
+    timerInterval = setInterval(() => {
+        currentTime.value = Date.now();
+    }, 1000);
+};
+
+onMounted(() => {
+    updateTimer();
+});
+
+// 컴포넌트가 파기될 때 타이머 정리
+onBeforeUnmount(() => {
+    clearInterval(timerInterval);
+});
+
+
+
 
 const store = useStore();
 
@@ -158,8 +208,8 @@ const postcode = ref('');
 const birth = ref('');
 const name = ref('');
 
-const emailError = ref('1111111111111');
-const codeError = ref('1111111');
+const emailError = ref('');
+const codeError = ref('');
 const passwordError = ref('');
 const passwordChkError = ref('');
 const nameError = ref('');
@@ -178,7 +228,7 @@ function chkEmail() {
 }
 
 function chkCode() {
-  if (!store.state.emailCode) {
+  if (store.state.emailVerify || store.state.emailCode) {
     codeError.value = '이메일 검증을 완료해 주세요.';
   } else {
     codeError.value = '';
@@ -249,33 +299,35 @@ function chkBirth() {
 
 function validateForm() {
     let valid = true;
+    
+    // chkEmail();
+    // if (emailError.value) valid = false; 
 
-    if (!store.state.kakaoInfo) {
+    if (store.state.kakaoInfo === null ) {
         chkEmail();
-        if (emailError.value) valid = false; 
+        if (emailError.value) {valid = false}; 
              
         chkCode();
-        if (codeError.value) valid = false;
+        if (codeError.value) {valid = false};
     }
-    
 
     chkPassword();
-    if (passwordError.value) valid = false;
+    if (passwordError.value) {valid = false};
 
     chkPasswordChk();
-    if (passwordChkError.value) valid = false;
+    if (passwordChkError.value) {valid = false};
 
     chkName();
-    if (nameError.value) valid = false;
+    if (nameError.value) {valid = false};
 
     chkPhone();
-    if (phoneError.value) valid = false;
+    if (phoneError.value) {valid = false};
 
     chkAddress();
-    if (addressError.value) valid = false;
+    if (addressError.value) {valid = false};
 
     chkBirth();
-    if (birthError.value) valid = false;
+    if (birthError.value) {valid = false};
 
     if (valid) {
       store.dispatch('regist');
@@ -301,7 +353,7 @@ function closeEmailChkModal() {
 // 이메일 인증 처리
 let isCheckingEmail = ref(false);
 
-const emailChk = async () => {
+const emailVerifyChk = async () => {
     if (isCheckingEmail.value) {
         alert('이미 이메일 검증이 진행 중입니다. 잠시만 기다려 주세요.');
         return; // 여러 번 클릭 방지
@@ -316,6 +368,7 @@ const emailChk = async () => {
     if(confirm('확인을 누르면 이메일 검증을 시작합니다.')) {
         try {
             await store.dispatch('chkEmailOn', emailText.value);
+
         } catch (error) {
             console.error('이메일 인증 처리 중 오류가 발생했습니다:', error);
         } finally {

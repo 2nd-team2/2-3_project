@@ -9,10 +9,10 @@
                             <router-link to="/admin/main" class="admin_nav_title">메인</router-link>
                         </li>
                         <li class="admin_nav_list admin_nav_item2">
-                            <div @click="openMiniNav1" class="admin_nav_title">유저
+                            <div @click="openMiniNav1" class="admin_nav_title">회원
                                 <div :class="{ admin_nav_mini: openFlg1 }" id="admin_nav_mini">
                                     <ul class="admin_nav_mini_box">
-                                        <li class="admin_nav_mini_item1"><router-link to="/admin/user" class="admin_nav_mini_title">유저 관리</router-link></li>
+                                        <li class="admin_nav_mini_item1"><router-link to="/admin/user" class="admin_nav_mini_title">회원 관리</router-link></li>
                                     </ul>
                                 </div>
                             </div>
@@ -385,9 +385,6 @@ onBeforeUnmount(() => {
     onMounted(() => {
         window.addEventListener('resize', changeNav)
 
-        if(store.state.adminLoginFlg) {
-            document.body.style.overflowY = 'scroll';
-        }
         // 페이지 로드 시 쿠키 확인 
         const modalClosed = Cookies.get('modalClosed');
         if (modalClosed === 'true') {
@@ -435,6 +432,15 @@ onBeforeUnmount(() => {
     function openMiniNav4() {
         openFlg4.value = !openFlg4.value;
     }
+
+    // 관리자 페이지에서 스크롤 활성화
+    const chkAdmin = computed({
+        get: () => store.state.adminFlg,
+    });
+    watch(chkAdmin, (newValue) => {
+        console.log('watch adminFlg', store.state.adminFlg, newValue);
+        document.body.style.overflowY = 'scroll';
+    });
     
 </script>
 

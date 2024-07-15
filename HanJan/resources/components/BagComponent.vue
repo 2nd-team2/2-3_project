@@ -13,7 +13,6 @@
                 계속 쇼핑하기
             </router-link>
         </div>
-        
         <form id="bagsProductData">
             <div class="bag_box">
                 <div v-if="$store.state.bagsProductData && $store.state.bagsProductData.length > 0">
