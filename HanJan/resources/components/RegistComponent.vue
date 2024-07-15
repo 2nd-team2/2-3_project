@@ -17,14 +17,7 @@
                     <p class="note">* 표시는 반드시 입력하셔야 하는 항목입니다.</p>
                 </div>
                 <hr>
-
-                <label class="info_item_label" for="email">이메일</label>
-                <div class="info_item_input">
-                    <p class="info_item_err_msg error">{{ emailError }}</p>
-                    <input class="input_width" type="text" name="email" id="email" @input="chkEmail" v-model="emailText" placeholder="이메일 형식 예시) hanjan@hanjan.com">
-                </div>
-
-                <!-- <div v-if="$store.state.kakaoInfo" class="email_box info_item_box">
+                <div v-if="$store.state.kakaoInfo" class="email_box info_item_box">
                     <label class="info_item_label" for="email">이메일</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg error">카카오 계정의 이메일 입니다. 변경 불가</p>
@@ -38,19 +31,24 @@
                         <input v-if="$store.state.emailVerify" class="input_width" type="text" name="email" id="email" @input="chkEmail" v-model="emailText" placeholder="이메일 형식 예시) hanjan@hanjan.com">
                         <input v-else class="input_width" type="text" name="email" id="email" readonly @input="chkEmail" v-model="emailText">
                     </div>
-                    <div class="verify info_item_input">
-                        <p class="info_item_err_msg error">{{ codeError }}</p>
-                        <button v-if="$store.state.emailVerify" type="button" class="info_item_btn form_btn email_chk_btn verifyButton" @click="emailVerifyChk">이메일 검증</button>
+                    <!-- <div class="verify info_item_input"> -->
+                    <div class="verify info_verifyItem_input">
+
+                        <div v-if="$store.state.emailVerify">
+                            <p class="info_item_err_msg error">{{ codeError }}</p>
+                            <button  type="button" class="info_item_btn form_btn email_chk_btn verifyButton" @click="emailVerifyChk">이메일 검증</button>
+                        </div>
 
                         <form v-else class="verifyCode" id="verifyCode">
 
                             
-                            <div v-if="showTimer" class="timer">
+                            <!-- <div v-if="showTimer" class="timer">
                                 <p>남은 시간 : {{ timerText }}</p>
-                            </div>
+                            </div> -->
 
 
                             <div v-if="$store.state.emailCode">
+                                <p class="info_item_err_msg error">{{ codeError }}</p>
                                 <input type="text" name="verifyCode" class="verifyinput" placeholder="검증 코드를 입려해 주세요.">
                                 <button type="button" class="info_item_btn form_btn email_chk_btn" @click="$store.dispatch('codeChk')">코드 확인</button>
                             </div>
@@ -59,7 +57,7 @@
                             </div>
                         </form>
                     </div>
-                </div> -->
+                </div>
                 <hr>
                 <div class="info_item_box">
                     <label class="info_item_label" for="password">비밀번호</label>
@@ -301,16 +299,16 @@ function chkBirth() {
 function validateForm() {
     let valid = true;
     
-    chkEmail();
-    if (emailError.value) valid = false; 
+    // chkEmail();
+    // if (emailError.value) valid = false; 
 
-    // if (store.state.kakaoInfo === null ) {
-    //     chkEmail();
-    //     if (emailError.value) {valid = false}; 
+    if (store.state.kakaoInfo === null ) {
+        chkEmail();
+        if (emailError.value) {valid = false}; 
              
-    //     chkCode();
-    //     if (codeError.value) {valid = false};
-    // }
+        chkCode();
+        if (codeError.value) {valid = false};
+    }
 
     chkPassword();
     if (passwordError.value) {valid = false};

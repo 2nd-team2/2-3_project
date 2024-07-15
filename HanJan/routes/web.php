@@ -85,6 +85,8 @@ Route::middleware('auth')->post('/api/exchage', [ExchangeController::class, 'exc
 
 // 이메일 검증 및 메일 발송
 Route::post('/api/sendVerificationEmail', [UserController::class, 'sendVerificationEmail']);
+// 이메일 검증 코드 재생성
+Route::post('/api/refreshCode', [UserController::class, 'refreshCode']);
 // 이메일 검증 코드 확인
 Route::post('/api/codeChk', [UserController::class, 'codeChk']);
 

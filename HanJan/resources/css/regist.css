@@ -139,6 +139,22 @@ header nav ul li {
     margin: 5px;
 }
 
+.info_verifyItem_input {
+    position: relative;
+}
+
+.info_verifyItem_input > p {
+    color: #ff0000;
+}
+
+.info_verifyItem_input input {
+    height: 30px;
+    max-width: 430px;
+    padding: 5px;
+}
+
+
+
 
 .address {
     height: 220px;
