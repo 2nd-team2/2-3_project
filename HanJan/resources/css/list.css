@@ -13,6 +13,12 @@ hr {
 .dark-mode h3 {
     color: white;
 }
+.dark-mode span {
+    color: white;
+}
+.dark-mode li div {
+    color: white;
+}
 
 .dark-mode p {
     color: white;
