@@ -913,7 +913,7 @@ const store = createStore({
                             console.log(response.data.msg)
                         )
                         
-                        }, 10000); // 300000ms = 5분
+                        }, 300000); // 300000ms = 5분
                     }
             })
             .catch(error => {
