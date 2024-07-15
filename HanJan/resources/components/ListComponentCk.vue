@@ -12,7 +12,7 @@
                     <!-- 추천카테고리 : 타입별 추천 리스트 불러오기 5개씩 -->
                 </div>
                 <ul class="list_proposal">
-                    <span>인기 검색어 :</span>
+                    <span>인기 주류 :</span>
                     <li class="list_pro_mun" v-for="(item, key) in $store.state.typeChk.data" :key="key.id">
                         <div @click="productDetail(item.id)">{{ item.name }}</div>
                     </li>
