@@ -13,11 +13,11 @@ main {
     color: rgb(0, 0, 0);
 }
 
-.detailed_haeder_bag_a:hover #b_detailed {
+.dark-mode .detailed_haeder_bag_a:hover #b_detailed {
     display: none;
 }
 
-.detailed_haeder_bag_a:hover #bk_detailed {
+.dark-mode  .detailed_haeder_bag_a:hover #bk_detailed {
     display: block;
 }
 
@@ -33,9 +33,17 @@ main {
     color: white;
 }
 
-.dark-mode button {
-    background-color: rgb(201, 199, 199);
-    color: #121212;
+.dark-mode .detailed_haeder_bag_a {
+    background-color: rgb(255, 255, 255);
+}
+
+.dark-mode .detailed_haeder_bay {
+    color: #000;
+    background-color: rgb(255, 255, 255);
+}
+
+.dark-mode .detailed_haeder_bag {
+    color: black;
 }
 
 .kakao_img {
@@ -62,7 +70,7 @@ main {
 .modal_second_overlay {
     display: flex;
     position: fixed;
-    top: 10%;
+    top: 30%;
     left: 0;
     right: 0;
     background: rgba(0, 0, 0, 0);
@@ -71,11 +79,12 @@ main {
 }
 
 .modal_second_window {
-    background: rgb(255, 255, 255);
-    padding: 1rem;
+    background: rgb(253, 220, 57);
+    padding: 3rem;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 18%;
+    width: 20%;
+    height: 15%;
 }
 
 .second_content {

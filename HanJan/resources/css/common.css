@@ -179,6 +179,10 @@ li {
     display: none;
 }
 
+.nav_user_box:hover .nav_user {
+    color: #ffcd40;
+}
+
 .nav_user_box:hover {
     color: #ffcd40;
 }
