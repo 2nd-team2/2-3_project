@@ -379,7 +379,7 @@ class OrderController extends Controller
         $orderData = Order::withTrashed()
                             ->select('orders.*', 'users.name', 'users.tel')
                             ->join('users','orders.u_id','=','users.id')
-                            ->orderBy('orders.created_at', 'DESC')
+                            ->orderBy('orders.or_id', 'DESC')
                             ->paginate(15);
         $responseData = [
             'code' => '0'

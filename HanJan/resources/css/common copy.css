@@ -328,7 +328,7 @@ li {
     display: grid;
     grid-template-rows: 0.1fr 1fr 1fr;
     margin: 0 auto;
-    gap: 60px;
+    gap: 80px;
 }
 
 .weather_alcohol_title {
@@ -720,6 +720,12 @@ footer {
         grid-template-columns: 1fr 1fr 1fr;
         grid-template-rows: 0.1fr 1fr 1fr;
         width: 70%;
+    }
+    .weather_alcohol {
+        display: grid;
+        grid-template-rows: 0.1fr 1fr 1fr;
+        margin: 0 auto;
+        gap: 60px;
     }
 
     .weather_alcohol_title {

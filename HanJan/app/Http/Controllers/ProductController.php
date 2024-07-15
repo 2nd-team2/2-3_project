@@ -155,7 +155,7 @@ class ProductController extends Controller
                         ->where('products.id', $id) // 상품 아이디 가져와 리뷰 출력
                         ->orderBy('reviews.re_star', 'DESC')
                         ->orderBy('reviews.created_at', 'DESC')
-                        ->limit(5)
+                        ->limit(10)
                         ->get();
 
         $responseData = [
@@ -463,8 +463,7 @@ class ProductController extends Controller
     public function adminProductIndex() {
         $adminProductData = Product::withTrashed()
                             ->select('products.*')
-                            ->orderBy('products.deleted_at', 'ASC')
-                            ->orderBy('products.created_at', 'DESC')
+                            ->orderBy('products.id', 'DESC')
                             ->paginate(15);
         
         $responseData = [
