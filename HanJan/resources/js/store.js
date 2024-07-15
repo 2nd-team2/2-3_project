@@ -913,7 +913,7 @@ const store = createStore({
                             console.log(response.data.msg)
                         )
                         
-                        }, 10000); // 300000ms = 5분
+                        }, 300000); // 300000ms = 5분
                     }
             })
             .catch(error => {
@@ -1014,7 +1014,6 @@ const store = createStore({
                 context.commit('setEmailCode', true);
 
                 router.replace('login');
-                alert('회원가입이 완료되었습니다.');
             })
         },
 
@@ -2278,8 +2277,8 @@ const store = createStore({
             const url = '/api/admin/exchange/detail?id=' + id;
             axios.get(url)
             .then(response => {
-                console.log('데이터1: ',response.data)
-                console.log('데이터2: ',response.data.data)
+                // console.log('데이터1: ',response.data)
+                // console.log('데이터2: ',response.data.data)
                 context.commit('setAdminExchangeDetailData', response.data.data);
             })
             .catch(error => {

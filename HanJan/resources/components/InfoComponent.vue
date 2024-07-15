@@ -97,6 +97,7 @@
                             <div>
                                 <span class="title_span">상품문의</span>
                             </div>
+                            <!-- <img :src="$store.state.infoData.data.img"> -->
                             <p class="inquiry_name cursorBtn" @click=qnaProductDetail(item.qnp_id)>{{ item.qnp_content }}</p>
                             <p class="inquiry_date">{{ item.created_at }}</p>
                         </div>

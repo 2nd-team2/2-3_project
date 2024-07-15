@@ -35,7 +35,7 @@
                             <span class="middle_span">개인정보 수집 및 이용 </span>
                             <button type="button" id="second_btn_modal" class="text_btn" @click="openModal(terms2)">전체보기 ></button>
                             <transition name="fade">
-                            <div class="agree_box modal_overlay" id="modal" v-show="showModal">
+                            <div class="agree_box text_modal_overlay" id="modal" v-show="showModal">
                                 <div class="modal_window">
                                     <div class="close_area" @click="modalOff"></div>
                                     <div class="content">

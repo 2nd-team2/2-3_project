@@ -13,6 +13,10 @@ body {
     height: 100%;
 }
 
+.dark-mode .nav_user:hover {
+    color: #ffcd40;
+}
+
 .dark-mode a {
     color: #ffffff;
 }
@@ -180,10 +184,6 @@ li {
 }
 
 .nav_user_box:hover .nav_user {
-    color: #ffcd40;
-}
-
-.nav_user_box:hover {
     color: #ffcd40;
 }
 

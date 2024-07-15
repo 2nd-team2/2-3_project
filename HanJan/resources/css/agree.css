@@ -131,10 +131,10 @@ form .buttons button {
 }
 
 /* 모달창 */
-.modal_overlay {
+.text_modal_overlay {
     display: flex;
     position: fixed;
-    top: 30%;
+    top: 0;
     left: 0;
     right: 0;
     bottom: 0;
@@ -175,7 +175,7 @@ form .buttons button {
 }
 
 .second_content {
-    color: black;
+    color: rgb(255, 255, 255);
     text-align: center;
 }
 

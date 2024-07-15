@@ -66,8 +66,8 @@ class NoticeController extends Controller
         $validator = Validator::make(
             $request->only('no_title', 'no_content')
             ,[
-                'no_title'=> ['required', 'max:50', 'regex: /^[0-9가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u'],
-                'no_content'=> ['required', 'max:1000', 'regex: /^[0-9가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
+                'no_title'=> ['required', 'max:50', 'regex: /^[0-9가-힣a-zA-Z\s\n.,:?!@#$%^&*~]+$/u'],
+                'no_content'=> ['required', 'max:1000', 'regex: /^[0-9가-힣a-zA-Z\s\n.,:?!@#$%^&*~]+$/u']
             ]
         );
         // 유효성 검사 실패 체크
@@ -114,8 +114,8 @@ class NoticeController extends Controller
         $validator = Validator::make(
             $requestData
             , [
-                'no_title' => ['required', 'max:50', 'regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
-                ,'no_content' => ['required', 'max:1000', 'regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u']
+                'no_title' => ['required', 'max:50', 'regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s\n.,:?!@#$%^&*~]+$/u']
+                ,'no_content' => ['required', 'max:1000', 'regex: /^[0-9ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s\n.,:?!@#$%^&*~]+$/u']
             ]
         );
 

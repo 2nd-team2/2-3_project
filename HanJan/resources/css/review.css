@@ -33,7 +33,7 @@
 }
 
 .dark-mode .reviewC_cancel {
-    background-color: rgb(201, 199, 199);
+    background-color: rgb(255, 255, 255);
     color: #121212;
 }
 
@@ -72,7 +72,7 @@
 }
 
 .second_content {
-    color: black;
+    color: rgb(255, 255, 255);
     text-align: center;
     font-size: 0.9em;
 }
