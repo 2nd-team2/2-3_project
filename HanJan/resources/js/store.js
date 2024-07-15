@@ -1323,12 +1323,9 @@ const store = createStore({
             const url = '/api/typechklist';
             axios.get(url)
             .then(response => {
-                // console.log('추천카테고리', response.data);
-
                 constext.commit('listTypeChk', response.data);
             })
             .catch(error => {
-                // console.log(error.response.data);
                 alert('선택한 상품이 없습니다.(' + error.response.data.code + ')' )
             });  
         },

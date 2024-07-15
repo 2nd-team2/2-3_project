@@ -448,7 +448,8 @@ onBeforeUnmount(() => {
 </script>
 
 <style>
-    @import url('../css/common.css');
+    /* @import url('../css/common.css'); */
+    @import url('../css/common copy.css');
 
     @import url('../css/admin/admin_app.css');
 

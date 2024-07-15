@@ -21,28 +21,29 @@
             
             <!-- 메뉴 -->
             <div class="list_menu">
-                <router-link :to="'/listck?type=99&page=1&search=' + data.search" class="list_menu_img">
+                <router-link to="/list?type=99&page=1" class="list_menu_img">
                     <img src="/img/otter2.png" alt="전체" class="list_menu_img99">
                     <p :class="{list_name_bk:isType99}">전체주류</p>
                 </router-link>
                 <div class="list_line"></div>
-                <router-link :to="'/listck?type=0&page=1&search=' + data.search" class="list_menu_img">
+                <router-link to="/list?type=0&page=1" class="list_menu_img">
                     <img src="/img/menu01.png" alt="탁주">
                     <p :class="{list_name_bk:isType0}">탁주</p>
                 </router-link>
                 <div class="list_line"></div>
-                <router-link :to="'/listck?type=1&page=1&search=' + data.search" class="list_menu_img">
+                <router-link to="/list?type=1&page=1" class="list_menu_img">
                     <img src="/img/menu02.png" alt="과실주">
                     <p :class="{list_name_bk:isType1}">과실주</p>
                 </router-link>
                 <div class="list_line"></div>
-                <router-link :to="'/listck?type=2&page=1&search=' + data.search" class="list_menu_img">
+                <router-link to="/list?type=2&page=1" class="list_menu_img">
                     <img src="/img/menu03.png" alt="중류주">
                     <p :class="{list_name_bk:isType2}">증류주</p>
                 </router-link>
+                <div class="list_line"></div>
                 <router-link to="/list?type=3&page=1" class="list_menu_img">
-                    <img src="/img/menu03.png" alt="중류주">
-                    <p :class="{list_name_bk:isType2}">약·청주</p>
+                    <img src="/img/menu04.png" alt="중류주">
+                    <p :class="{list_name_bk:isType3}">약·청주</p>
                 </router-link>
             </div>
 

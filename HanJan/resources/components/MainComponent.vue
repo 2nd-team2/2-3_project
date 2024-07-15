@@ -99,12 +99,16 @@
         <h1 class="weather_alcohol_title">당신의 <span class="weather_alcohol_title_color">{{ $store.state.season }}</span> 여기에</h1>
         <div v-for="(season, index) in seasonLimit" :key="index">
             <div @click="productDetail(season.id)" :class="{weather_alcohol_box: index % 2 === 0, weather_alcohol_box2: index % 2 === 1}">
-                <img v-if="index % 2 === 0" :src="season.img" class="weather_alcohol_img">
-                <h1 class="weather_alcohol_num">{{ '0' + (index + 1) }}</h1>
-                <h1 class="weather_alcohol_name">{{ season.name }}</h1>
-                <div class="weather_alcohol_type">{{ season.type + ' ' + season.ml + 'ml'}}</div>
-                <div class="weather_alcohol_a">바로가기</div>
-                <img v-if="index % 2 === 1" :src="season.img" class="weather_alcohol_img">
+                <div class="weather_alcohol_img">
+                    <img v-if="index % 2 === 0" :src="season.img" class="weather_alcohol_img">
+                    <img v-if="index % 2 === 1" :src="season.img" class="weather_alcohol_img">
+                </div>
+                <div class="weather_alcohol_maun">
+                    <h1 class="weather_alcohol_num">{{ '0' + (index + 1) }}</h1>
+                    <h1 class="weather_alcohol_name">{{ season.name }}</h1>
+                    <div class="weather_alcohol_type">{{ season.type + ' ' + season.ml + 'ml'}}</div>
+                    <div class="weather_alcohol_a">바로가기</div>
+                </div>
             </div>
         </div>
     </div>
