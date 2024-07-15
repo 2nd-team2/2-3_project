@@ -94,6 +94,9 @@
                                         <li class="nav_mini_item3">
                                             <router-link to="/list?type=2&page=1" class="nav_mini_font" @click="closeNavMini">증류주</router-link>
                                         </li>
+                                        <li class="nav_mini_item4">
+                                            <router-link to="/list?type=3&page=1" class="nav_mini_font" @click="closeNavMini">약·청주</router-link>
+                                        </li>
                                     </ul>
                                 </div>
                             </router-link>

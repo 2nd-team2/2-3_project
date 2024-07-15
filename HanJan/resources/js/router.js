@@ -92,7 +92,6 @@ const routes = [
             // 숫자인지 검증
             const validId = /^\d+$/; 
             // const IdValue = parseInt(to.query.id, 10);
-        
             if(
                 validId.test(to.query.id)
                 // IdValue >= 1 &&
@@ -171,7 +170,7 @@ const routes = [
         beforeEnter: (to, from, next) => {
             const store = useStore();
             // 유효한 type 값들
-            const validTypes = ['99', '0', '1', '2']; 
+            const validTypes = ['99', '0', '1', '2', '3']; 
             // 숫자인지 검증
             const validPage = /^\d+$/; 
 
@@ -207,7 +206,7 @@ const routes = [
         beforeEnter: (to, from, next) => {
             const store = useStore();
             // 유효한 type 값들
-            const validTypes = ['99', '0', '1', '2']; 
+            const validTypes = ['99', '0', '1', '2', '3']; 
             // 숫자인지 검증
             const validPage = /^\d+$/; 
             // 검색
