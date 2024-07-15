@@ -14,6 +14,7 @@
                 <input type="number" name="ml" id="ml" autocomplete='off' placeholder="단위는 ml" :value="$store.state.adminProductToUpdate.ml">
                 <label for="img">상품 이미지</label>
                 <div class="admin_input_img_box">
+                    {{ $store.state.adminProductToUpdate.img }}
                     <img :src="previewImg" class="admin_preview">
                     <input type="file" name="img" accept="image/*" id="img" autocomplete='off' @change="setFileImg">
                 </div>
@@ -35,6 +36,10 @@
                     <div class="admin_type_box">
                         <input type="radio" name="type" id="type2" value="2" v-model="radioType">
                         <label for="type2">증류주</label>
+                    </div>
+                    <div class="admin_type_box">
+                        <input type="radio" name="type" id="type2" value="3" v-model="radioType">
+                        <label for="type2">약주, 청주</label>
                     </div>
                 </div>
                 <div class="admin_season_container">
@@ -83,6 +88,8 @@
             radioType.value = '2'
         } else if(store.state.adminProductToUpdate.type === '과실주') {
             radioType.value = '1'
+        } else if(store.state.adminProductToUpdate.type === '약주, 청주') {
+            radioType.value = '3' 
         } else {
             radioType.value = '0'
         }

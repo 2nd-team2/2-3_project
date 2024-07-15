@@ -1,8 +1,8 @@
 <template>
     <div class="admin">
         <h2 class="admin_title">Dash Board</h2>
-        <!-- {{ $store.state.userTatisticsData }}
-        {{ $store.state.userAgeRangeData }} -->
+        <!-- {{ $store.state.userTatisticsData }}s -->
+        <!-- {{ $store.state.userAgeRangeData }} -->
         <!-- {{ $store.state.salesStatisticsData }} -->
         <h3>회원 통계</h3>
         <div class="admin_user_box">
@@ -29,35 +29,34 @@
 
     const store = useStore();
 
-    // onBeforeMount(() => {
-    //     // if(store.state.userTatisticsData.length < 1) {
-    //     //     await store.dispatch('getUserTatisticsData');
-    //     // }
-    //     // if(store.state.userAgeRangeData.length < 1) {
-    //     //     await store.dispatch('getUserAgeRangeData');
-    //     // }
-    //     // if (store.state.userTatisticsData.length < 1) {
-    //     // store.dispatch('getUserTatisticsData').then(() => {
-    //     //     // 데이터가 로드된 후 실행될 코드
-    //     //     const transformedData = store.state.userTatisticsData.map(item => ({
-    //     //         month: getMonthName(item.month),
-    //     //         new_users: item.new_users,
-    //     //         withdraw_users: parseInt(item.withdraw_users, 10) // 문자열을 숫자로 변환
-    //     //     }));
+    onBeforeMount(() => {
+        // if(store.state.userTatisticsData.length < 1) {
+        //     await store.dispatch('getUserTatisticsData');
+        // }
+     
+            store.dispatch('getUserAgeRangeData');
+        // if (store.state.userTatisticsData.length < 1) {
+        // store.dispatch('getUserTatisticsData').then(() => {
+        //     // 데이터가 로드된 후 실행될 코드
+        //     const transformedData = store.state.userTatisticsData.map(item => ({
+        //         month: getMonthName(item.month),
+        //         new_users: item.new_users,
+        //         withdraw_users: parseInt(item.withdraw_users, 10) // 문자열을 숫자로 변환
+        //     }));
 
-    //     //     console.log('데이터 확인:', transformedData); // 변환된 데이터 확인
+        //     console.log('데이터 확인:', transformedData); // 변환된 데이터 확인
 
-    //     //     // 여기서 transformedData를 다른 곳에서 사용하거나 저장할 수 있음
-    //     // });
-    //     // if(store.state.salesStatisticsData.length < 1) {
-    //     //     store.dispatch('getSalesStatisticsData');
-    //     // }
+        //     // 여기서 transformedData를 다른 곳에서 사용하거나 저장할 수 있음
+        // });
+        // if(store.state.salesStatisticsData.length < 1) {
+        //     store.dispatch('getSalesStatisticsData');
+        // }
 
-    //         store.dispatch('getAdminExchangesData');
+            store.dispatch('getAdminExchangesData');
 
     
     
-    // })
+    })
 
     // const daily = [
     //     { daily_sales: "10" },

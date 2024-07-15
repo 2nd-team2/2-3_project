@@ -1585,18 +1585,23 @@ const store = createStore({
                 const response = await axios.get(url);
     
                 const now = new Date();
-                // console.log('가공전:', response.data.data)
+                // console.log('가공전:', response.data)
+                // console.log('가공전:', response.data.newData)
+                // console.log('가공전:', response.data.withdrawData)
                 let tatisticsData = [];
                 // 빈 값이 있을 경에는 0 추가
                 for(let i = 1; i <= 12; i++) {
                     const month = now.getFullYear() + '-' + i.toString().padStart(2, '0');
-                    const arr_new_users = response.data.data.filter(item => {
+                    const arr_new_users = response.data.newData.filter(item => {
+                        return item.month == month;
+                    });
+                    const arr_withdraw_users = response.data.withdrawData.filter(item => {
                         return item.month == month;
                     });
                     tatisticsData.push({
                         month: month
                         ,new_users: arr_new_users.length > 0 ? arr_new_users[0].new_users : 0
-                        ,withdraw_users: arr_new_users.length > 0 ? arr_new_users[0].withdraw_users : 0
+                        ,withdraw_users: arr_withdraw_users.length > 0 ? arr_withdraw_users[0].withdraw_users : 0
                     });
                 }
                 // console.log('가공후:', tatisticsData)
@@ -1920,7 +1925,7 @@ const store = createStore({
                 context.commit('setAdminProductToUpdate', response.data.data);
                 localStorage.setItem('adminProductToUpdate', JSON.stringify(response.data.data));
 
-                if(confirm('공지사항 수정을 완료하였습니다. \n확인을 누르면 리스트로 돌아갑니다.')){
+                if(confirm('상품 정보 수정을 완료하였습니다. \n확인을 누르면 리스트로 돌아갑니다.')){
                     router.push('/admin/product');
                 }
             })

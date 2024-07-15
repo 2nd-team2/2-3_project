@@ -5,7 +5,7 @@
             <div class="admin_input_box">
                 <label for="name" class="admin_prodcut_info0">상품 이름</label>
                 <p class="admin_error">{{ nameError }}</p>
-                <input @input="chkName" v-model="name" type="text" name="name" id="name" autocomplete='off' class="admin_prodcut_info1" placeholder="한글, 숫자, 특수문자(.,:?!@#$%^&*), 공백 포함 20자 이내로 설정해주세요.">
+                <input @input="chkName" v-model="name" type="text" name="name" id="name" autocomplete='off' class="admin_prodcut_info1" placeholder="한글, 영어, 숫자, 특수문자(.,:?!@#$%^&*), 공백 포함 20자 이내로 설정해주세요.">
                 <label for="price" class="admin_prodcut_info2">상품 가격</label>
                 <p class="admin_error">{{ PriceError }}</p>
                 <input @input="chkPrice" v-model="price" type="number" name="price" id="price" autocomplete='off' class="admin_prodcut_info3" placeholder="숫자만 입력해주세요.">
@@ -38,6 +38,10 @@
                     <div class="admin_type_box">
                         <input type="radio" name="type" id="type2" value="2">
                         <label for="type2">증류주</label>
+                    </div>
+                    <div class="admin_type_box">
+                        <input type="radio" name="type" id="type2" value="3">
+                        <label for="type2">약주, 청주</label>
                     </div>
                 </div>
                 <div class="admin_season_container">
@@ -87,9 +91,9 @@
     const MlError = ref('');
 
     function chkName() {
-        const namePattern = /^[0-9가-힣\s.,:?!@#$%^&*]+$/;
+        const namePattern = /^[0-9가-힣a-zA-Z\s.,:?!@#$%^&*]+$/;
         if (!namePattern.test(name.value) || name.value.length > 20) {
-            nameError.value = '상품이름은 한글, 숫자, 특수문자(.,:?!@#$%^&*), 공백 포함 20자 이내로 설정가능합니다.';
+            nameError.value = '상품이름은 한글, 영어, 숫자, 특수문자(.,:?!@#$%^&*), 공백 포함 20자 이내로 설정가능합니다.';
         } else {
             nameError.value = '';
         }

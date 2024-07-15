@@ -483,12 +483,12 @@ class ProductController extends Controller
             $requestData,
                 [
                     // 'name' => ['required', 'regex:/^[가-힣0-9%()[]\s]+$/'],
-                    'name' => ['required', 'regex: /^[0-9가-힣\s.,:?!@#$%^&*]+$/u'],
+                    'name' => ['required', 'regex: /^[0-9가-힣a-zA-Z\s.,:?!@#$%^&*]+$/u'],
                     'price' => ['required', 'regex:/^[0-9]+$/'],
                     'count' => ['required', 'regex:/^[0-9]+$/'],
                     'ml' => ['required', 'regex:/^[0-9]+$/'],
                     'img' => ['required', 'mimes:jpeg,png,jpg,gif,svg'],
-                    'info' => ['required', 'mimes:jpeg,png,gif'],
+                    'info' => ['required', 'mimes:jpeg,png,jpg,gif,svg'],
                     'type' => ['required', 'regex:/^[0-9]+$/'],
                     'season' => ['required', 'regex:/^[0-9]+$/'],
                 ] 
@@ -553,12 +553,12 @@ class ProductController extends Controller
         $validator = Validator::make(
             $requestData
             , [
-                'name' => ['required', 'regex:/^[0-9가-힣\s.,:?!@#$%^&*]+$/'],
+                'name' => ['required', 'regex:/^[0-9가-힣a-zA-Z\s.,:?!@#$%^&*]+$/'],
                 'price' => ['required', 'regex:/^[0-9]+$/'],
                 'count' => ['required', 'regex:/^[0-9]+$/'],
                 'ml' => ['required', 'regex:/^[0-9]+$/'],
-                'img' => ['required', 'mimes:jpeg,png,jpg,gif,svg'],
-                'info' => ['required', 'mimes:jpeg,png,gif'],
+                'img' => ['mimes:jpeg,png,jpg,gif,svg'],
+                'info' => ['mimes:jpeg,png,jpg,gif,svg'],
                 'type' => ['required', 'regex:/^[0-9]+$/'],
                 'season' => ['required', 'regex:/^[0-9]+$/'],
             ]
@@ -573,21 +573,35 @@ class ProductController extends Controller
         // 데이터 생성
         $updateData = Product::find($request->id);
 
-        // 새로운 파일 이름 생성 (UUID 사용)
-        $imgName = Str::uuid().'.'.$request->file('img')->getClientOriginalExtension();
-        $infoName = Str::uuid().'.'.$request->file('info')->getClientOriginalExtension();
+        // 상품 썸네일 이미지 추가 될 때
+        if($request->has('img')) {
+            // 새로운 파일 이름 생성 (UUID 사용)
+            $imgName = Str::uuid().'.'.$request->file('img')->getClientOriginalExtension();
+    
+            // 파일 저장 경로 설정
+            $imgPath = 'img/DB_img/' . $imgName;
+    
+            // 파일 이동 및 저장
+            $request->file('img')->move(public_path('/img/DB_img'), $imgName);
 
-        // 파일 저장 경로 설정
-        $imgPath = 'img/DB_img/' . $imgName;
-        $infoPath = 'img/DB_img/' . $infoName;
+            // 데이터 준비 및 삽입
+            $updateData->img ='/' . $imgPath;
+        }
 
-        // 파일 이동 및 저장
-        $request->file('img')->move(public_path('/img/DB_img'), $imgName);
-        $request->file('info')->move(public_path('/img/DB_img'), $infoName);
-
-        // 데이터 준비 및 삽입
-        $updateData['img'] ='/' . $imgPath;
-        $updateData['info'] = '/' . $infoPath;
+        // 상세 설명 이미지 추가 될 때
+        if($request->has('info')) {
+            // 새로운 파일 이름 생성 (UUID 사용)
+            $infoName = Str::uuid().'.'.$request->file('info')->getClientOriginalExtension();
+            
+            // 파일 저장 경로 설정
+            $infoPath = 'img/DB_img/' . $infoName;
+            
+            // 파일 이동 및 저장
+            $request->file('info')->move(public_path('/img/DB_img'), $infoName);
+            
+            // 데이터 준비 및 삽입
+            $updateData->info = '/' . $infoPath;
+        }
 
         // 수정 처리
         $updateData->name = $request->name;
