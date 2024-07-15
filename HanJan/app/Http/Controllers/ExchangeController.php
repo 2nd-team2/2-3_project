@@ -72,7 +72,7 @@ class ExchangeController extends Controller
 
         // 유효성 검사 실패 체크
         if($validator->fails()) {
-            Log::debug('유효성 검사 실패', $validator->errors()->toArray());
+            // Log::debug('유효성 검사 실패', $validator->errors()->toArray());
             throw new MyValidateException('E01');
         }
 

@@ -94,7 +94,7 @@ function closeStarModal() {
 }
 
 onBeforeUpdate(() => {
-    console.log(store.state.reviewToUpdate);
+    // console.log(store.state.reviewToUpdate);
 
     return store.state.reviewToUpdate;
 })

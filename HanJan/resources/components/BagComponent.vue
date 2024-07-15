@@ -161,7 +161,7 @@ function confirmSelectDelete() {
             ba_count: chkSelectItems.map(item => item.ba_count)
         };
 
-    console.log('전송할 데이터:', data); // 데이터가 정상적으로 출력되는지 확인
+    // console.log('전송할 데이터:', data); // 데이터가 정상적으로 출력되는지 확인
 
     // 삭제 처리
     store.dispatch('bagsSelectDelete', data);
@@ -244,7 +244,7 @@ const totalPrice = computed(() => {
     let count = chkTotalItems.length;
     let total = 0;
 
-    console.log(deliveryPrice);
+    // console.log(deliveryPrice);
 
     chkTotalItems.forEach(item => {
         total += (item.price * item.ba_count);
@@ -307,7 +307,7 @@ const bagsToOrder = () => {
             ,buy_type: "bags"
             ,products_name: item.name
         }));
-        console.log(orderItems);
+        // console.log(orderItems);
 
 
         store.dispatch('bagsToOrder', orderItems);

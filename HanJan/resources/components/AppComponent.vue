@@ -441,7 +441,7 @@ onBeforeUnmount(() => {
         get: () => store.state.adminFlg,
     });
     watch(chkAdmin, (newValue) => {
-        console.log('watch adminFlg', store.state.adminFlg, newValue);
+        // console.log('watch adminFlg', store.state.adminFlg, newValue);
         document.body.style.overflowY = 'scroll';
     });
     

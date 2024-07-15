@@ -154,7 +154,7 @@ class BagController extends Controller
         $baIds = $request->input('ba_id');
         // $baCounts = $request->input('ba_count');
 
-        Log::debug($request);
+        // Log::debug($request);
 
         foreach($baIds as $ba_id) {
             
