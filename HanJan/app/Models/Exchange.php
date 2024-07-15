@@ -62,7 +62,7 @@ class Exchange extends Model
         if ($value == '0') {
             return '신청완료';
         } else if ($value == '1') {
-            return '상품회수중';
+            return '상품처리중';
         } else if ($value == '2') {
             return '처리완료';
         } else {

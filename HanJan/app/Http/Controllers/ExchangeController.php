@@ -152,22 +152,11 @@ class ExchangeController extends Controller
     // 접수완료 클릭시 교환 및 반품 진행중으로 변경
     public function takeOver(Request $request) {
 
-        $updateData = Exchange::find($request->ex_id);
+        $updateData = $this->getExchangeData()->where('exchanges.ex_id', '=', $request->ex_id)->first();
 
-        // 수정 처리
         $updateData['ex_flg'] = 1;
-        
-        // 수정된 데이터 저장
+
         $updateData->save();
-
-        // 추가 데이터 가져오기
-        $additionalData = $this->getExchangeData()->where('exchanges.ex_id', '=', $request->ex_id)->first();
-
-        // updateData에 추가 데이터 병합
-        $updateData->orp_count = $additionalData->orp_count;
-        $updateData->or_id = $additionalData->or_id;
-        $updateData->orpCre = $additionalData->orpCre;
-        $updateData->price = $additionalData->price;
 
         // 레스폰스 데이터 생성
         $responseData = [
@@ -182,23 +171,12 @@ class ExchangeController extends Controller
     // 접수완료 클릭시 교환 및 반품 진행중으로 변경
     public function payCancel(Request $request) {
 
-        // $updateData = $this->getExchangeData($request->ex_id)->first();
-        $updateData = Exchange::find($request->ex_id);
-
+        $updateData = $this->getExchangeData()->where('exchanges.ex_id', '=', $request->ex_id)->first();
         // 수정 처리
         $updateData['ex_flg'] = 2;
         
         // 수정된 데이터 저장
         $updateData->save();
-
-        // 추가 데이터 가져오기
-        $additionalData = $this->getExchangeData()->where('exchanges.ex_id', '=', $request->ex_id)->first();
-
-        // updateData에 추가 데이터 병합
-        $updateData->orp_count = $additionalData->orp_count;
-        $updateData->or_id = $additionalData->or_id;
-        $updateData->orpCre = $additionalData->orpCre;
-        $updateData->price = $additionalData->price;
 
         // 레스폰스 데이터 생성
         $responseData = [

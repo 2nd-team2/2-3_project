@@ -478,7 +478,7 @@ class ProductController extends Controller
             $requestData,
                 [
                     // 'name' => ['required', 'regex:/^[가-힣0-9%()[]\s]+$/'],
-                    'name' => ['required', 'regex:/^[가-힣0-9%\s]+$/'],
+                    'name' => ['required', 'regex: /^[0-9가-힣\s.,:?!@#$%^&*]+$/u'],
                     'price' => ['required', 'regex:/^[0-9]+$/'],
                     'count' => ['required', 'regex:/^[0-9]+$/'],
                     'ml' => ['required', 'regex:/^[0-9]+$/'],
@@ -548,7 +548,7 @@ class ProductController extends Controller
         $validator = Validator::make(
             $requestData
             , [
-                'name' => ['required', 'regex:/^[가-힣0-9%\s]+$/'],
+                'name' => ['required', 'regex:/^[0-9가-힣\s.,:?!@#$%^&*]+$/'],
                 'price' => ['required', 'regex:/^[0-9]+$/'],
                 'count' => ['required', 'regex:/^[0-9]+$/'],
                 'ml' => ['required', 'regex:/^[0-9]+$/'],

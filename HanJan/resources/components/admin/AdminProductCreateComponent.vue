@@ -5,16 +5,16 @@
             <div class="admin_input_box">
                 <label for="name" class="admin_prodcut_info0">상품 이름</label>
                 <p class="admin_error">{{ nameError }}</p>
-                <input @input="chkName" v-model="name" type="text" name="name" id="name" autocomplete='off' class="admin_prodcut_info1">
+                <input @input="chkName" v-model="name" type="text" name="name" id="name" autocomplete='off' class="admin_prodcut_info1" placeholder="한글, 숫자, 특수문자(.,:?!@#$%^&*), 공백 포함 20자 이내로 설정해주세요.">
                 <label for="price" class="admin_prodcut_info2">상품 가격</label>
                 <p class="admin_error">{{ PriceError }}</p>
-                <input @input="chkPrice" v-model="price" type="number" name="price" id="price" autocomplete='off' class="admin_prodcut_info3">
+                <input @input="chkPrice" v-model="price" type="number" name="price" id="price" autocomplete='off' class="admin_prodcut_info3" placeholder="숫자만 입력해주세요.">
                 <label for="count" class="admin_prodcut_info4">재고량</label>
                 <p class="admin_error">{{ CountError }}</p>
-                <input @input="chkCount" v-model="count" type="number" name="count" id="count" autocomplete='off' class="admin_prodcut_info5">
+                <input @input="chkCount" v-model="count" type="number" name="count" id="count" autocomplete='off' class="admin_prodcut_info5" placeholder="숫자만 입력해주세요.">
                 <label for="ml" class="admin_prodcut_info6">용량</label>
                 <p class="admin_error">{{ MlError }}</p>
-                <input @input="chkMl" v-model="ml" type="number" name="ml" id="ml" autocomplete='off' placeholder="단위는 ml" class="admin_prodcut_info7">
+                <input @input="chkMl" v-model="ml" type="number" name="ml" id="ml" autocomplete='off' placeholder="숫자만 입력해주세요. 단위는 ml" class="admin_prodcut_info7">
                 <label for="img" class="admin_prodcut_info8">상품 이미지</label>
                 <div class="admin_input_img_box">
                     <img :src="previewImg" class="admin_preview admin_prodcut_info9">
@@ -87,9 +87,9 @@
     const MlError = ref('');
 
     function chkName() {
-        const namePattern = /^[가-힣0-9%()\s]+$/;
+        const namePattern = /^[0-9가-힣\s.,:?!@#$%^&*]+$/;
         if (!namePattern.test(name.value) || name.value.length > 20) {
-            nameError.value = '상품이름은 한글과 숫자로 공백 포함 20자 이내로 설정해주세요. (사용 가능한 특수문자 : %, ())';
+            nameError.value = '상품이름은 한글, 숫자, 특수문자(.,:?!@#$%^&*), 공백 포함 20자 이내로 설정가능합니다.';
         } else {
             nameError.value = '';
         }
