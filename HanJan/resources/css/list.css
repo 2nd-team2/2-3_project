@@ -218,7 +218,7 @@ hr {
 }
 
 
-/* 웹 버전 */
+/* ************************* 웹 버전 ************************* */
 @media screen and (min-width: 1201px) {
     /* 페이지네이션 */
     .list_num_item {
@@ -231,7 +231,7 @@ hr {
     }
 }
 
-/* 테블릿 */
+/* ************************* 테블릿 ************************* */
 
 @media screen and (min-width: 771px) and (max-width: 1200px) {
     .list_content_cut {
@@ -282,10 +282,10 @@ hr {
     }
 }
 
-/* 모바일 */
+/* ************************* 모바일 ************************* */
 @media (max-width: 770px) {
     .list_content_cut {
-        margin: 0 3rem 1rem;
+        margin: 0 1rem 1rem;
     }
     .list_content {
         grid-template-columns: 1fr 1fr;
@@ -298,6 +298,11 @@ hr {
         font-size: 1.5rem;
         margin-left: 5%;
     }
+
+    /* 검색 */
+    .list_search_text {
+        width: 80%;
+    }
     /* 메뉴 */
     .list_menu {
         display: flex;
@@ -305,6 +310,11 @@ hr {
         text-align: center;
         gap: 2rem;
         margin-top: 4rem;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .list_line01 {
+        display: none;
     }
     .list_menu img {
         width: 4rem;

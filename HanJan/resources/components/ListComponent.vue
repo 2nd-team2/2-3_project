@@ -27,7 +27,7 @@
                     <img src="/img/menu02.png" alt="과실주">
                     <p :class="{list_name_bk:isType1}">과실주</p>
                 </router-link>
-                <div class="list_line"></div>
+                <div class="list_line list_line01"></div>
                 <router-link to="/list?type=2&page=1" class="list_menu_img">
                     <img src="/img/menu03.png" alt="중류주">
                     <p :class="{list_name_bk:isType2}">증류주</p>
