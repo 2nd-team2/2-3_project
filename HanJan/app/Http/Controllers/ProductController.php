@@ -172,7 +172,7 @@ class ProductController extends Controller
             $productQuery->where('products.type', $request->type);
         }
         
-        $productData = $productQuery->paginate(20);
+        $productData = $productQuery->paginate(15);
         $responseData = [
                 'code' => '0'
                 ,'msg' => '초기 상품값 획득 완료'
@@ -198,7 +198,7 @@ class ProductController extends Controller
         }
         
         // $productData = $productQuery->dd(); 화면에 출력해서 코드 확인용
-        $productData = $productQuery->paginate(20);
+        $productData = $productQuery->paginate(15);
 
         
         Log::debug('상품검색 완', $productData->toArray());
