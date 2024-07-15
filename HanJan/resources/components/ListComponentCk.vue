@@ -40,6 +40,10 @@
                     <img src="/img/menu03.png" alt="중류주">
                     <p :class="{list_name_bk:isType2}">증류주</p>
                 </router-link>
+                <router-link to="/list?type=3&page=1" class="list_menu_img">
+                    <img src="/img/menu03.png" alt="중류주">
+                    <p :class="{list_name_bk:isType2}">약·청주</p>
+                </router-link>
             </div>
 
             <p class="list_best_title">한잔 베스트</p>
@@ -102,6 +106,7 @@
     const isType0 = ref(false);
     const isType1 = ref(false);
     const isType2 = ref(false);
+    const isType3 = ref(false);
     const isType99 = ref(false);
     
     const data = reactive({
@@ -137,21 +142,31 @@
             isType0.value = true;
             isType1.value = false;
             isType2.value = false;
+            isType3.value = false;
             isType99.value = false;
         } else if(to.query.type == '1') {
             isType0.value = false;
             isType1.value = true;
             isType2.value = false;
+            isType3.value = false;
             isType99.value = false;
         } else if(to.query.type == '2') {
             isType0.value = false;
             isType1.value = false;
             isType2.value = true;
+            isType3.value = false;
+            isType99.value = false;
+        } else if(to.query.type == '3') {
+            isType0.value = false;
+            isType1.value = false;
+            isType2.value = false;
+            isType3.value = true;
             isType99.value = false;
         } else if(to.query.type == '99') {
             isType0.value = false;
             isType1.value = false;
             isType2.value = false;
+            isType3.value = false;
             isType99.value = true;
         }
         
