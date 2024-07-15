@@ -19,6 +19,9 @@ main {
 .dark-mode h2 {
     color: white;
 }
+.dark-mode .notice_list_titlename {
+    color: white;
+}
 .dark-mode main {
     color: white;
 }
