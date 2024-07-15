@@ -421,7 +421,7 @@ class ProductController extends Controller
         $noticeData = Product::select('products.*')
                             ->where('products.season', '=', $season)
                             ->orderby('products.created_at', 'DESC')
-                            ->limit(6)
+                            ->limit(9)
                             ->get();
         $responseData = [
             'code' => '0'
