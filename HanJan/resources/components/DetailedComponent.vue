@@ -1,6 +1,5 @@
 <template>
     <main>
-        <div>{{ $store.state.productDetail }}</div>
         <div class="detailed_haeder">
             <img :src="store.state.productDetail.img">
             <div class="detailed_haeder_item">
