@@ -13,17 +13,17 @@
 }
 
 .dark-mode .black_button {
-    background-color: rgb(201, 199, 199);
+    background-color: rgb(255, 255, 255);
     color: #121212;
 }
 
 .dark-mode .button_a {
-    background-color: rgb(201, 199, 199);
+    background-color: rgb(255, 255, 255);
     color: #121212;
 }
 
 .dark-mode .button_b {
-    background-color: rgb(201, 199, 199);
+    background-color: rgb(255, 255, 255);
     color: #313131;
 }
 
