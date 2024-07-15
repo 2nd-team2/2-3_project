@@ -154,6 +154,8 @@ function closeBagModal() {
 }
 
 function confirmSelectDelete() {
+    const chkSelectItems = store.state.bagsProductData.filter(item => item.checked);
+
     const data = {
             ba_id: chkSelectItems.map(item => item.ba_id),
             ba_count: chkSelectItems.map(item => item.ba_count)
