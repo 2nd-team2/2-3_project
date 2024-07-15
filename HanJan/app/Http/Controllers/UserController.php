@@ -489,17 +489,28 @@ class UserController extends Controller
 
         // 관리자 페이지 월별 유저 통계 불러오기
         public function adminUseTatistics() {
-            $adminUserTatisticsData = User::selectRaw('DATE_FORMAT(created_at, "%Y-%m") AS month')
+            $adminNewUserData = User::selectRaw('DATE_FORMAT(created_at, "%Y-%m") AS month')
                                     ->selectRaw('COUNT(*) AS new_users')
                                     ->selectRaw('SUM(CASE WHEN deleted_at IS NOT NULL THEN 1 ELSE 0 END) AS withdraw_users')
                                     ->withTrashed() // Soft Deleted 항목도 포함
                                     ->groupBy('month')
                                     ->orderBy('month')
                                     ->get();
+            $adminWithdrawUserData = User::selectRaw('DATE_FORMAT(deleted_at, "%Y-%m") AS month')
+                                    ->selectRaw('COUNT(*) AS withdraw_users')
+                                    ->selectRaw('SUM(CASE WHEN deleted_at IS NOT NULL THEN 1 ELSE 0 END) AS withdraw_users')
+                                    ->withTrashed() // Soft Deleted 항목도 포함
+                                    ->groupBy('month')
+                                    ->orderBy('month')
+                                    ->get();
+            // $adminUserTatisticsData = $adminNewUserData 
+
             $responseData = [
                 'code' => '0'
-                ,'msg' => '신규 가입자 획득 완료'
-                ,'data' => $adminUserTatisticsData->toArray()
+                ,'msg' => '유저 신규, 탈퇴회원 통계 획득 완료'
+                // ,'data' => $adminUserTatisticsData->toArray()
+                ,'newData' => $adminNewUserData->toArray()
+                ,'withdrawData' => $adminWithdrawUserData->toArray()
             ];
 
             return response()->json($responseData, 200);

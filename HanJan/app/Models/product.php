@@ -41,7 +41,15 @@ class Product extends Model
      * Accessor : Column type
      */
     public function getTypeAttribute($value) {
-        return $value == '0' ? '탁주' : ($value == '1' ? '과일주' : '증류주');
+        if ($value == '0') {
+            return '탁주';
+        } else if ($value == '1') {
+            return '과실주';
+        } else if ($value == '2') {
+            return '증류주';
+        } else {
+            return '약주, 청주';
+        }
     }
 
     public function getSeasonAttribute($value) {
