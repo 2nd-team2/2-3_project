@@ -1,7 +1,7 @@
 <template>
     <div class="admin">
         <form id="adminUserUpdateForm" @submit.prevent="validateForm">
-            <h2 class="admin_title">유저 정보 수정</h2>
+            <h2 class="admin_title">회원 정보 수정</h2>
             <div class="admin_user_input_box">
                 <input type="hidden" name="id" :value="$store.state.adminUserToUpdate.id">
                 <label for="name" class="admin_user_info0">유저 이름</label>
@@ -10,6 +10,7 @@
                 <label for="email" class="admin_user_info2">이메일</label>
                 <p class="admin_error">{{ emailError }}</p>
                 <input @input="chkEmail" type="email" name="email" id="email" autocomplete='off' v-model="email" class="admin_user_info3">
+                <button type="button" class="admin_btn admin_user_info14" @click="$store.dispatch('adminChkEmailOn', emailText)">이메일 중복확인</button>
                 <label for="tel" class="admin_user_info4">휴대전화</label>
                 <p class="admin_error">{{ phoneError }}</p>
                 <input @input="chkPhone" type="text" name="tel" id="tel" autocomplete='off' placeholder="-를 제외한 숫자만 입력해주세요" v-model="tel" class="admin_user_info5">
@@ -49,6 +50,7 @@ const address = ref(store.state.adminUserToUpdate.addr);
 const detAddr = ref(store.state.adminUserToUpdate.det_addr);
 const post = ref(store.state.adminUserToUpdate.post);
 const birth = ref(store.state.adminUserToUpdate.birth);
+const emailText = ref(store.state.adminUserToUpdate.email);
 
 const emailError = ref('');
 const nameError = ref('');

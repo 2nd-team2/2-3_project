@@ -232,4 +232,6 @@ Route::middleware('auth')->post('/api/admin/take/over/{ex_id}', [ExchangeControl
 Route::middleware('auth')->post('/api/admin/pay/cancel/{ex_id}', [ExchangeController::class, 'payCancel']);
 // 교환 및 반품 디테일 데이터 불러오기
 Route::middleware('auth')->get('/api/admin/exchange/detail', [ExchangeController::class, 'adminExchangeDetail']);
+// // 이메일 중복체크
+Route::get('/api/admin/user/update/{emailText}', [UserController::class, 'registEmailChk']);
 // ----------------------- 호경 끝 ---------------------------

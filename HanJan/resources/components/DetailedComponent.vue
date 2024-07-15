@@ -37,7 +37,8 @@
                             <input type="hidden" name="buy_type" value="buy">
                             <input type="hidden" name="products_name" :value="$store.state.productDetail.name">
                             <!-- p_id & conut-->
-                            <button @click="$store.dispatch('detailedToCount')" type="button" @mouseover="openIconBag" @mouseleave="closeIconBag"  class="detailed_haeder_bag_a">
+                            <!-- <button @click="$store.dispatch('detailedToCount')" type="button" @mouseover="openIconBag" @mouseleave="closeIconBag"  class="detailed_haeder_bag_a"> -->
+                            <button @click="enterToBag" type="button" @mouseover="openIconBag" @mouseleave="closeIconBag"  class="detailed_haeder_bag_a">
                                 <img src="/img/bag.png" class="detailed_haeder_bag_w" id="b_detailed">
                                 <img src="/img/bag_b.png" class="detailed_haeder_bag_b" id="bk_detailed">
                                 <div class="detailed_haeder_bag">장바구니</div>
@@ -90,6 +91,20 @@
         </div>
         <p class="detailed_footer_content">{{ item.re_content }}</p>
     </div>
+    <transition name="down">
+        <div class="agree_box modal_second_overlay" v-show="showEnterBagModal">
+            <div class="modal_second_window">
+                <div class="second_content">
+                    <p class="second_content">확인을 클릭시 장바구니로 이동 됩니다. 장바구니에 담은 총수량 : {{ count }} 개</p>
+                    <br>
+                    <div>
+                        <button type="button" @click="completeModal" class="modal_btn">확인</button>
+                        <button type="button" @click="closeModal" class="modal_btn">취소</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </transition>
 </main>
 
 <!-- move top -->
@@ -103,8 +118,20 @@
     import { useStore } from 'vuex';
     const store = useStore();
     const count = ref(1);
+    const showEnterBagModal = ref(false);
 
-    
+    function enterToBag() {
+        showEnterBagModal.value = true;
+    }
+
+    function closeModal() {
+        showEnterBagModal.value = false;
+    }
+
+    function completeModal() {
+        store.dispatch('detailedToCount')
+        showEnterBagModal.value = false;
+    }
 
     function shareMessage() {
         // 현재 링크 가져오기
