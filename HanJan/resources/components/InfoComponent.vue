@@ -110,7 +110,7 @@
                         <div class="agree_box modal_second_overlay" v-show="showProductDeleteModal">
                             <div class="modal_second_window">
                                 <div class="second_content">
-                                    <p class="second_content">확인을 누르면 상품 문의 내역이 삭제됩니다.</p>
+                                    <p class="second_content">상품 문의 내역이 삭제됩니다.</p>
                                     <br>
                                     <div>
                                         <button type="button" @click="confirmProductDelete" class="modal_btn">확인</button>

@@ -17,27 +17,26 @@
                     <p class="note">* 표시는 반드시 입력하셔야 하는 항목입니다.</p>
                 </div>
                 <hr>
-                <!-- <div class="email_box info_item_box">
-                    <label class="info_item_label" for="email">이메일</label>
-                    <div class="info_item_input">
-                        <p class="info_item_err_msg error">{{ emailError }}</p>
-                        <input class="input_width" type="email" name="email" id="email" @input="chkEmail" v-model="emailText">
-                    </div>
-                </div> -->
 
-                <div v-if="$store.state.kakaoInfo" class="email_box info_item_box">
+                <label class="info_item_label" for="email">이메일</label>
+                <div class="info_item_input">
+                    <p class="info_item_err_msg error">{{ emailError }}</p>
+                    <input class="input_width" type="text" name="email" id="email" @input="chkEmail" v-model="emailText" placeholder="이메일 형식 예시) hanjan@hanjan.com">
+                </div>
+
+                <!-- <div v-if="$store.state.kakaoInfo" class="email_box info_item_box">
                     <label class="info_item_label" for="email">이메일</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg error">카카오 계정의 이메일 입니다. 변경 불가</p>
-                        <input class="input_width" type="email" name="email" id="email" readonly :value="$store.state.kakaoInfo">
+                        <input class="input_width" type="text" name="email" id="email" readonly :value="$store.state.kakaoInfo">
                     </div>
                 </div>
                 <div v-else class="email_box info_item_box">
                     <label class="info_item_label" for="email">이메일</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg error">{{ emailError }}</p>
-                        <input v-if="$store.state.emailVerify" class="input_width" type="email" name="email" id="email" @input="chkEmail" v-model="emailText">
-                        <input v-else class="input_width" type="email" name="email" id="email" readonly @input="chkEmail" v-model="emailText">
+                        <input v-if="$store.state.emailVerify" class="input_width" type="text" name="email" id="email" @input="chkEmail" v-model="emailText" placeholder="이메일 형식 예시) hanjan@hanjan.com">
+                        <input v-else class="input_width" type="text" name="email" id="email" readonly @input="chkEmail" v-model="emailText">
                     </div>
                     <div class="verify info_item_input">
                         <p class="info_item_err_msg error">{{ codeError }}</p>
@@ -45,7 +44,7 @@
 
                         <form v-else class="verifyCode" id="verifyCode">
 
-                            <!-- 5분 타이머 표시 -->
+                            
                             <div v-if="showTimer" class="timer">
                                 <p>남은 시간 : {{ timerText }}</p>
                             </div>
@@ -60,13 +59,13 @@
                             </div>
                         </form>
                     </div>
-                </div>
+                </div> -->
                 <hr>
                 <div class="info_item_box">
                     <label class="info_item_label" for="password">비밀번호</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg">{{ passwordError }}</p>
-                        <input class="input_width" type="password" v-model="password" name="password" id="password" @input="chkPassword">
+                        <input class="input_width" type="password" v-model="password" name="password" id="password" @input="chkPassword" placeholder="특수문자(!@#$%^&*) 포함 8~20자 사이로 설정해 주세요.">
                     </div>
                 </div>
                 <hr>
@@ -82,7 +81,7 @@
                     <label class="info_item_label" for="name">이름</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg">{{ nameError }}</p>
-                        <input class="input_width" type="text" name="name" id="name" v-model="name" @input="chkName">
+                        <input class="input_width" type="text" name="name" id="name" v-model="name" @input="chkName" placeholder="영어 대소문자, 한글로 10자 이내 설정해 주세요.">
                     </div>
                 </div>
                 
@@ -99,7 +98,7 @@
                     <label class="info_item_label address_text" for="address">주소</label>
                     <div class="info_item_input">
                         <p class="info_item_err">{{ addressError }}</p>
-                        <input class="input_width top_input" type="text" name="addr" id="address" v-model="address" @input="chkAddress" readonly @click="kakaoPostcode">
+                        <input class="input_width top_input" type="text" name="addr" id="address" v-model="address" @input="chkAddress" readonly @click="kakaoPostcode" placeholder="주소 검색을 클릭하여 작성해 주세요.">
                         <input class="postcode" type="text" readonly v-model="postcode" name="post">
                         <label class="address_detail_label" for="address">상세주소</label>
                         <input class="input_width address_detail" type="text" name="det_addr" id="address_detail" v-model="detailAddress">
@@ -160,37 +159,37 @@ import { onMounted, ref, computed, onBeforeUnmount } from 'vue';
 import { useStore } from 'vuex';
 
 // 5분 타이머 관련 상태와 메서드들
-let timerInterval = null;
-const timerDuration = 300000; // 5분을 밀리초로 변환한 값
+// let timerInterval = null;
+// const timerDuration = 300000; // 5분을 밀리초로 변환한 값
 
-const currentTime = ref(Date.now());
+// const currentTime = ref(Date.now());
 
-const showTimer = computed(() => {
-    return store.state.emailVerify;
-});
+// const showTimer = computed(() => {
+//     return store.state.emailVerify;
+// });
 
-const timerText = computed(() => {
-    const elapsedTime = currentTime.value - store.state.emailVerifyTime;
-    const remainingTime = timerDuration - elapsedTime;
-    const minutes = Math.floor(remainingTime / 60000);
-    const seconds = Math.floor((remainingTime % 60000) / 1000);
-    return `이메일 재검증 가능까지 ${minutes}분 ${seconds}초 남음`;
-});
-// 타이머 갱신
-const updateTimer = () => {
-    timerInterval = setInterval(() => {
-        currentTime.value = Date.now();
-    }, 1000);
-};
+// const timerText = computed(() => {
+//     const elapsedTime = currentTime.value - store.state.emailVerifyTime;
+//     const remainingTime = timerDuration - elapsedTime;
+//     const minutes = Math.floor(remainingTime / 60000);
+//     const seconds = Math.floor((remainingTime % 60000) / 1000);
+//     return `이메일 재검증 가능까지 ${minutes}분 ${seconds}초 남음`;
+// });
+// // 타이머 갱신
+// const updateTimer = () => {
+//     timerInterval = setInterval(() => {
+//         currentTime.value = Date.now();
+//     }, 1000);
+// };
 
-onMounted(() => {
-    updateTimer();
-});
+// onMounted(() => {
+//     updateTimer();
+// });
 
-// 컴포넌트가 파기될 때 타이머 정리
-onBeforeUnmount(() => {
-    clearInterval(timerInterval);
-});
+// // 컴포넌트가 파기될 때 타이머 정리
+// onBeforeUnmount(() => {
+//     clearInterval(timerInterval);
+// });
 
 
 
@@ -236,12 +235,14 @@ function chkCode() {
 }
 
 function chkPassword() {
-  if (password.value.length < 1 || password.value.length > 20) {
-  // if (password.value.length < 8 || password.value.length > 20) {
-    passwordError.value = '비밀번호는 8 ~ 20자 사이로 설정 해주세요.';
-  } else {
-    passwordError.value = '';
-  }
+    // const passwordPattern = /^(?=.*[!@#$%^&*])[가-힣a-zA-Z!@#$%^&*]{8,20}$/;
+    const passwordPattern = /^[가-힣a-zA-Z!@#$%^&*]{1,20}$/;
+    if (!passwordPattern.test(password.value)) {
+    // if (password.value.length < 8 || password.value.length > 20) {
+        passwordError.value = '비밀번호는 특수문자 포함 8 ~ 20자 사이로 설정해 주세요.';
+    } else {
+        passwordError.value = '';
+    }
 }
 
 function chkPasswordChk() {
@@ -255,7 +256,7 @@ function chkPasswordChk() {
 function chkName() {
   const namePattern = /^[가-힣a-zA-Z]+$/;
   if (!namePattern.test(name.value) || name.value.length > 10) {
-    nameError.value = '이름은 영어 대소문자와 한글로 10자 이내로 설정해주세요.';
+    nameError.value = '이름은 영어 대소문자와 한글로 10자 이내로 설정해 주세요.';
   } else {
     nameError.value = '';
   }
@@ -264,7 +265,7 @@ function chkName() {
 function chkPhone() {
   const phonePattern = /^\d{10,11}$/;
   if (!phonePattern.test(phone.value)) {
-    phoneError.value = '전화번호는 숫자 10,11자로 설정 해주세요.';
+    phoneError.value = '전화번호는 숫자 10,11자로 설정해 주세요.';
   } else {
     phoneError.value = '';
   }
@@ -280,7 +281,7 @@ function chkAddress() {
 
 function chkBirth() {
   if (!birth.value) {
-    birthError.value = '생년월일을 입력해주세요.';
+    birthError.value = '생년월일을 입력해 주세요.';
     return;
   }
   const birthDate = new Date(birth.value);
@@ -300,16 +301,16 @@ function chkBirth() {
 function validateForm() {
     let valid = true;
     
-    // chkEmail();
-    // if (emailError.value) valid = false; 
+    chkEmail();
+    if (emailError.value) valid = false; 
 
-    if (store.state.kakaoInfo === null ) {
-        chkEmail();
-        if (emailError.value) {valid = false}; 
+    // if (store.state.kakaoInfo === null ) {
+    //     chkEmail();
+    //     if (emailError.value) {valid = false}; 
              
-        chkCode();
-        if (codeError.value) {valid = false};
-    }
+    //     chkCode();
+    //     if (codeError.value) {valid = false};
+    // }
 
     chkPassword();
     if (passwordError.value) {valid = false};

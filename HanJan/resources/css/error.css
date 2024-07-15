@@ -14,13 +14,13 @@ main {
 }
 
 .dark-mode button {
-    background-color: rgb(201, 199, 199);
-    color: #121212;
+    background-color: rgb(255, 255, 255);
+    color: #000000;
 }
 
 .dark-mode .errors_link {
-    background-color: rgb(201, 199, 199);
-    color: #121212;
+    background-color: rgb(255, 255, 255);
+    color: #000000;
 }
 
 .errors_title {

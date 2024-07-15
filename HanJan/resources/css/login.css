@@ -85,7 +85,7 @@ textarea:focus {
 .modal_second_overlay {
     display: flex;
     position: fixed;
-    top: 10%;
+    top: 30%;
     left: 0;
     right: 0;
     background: rgba(0, 0, 0, 0);
@@ -94,11 +94,11 @@ textarea:focus {
 }
 
 .modal_second_window {
-    background: rgb(255, 255, 255);
-    padding: 1rem;
+    background: rgb(253, 220, 57);
+    padding: 3rem;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 15%;
+    width: 20%;
     height: 15%;
 }
 

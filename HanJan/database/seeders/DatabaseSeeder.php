@@ -25,38 +25,38 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // 단일 시더 생성
-        $this->call(UserSeeder::class);
-        $this->call(productSeeder::class);
+        // // 단일 시더 생성
+        // $this->call(UserSeeder::class);
+        // $this->call(productSeeder::class);
 
-        // 복수 시더 생성 - 배열안에 작성
-        $this->call([
-            BagSeeder::class,
+        // // 복수 시더 생성 - 배열안에 작성
+        // $this->call([
+        //     BagSeeder::class,
 
-            InfotlSeeder::class,
-            NoticeSeeder::class,
+        //     InfotlSeeder::class,
+        //     NoticeSeeder::class,
 
-            OrderSeeder::class,
-            OrderproductSeeder::class,
-            CompleteSeeder::class,
-            ExchangeSeeder::class,
-            // reviewSeeder::class,
+        //     OrderSeeder::class,
+        //     OrderproductSeeder::class,
+        //     CompleteSeeder::class,
+        //     ExchangeSeeder::class,
+        //     // reviewSeeder::class,
 
-            // QnaproductSeeder::class,
-            QnaSeeder::class,
-        ]);
+        //     // QnaproductSeeder::class,
+        //     QnaSeeder::class,
+        // ]);
         
-        // 팩토리를 이용하여 대량 생성
-        // 모델명::factory(반복수)->create();
-        Product::factory(50)->create();
-        Bag::factory(5)->create();
-        Notice::factory(5)->create();
-        // review::factory(5)->create();
-        // Orderproduct::factory(10)->create();
+        // // 팩토리를 이용하여 대량 생성
+        // // 모델명::factory(반복수)->create();
+        // Product::factory(50)->create();
+        // Bag::factory(5)->create();
+        // Notice::factory(5)->create();
+        // // review::factory(5)->create();
+        // // Orderproduct::factory(10)->create();
 
-        Qna::factory(5)->create();
-        // Qnaproduct::factory(5)->create();
+        // Qna::factory(5)->create();
+        // // Qnaproduct::factory(5)->create();
         
-        // \App\Models\User::factory(10)->create();
+        // // \App\Models\User::factory(10)->create();
     }
 }
