@@ -240,6 +240,9 @@
 .dark-mode h1 {
   color: white;
 }
+.dark-mode .notification_a div {
+  color: white;
+}
 .dark-mode p {
   color: white;
 }

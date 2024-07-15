@@ -13,6 +13,20 @@ hr{
     margin: 2rem 0;
 }
 
+.dark-mode textarea {
+    color: white;
+}
+.dark-mode .inquiry_required {
+    color: #D3D3D3;
+}
+.dark-mode .kakao {
+    color: #D3D3D3;
+}
+.dark-mode button {
+    background-color: rgb(255, 255, 255);
+    color: #121212;
+}
+
 main {
     width: 70%;
     margin: 3rem auto;
