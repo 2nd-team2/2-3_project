@@ -70,7 +70,7 @@
     </router-link>
 
     <hr>
-    <h1 id="detailed_review_list">리뷰</h1>
+    <h1 id="detailed_review_list">리뷰 <span>·최신순</span></h1>
     <div class="detailed_footer_item" v-for="(item, key) in $store.state.reviewDetail" :key="key">
         <div class="detailed_footer">
             <p class="detailed_footer_name">{{ item.user_name }}</p>
