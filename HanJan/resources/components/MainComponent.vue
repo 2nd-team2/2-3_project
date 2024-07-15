@@ -212,7 +212,13 @@
     // 계절 별 추천
     const seasonLimit = computed(() => {
         const data = store.state.seasonData;
-        return windowWidth.value <= 770 ? data.slice(0, 6) : data;
+        if(windowWidth.value >= 771 && windowWidth.value <= 1200) {
+            return data.slice(0, 8);
+        } else if (windowWidth.value <= 771) {
+            return data.slice(0, 6);
+        } else {
+            return data;
+        }
     });
 
     // 리뷰

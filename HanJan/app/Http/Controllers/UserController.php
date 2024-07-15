@@ -178,6 +178,28 @@ class UserController extends Controller
         
         }
 
+        // 일정 시간 이후 코드 재생성
+        public function refreshCode(Request $request) {
+            // 유저가 작성한 이메일 정보 획득
+            $email = $request->input('email');
+
+            // 임시 코드 재생성 및 저장
+            $token = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+            
+            VerificationToken::updateOrCreate(
+                ['email' => $email],
+                ['token' => $token]
+            );
+
+            $responseData = [
+                'code' => '0',
+                'msg' => '토큰 재생성 성공',
+                'data' => $token
+            ];
+
+            return response()->json($responseData);
+        }
+
         // 이메일 검증 코드 확인
         public function codeChk(Request $request) {
             
@@ -277,7 +299,8 @@ class UserController extends Controller
                 $requestData,
                 [
                     'email' => ['required', 'min:5', 'max:30', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
-                    'password' => ['required', 'min:1', 'max:20', 'regex:/^[a-zA-Z0-9!@]+$/u'], 
+                    'password' => ['required', 'min:1', 'max:20', 'regex:/^[a-zA-Z0-9!@#$%^&*]+$/u'], 
+                    // 'password' => ['required', 'min:8', 'max:20', 'regex:/^[a-zA-Z0-9!@#$%^&*]+$/u'], 
                     'password_chk' => ['same:password'],
                     'tel' => ['required', 'min:10','max:11', 'regex:/^[0-9]+$/'],
                     'addr' => ['required'],
@@ -488,17 +511,28 @@ class UserController extends Controller
 
         // 관리자 페이지 월별 유저 통계 불러오기
         public function adminUseTatistics() {
-            $adminUserTatisticsData = User::selectRaw('DATE_FORMAT(created_at, "%Y-%m") AS month')
+            $adminNewUserData = User::selectRaw('DATE_FORMAT(created_at, "%Y-%m") AS month')
                                     ->selectRaw('COUNT(*) AS new_users')
                                     ->selectRaw('SUM(CASE WHEN deleted_at IS NOT NULL THEN 1 ELSE 0 END) AS withdraw_users')
                                     ->withTrashed() // Soft Deleted 항목도 포함
                                     ->groupBy('month')
                                     ->orderBy('month')
                                     ->get();
+            $adminWithdrawUserData = User::selectRaw('DATE_FORMAT(deleted_at, "%Y-%m") AS month')
+                                    ->selectRaw('COUNT(*) AS withdraw_users')
+                                    ->selectRaw('SUM(CASE WHEN deleted_at IS NOT NULL THEN 1 ELSE 0 END) AS withdraw_users')
+                                    ->withTrashed() // Soft Deleted 항목도 포함
+                                    ->groupBy('month')
+                                    ->orderBy('month')
+                                    ->get();
+            // $adminUserTatisticsData = $adminNewUserData 
+
             $responseData = [
                 'code' => '0'
-                ,'msg' => '신규 가입자 획득 완료'
-                ,'data' => $adminUserTatisticsData->toArray()
+                ,'msg' => '유저 신규, 탈퇴회원 통계 획득 완료'
+                // ,'data' => $adminUserTatisticsData->toArray()
+                ,'newData' => $adminNewUserData->toArray()
+                ,'withdrawData' => $adminWithdrawUserData->toArray()
             ];
 
             return response()->json($responseData, 200);

@@ -896,15 +896,24 @@ const store = createStore({
                 } else if (response.data.code === '4') {
                     alert('이메일이 이미 전송되었습니다.\n 잠시 후 다시 시도해주세요.');
                 } else {
-                    alert('사용 가능한 이메일입니다. \n 해당 이메일로 인증 메일이 발송 되었습니다.\n 해당 이메일 : ' + emailText);
+                    alert('[ '+ emailText +' ] 로 검증 메일이 발송 되었습니다.\n검증 메일이 오지 않을 경우 이메일을 다시 한번 확인해 주세요. ');
                     console.log('인증 메일을 성공적으로 보냈습니다.');
                     context.commit('setEmail', emailText);  // >> 회원가입이 완료되면 null 값으로 바꾸기
                     context.commit('setEmailVerify', false); // >> 회원가입이 완료되면 true로 바꾸기
 
-                    // 5분 후에 emailVerify를 true로 변경
+                    // 일정 시간 후에 코드 사용 중지
                     setTimeout(() => {
+                        // emailVerify를 true로 변경
                         store.commit('setEmailVerify', true);
-                        }, 300000); // 300000ms = 5분
+
+                        // 코드 재생성 (기존 코드 이용 불가)
+                        const url = '/api/refreshCode';
+                        axios.post(url, {email: emailText})
+                        .then(response =>
+                            console.log(response.data.msg)
+                        )
+                        
+                        }, 10000); // 300000ms = 5분
                     }
             })
             .catch(error => {
@@ -1261,7 +1270,7 @@ const store = createStore({
                 if(response.data.code === '0') {
                     // 데이터베이스->서버를 통해 받은 데이터를 CountData 저장
                     constext.commit('detailedCountData', response.data.data);
-                    if(confirm('확인을 클릭시 장바구니로 이동 됩니다. \n장바구니에 담은 총수량 : [ '+ response.data.data.ba_count +' ] 개')) {
+                    if(confirm('장바구니에 담긴 총 수량 : [ '+ response.data.data.ba_count +' ] 개 \n확인을 클릭시 장바구니 페이지로 이동 됩니다.')) {
                         // const router = useRouter();
                         router.push('/bag');
                     }
@@ -1582,18 +1591,23 @@ const store = createStore({
                 const response = await axios.get(url);
     
                 const now = new Date();
-                // console.log('가공전:', response.data.data)
+                // console.log('가공전:', response.data)
+                // console.log('가공전:', response.data.newData)
+                // console.log('가공전:', response.data.withdrawData)
                 let tatisticsData = [];
                 // 빈 값이 있을 경에는 0 추가
                 for(let i = 1; i <= 12; i++) {
                     const month = now.getFullYear() + '-' + i.toString().padStart(2, '0');
-                    const arr_new_users = response.data.data.filter(item => {
+                    const arr_new_users = response.data.newData.filter(item => {
+                        return item.month == month;
+                    });
+                    const arr_withdraw_users = response.data.withdrawData.filter(item => {
                         return item.month == month;
                     });
                     tatisticsData.push({
                         month: month
                         ,new_users: arr_new_users.length > 0 ? arr_new_users[0].new_users : 0
-                        ,withdraw_users: arr_new_users.length > 0 ? arr_new_users[0].withdraw_users : 0
+                        ,withdraw_users: arr_withdraw_users.length > 0 ? arr_withdraw_users[0].withdraw_users : 0
                     });
                 }
                 // console.log('가공후:', tatisticsData)
@@ -1917,7 +1931,7 @@ const store = createStore({
                 context.commit('setAdminProductToUpdate', response.data.data);
                 localStorage.setItem('adminProductToUpdate', JSON.stringify(response.data.data));
 
-                if(confirm('공지사항 수정을 완료하였습니다. \n확인을 누르면 리스트로 돌아갑니다.')){
+                if(confirm('상품 정보 수정을 완료하였습니다. \n확인을 누르면 리스트로 돌아갑니다.')){
                     router.push('/admin/product');
                 }
             })
