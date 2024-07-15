@@ -145,8 +145,35 @@ input {
     cursor: pointer;
 }
 
+.admin_btn_cencle {
+    margin: 0 10px;
+    border: none;
+    border-radius: 20px;
+    background-color: #fac91d;
+    color: black;
+    width: 90px;
+    height: 35px;
+    cursor: pointer;
+}
+
+.admin_com {
+    margin: 0 10px;
+    border-radius: 20px;
+    width: 90px;
+    height: 35px;
+    text-align: center;
+    line-height: 35px;
+    color: black;
+    cursor: default;
+}
+
 .admin_btn:hover {
     background-color: black;
+}
+
+.admin_btn_cencle:hover {
+    background-color: black;
+    color: white;
 }
 
 .admin_create_btn {
