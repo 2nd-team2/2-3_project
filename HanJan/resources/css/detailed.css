@@ -29,6 +29,10 @@ main {
     color: white;
 }
 
+.dark-mode .detailed_haeder_bay:hover {
+    color: rgb(255, 255, 255);
+}
+
 .dark-mode h1 {
     color: white;
 }
