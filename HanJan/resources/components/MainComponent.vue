@@ -94,7 +94,7 @@
         </div>
     </div>
 
-    <!-- 날씨 추천 술 -->
+    <!-- 계절 추천 술 -->
     <div class="weather_alcohol">
         <h1 class="weather_alcohol_title">당신의 <span class="weather_alcohol_title_color">{{ $store.state.season }}</span> 여기에</h1>
         <div v-for="(season, index) in seasonLimit" :key="index">

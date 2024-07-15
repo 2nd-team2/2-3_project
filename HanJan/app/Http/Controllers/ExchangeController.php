@@ -118,7 +118,7 @@ class ExchangeController extends Controller
                         ->join('orderproducts', 'orderproducts.orp_id', '=', 'exchanges.orp_id')
                         ->join('products', 'products.id', '=', 'orderproducts.p_id')
                         ->whereNotNull('ex_reason')
-                        ->where('ex_flg', '!=', '3')
+                        ->where('ex_flg', '!=', '0')
                         ->orderBy('exchanges.created_at', 'DESC');
     }
 
@@ -154,7 +154,7 @@ class ExchangeController extends Controller
 
         $updateData = $this->getExchangeData()->where('exchanges.ex_id', '=', $request->ex_id)->first();
 
-        $updateData['ex_flg'] = 1;
+        $updateData['ex_flg'] = 2;
 
         $updateData->save();
 
@@ -173,7 +173,7 @@ class ExchangeController extends Controller
 
         $updateData = $this->getExchangeData()->where('exchanges.ex_id', '=', $request->ex_id)->first();
         // 수정 처리
-        $updateData['ex_flg'] = 2;
+        $updateData['ex_flg'] = 3;
         
         // 수정된 데이터 저장
         $updateData->save();

@@ -60,13 +60,13 @@ class Exchange extends Model
     }
     public function getExFlgAttribute($value) {
         if ($value == '0') {
-            return '신청완료';
-        } else if ($value == '1') {
-            return '상품처리중';
-        } else if ($value == '2') {
-            return '처리완료';
-        } else {
             return '미신청';
+        } else if ($value == '1') {
+            return '접수완료';
+        } else if ($value == '2') {
+            return '접수처리중';
+        } else {
+            return '처리완료';
         }
     }
 }
