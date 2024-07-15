@@ -23,7 +23,7 @@
                     <h1 class="swiper_title2 swiper_title_weight">니모메</h1>
                     <h2 class="swiper_title3">제주샘주가 정성껏 빛은 좋은술,</h2>
                     <h2 class="swiper_title3">니모메의 고유한 맛을 즐겨보세요.</h2>
-                    <router-link to="/detailed?id=52" class="swiper_show">보러가기</router-link>
+                    <router-link to="/detailed?id=1" class="swiper_show">보러가기</router-link>
                 </div>
             </div>
         </swiper-slide>
@@ -36,7 +36,7 @@
                     <h1 class="swiper_title2 swiper_title_weight">스파클링 오디 별산</h1>
                     <h2 class="swiper_title3">파이나 머핀처럼 손으로 간편하게</h2>
                     <h2 class="swiper_title3">집어 먹을 수 있는 빵과 즐겨보세요.</h2>
-                    <router-link to="/detailed?id=56" class="swiper_show">보러가기</router-link>
+                    <router-link to="/detailed?id=5" class="swiper_show">보러가기</router-link>
                 </div>
             </div>
         </swiper-slide>
@@ -49,7 +49,7 @@
                     <h1 class="swiper_title2 swiper_title_weight">구름을 벗삼아</h1>
                     <h2 class="swiper_title3">유기농 햇찹쌀, 전통누룩, 천연 암반수</h2>
                     <h2 class="swiper_title3">매콤한 음식과 찰떡궁합</h2>
-                    <router-link to="/detailed?id=53" class="swiper_show">보러가기</router-link>
+                    <router-link to="/detailed?id=2" class="swiper_show">보러가기</router-link>
                 </div>
             </div>
         </swiper-slide>
@@ -62,7 +62,7 @@
                     <h1 class="swiper_title2 swiper_title_weight">무주 구천동 산머루주</h1>
                     <h2 class="swiper_title3">풍미가 진하지 않고 가볍게</h2>
                     <h2 class="swiper_title3">즐길 수 있는 안주를 추천합니다.</h2>
-                    <router-link to="/detailed?id=54" class="swiper_show">보러가기</router-link>
+                    <router-link to="/detailed?id=3" class="swiper_show">보러가기</router-link>
                 </div>
             </div>
         </swiper-slide>
@@ -75,7 +75,7 @@
                     <h1 class="swiper_title2 swiper_title_weight">서울의 밤</h1>
                     <h2 class="swiper_title3">생선회나 샤브샤브처럼</h2>
                     <h2 class="swiper_title3">담백한 음식과 함께 하시길 추천합니다.</h2>
-                    <router-link to="/detailed?id=55" class="swiper_show">보러가기</router-link>
+                    <router-link to="/detailed?id=4" class="swiper_show">보러가기</router-link>
                 </div>
             </div>
         </swiper-slide>
