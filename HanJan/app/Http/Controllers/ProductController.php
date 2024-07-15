@@ -155,7 +155,7 @@ class ProductController extends Controller
                         ->where('products.id', $id) // 상품 아이디 가져와 리뷰 출력
                         ->orderBy('reviews.re_star', 'DESC')
                         ->orderBy('reviews.created_at', 'DESC')
-                        ->limit(5)
+                        ->limit(10)
                         ->get();
 
         $responseData = [
