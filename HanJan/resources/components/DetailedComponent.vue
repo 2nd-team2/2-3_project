@@ -133,12 +133,16 @@
     //     showEnterBagModal.value = false;
     // }
 
+    onBeforeMount(() => {
+        // 카카오 공유기능 초기화
+        if (!Kakao.isInitialized()) {
+            Kakao.init('207acd3374ae418155e14bcfe011298b');
+        }
+    });
+
     function shareMessage() {
         // 현재 링크 가져오기
         let currentURL = window.location.href;
-
-        // 카카오톡 공유하기 openApi 
-        Kakao.init('207acd3374ae418155e14bcfe011298b');
 
         Kakao.Link.sendDefault({
             objectType: 'feed',
