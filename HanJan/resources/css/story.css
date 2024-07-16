@@ -1,6 +1,48 @@
+* {
+    text-align: center;
+    margin: 0 auto;
+}
 .story_list{
     text-align: center;
 }
+/* a {
+    text-align: center;
+} */
 img {
     width: 80%;
+}
+.bk_btn {
+    display: table;
+    background-color: black;
+    color: #fff;
+    font-size: 1.3rem;
+    padding: 0.6rem 3rem;
+    border-radius: 2rem;
+    cursor: pointer;
+}
+.bk_btn:hover {
+    background-color: #fdc91d;
+    color: black;
+}
+
+/* ----------------------- 웹 버전 ----------------------- */
+@media screen and (min-width: 1201px) {
+    .bk_btn {
+        font-size: 1.3rem;
+        padding: 0.6rem 3rem;
+    }
+}
+/* ---------------------- 태블릿 버전 ---------------------- */
+@media screen and (min-width: 771px) and (max-width: 1200px) {
+    .bk_btn {
+        font-size: 1.3rem;
+        padding: 0.6rem 3rem;
+    }
+}
+/* ---------------------- 모바일 버전 ---------------------- */
+@media screen and (max-width: 770px) {
+    .bk_btn {
+        font-size: 0.8rem;
+        padding: 0.2rem 2rem;
+    }
 }
