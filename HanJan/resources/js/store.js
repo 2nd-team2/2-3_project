@@ -903,18 +903,17 @@ const store = createStore({
 
                     // 일정 시간 후에 코드 사용 중지
                     setTimeout(() => {
-                        // emailVerify를 true로 변경
-                        store.commit('setEmailVerify', true);
+                        if (context.state.emailCode === true){
+                            // emailVerify를 true로 변경
+                            store.commit('setEmailVerify', true);
+                        }
 
                         // 코드 재생성 (기존 코드 이용 불가)
                         const url = '/api/refreshCode';
                         axios.post(url, {email: emailText})
-                        .then(response =>
-                            console.log(response.data.msg)
-                        )
-                        
-                        }, 300000); // 300000ms = 5분
-                    }
+
+                    }, 19700); // 300000ms = 5분
+                }
             })
             .catch(error => {
                 if (error.response && error.response.status === 429) {
@@ -1274,6 +1273,7 @@ const store = createStore({
                         router.push('/bag');
                     }
                 } else {
+                    constext.commit('detailedCountData', response.data.data);
                     // alert('재고 수량을 초과하여 장바구니에 추가하지 못했습니다.\n남은 재고수량: [ '+ response.data.count +' ] 개');
                     alert('재고 수량을 초과하여 장바구니에 추가하지 못했습니다.\n남은 재고수량: [ '+ response.data.count +' ] 개 \n현재 장바구니에 담을 수 있는 수량 : [ '+ (response.data.count-response.data.ba_count) +' ] 개');
                 }
