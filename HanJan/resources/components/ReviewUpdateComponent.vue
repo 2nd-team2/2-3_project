@@ -54,7 +54,7 @@
                 <div class="agree_box modal_second_overlay" v-show="showAskDeleteModal">
                     <div class="modal_second_window">
                         <div class="second_content">
-                            <p class="second_content">리뷰 수정을 완료하였습니다.<br>확인을 누르면 리뷰 관리로 돌아갑니다.</p>
+                            <p class="second_content">확인을 누르면 리뷰 수정이 완료됩니다.</p>
                             <br>
                             <div>
                                 <button type="button" @click="confirmComplete" class="modal_btn">확인</button>

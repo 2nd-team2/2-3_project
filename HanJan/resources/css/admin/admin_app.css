@@ -377,59 +377,45 @@ input {
     align-items: center;
     gap: 10px;
 }
-
+ 
 .admin_user_info0 {
-    grid-column: 1 / 2;
     grid-row: 2 / 3;
 }
- 
-.admin_user_info1,
-.admin_user_info3,
-.admin_user_info5,
-.admin_user_info7,
-.admin_user_info9,
-.admin_user_info11,
-.admin_user_info13,
-.admin_user_info14 {
-    grid-column: 2 / 3;
-}
- 
+
 .admin_user_info2 {
-    grid-column: 1 / 2;
     grid-row: 4 / 5;
-}
- 
-.admin_user_info4 {
-    grid-column: 1 / 2;
-    grid-row: 6 / 7;
-}
-
-.admin_user_info6 {
-    grid-column: 1 / 2;
-    grid-row: 8 / 9;
-}
-
-.admin_user_info8,
-.admin_user_info10 {
-    grid-column: 1 / 2;
-}
-
-.admin_user_info12 {
-    grid-column: 1 / 2;
-    grid-row:  13 / 14;
-}
-
-.admin_user_input_box > label,
-.admin_input_box > label {
-    margin-right: 20px;
-}
-
-.admin_user_date {
-    width: 200px;
 }
 
 .admin_user_info14 {
     width: 120px;
+}
+
+.admin_user_info5 {
+    grid-row: 7 / 8;
+}
+
+.admin_user_info7 {
+    grid-row: 9 / 10;
+}
+
+.admin_user_info9 {
+    grid-row: 11 / 12;
+}
+
+.admin_user_info16 {
+    grid-row: 16 / 17;
+}
+
+.admin_user_info1,
+.admin_user_info3,
+.admin_user_info6,
+.admin_user_info8,
+.admin_user_info10,
+.admin_user_info12,
+.admin_user_info14,
+.admin_user_info15,
+.admin_user_info17 {
+    grid-column: 2 / 3;
 }
 
 /* ---------------------- 상품 ---------------------- */
@@ -576,8 +562,7 @@ input {
     font-size: 0.9rem;
     gap: 10px;
 }
-.admin_onebyone_list_container,
-.admin_productqna_list_container {
+.admin_onebyone_list_container {
     display: grid;
     grid-template-columns: 0.5fr 1fr 1.5fr 0.4fr 0.4fr 0.4fr 0.4fr;
     align-items: center;
@@ -586,6 +571,20 @@ input {
     padding-bottom: 10px;
     font-size: 0.9rem;
     gap: 10px;
+}
+.admin_productqna_list_container {
+    display: grid;
+    grid-template-columns: 0.5fr 0.5fr 0.5fr 1fr 1.5fr 0.4fr 0.4fr 0.4fr 0.4fr;
+    align-items: center;
+    justify-items: center;
+    border-bottom: 1px solid #5c5c5c;
+    padding-bottom: 10px;
+    font-size: 0.9rem;
+    gap: 10px;
+}
+
+.admin_productqna_list_p_img {
+    width: 80px;
 }
 
 .admin_notice_list_title,

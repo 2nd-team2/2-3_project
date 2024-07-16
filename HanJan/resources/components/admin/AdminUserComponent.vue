@@ -1,6 +1,6 @@
 <template>
     <div class="admin">
-        <h2 class="admin_title">유저 관리</h2>
+        <h2 class="admin_title">회원 관리</h2>
         <div class="admin_users_list_container">
             <div class="admin_users_list_num admin_weight">번호</div>
             <div class="admin_users_list_name admin_weight">이름</div>

@@ -175,8 +175,10 @@ form .buttons button {
 }
 
 .second_content {
-    color: rgb(255, 255, 255);
     text-align: center;
+}
+.second_content p {
+    color: rgb(0, 0, 0);
 }
 
 .complete_btn {

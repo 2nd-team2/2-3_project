@@ -7,30 +7,38 @@
                 <label for="name" class="admin_user_info0">유저 이름</label>
                 <p class="admin_error">{{ nameError }}</p>
                 <input @input="chkName" type="text" name="name" id="name" autocomplete='off' v-model="name" class="admin_user_info1">
+
                 <label for="email" class="admin_user_info2">이메일</label>
                 <p class="admin_error">{{ emailError }}</p>
                 <input @input="chkEmail" type="email" name="email" id="email" autocomplete='off' v-model="email" class="admin_user_info3">
                 <button type="button" class="admin_btn admin_user_info14" @click="$store.dispatch('adminChkEmailOn', emailText)">이메일 중복확인</button>
-                <label for="tel" class="admin_user_info4">휴대전화</label>
+
+                <label for="password" class="admin_user_info5">비밀번호 수정</label>
+                <p class="admin_error">{{ passwordError }}</p>
+                <input type="password" v-model="password" name="password" id="password" @input="chkPassword" class="admin_user_info6">
+
+                <label for="tel" class="admin_user_info7">휴대전화</label>
                 <p class="admin_error">{{ phoneError }}</p>
-                <input @input="chkPhone" type="text" name="tel" id="tel" autocomplete='off' placeholder="-를 제외한 숫자만 입력해주세요" v-model="tel" class="admin_user_info5">
-                <label for="addr" class="admin_user_info6">주소</label>
+                <input @input="chkPhone" type="text" name="tel" id="tel" autocomplete='off' placeholder="-를 제외한 숫자만 입력해주세요" v-model="tel" class="admin_user_info8">
+
+                <label for="addr" class="admin_user_info9">주소</label>
                 <p class="admin_error">{{ addressError }}</p>
-                <input @input="chkAddress" readonly type="text" name="addr" id="addr" autocomplete='off' v-model="address" @click="kakaoPostcode" class="admin_user_info7">
-                <label for="det_addr" class="admin_user_info8">상세 주소</label>
-                <input type="text" name="det_addr" id="det_addr" autocomplete='off' v-model="detAddr" class="admin_user_info9">
-                <label for="post" class="admin_user_info10">우편번호</label>
-                <input readonly type="text" name="post" id="post" autocomplete='off' v-model="post" class="admin_user_info11">
-                <button type="button" @click="kakaoPostcode" id="postcode" class="admin_btn admin_user_info7">주소검색</button>
-                <label for="birth" class="admin_user_info12">생년월일</label>
+                <input @input="chkAddress" readonly type="text" name="addr" id="addr" autocomplete='off' v-model="address" @click="kakaoPostcode" class="admin_user_info10">
+                <label for="det_addr" class="admin_user_info11">상세 주소</label>
+                <input type="text" name="det_addr" id="det_addr" autocomplete='off' v-model="detAddr" class="admin_user_info12">
+                <label for="post" class="admin_user_info13">우편번호</label>
+                <input readonly type="text" name="post" id="post" autocomplete='off' v-model="post" class="admin_user_info14">
+                <button type="button" @click="kakaoPostcode" id="postcode" class="admin_btn admin_user_info15">주소검색</button>
+
+                <label for="birth" class="admin_user_info16">생년월일</label>
                 <p class="admin_error">{{ birthError }}</p>
-                <input @input="chkBirth" type="date" name="birth" id="birth" autocomplete='off' v-model="birth" class="admin_user_info13 admin_user_date">
+                <input @input="chkBirth" type="date" name="birth" id="birth" autocomplete='off' v-model="birth" class="admin_user_info17 admin_user_date">
             </div>
 
             <div class="admin_hr"></div>
             <div class="admin_btn_box">
                 <button type="button" @click="$router.back()" class="admin_btn">취소하기</button>
-                <button type="button" @click="$store.dispatch('userUpdateSubmit', $store.state.adminUserToUpdate.id)" class="admin_btn">수정하기</button>
+                <button type="submit" class="admin_btn">수정하기</button>
             </div>
         </form>
     </div>
@@ -44,23 +52,34 @@ const store = useStore();
 
 // 실시간 유효성 체크
 const name = ref(store.state.adminUserToUpdate.name);
+const password = ref('');
 const email = ref(store.state.adminUserToUpdate.email);
 const tel = ref(store.state.adminUserToUpdate.tel);
 const address = ref(store.state.adminUserToUpdate.addr);
 const detAddr = ref(store.state.adminUserToUpdate.det_addr);
 const post = ref(store.state.adminUserToUpdate.post);
 const birth = ref(store.state.adminUserToUpdate.birth);
-const emailText = ref(store.state.adminUserToUpdate.email);
 
+const passwordError = ref('');
 const emailError = ref('');
 const nameError = ref('');
 const phoneError = ref('');
 const addressError = ref('');
 const birthError = ref('');
 
+function chkPassword() {
+  if (!password.value || password.value.length < 4 || password.value.length > 5) {
+    passwordError.value = '비밀번호는 숫자 4~5자리로 설정 해주세요.';
+  } else if (/\s/.test(password.value)) {
+    passwordError.value = '비밀번호에는 공백을 포함할 수 없습니다.';
+  } else {
+    passwordError.value = '';
+  }
+}
+
 function chkEmail() {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailPattern.test(emailText.value)) {
+  if (!emailPattern.test(email.value)) {
     emailError.value = '이메일 주소가 형식에 맞지 않습니다.';
   } else {
     emailError.value = '';
@@ -114,33 +133,29 @@ function chkBirth() {
 
 
 function validateForm() {
-    let valid = true;
+  let valid = true;
 
-    if (!store.state.kakaoInfo) {
-        chkEmail();
-        if (emailError.value) valid = false;
-    }
 
-    chkPasswordChk();
-    if (passwordChkError.value) valid = false;
+  chkEmail();
+  if (emailError.value) valid = false;
 
-    chkName();
-    if (nameError.value) valid = false;
+  chkName();
+  if (nameError.value) valid = false;
 
-    chkPhone();
-    if (phoneError.value) valid = false;
+  chkPhone();
+  if (phoneError.value) valid = false;
 
-    chkAddress();
-    if (addressError.value) valid = false;
+  chkAddress();
+  if (addressError.value) valid = false;
 
-    chkBirth();
-    if (birthError.value) valid = false;
+  chkBirth();
+  if (birthError.value) valid = false;
 
-    if (valid) {
-      store.dispatch('regist');
-    } else {
-      alert('회원가입에 실패했습니다.');
-    }
+  if (valid) {
+    store.dispatch('userUpdateSubmit', store.state.adminUserToUpdate.id);
+  } else {
+    alert('유저 수정에 실패했습니다.');
+  }
 }
 
 // 카카오 주소 API

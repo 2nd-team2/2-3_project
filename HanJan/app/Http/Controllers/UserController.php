@@ -153,9 +153,12 @@ class UserController extends Controller
             // 이메일 검증 중복 발송체크 (예: 5분 이내에 전송된 경우)
             $verificationToken = VerificationToken::where('email', $email)->first();
             
-            if ($verificationToken && $verificationToken->updated_at->gt(Carbon::now()->subMinutes(5))) {
+            if ($verificationToken && $verificationToken->updated_at->gt(Carbon::now()->subSeconds(20))) {
                 return response()->json(['code'=>'4', 'msg' => '이메일이 이미 전송되었습니다. 잠시 후 다시 시도해주세요.'], 429);
             }
+            // if ($verificationToken && $verificationToken->updated_at->gt(Carbon::now()->subMinutes(5))) {
+            //     return response()->json(['code'=>'4', 'msg' => '이메일이 이미 전송되었습니다. 잠시 후 다시 시도해주세요.'], 429);
+            // }
 
             // 임시 코드 생성 및 저장
             $token = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
@@ -477,9 +480,9 @@ class UserController extends Controller
             }
 
             // 비밀번호와 비밀번호 확인이 일치하는지 확인
-            if ($request->password !== $request->password_chk) {
-                throw new MyAuthException('E21');
-            }
+            // if ($request->password !== $request->password_chk) {
+            //     throw new MyAuthException('E21');
+            // }
 
             // // 이메일 중복 체크
             // $existingUser = User::where('email', $request->email)->where('id', '!=', $userInfo->id)->first();
@@ -491,6 +494,9 @@ class UserController extends Controller
             // }
 
             // 업데이트 할 리퀘스트 데이터 셋팅
+            if($request->has('password')) {
+                $userInfo->password = Hash::make($request->password); 
+            }
             $userInfo->name = $request->name;
             $userInfo->email = $request->email;
             $userInfo->tel = $request->tel;
