@@ -144,9 +144,9 @@
         if (MlError.value) valid = false;
 
         if (valid) {
-        store.dispatch('adminProductCreate');
+        store.dispatch('productUpdateSubmit');
         } else {
-        alert('상품 등록에 실패했습니다.');
+        alert('상품 수정에 실패했습니다.');
         }
     }
 
