@@ -38,7 +38,7 @@
             <div class="admin_hr"></div>
             <div class="admin_btn_box">
                 <button type="button" @click="$router.back()" class="admin_btn">취소하기</button>
-                <button type="button" @click="$store.dispatch('userUpdateSubmit', $store.state.adminUserToUpdate.id)" class="admin_btn">수정하기</button>
+                <button type="submit" class="admin_btn">수정하기</button>
             </div>
         </form>
     </div>
@@ -59,7 +59,6 @@ const address = ref(store.state.adminUserToUpdate.addr);
 const detAddr = ref(store.state.adminUserToUpdate.det_addr);
 const post = ref(store.state.adminUserToUpdate.post);
 const birth = ref(store.state.adminUserToUpdate.birth);
-const emailText = ref(store.state.adminUserToUpdate.email);
 
 const passwordError = ref('');
 const emailError = ref('');
@@ -80,7 +79,7 @@ function chkPassword() {
 
 function chkEmail() {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailPattern.test(emailText.value)) {
+  if (!emailPattern.test(email.value)) {
     emailError.value = '이메일 주소가 형식에 맞지 않습니다.';
   } else {
     emailError.value = '';
@@ -134,33 +133,29 @@ function chkBirth() {
 
 
 function validateForm() {
-    let valid = true;
+  let valid = true;
 
-    if (!store.state.kakaoInfo) {
-        chkEmail();
-        if (emailError.value) valid = false;
-    }
 
-    chkPasswordChk();
-    if (passwordChkError.value) valid = false;
+  chkEmail();
+  if (emailError.value) valid = false;
 
-    chkName();
-    if (nameError.value) valid = false;
+  chkName();
+  if (nameError.value) valid = false;
 
-    chkPhone();
-    if (phoneError.value) valid = false;
+  chkPhone();
+  if (phoneError.value) valid = false;
 
-    chkAddress();
-    if (addressError.value) valid = false;
+  chkAddress();
+  if (addressError.value) valid = false;
 
-    chkBirth();
-    if (birthError.value) valid = false;
+  chkBirth();
+  if (birthError.value) valid = false;
 
-    if (valid) {
-      store.dispatch('regist');
-    } else {
-      alert('회원가입에 실패했습니다.');
-    }
+  if (valid) {
+    store.dispatch('userUpdateSubmit', store.state.adminUserToUpdate.id);
+  } else {
+    alert('유저 수정에 실패했습니다.');
+  }
 }
 
 // 카카오 주소 API

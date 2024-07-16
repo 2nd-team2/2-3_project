@@ -491,7 +491,9 @@ class UserController extends Controller
             // }
 
             // 업데이트 할 리퀘스트 데이터 셋팅
-            $userInfo->password = Hash::make($request->password); 
+            if($request->has('password')) {
+                $userInfo->password = Hash::make($request->password); 
+            }
             $userInfo->name = $request->name;
             $userInfo->email = $request->email;
             $userInfo->tel = $request->tel;
