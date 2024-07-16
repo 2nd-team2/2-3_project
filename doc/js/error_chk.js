@@ -16,7 +16,7 @@ document.getElementById('email').addEventListener('input', function() {
 document.getElementById('password').addEventListener('input', function() {
     var password = this.value;
     var passwordError = document.getElementById('passwordError');
-    console.log(password);
+    // console.log(password);
     if (password.length < 8) {
         passwordError.textContent = '비밀번호가 형식에 맞지 않습니다.';
         passwordError.classList.add('error');

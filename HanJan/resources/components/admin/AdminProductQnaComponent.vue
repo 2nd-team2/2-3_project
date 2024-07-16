@@ -2,6 +2,8 @@
     <div class="admin">
         <h2 class="admin_title">상품 문의 관리</h2>
         <div class="admin_productqna_list_container">
+            <div class="admin_productqna_list_p_name admin_weight">문의 상품 이름</div>
+            <div class="admin_productqna_list_p_img admin_weight">문의 상품</div>
             <div class="admin_productqna_list_name admin_weight">유저 이름</div>
             <div class="admin_productqna_list_content admin_weight">문의 내용</div>
             <div class="admin_productqna_list_answer admin_weight">답변 내용</div>
@@ -10,6 +12,9 @@
             <div class="admin_productqna_list_deleted admin_weight">삭제일</div>
         </div>
         <div v-for="productqna in $store.state.adminProductQnaData.data" :key="productqna.qnp_id" class="admin_productqna_list_container admin_paddingtop">
+            <!-- {{ $store.state.adminProductQnaData.data }} -->
+            <div class="admin_productqna_list_p_name">{{ productqna.p_name }}</div>
+            <img :src="productqna.img" class="admin_productqna_list_p_img">
             <div class="admin_productqna_list_name">{{ productqna.name }}</div>
             <div class="admin_productqna_list_content">{{ productqna.qnp_content }}</div>
             <div class="admin_productqna_list_answer">{{ productqna.qnp_answer }}</div>

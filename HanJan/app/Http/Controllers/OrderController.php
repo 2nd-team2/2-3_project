@@ -64,7 +64,7 @@ class OrderController extends Controller
 
             // 유효성 검사 실패 체크
             if($validator->fails()) {
-                Log::debug('유효성 검사 실패', $validator->errors()->toArray());
+                // Log::debug('유효성 검사 실패', $validator->errors()->toArray());
                 throw new MyValidateException('E01');
             }    
 
@@ -186,7 +186,7 @@ class OrderController extends Controller
 
         } catch (\Throwable $th) {
             DB::rollBack();
-            Log::error('결제 처리 오류: ' . $th->getMessage());
+            // Log::error('결제 처리 오류: ' . $th->getMessage());
     
             return response()->json(['success' => false, 'message' => '결제 처리 중 오류가 발생했습니다.'], 500);
         }

@@ -178,7 +178,7 @@ function kakaoPay(email, addr, username, tel) {
         }, async function (rsp) { // callback
             if (rsp.success) { //결제 성공시
                 store.dispatch('orderComplete', orderCompleteData);
-                console.log(rsp);
+                // console.log(rsp);
                 //결제 성공시 프로젝트 DB저장 요청
 
                 if (response.status == 200) { // DB저장 성공시

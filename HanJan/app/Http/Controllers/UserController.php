@@ -130,7 +130,7 @@ class UserController extends Controller
             // 유저가 작성한 이메일 정보 획득
             $email = $request->input('email');
             Log::debug('인증메일 발송할 유저의 이메일- 본인이 작성한 이메일');
-            Log::debug($email);
+            // Log::debug($email);
 
             // 이메일 형식 유효성 검사
             $validator = Validator::make(
@@ -138,14 +138,14 @@ class UserController extends Controller
                 ['email' => 'required|email']
             );
             if ($validator->fails()) {
-                Log::debug('유효하지 않은 이메일 형식');
+                // Log::debug('유효하지 않은 이메일 형식');
                 return response()->json(['code' => '1', 'msg' => '유효하지 않은 이메일입니다.']);
             }
 
             // 이메일 중복 체크
             $user = User::where('email', $email)->first();
             if ($user) {
-                Log::debug('이미 사용 중인 이메일');
+                // Log::debug('이미 사용 중인 이메일');
                 return response()->json(['code' => '2', 'msg' => '이미 사용 중인 이메일입니다.']);
             }
 
@@ -166,13 +166,13 @@ class UserController extends Controller
             );
 
             // 인증 메일 발송
-            Log::debug('인증 메일 발송 시작');
+            // Log::debug('인증 메일 발송 시작');
             try {
                 Mail::to($email)->send(new VerificationEmail($token));
-                Log::debug('인증 메일 발송 완료');
+                // Log::debug('인증 메일 발송 완료');
                 return response()->json(['email' => $email, 'message' => '인증 메일이 발송되었습니다.']);
             } catch (\Exception $e) {
-                Log::error('인증 메일 발송 중 오류 발생: ' . $e->getMessage());
+                // Log::error('인증 메일 발송 중 오류 발생: ' . $e->getMessage());
                 return response()->json(['code' => '3', 'msg' => '인증 메일 발송 중 오류가 발생했습니다.']);
             }
         
@@ -239,7 +239,7 @@ class UserController extends Controller
 
             // 유효성 검사 실패시 처리
             if($validator->fails()) {
-                Log::debug('유효성 검사 실패', ['errors' => $validator->errors()->toArray(), 'input' => $request->all()]);
+                // Log::debug('유효성 검사 실패', ['errors' => $validator->errors()->toArray(), 'input' => $request->all()]);
                 throw new MyValidateException('E01');
             }
     
@@ -293,7 +293,7 @@ class UserController extends Controller
         public function regist(Request $request) {
             // 리퀘스트 데이터 획득
             $requestData = $request->all();
-            Log::debug($requestData);
+            // Log::debug($requestData);
             // 유효성 검사
             $validator = Validator::make(
                 $requestData,
@@ -477,9 +477,9 @@ class UserController extends Controller
             }
 
             // 비밀번호와 비밀번호 확인이 일치하는지 확인
-            if ($request->password !== $request->password_chk) {
-                throw new MyAuthException('E21');
-            }
+            // if ($request->password !== $request->password_chk) {
+            //     throw new MyAuthException('E21');
+            // }
 
             // // 이메일 중복 체크
             // $existingUser = User::where('email', $request->email)->where('id', '!=', $userInfo->id)->first();
@@ -491,6 +491,9 @@ class UserController extends Controller
             // }
 
             // 업데이트 할 리퀘스트 데이터 셋팅
+            if($request->has('password')) {
+                $userInfo->password = Hash::make($request->password); 
+            }
             $userInfo->name = $request->name;
             $userInfo->email = $request->email;
             $userInfo->tel = $request->tel;

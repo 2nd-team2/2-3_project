@@ -64,7 +64,7 @@ class Handler extends ExceptionHandler
         ];
 
         // 에러로그
-        Log::error($errorCode, [$exception->getMessage()]);
+        // Log::error($errorCode, [$exception->getMessage()]);
 
         return response()->json($responseData, $errorMsgList[$errorCode]['status']);
     }

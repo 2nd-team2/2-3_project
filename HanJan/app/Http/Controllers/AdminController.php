@@ -28,7 +28,7 @@ class AdminController extends Controller
 
         // 유효성 검사 실패시 처리
         if($validator->fails()) {
-            Log::debug('유효성 검사 실패', ['errors' => $validator->errors()->toArray(), 'input' => $request->all()]);
+            // Log::debug('유효성 검사 실패', ['errors' => $validator->errors()->toArray(), 'input' => $request->all()]);
             throw new MyValidateException('E01');
         }
 
