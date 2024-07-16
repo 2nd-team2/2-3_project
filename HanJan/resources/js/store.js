@@ -912,7 +912,7 @@ const store = createStore({
                         const url = '/api/refreshCode';
                         axios.post(url, {email: emailText})
 
-                    }, 19700); // 300000ms = 5분
+                    }, 299700); // 300000ms = 5분
                 }
             })
             .catch(error => {

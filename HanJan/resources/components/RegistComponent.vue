@@ -319,7 +319,7 @@ const timerText = computed(() => {
 });
 
 function startTimer() {
-  timer.value = 24; // 5분 = 300초
+  timer.value = 304; // 5분 = 300초
   interval = setInterval(() => {
     if (timer.value > 0) {
       timer.value--;

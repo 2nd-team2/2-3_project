@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger('u_id')->unsigned();
             $table->bigInteger('p_id')->unsigned();
             $table->bigInteger('ba_count')->unsigned()->default(1);
+            // $table->char('ba_chkflg', 1)->default('0')->comment('장바구니 체크 상태, 0: 미체크, 1: 체크');
             $table->timestamps();
             $table->softDeletes(); 
         });
