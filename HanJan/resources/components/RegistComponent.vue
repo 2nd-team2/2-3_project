@@ -193,7 +193,7 @@ function chkCode() {
 
 function chkPassword() {
     // const passwordPattern = /^(?=.*[!@#$%^&*])[가-힣a-zA-Z!@#$%^&*]{8,20}$/;
-    const passwordPattern = /^[가-힣a-zA-Z!@#$%^&*]{1,20}$/;
+    const passwordPattern = /^[가-힣a-zA-Z0-9!@#$%^&*]{1,20}$/;
     if (!passwordPattern.test(password.value)) {
     // if (password.value.length < 8 || password.value.length > 20) {
         passwordError.value = '비밀번호는 특수문자 포함 8 ~ 20자 사이로 설정해 주세요.';
