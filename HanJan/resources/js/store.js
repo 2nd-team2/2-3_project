@@ -909,12 +909,8 @@ const store = createStore({
                         // 코드 재생성 (기존 코드 이용 불가)
                         const url = '/api/refreshCode';
                         axios.post(url, {email: emailText})
-                        .then(response =>
-                            // console.log(response.data.msg)
-                        )
-                        
-                        }, 300000); // 300000ms = 5분
-                    }
+                    }, 9500); // 300000ms = 5분
+                }
             })
             .catch(error => {
                 if (error.response && error.response.status === 429) {

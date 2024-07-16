@@ -31,7 +31,6 @@
                         <input v-if="$store.state.emailVerify" class="input_width" type="text" name="email" id="email" @input="chkEmail" v-model="emailText" placeholder="이메일 형식 예시) hanjan@hanjan.com">
                         <input v-else class="input_width" type="text" name="email" id="email" readonly @input="chkEmail" v-model="emailText">
                     </div>
-                    <!-- <div class="verify info_item_input"> -->
                     <div class="verify info_verifyItem_input">
 
                         <div v-if="$store.state.emailVerify">
@@ -40,13 +39,9 @@
                         </div>
 
                         <form v-else class="verifyCode" id="verifyCode">
-
-                            
-                            <!-- <div v-if="showTimer" class="timer">
-                                <p>남은 시간 : {{ timerText }}</p>
-                            </div> -->
-
-
+                            <div v-if="timer > 0" class="timer">
+                                <div>남은 시간 : {{ timerText }}</div>
+                            </div>
                             <div v-if="$store.state.emailCode">
                                 <p class="info_item_err_msg error">{{ codeError }}</p>
                                 <input type="text" name="verifyCode" class="verifyinput" placeholder="검증 코드를 입려해 주세요.">
@@ -155,42 +150,6 @@
 <script setup>
 import { onMounted, ref, computed, onBeforeUnmount } from 'vue';
 import { useStore } from 'vuex';
-
-// 5분 타이머 관련 상태와 메서드들
-// let timerInterval = null;
-// const timerDuration = 300000; // 5분을 밀리초로 변환한 값
-
-// const currentTime = ref(Date.now());
-
-// const showTimer = computed(() => {
-//     return store.state.emailVerify;
-// });
-
-// const timerText = computed(() => {
-//     const elapsedTime = currentTime.value - store.state.emailVerifyTime;
-//     const remainingTime = timerDuration - elapsedTime;
-//     const minutes = Math.floor(remainingTime / 60000);
-//     const seconds = Math.floor((remainingTime % 60000) / 1000);
-//     return `이메일 재검증 가능까지 ${minutes}분 ${seconds}초 남음`;
-// });
-// // 타이머 갱신
-// const updateTimer = () => {
-//     timerInterval = setInterval(() => {
-//         currentTime.value = Date.now();
-//     }, 1000);
-// };
-
-// onMounted(() => {
-//     updateTimer();
-// });
-
-// // 컴포넌트가 파기될 때 타이머 정리
-// onBeforeUnmount(() => {
-//     clearInterval(timerInterval);
-// });
-
-
-
 
 const store = useStore();
 
@@ -349,6 +308,36 @@ function closeEmailChkModal() {
 }
 
 
+// 검증 타이머
+let timer = ref(0);
+let interval = null;
+
+const timerText = computed(() => {
+  const minutes = Math.floor(timer.value / 60);
+  const seconds = timer.value % 60;
+  return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+});
+
+function startTimer() {
+  timer.value = 14; // 5분 = 300초
+  interval = setInterval(() => {
+    if (timer.value > 0) {
+      timer.value--;
+    } else {
+      clearInterval(interval);
+    }
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(interval);
+}
+
+onBeforeUnmount(() => {
+  stopTimer();
+});
+
+
 // 이메일 인증 처리
 let isCheckingEmail = ref(false);
 
@@ -365,9 +354,12 @@ const emailVerifyChk = async () => {
     isCheckingEmail = true; // 이메일 확인 진행 중임을 표시
 
     if(confirm('확인을 누르면 이메일 검증을 시작합니다.')) {
+        alert('잠시만 기다려 주세요.')
         try {
-            await store.dispatch('chkEmailOn', emailText.value);
-
+            await store.dispatch('chkEmailOn', emailText.value)
+            .then(
+                startTimer() // 타이머 시작
+            );
         } catch (error) {
             console.error('이메일 인증 처리 중 오류가 발생했습니다:', error);
         } finally {
