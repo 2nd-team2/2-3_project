@@ -1274,6 +1274,7 @@ const store = createStore({
                         router.push('/bag');
                     }
                 } else {
+                    constext.commit('detailedCountData', response.data.data);
                     // alert('재고 수량을 초과하여 장바구니에 추가하지 못했습니다.\n남은 재고수량: [ '+ response.data.count +' ] 개');
                     alert('재고 수량을 초과하여 장바구니에 추가하지 못했습니다.\n남은 재고수량: [ '+ response.data.count +' ] 개 \n현재 장바구니에 담을 수 있는 수량 : [ '+ (response.data.count-response.data.ba_count) +' ] 개');
                 }

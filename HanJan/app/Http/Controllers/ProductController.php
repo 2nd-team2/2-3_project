@@ -327,13 +327,12 @@ class ProductController extends Controller
 
         $responseData = [];
         if ($productInfo->count < $existingItemCount + $request->ba_count) {
-            
             // 수량 초과시 레스폰스 데이터 생성
             $responseData = [
                 'code' => '1'
                 ,'msg' => '수량 초과'
                 ,'count' => $productInfo->count
-                ,'ba_count' => $request->ba_count
+                ,'ba_count' => $existingItem->ba_count
             ];
         } else {
             if ($existingItem) { 
