@@ -70,7 +70,7 @@
     </router-link>
 
     <hr>
-    <h1 id="detailed_review_list">리뷰 <span>·최신순</span></h1>
+    <h1 id="detailed_review_list">리뷰 <span>·별점높은순</span></h1>
     <div class="detailed_footer_item" v-for="(item, key) in $store.state.reviewDetail" :key="key">
         <div class="detailed_footer">
             <p class="detailed_footer_name">{{ item.user_name }}</p>
@@ -133,12 +133,16 @@
     //     showEnterBagModal.value = false;
     // }
 
+    onBeforeMount(() => {
+        // 카카오 공유기능 초기화
+        if (!Kakao.isInitialized()) {
+            Kakao.init('207acd3374ae418155e14bcfe011298b');
+        }
+    });
+
     function shareMessage() {
         // 현재 링크 가져오기
         let currentURL = window.location.href;
-
-        // 카카오톡 공유하기 openApi 
-        Kakao.init('207acd3374ae418155e14bcfe011298b');
 
         Kakao.Link.sendDefault({
             objectType: 'feed',

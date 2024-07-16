@@ -208,8 +208,10 @@ class QnaController extends Controller
     // 관리자 페이지 상품문의 전체 불러오기
     public function adminProductQnaIndex() {
         $adminProductQnaData = Qnaproduct::withTrashed()
-                            ->select('qnaproducts.*', 'users.name', 'qnaproducts.deleted_at')
+                            ->select('qnaproducts.*', 'users.name', 'qnaproducts.deleted_at', 'products.name as p_name', 'products.img')
                             ->join('users','qnaproducts.u_id','=','users.id')
+                            ->join('orderproducts','orderproducts.orp_id','=','qnaproducts.orp_id')
+                            ->join('products','orderproducts.p_id','=','products.id')
                             ->orderBy('qnaproducts.deleted_at', 'ASC')
                             ->orderBy('qnaproducts.qnp_answer', 'ASC')
                             ->orderBy('qnaproducts.updated_at', 'DESC')

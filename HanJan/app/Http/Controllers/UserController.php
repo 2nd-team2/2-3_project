@@ -480,9 +480,9 @@ class UserController extends Controller
             }
 
             // 비밀번호와 비밀번호 확인이 일치하는지 확인
-            if ($request->password !== $request->password_chk) {
-                throw new MyAuthException('E21');
-            }
+            // if ($request->password !== $request->password_chk) {
+            //     throw new MyAuthException('E21');
+            // }
 
             // // 이메일 중복 체크
             // $existingUser = User::where('email', $request->email)->where('id', '!=', $userInfo->id)->first();
@@ -494,6 +494,9 @@ class UserController extends Controller
             // }
 
             // 업데이트 할 리퀘스트 데이터 셋팅
+            if($request->has('password')) {
+                $userInfo->password = Hash::make($request->password); 
+            }
             $userInfo->name = $request->name;
             $userInfo->email = $request->email;
             $userInfo->tel = $request->tel;
