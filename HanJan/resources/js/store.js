@@ -903,13 +903,16 @@ const store = createStore({
 
                     // 일정 시간 후에 코드 사용 중지
                     setTimeout(() => {
-                        // emailVerify를 true로 변경
-                        store.commit('setEmailVerify', true);
+                        if (context.state.emailCode === true){
+                            // emailVerify를 true로 변경
+                            store.commit('setEmailVerify', true);
+                        }
 
                         // 코드 재생성 (기존 코드 이용 불가)
                         const url = '/api/refreshCode';
                         axios.post(url, {email: emailText})
-                    }, 9500); // 300000ms = 5분
+
+                    }, 19700); // 300000ms = 5분
                 }
             })
             .catch(error => {

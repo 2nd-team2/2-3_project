@@ -39,10 +39,10 @@
                         </div>
 
                         <form v-else class="verifyCode" id="verifyCode">
-                            <div v-if="timer > 0" class="timer">
-                                <div>남은 시간 : {{ timerText }}</div>
-                            </div>
                             <div v-if="$store.state.emailCode">
+                                <div v-if="timer > 0" class="timer">
+                                    <div>남은 시간 : {{ timerText }}</div>
+                                </div>
                                 <p class="info_item_err_msg error">{{ codeError }}</p>
                                 <input type="text" name="verifyCode" class="verifyinput" placeholder="검증 코드를 입려해 주세요.">
                                 <button type="button" class="info_item_btn form_btn email_chk_btn" @click="$store.dispatch('codeChk')">코드 확인</button>
@@ -193,7 +193,7 @@ function chkCode() {
 
 function chkPassword() {
     // const passwordPattern = /^(?=.*[!@#$%^&*])[가-힣a-zA-Z!@#$%^&*]{8,20}$/;
-    const passwordPattern = /^[가-힣a-zA-Z0-9!@#$%^&*]{1,20}$/;
+    const passwordPattern = /^[가-힣a-zA-Z!@#$%^&*]{1,20}$/;
     if (!passwordPattern.test(password.value)) {
     // if (password.value.length < 8 || password.value.length > 20) {
         passwordError.value = '비밀번호는 특수문자 포함 8 ~ 20자 사이로 설정해 주세요.';
@@ -319,7 +319,7 @@ const timerText = computed(() => {
 });
 
 function startTimer() {
-  timer.value = 14; // 5분 = 300초
+  timer.value = 24; // 5분 = 300초
   interval = setInterval(() => {
     if (timer.value > 0) {
       timer.value--;
