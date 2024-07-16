@@ -58,7 +58,7 @@
                     <label class="info_item_label" for="password">비밀번호</label>
                     <div class="info_item_input">
                         <p class="info_item_err_msg">{{ passwordError }}</p>
-                        <input class="input_width" type="password" v-model="password" name="password" id="password" @input="chkPassword" placeholder="특수문자(!@#$%^&*) 포함 8~20자 사이로 설정해 주세요.">
+                        <input class="input_width" type="password" v-model="password" name="password" id="password" @input="chkPassword" placeholder="대소문자, 특수문자(!@#$%^&*) 포함 8~20자 사이로 설정해 주세요.">
                     </div>
                 </div>
                 <hr>
@@ -193,10 +193,10 @@ function chkCode() {
 
 function chkPassword() {
     // const passwordPattern = /^(?=.*[!@#$%^&*])[가-힣a-zA-Z!@#$%^&*]{8,20}$/;
-    const passwordPattern = /^[가-힣a-zA-Z!@#$%^&*]{1,20}$/;
+    const passwordPattern = /^[가-힣a-zA-Z0-9!@#$%^&*]{1,20}$/;
     if (!passwordPattern.test(password.value)) {
     // if (password.value.length < 8 || password.value.length > 20) {
-        passwordError.value = '비밀번호는 특수문자 포함 8 ~ 20자 사이로 설정해 주세요.';
+        passwordError.value = '비밀번호 형식에 맞지 습니다.';
     } else {
         passwordError.value = '';
     }
