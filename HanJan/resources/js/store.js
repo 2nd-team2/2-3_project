@@ -910,7 +910,7 @@ const store = createStore({
                         const url = '/api/refreshCode';
                         axios.post(url, {email: emailText})
                         .then(response =>
-                            // console.log(response.data.msg)
+                            console.log(response.data.msg)
                         )
                         
                         }, 300000); // 300000ms = 5분
