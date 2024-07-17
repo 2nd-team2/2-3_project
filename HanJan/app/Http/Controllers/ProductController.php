@@ -362,10 +362,17 @@ class ProductController extends Controller
 
     // 키워드 데이터
     public function typelistchk(Request $request) {
-        $productQuery = Product::select('products.name', 'products.id')
+        // $productQuery = Product::select('products.name', 'products.id')
+        //                 ->join('orderproducts', 'products.id', '=', 'orderproducts.p_id')
+        //                 ->groupBy('products.id', 'products.name')
+        //                 ->orderByDesc('orderproducts.orp_count')
+        //                 ->limit(5)
+        //                 ->get();
+
+        $productQuery = Product::select('products.name', 'products.id', DB::raw('SUM(orderproducts.orp_count) as total_orp_count'))
                         ->join('orderproducts', 'products.id', '=', 'orderproducts.p_id')
-                        ->groupBy('products.id', 'products.name')
-                        ->orderByDesc('orderproducts.orp_count')
+                        ->groupBy('products.id', 'products.name' )
+                        ->orderByDesc('total_orp_count')
                         ->limit(5)
                         ->get();
                         

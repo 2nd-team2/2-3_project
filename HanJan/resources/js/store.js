@@ -330,6 +330,10 @@ const store = createStore({
         setAdminLoginFlg(state, flg) {
             state.adminLoginFlg = flg;
         },
+        //관리자 정보 저장
+        setAdminInfo(state, adminInfo) {
+            state.adminInfo = adminInfo;
+        },
         // 월별 유저 통계
         setUserTatisticsData(state, data) {
             state.userTatisticsData = data;
@@ -912,7 +916,7 @@ const store = createStore({
                         const url = '/api/refreshCode';
                         axios.post(url, {email: emailText})
 
-                    }, 19700); // 300000ms = 5분
+                    }, 299700); // 300000ms = 5분
                 }
             })
             .catch(error => {
@@ -1546,7 +1550,7 @@ const store = createStore({
                 // context.commit('setUserInfo', responseData.data.data);
                 // context.commit('setAuthFlg', true);
                 localStorage.setItem('adminInfo', JSON.stringify(responseData.data.data));
-                // context.commit('setAdminInfo', responseData.data.data);
+                context.commit('setAdminInfo', responseData.data.data);
                 context.commit('setAdminLoginFlg', true);
                 router.replace('/admin/main');
             })
@@ -1571,7 +1575,8 @@ const store = createStore({
             })
             .finally(() => {
                 localStorage.clear();
-                context.commit('setAdminLoginFlg', null);
+                context.commit('setAdminLoginFlg', false);
+                context.commit('setAdminInfo', null);
                 router.replace('/admin');
             });
         },
