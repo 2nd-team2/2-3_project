@@ -988,10 +988,8 @@ const store = createStore({
             .catch(error => {
                 if (error.response) {
                     console.error('로그아웃 오류:', error.response.data.code);
-                    alert('로그아웃 실패 (' + error.response.data.code + ')');
                 } else {
                     console.error('로그아웃 오류:', error);
-                    alert('로그아웃 중 오류가 발생했습니다.');
                 }
             })
             .finally(() => {
