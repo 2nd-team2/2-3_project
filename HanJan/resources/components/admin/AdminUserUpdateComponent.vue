@@ -13,7 +13,7 @@
                 <input @input="chkEmail" type="email" name="email" id="email" autocomplete='off' v-model="email" class="admin_user_info3">
                 <button type="button" class="admin_btn admin_user_info14" @click="$store.dispatch('adminChkEmailOn', emailText)">이메일 중복확인</button>
 
-                <label for="password" class="admin_user_info5">비밀번호 수정</label>
+                <label for="password" class="admin_user_info5">임시 비밀번호</label>
                 <p class="admin_error">{{ passwordError }}</p>
                 <input type="password" v-model="password" name="password" id="password" @input="chkPassword" class="admin_user_info6">
 
