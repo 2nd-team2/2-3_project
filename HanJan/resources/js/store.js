@@ -138,6 +138,8 @@ const store = createStore({
             adminNoticeToUpdate: localStorage.getItem('adminNoticeToUpdate') ? JSON.parse(localStorage.getItem('adminNoticeToUpdate')) : null,
             // 교환 및 반품 디테일 정보
             adminExchageDetail: {},
+            // 검색 유저 리스트
+            adminSearchUserData: localStorage.getItem('adminSearchUserData') ? JSON.parse(localStorage.getItem('adminSearchUserData')).data : [],
             // ----------------------- 호경 끝 ---------------------------
         }
 
@@ -417,6 +419,11 @@ const store = createStore({
         // 교환 및 반품 디테일 저장
         setAdminExchangeDetailData(state, data) {
             state.adminExchageDetail = data;
+        },
+        // 검색 유저리스트
+        setAdminSearchUserdata(state, data) {
+            state.adminSearchUserData = data.data;
+            localStorage.setItem('adminSearchUserData', JSON.stringify(data));
         },
         // ----------------------- 호경 끝 ---------------------------
 
@@ -2288,6 +2295,31 @@ const store = createStore({
                 // console.log(error.response.data);
                 alert('교환 및 반품 상세 불러오기를 실패했습니다.(' + error.response.data.code + ')');
             });
+        },
+
+        // 유저 검색 리스트
+        adminSearchUser(context, data) {
+            const url = '/api/admin/user?search=' + data.search;
+            axios.get(url)
+            .then(response => {
+                localStorage.setItem('searchword', data.search);
+                //type 추가
+                // response.data.data.type = data.type;
+                response.data.data.search = data.search;
+
+                context.commit('setAdminSearchUserdata', response.data);
+                if(response.data.data.total !== 0) {
+                    console.log(response.data.data);
+                    console.log(response.data.data.total);
+                    // router.replace('/search/recipe?page=' + data.page);
+                    router.replace('/admin/user?search=' + data.search);
+                } else {
+                    alert('해당 유저가 존재하지 않습니다');
+                }
+            })
+            .catch(error => { 
+                console.log(error.response);
+            }) 
         },
 
         // ----------------------- 호경 끝 ---------------------------

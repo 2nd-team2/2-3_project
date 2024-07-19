@@ -585,5 +585,34 @@ class UserController extends Controller
 
             return response()->json($responseData, 200);
         }
+
+        // products(상품)테이블에서
+        // 검색한 상세리스트 데이터 불러오기
+        public function userSearch(Request $request) {
+            $query = $request->search;
+            // Log::debug('상품검색 req', $request->all());
+            $userQuery = User::select('users.*')
+                            ->where('users.name','like', "%{$query}%");
+                            // ->orderBy('users.created_at', 'DESC')
+                            // ->paginate(20);
+
+            // if($request->type != '99') {
+            //     $userQuery->where('users.type', $request->type);
+            // }
+            
+            $userData = $userQuery->dd(); // 화면에 출력해서 코드 확인용
+            // $userData = $userQuery->paginate(15);
+
+            
+            Log::debug('유저검색 완', $userData->toArray());
+            $responseData = [
+                    'code' => '0'
+                    ,'msg' => '초기 상품값 획득 완료'
+                    ,'data' => $userData
+            ];
+            // Log::debug($responseData);
+            
+            return response()->json($responseData, 200);
+        }
         // ----------------------- 호경 끝 ---------------------------
 }
