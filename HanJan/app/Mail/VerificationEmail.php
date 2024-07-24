@@ -19,7 +19,7 @@ class VerificationEmail extends Mailable
     }
 
     public function build() {
-        return $this->from('qhdnjs94@gmail.com', 'HanJan')
+        return $this->from('hanjan.6425@gmail.com', 'HanJan')
                 ->subject('이메일 인증')
                 ->view('emails.verification') // views/emails/verification.blade.php 파일
                 ->with([
