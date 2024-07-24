@@ -255,6 +255,21 @@ input {
     grid-column: 2 / 3;
 }
 
+/* ---------------------- 검색 ---------------------- */
+.admin_search {
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: 5fr 0.1fr;
+    align-items: center;
+    justify-items: end;
+    gap: 10px;
+}
+.admin_search_img {
+    cursor: pointer;
+    width: 25px;
+    margin-top: 5px;
+}
+
 /* ---------------------- 로그인 ---------------------- */
 .admin_login_box {
     height: 95vh;

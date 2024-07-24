@@ -20,7 +20,7 @@
             <div class="admin_users_list_updated admin_weight">수정일</div>
             <div class="admin_users_list_deleted admin_weight">탈퇴일</div>
         </div>
-        <div v-for="user in $store.state.adminUserData.data" :key="user.id" class="admin_users_list_container admin_paddingtop">
+        <div v-for="user in $store.state.adminSearchUserData.data" :key="user.id" class="admin_users_list_container admin_paddingtop">
             <div class="admin_users_list_num">{{ user.id }}</div>
             <div class="admin_users_list_name">{{ user.name }}</div>
             <div class="admin_users_list_email">{{ user.email }}</div>
@@ -41,7 +41,7 @@
                 v-for="page in pages"
                 :key="page"
                 href="#"
-                :class="{'admin_num': page === $store.state.adminUserData.current_page, 'admin_num_none': page !== $store.state.adminUserData.current_page}"
+                :class="{'admin_num': page === $store.state.adminSearchUserData.current_page, 'admin_num_none': page !== $store.state.adminSearchUserData.current_page}"
                 @click.prevent="goToPage(page)"
                 >{{ page }}
             </a>
@@ -51,18 +51,18 @@
 </template>
 
 <script setup>
-import { onBeforeMount } from 'vue';
+import { onBeforeMount, reactive } from 'vue';
     import { useStore } from 'vuex';
     import { computed } from 'vue';
 
     const store = useStore();
 
-    const data = {
-        search: '',
-    };
+    const data = reactive({
+        search: localStorage.getItem('searchword'),
+    });
 
     onBeforeMount(() => {
-        if(store.state.adminUserData.current_page == 1) {
+        if(store.state.adminSearchUserData.current_page == 1) {
             store.dispatch('getAdminUsersData', 1);
         }
     })
@@ -74,18 +74,18 @@ import { onBeforeMount } from 'vue';
         // 페이지네이션 5개
         const maxPagesToShow = 5;
 
-        // let startPage = store.state.adminUserData.current_page - 2;
-        let startPage = store.state.adminUserData.last_page <5 ? 1 : store.state.adminUserData.current_page - 2;
+        // let startPage = store.state.adminSearchUserData.current_page - 2;
+        let startPage = store.state.adminSearchUserData.last_page <5 ? 1 : store.state.adminSearchUserData.current_page - 2;
         if(startPage < 1) {
             startPage = 1;
         }
         const endPage = startPage + maxPagesToShow - 1;
 
         // 시작페이지 구하기
-        const pagingStart = startPage <= (store.state.adminUserData.last_page - maxPagesToShow + 1) || ((store.state.adminUserData.last_page - maxPagesToShow + 1) < 1) ? startPage : (store.state.adminUserData.last_page - maxPagesToShow + 1);
+        const pagingStart = startPage <= (store.state.adminSearchUserData.last_page - maxPagesToShow + 1) || ((store.state.adminSearchUserData.last_page - maxPagesToShow + 1) < 1) ? startPage : (store.state.adminSearchUserData.last_page - maxPagesToShow + 1);
         
         // 마지막 페이지 구하기
-        const pagingEnd = endPage > store.state.adminUserData.last_page ? store.state.adminUserData.last_page : endPage;
+        const pagingEnd = endPage > store.state.adminSearchUserData.last_page ? store.state.adminSearchUserData.last_page : endPage;
 
         for (let i = pagingStart; i <= pagingEnd; i++) {
             pageArray.push(i)
@@ -95,20 +95,20 @@ import { onBeforeMount } from 'vue';
 
     // 특정 페이지로 이동
     function goToPage(page) {
-        store.dispatch('getAdminUsersData', page);
+        store.dispatch('adminSearchUser', page);
     }
 
     // 이전 페이지로 이동
     function prevPage() {
-        if (store.state.adminUserData.current_page > 1) {
-            goToPage(store.state.adminUserData.current_page - 1);
+        if (store.state.adminSearchUserData.current_page > 1) {
+            goToPage(store.state.adminSearchUserData.current_page - 1);
         }
     }
 
     // 다음 페이지로 이동
     function nextPage() {
-        if (store.state.adminUserData.current_page < store.state.adminUserData.last_page) {
-            goToPage(store.state.adminUserData.current_page + 1);
+        if (store.state.adminSearchUserData.current_page < store.state.adminSearchUserData.last_page) {
+            goToPage(store.state.adminSearchUserData.current_page + 1);
         }
     }
 

@@ -234,4 +234,6 @@ Route::middleware('auth')->post('/api/admin/pay/cancel/{ex_id}', [ExchangeContro
 Route::middleware('auth')->get('/api/admin/exchange/detail', [ExchangeController::class, 'adminExchangeDetail']);
 // // 이메일 중복체크
 Route::get('/api/admin/user/update/{emailText}', [UserController::class, 'registEmailChk']);
+// 상세리스트 검색
+Route::get('/api/admin/user/search', [UserController::class, 'userSearch']);
 // ----------------------- 호경 끝 ---------------------------

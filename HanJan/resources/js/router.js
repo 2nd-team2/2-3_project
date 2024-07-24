@@ -45,6 +45,7 @@ import AdminProductCreateComponent from '../components/admin/AdminProductCreateC
 import AdminProductUpdateComponent from '../components/admin/AdminProductUpdateComponent.vue';
 import AdminUserUpdateComponent from '../components/admin/AdminUserUpdateComponent.vue';
 import AdminExchangeDetailComponent from '../components/admin/AdminExchangeDetailComponent.vue';
+import AdminUserSearchComponent from '../components/admin/AdminUserSearchComponent.vue';
 
 const routes = [
     {
@@ -381,6 +382,35 @@ const routes = [
         path: '/admin/order',
         component: AdminOrderComponent,
         beforeEnter: chkAdmin
+    },
+    // 검색 기능
+    {
+        path: '/admin/user/search',
+        component: AdminUserSearchComponent,
+        beforeEnter: (to, from, next) => {
+            const store = useStore();
+            // 검색
+            const validsearch = /^가-힝+$/; 
+
+            // 마지막 페이지 가져오기
+            const searchQuery = to.search;
+
+            // 기본 조건 검증
+            const isValidSearch = validsearch.searchQuery === 'string' && searchQuery.length > 0;
+
+            if (isValidType && isValidPage) {
+                // type과 page가 유효한 경우
+                store.commit('adminSearchUser', to.query.type);
+                next();
+            } else if (isValidSearch) {
+                // 검색 쿼리 파라미터가 유효한 경우
+                store.dispatch('adminSearchUser', searchQuery);
+                next();
+            } else {
+                // 유효하지 않은 경우 에러 페이지로 리디렉션
+                next({ name: 'NotFound' });
+            }
+        }
     },
 
     // 에러 페이지
