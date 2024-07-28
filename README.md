@@ -2,9 +2,9 @@
 전통주 판매 사이트
 
 📌 프로젝트 주소 <br>
-유저 페이지 : https://112.222.157.156:6425
-관리자 페이지 : https://112.222.157.156:6425/admin
-발표 영상 : https://www.youtube.com/watch?v=aJkVNyFeX5Y&t=59s
+유저 페이지 : https://112.222.157.156:6425 <br>
+관리자 페이지 : https://112.222.157.156:6425/admin <br>
+발표 영상 : https://www.youtube.com/watch?v=aJkVNyFeX5Y&t=59s <br>
 
 📌 개발기간 <br>
 2차 : 2024-06-04 ~ 2024-07-02
